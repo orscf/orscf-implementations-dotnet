@@ -1,0 +1,589 @@
+<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ output extension=".Generated.cs"#><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 22.05.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+       //CONFIGURATION:
+
+       const string inputFile = "ORSCF-VisitData.Schema.json";
+
+       const string outputNamespace = "MedicalResearch.VisitData.Persistence.EF";
+
+       const string repositoryInterfaceNamespacePrefix = "";
+       const string itemClassNamePattern = "{E}";
+       const string entityClassNamePattern = "{E}Entity";
+       const string interfaceNamePattern = "I{P}";
+
+       const string dbContextClassName = "VisitDataDbContext";
+
+#>
+using MedicalResearch.VisitData;
+using MedicalResearch.VisitData.Persistence;
+<#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NO EDITS BELOW THIS LINE!!!
+
+string rawSchema = File.ReadAllText(Host.ResolvePath(inputFile), System.Text.Encoding.Default);
+SchemaRoot schema = JsonConvert.DeserializeObject<SchemaRoot>(rawSchema);
+
+#>
+using System;
+using System.Data;
+using System.Data.AccessControl;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+<#
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+namespace <#=outputNamespace#> {
+<#
+}
+
+foreach (EntitySchema entity in schema.Entities) {
+
+  List<String> uplineAccessControlValidations = new List<String>();
+  List<String> exactMatchPropNames = new List<String>();
+  List<String> freetextPropNames = new List<String>();
+
+  EntitySchema baseEntity = entity;
+  while (!String.IsNullOrWhiteSpace(baseEntity.InheritedEntityName)){
+    string searchName = baseEntity.InheritedEntityName;
+    baseEntity = schema.Entities.Where(e => e.Name == searchName).SingleOrDefault();
+    if(baseEntity == null){
+      throw new Exception("Entity '" + searchName + "' was not found!");
+    }
+  }
+
+  String ressolvedItemName = itemClassNamePattern.Replace("{E}", entity.Name);
+  String ressolvedEntityName = entityClassNamePattern.Replace("{E}", entity.Name);
+  
+  String dbSetName = entity.NamePlural;
+  String inheritedEntityTypeOfSelector = "";
+  if(baseEntity.Name != entity.Name){
+    dbSetName = baseEntity.NamePlural;
+    inheritedEntityTypeOfSelector = ".OfType<" + ressolvedEntityName + ">()";
+  }
+
+  Dictionary<String, List<String>> attributesPerField = new Dictionary<String, List<String>>();
+  foreach (FieldSchema field in entity.Fields) {
+    attributesPerField[field.Name] = new List<String>();
+  }
+
+  // PRIMARY-KEY
+  String pkFieldType= "";
+  String pkFieldTypeNullable = "";
+  String pkCompositeTypeDeclaration= "";
+  String pkParamName = "";
+  String pkFieldSummary = "";
+  String pkNameInSignaure = "";
+  String paramBasedPkWhereExpression = "";
+  String newEntityBasedPkWhereExpression = "";
+  String callerPkSignature = "";
+  String defaultOrderByExpression = "";
+  IndexSchema pkIdx;
+
+  foreach (IndexSchema idx in entity.Indices) {
+
+    //for all indeces
+    foreach (String mfn in idx.MemberFieldNames) {
+      FieldSchema mf = entity.Fields.Where((f)=>f.Name.Equals(mfn)).Single();
+      if(mf.Type.ToLower().Equals("integer")){
+        exactMatchPropNames.Add("\""+ mf.Name + "\"");
+      }
+      if(mf.Type.ToLower().Equals("string")){
+        exactMatchPropNames.Add("\""+ mf.Name + "\"");
+      }
+      if(mf.Type.ToLower().Equals("guid")){
+        //exactMatchPropNames.Add("\""+ mf.Name + "\"");
+      }
+    }
+  }
+
+  foreach (IndexSchema idx in baseEntity.Indices) {
+    if(idx.Name == baseEntity.PrimaryKeyIndexName){
+      pkIdx = idx;
+      if(idx.MemberFieldNames.Length > 1){
+
+        pkFieldType = baseEntity.Name + "Identity";
+        pkNameInSignaure = pkFieldType;
+        pkFieldSummary = "Composite Key, which represents the primary identity of a " + ressolvedItemName;
+        pkCompositeTypeDeclaration = "\n\n/// <summary> " + pkFieldSummary + " </summary>\npublic class " + pkFieldType + " {\n";
+        pkParamName = Escape(Ftl(pkFieldType));
+
+        paramBasedPkWhereExpression = null;
+        newEntityBasedPkWhereExpression = null;
+        defaultOrderByExpression = null;
+        callerPkSignature = "new " + pkFieldType + " { ";
+
+        foreach (String mfn in idx.MemberFieldNames) {
+          FieldSchema mf = baseEntity.Fields.Where((f)=> f.Name.Equals(mfn)).Single();
+
+          if(!String.IsNullOrWhiteSpace(mf.Summary)){
+            pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "  /// <summary> " + mf.Summary + " </summary>\n";
+          }
+          pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "  public " + mf.Type + " " + mf.Name + ";\n";
+          if(paramBasedPkWhereExpression == null){
+            paramBasedPkWhereExpression = "(e)=> e." + mf.Name + " == " + pkParamName + "." + mf.Name;
+            newEntityBasedPkWhereExpression = "(e)=> e." + mf.Name + " == newEntity." + mf.Name;
+            //defaultOrderByExpression = "OrderBy((e)=> e." + mf.Name + ")";
+            defaultOrderByExpression = mf.Name;
+          }
+          else{
+            paramBasedPkWhereExpression = paramBasedPkWhereExpression + " && e." + mf.Name + " == " + pkParamName + "." + mf.Name;
+            newEntityBasedPkWhereExpression = newEntityBasedPkWhereExpression + " && e." + mf.Name + " == newEntity." + mf.Name;
+            callerPkSignature = callerPkSignature + ", ";
+            //defaultOrderByExpression = defaultOrderByExpression + ".ThenBy((e)=> e." + mf.Name + ")";
+            defaultOrderByExpression = defaultOrderByExpression + ", " + mf.Name;
+          }
+          callerPkSignature = callerPkSignature + mf.Name + "=" + Escape(Ftl(ressolvedItemName)) + "." + mf.Name;
+        }
+        callerPkSignature = callerPkSignature + " }";
+
+        pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "}";
+        //ref-types are always nullable
+        pkFieldTypeNullable = pkFieldType;
+
+      }
+      else{
+        FieldSchema mf = baseEntity.Fields.Where((f)=>f.Name.Equals(idx.MemberFieldNames[0])).Single();
+
+        pkNameInSignaure = mf.Name;
+        pkFieldSummary = mf.Summary;
+        if(String.IsNullOrWhiteSpace(pkFieldSummary)){
+          pkFieldSummary = "Represents the primary identity of a " + ressolvedItemName;
+        }
+        pkParamName = Escape(Ftl(mf.Name));
+        pkFieldType = mf.Type;
+        pkCompositeTypeDeclaration = "";
+
+        if(pkFieldType.ToLower().Equals("string")){
+          pkFieldTypeNullable = pkFieldType;
+        }
+        else {
+          pkFieldTypeNullable = pkFieldType + "?";
+        }
+
+        newEntityBasedPkWhereExpression = "(e)=>e." + mf.Name + " == newEntity." + mf.Name;
+        paramBasedPkWhereExpression = "(e)=>e." + mf.Name + " == " + Escape(pkParamName);
+        callerPkSignature = Escape(Ftl(ressolvedItemName)) + "." + mf.Name;
+        //defaultOrderByExpression = "OrderBy((e)=> e." + mf.Name + ")";
+        defaultOrderByExpression = mf.Name;
+
+      }
+    }
+  }
+
+  foreach (FieldSchema fld in entity.Fields) {
+    if(!exactMatchPropNames.Contains("\""+ fld.Name + "\"")){
+      if(fld.Type.ToLower().Equals("string")){
+        freetextPropNames.Add("\""+ fld.Name + "\"");
+      }
+      if(fld.Type.ToLower().Equals("guid")){
+        //exactMatchPropNames.Add("\""+ fld.Name + "\"");
+      }
+    }
+  }
+  
+  foreach (RelationSchema rel in schema.Relations) {
+    if(rel.ForeignEntityName == entity.Name){
+      EntitySchema targetEntity = schema.Entities.Where((e)=>e.Name==rel.PrimaryEntityName).Single();
+      EntitySchema targetBaseEntity = targetEntity;
+      while (!String.IsNullOrWhiteSpace(targetBaseEntity.InheritedEntityName)){
+        targetBaseEntity = schema.Entities.Where(e => e.Name == targetBaseEntity.InheritedEntityName).Single();
+      }
+      string targetEntityTypeOfSelector = "";
+      if(targetBaseEntity.Name != targetEntity.Name){
+        String ressolvedTargetEntityName = entityClassNamePattern.Replace("{E}", targetEntity.Name);
+        targetEntityTypeOfSelector = ".OfType<" + ressolvedTargetEntityName + ">()";
+      }
+      IndexSchema targetEntityPk = targetBaseEntity.Indices.Where((i)=>i.Name==targetBaseEntity.PrimaryKeyIndexName).Single();
+      IndexSchema fkIndex = entity.Indices.Where((i)=>i.Name==rel.ForeignKeyIndexName).Single();
+      String keyMatchExpr = null;
+      for (int i = 0; i < fkIndex.MemberFieldNames.Length; i++) {
+        if(keyMatchExpr == null){
+          keyMatchExpr = "tgt." + targetEntityPk.MemberFieldNames[i] + "==entity." + fkIndex.MemberFieldNames[i];
+        }
+        else{
+          keyMatchExpr = keyMatchExpr + " && tgt." + targetEntityPk.MemberFieldNames[i] + "==entity." + fkIndex.MemberFieldNames[i];
+        }
+      }
+      uplineAccessControlValidations.Add("!db." + targetBaseEntity.NamePlural + targetEntityTypeOfSelector + ".Where((tgt)=> " + keyMatchExpr + " ).AccessScopeFiltered().Any()");
+    }
+  }
+
+  String entitySummary = entity.Summary;
+  if(!String.IsNullOrWhiteSpace(entitySummary)){
+    entitySummary = "/// <summary> " + entitySummary.Trim().Replace("\n", "\n/// ") + " </summary>\n";
+  }
+#>
+
+/// <summary> Provides CRUD access to stored <#= entity.NamePlural#> (based on schema version '<#=schema.SemanticVersion #>') </summary>
+public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespacePrefix#><#=interfaceNamePattern.Replace("{E}", entity.Name).Replace("{P}", entity.NamePlural)#> {
+
+  private ILogger _Logger = null;
+  public <#=ressolvedItemName#>Store(ILogger<<#=ressolvedItemName#>Store> logger){
+    _Logger = logger;
+  }
+
+  /// <summary> Loads a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  public <#=ressolvedItemName#> Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=Escape(pkParamName)#>){
+    var mac = AccessControlContext.Current;
+
+    <#=ressolvedItemName#> result;
+    using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
+
+      //select models, bacause we dont want to return types with navigation-properties!
+      var query = db.<#=dbSetName#>.AsNoTracking()<#=inheritedEntityTypeOfSelector#>.AccessScopeFiltered().Select(<#=ressolvedEntityName#>.<#=ressolvedItemName#>Selector);
+
+      query = query.Where(<#=paramBasedPkWhereExpression#>);
+
+      //materialization / load
+      result = query.SingleOrDefault();
+
+    }
+
+    return result;
+  }
+
+  /// <summary> Loads <#= entity.NamePlural#>. </summary>
+  /// <param name="page">Number of the page, which should be returned </param>
+  /// <param name="pageSize">Max count of <#= entity.NamePlural#> which should be returned </param>
+  public <#=ressolvedItemName#>[] Get<#= entity.NamePlural#>(int page = 1, int pageSize = 20){
+    return this.Search<#= entity.NamePlural#>(null, null, page, pageSize); 
+  }
+
+  private static String[] _ExactMatchPropNames = new String[] {<#=String.Join(", ", exactMatchPropNames.ToArray())#>};
+  private static String[] _FreetextPropNames = new String[] {<#=String.Join(", ", freetextPropNames.ToArray())#>};
+
+  /// <summary> Loads <#= entity.NamePlural#> where values matching to the given filterExpression</summary>
+  /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>
+  /// <param name="sortingExpression">one or more property names which are used as sort order (before pagination)</param>
+  /// <param name="page">Number of the page, which should be returned</param>
+  /// <param name="pageSize">Max count of <#= entity.NamePlural#> which should be returned</param>
+  public <#=ressolvedItemName#>[] Search<#= entity.NamePlural#>(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20){
+    var mac = AccessControlContext.Current;
+
+    if(page < 1){
+      page = 1;
+    }
+    if(pageSize < 1 || pageSize > 10000){
+      pageSize = 20;
+    }
+
+    <#=ressolvedItemName#>[] result;
+    using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
+
+      //select models, bacause we dont want to return types with navigation-properties!
+      var query = db.<#=dbSetName#>
+        .AsNoTracking()<#=inheritedEntityTypeOfSelector#>
+        .AccessScopeFiltered()
+        .Select(<#=ressolvedEntityName#>.<#=ressolvedItemName#>Selector)
+      ;
+      
+      //apply filter (if given)
+      if(!String.IsNullOrWhiteSpace(filterExpression) && filterExpression != "*") {
+        //just if the filterExpression isnt already a valid expression, treat it as a freetext seach string and transform it to a valid expression
+        filterExpression = DynamicLinqExtensions.FreetextSearchStringToFilterExpression(filterExpression, _ExactMatchPropNames, _FreetextPropNames);
+        if(filterExpression != null) {
+          query = query.DynamicallyFiltered(filterExpression);
+        }
+      }
+
+      //apply sorting
+      if(String.IsNullOrWhiteSpace(sortingExpression)) {
+        query = query.DynamicallySorted("<#=defaultOrderByExpression#>");
+      }
+      else{
+        query = query.DynamicallySorted(sortingExpression + ", <#=defaultOrderByExpression#>");
+      }
+
+      //apply pagination
+      query = query.Skip(pageSize * (page - 1)).Take(pageSize);
+
+      //materialization / load
+      result = query.ToArray();
+
+    }
+
+    return result;
+  }
+
+  /// <summary> Adds a new <#=ressolvedItemName#> and returns success. </summary>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values </param>
+  public bool AddNew<#=ressolvedItemName#>(<#=ressolvedItemName#> <#=Escape(Ftl(ressolvedItemName))#>){
+    var mac = AccessControlContext.Current;
+
+    <#=ressolvedEntityName#> newEntity = new <#=ressolvedEntityName#>();
+    newEntity.CopyContentFrom(<#=Escape(Ftl(ressolvedItemName))#>);
+
+    using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
+
+      //checks, that the new values are within the access control scope
+      if(!this.PreValidateAccessControlScope(newEntity, db)){
+        if(_Logger != null){
+          _Logger.LogInformation("Adding <#=ressolvedItemName#> failed: record would be out of access control scope!");
+        }
+        return false;
+      }
+
+      if (db.<#=dbSetName#><#=inheritedEntityTypeOfSelector#>.Where(<#=newEntityBasedPkWhereExpression#>).Any()) {
+        if(_Logger != null){
+          _Logger.LogInformation("Adding <#=ressolvedItemName#> failed: already existing record with this PK!");
+        }
+        return false;
+      }
+
+      db.<#=dbSetName#>.Add(newEntity);
+
+      db.SaveChanges();
+    }
+    if(_Logger != null){
+      _Logger.LogInformation("A <#=ressolvedItemName#> was added!");
+    }
+
+    return true;
+  }
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the primary identifier fields within the given <#=ressolvedItemName#>. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be used to address the target record) </param>
+  public bool Update<#=ressolvedItemName#>(<#=ressolvedItemName#> <#=Escape(Ftl(ressolvedItemName))#>){
+    return this.Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=callerPkSignature#>, <#=Escape(Ftl(ressolvedItemName))#>);
+  }
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be ignored) </param>
+  public bool Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=pkParamName#>, <#=ressolvedItemName#> <#=Escape(Ftl(ressolvedItemName))#>){
+    var mac = AccessControlContext.Current;
+
+    <#=ressolvedEntityName#> existingEntity;
+    using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
+
+      IQueryable<<#=ressolvedEntityName#>> query = db.<#=dbSetName#><#=inheritedEntityTypeOfSelector#>;
+
+      query = query.Where(<#=paramBasedPkWhereExpression#>).AccessScopeFiltered();
+
+      //materialization / load
+      existingEntity = query.SingleOrDefault();
+
+      if(existingEntity == null) {
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: no record with this PK!");
+        }
+        return false;
+      }
+
+      bool changeAttemptOnFixedField = false;
+      existingEntity.CopyContentFrom(<#=Escape(Ftl(ressolvedItemName))#>, (name) => changeAttemptOnFixedField = true);
+
+      if (changeAttemptOnFixedField) {
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: change attempt on FIXED field!");
+        }
+        return false;
+      }
+
+      //checks, that the new values are within the access control scope
+      if(!this.PreValidateAccessControlScope(existingEntity, db)){
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: record would be out of access control scope!");
+        }
+        return false;
+      }
+
+      db.SaveChanges();
+    }
+    if(_Logger != null){
+      _Logger.LogInformation("A <#=ressolvedItemName#> was updated!");
+    }
+
+    return true;
+  }
+
+  /// <summary> Deletes a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  public bool Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=Escape(pkParamName)#>){
+    var mac = AccessControlContext.Current;
+
+    <#=ressolvedEntityName#> existingEntity;
+    using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
+
+      IQueryable<<#=ressolvedEntityName#>> query = db.<#=dbSetName#><#=inheritedEntityTypeOfSelector#>.AccessScopeFiltered();
+
+      query = query.Where(<#=paramBasedPkWhereExpression#>);
+
+      //materialization / load
+      existingEntity = query.SingleOrDefault();
+
+      if (existingEntity == null) {
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: no record with this PK!");
+        }
+        return false;
+      }
+
+      db.<#=dbSetName#>.Remove(existingEntity);
+
+      db.SaveChanges();
+    }
+    if(_Logger != null){
+      _Logger.LogInformation("A <#=ressolvedItemName#> was deleted!");
+    }
+
+    return true;
+  }
+
+  private bool PreValidateAccessControlScope(<#=ressolvedEntityName#> entity, <#=dbContextClassName#> db){
+
+    var filterExpression = EntityAccessControl.BuildExpressionForLocalEntity<<#=ressolvedEntityName#>>(AccessControlContext.Current);
+    if(!filterExpression.Compile().Invoke(entity)) {
+      return false;
+    }
+
+<#
+  foreach (string uplineAccessControlValidation in uplineAccessControlValidations) {
+#>
+    if(<#=uplineAccessControlValidation#>) {
+      return false;
+    }
+<#
+  }
+#>
+    return true;
+  }
+
+}
+<#
+
+}// entity-loop
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+}
+<#
+}
+
+#><#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//     GENERATOR-CODE                                                                        //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+string Escape(object input){  
+  if(input == null){
+    return "";
+  }
+  string s = input.ToString();
+  String[] compilerSensitveWords = new  String[]{"class", "object"};
+  if (compilerSensitveWords.Contains(s)){
+    return "@" + s;
+  }
+  return s;
+}
+
+string Ftl(string input){  
+  if(Char.IsUpper(input[0])){
+    return Char.ToLower(input[0]).ToString() + input.Substring(1, input.Length - 1);
+  }
+  return input;
+}
+
+class SchemaRoot{
+
+  public string DescriptionFormat = "";
+
+  public string TimestampUtc = "";
+  public string SemanticVersion = "";
+
+  public EntitySchema[] Entities = {};
+
+  public RelationSchema[] Relations = {};
+
+}
+
+class EntitySchema{
+
+  public string Name = "";
+  public string NamePlural = "";
+  public string InheritedEntityName = null;
+  public string Summary = "";
+
+  public bool IsBlEntrypoint = false;
+
+  public string PrimaryKeyIndexName = "";
+  public IndexSchema[] Indices = {};
+
+  public FieldSchema[] Fields = {};
+
+}
+
+class FieldSchema{
+
+  public string Name = "";
+  public string Type = "";
+  public int MaxLength = 0;
+
+  public string Summary = "";
+  public bool SystemInternal = false;
+  public bool FixedAfterCreation = false;
+
+  public bool Required = true;
+  public string DefaultValue = null;
+  public bool DbGeneratedIdentity = false;
+
+}
+
+class IndexSchema{
+
+  public string Name = "";
+  public bool Unique = false;
+  public string[] MemberFieldNames = {};
+
+}
+
+class RelationSchema{
+
+  public string Name = "";
+
+  public string PrimaryEntityName = "";
+  public string ForeignEntityName = "";
+  public string ForeignKeyIndexName = "";
+
+  public bool IsLookupRelation = true;
+  public bool PrimaryEntityIsOptional = false;
+  public bool ForeignEntityIsMultiple = true;
+
+  public string PrimaryNavigationName = "";
+  public string ForeignNavigationName = "";
+  public string PrimaryNavigationSummary = "";
+  public string ForeignNavigationSummary = "";
+
+  public bool CascadeDelete = false;
+
+}
+
+#>

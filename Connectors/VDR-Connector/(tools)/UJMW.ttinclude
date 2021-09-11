@@ -1,0 +1,96 @@
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.ObjectModel" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 08.05.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/UnifiedJsonMessageWrapper                                   //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+  String Generate(Object config) {
+
+    //this value will be patched during nuget installation!!!
+    string pkgDirectory = "%USERPROFILE%\\.nuget\\packages\\ujmw.tools.codegen\\1.0.17-localbuild\\tools\\bin"; 
+    string jsonParameterFileLocation = Path.GetTempPath();
+
+    string generatorExe = Path.Combine(pkgDirectory, "UJMW-Gen.exe");
+    generatorExe = generatorExe.Replace("%USERPROFILE%", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+    var buffer = new StringBuilder(2000);
+
+    bool notFound = false;
+    if(Path.IsPathRooted(generatorExe)){
+      if(!File.Exists(generatorExe)){
+        notFound = true;
+      }
+    }
+    else {
+      try {
+        generatorExe = Host.ResolvePath(generatorExe);
+      }
+      catch {
+        notFound = true;
+        generatorExe = "<location-of-UJMW.ttinclude>\\" + generatorExe;
+      }
+    }
+    if(notFound){
+      throw new Exception("NUGET-PKG: 'UJMW.Tools.CodeGen' IS NOT INSTALLED PROPERLY: '" + generatorExe + "' was not found!");
+    }
+
+    string jsonParameterFileName = Path.Combine(jsonParameterFileLocation, "T4-Args-" + Guid.NewGuid().ToString() + ".json");     
+    File.WriteAllText(jsonParameterFileName, JsonConvert.SerializeObject(config, Newtonsoft.Json.Formatting.Indented), Encoding.UTF8);
+
+    var startInfo = new ProcessStartInfo();
+    Process newProcess;
+    startInfo.FileName = Host.ResolvePath(generatorExe);
+    startInfo.Arguments = $"\"{jsonParameterFileName}\"";
+    startInfo.RedirectStandardOutput = true;
+    startInfo.StandardOutputEncoding = Encoding.UTF8;
+    startInfo.UseShellExecute = false;
+    startInfo.CreateNoWindow = true;
+
+    newProcess = Process.Start(startInfo);
+    newProcess.Refresh();
+
+    while (!newProcess.HasExited) {
+
+      System.Threading.Thread.Sleep(1);
+
+      while (!newProcess.StandardOutput.EndOfStream) {
+        buffer.AppendLine(newProcess.StandardOutput.ReadLine());
+      }
+
+      newProcess.Refresh();
+    }
+
+    if(newProcess.ExitCode > 0){
+      string errorText = File.ReadAllText(jsonParameterFileName + ".Error.txt", Encoding.Default);
+      throw new Exception(errorText);
+      //throw new Exception($"Generator '{Path.GetFileName(generatorExe)}' returned error code {newProcess.ExitCode}! Details: " + errorText);
+    }
+    else{
+      File.Delete(jsonParameterFileName);
+    }
+
+    return buffer.ToString();
+  }
+
+#>

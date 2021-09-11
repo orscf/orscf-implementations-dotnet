@@ -1,0 +1,44 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ output extension=".md"#>
+<#@ include file="$(SolutionDir)\(tools)\MDgen.ttinclude" once="true" #><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 01.08.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/MDgen                                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+  var cfg = new {
+
+         // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
+
+           // Source:
+           inputFile = Host.ResolvePath(".\\bin\\Demo.dll"),
+           interfaceTypeNamePattern = "MyBusinessNamespace.I*",
+
+           requireXmlDocForNamespaces = new string[] { 
+             "MyBusinessNamespace"
+           },
+
+           // Output:
+           template = "Default",     // <- choose between: Default
+             
+         // DEFAULT //////////////////////////////////////////////////////////////////////////
+
+           countOfPrefixCharsToRemove = 1,
+
+           namespaceWildcardsForModelImport = new string[] { 
+             "MyBusinessNamespace.*"
+           }
+
+         //////////////////////////////////////////////////////////////////////////////////////
+       };
+
+#>
+<#=Generate(cfg)#>

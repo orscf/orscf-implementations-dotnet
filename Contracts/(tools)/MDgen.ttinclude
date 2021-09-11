@@ -1,0 +1,90 @@
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.ObjectModel" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 01.08.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/MDgen                                                       //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+  String Generate(Object config) {
+
+    //this value will be patched during nuget installation!!!
+    string pkgDirectory = ".\\packages\\KornSW.Tools.MDgen.1.0.0.455\\tools\\bin"; 
+    string jsonParameterFileLocation = Path.GetTempPath();
+
+    string generatorExe = Path.Combine(pkgDirectory, "MDgen.exe");
+    generatorExe = generatorExe.Replace("%USERPROFILE%", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+    var buffer = new StringBuilder(2000);
+
+    if(!Path.IsPathRooted(generatorExe)){
+      var serviceProvider = this.Host as IServiceProvider;
+      var dte = serviceProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+      var solutionDir = Path.GetDirectoryName(dte.Solution.FileName);
+      generatorExe = Path.Combine(solutionDir, generatorExe);
+    }
+    
+    generatorExe = Path.GetFullPath(generatorExe);
+    if(!File.Exists(generatorExe)){
+      throw new Exception("NUGET-PKG: 'KornSW.Tools.MDgen' IS NOT INSTALLED PROPERLY: '" + generatorExe + "' was not found!");
+    }
+
+    string jsonParameterFileName = Path.Combine(jsonParameterFileLocation, "T4-Args-" + Guid.NewGuid().ToString() + ".json");     
+    File.WriteAllText(jsonParameterFileName, JsonConvert.SerializeObject(config, Newtonsoft.Json.Formatting.Indented), Encoding.UTF8);
+
+    var startInfo = new ProcessStartInfo();
+    Process newProcess;
+    startInfo.FileName = Host.ResolvePath(generatorExe);
+    startInfo.Arguments = $"\"{jsonParameterFileName}\"";
+    startInfo.RedirectStandardOutput = true;
+    startInfo.StandardOutputEncoding = Encoding.UTF8;
+    startInfo.UseShellExecute = false;
+    startInfo.CreateNoWindow = true;
+
+    newProcess = Process.Start(startInfo);
+    newProcess.Refresh();
+
+    while (!newProcess.HasExited) {
+
+      System.Threading.Thread.Sleep(1);
+
+      while (!newProcess.StandardOutput.EndOfStream) {
+        buffer.AppendLine(newProcess.StandardOutput.ReadLine());
+      }
+
+      newProcess.Refresh();
+    }
+
+    if(newProcess.ExitCode > 0){
+      string errorText = File.ReadAllText(jsonParameterFileName + ".Error.txt", Encoding.Default);
+      throw new Exception(errorText);
+      //throw new Exception($"Generator '{Path.GetFileName(generatorExe)}' returned error code {newProcess.ExitCode}! Details: " + errorText);
+    }
+    else{
+      File.Delete(jsonParameterFileName);
+    }
+
+    return buffer.ToString();
+  }
+
+#>

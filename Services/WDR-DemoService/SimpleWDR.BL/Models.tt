@@ -1,0 +1,492 @@
+<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ output extension=".Generated.cs"#><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 24.04.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+       //CONFIGURATION:
+
+       const string inputFile = "ORSCF-StudyWorkflowDefinition.Schema.json";
+
+       const string outputNamespace = "MedicalResearch.Workflow";
+       const string entityClassNamePattern = "{E}";
+
+       const bool generateNavPropsToPrincipal         = false;
+       const bool generateReverseNavPropsToDependents = false;
+
+       const bool generateNavPropsToLookup            = false;
+       const bool generateReverseNavPropsToReferers   = false;
+
+       const bool generateEfAttributes                = false;
+       const string tablePrefix = "";
+       
+       const bool generateMappingMethods              = false;
+       const string mappingTargetClassNamePattern     = "{E}";
+       const string mappingMethodAccessLevel          = "internal";
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NO EDITS BELOW THIS LINE!!!
+
+string rawSchema = File.ReadAllText(Host.ResolvePath(inputFile), System.Text.Encoding.Default);
+SchemaRoot schema = JsonConvert.DeserializeObject<SchemaRoot>(rawSchema);
+
+if(generateEfAttributes) {
+#>
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+<#
+}
+else{
+#>
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
+<#
+}
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+namespace <#=outputNamespace#> {
+<#
+}
+
+foreach (EntitySchema entity in schema.Entities) {
+
+  EntitySchema baseEntity = entity;
+  while (!String.IsNullOrWhiteSpace(baseEntity.InheritedEntityName)){
+    baseEntity = schema.Entities.Where(e => e.Name == baseEntity.InheritedEntityName).Single();
+  }
+
+  Dictionary<String, List<String>> attributesPerField = new Dictionary<String, List<String>>();
+  foreach (FieldSchema field in entity.Fields) {
+    attributesPerField[field.Name] = new List<String>();
+  }
+
+  String entitySummary = entity.Summary;
+  if(!String.IsNullOrWhiteSpace(entitySummary)){
+    entitySummary = "/// <summary> " + entitySummary.Trim().Replace("\n", "\n/// ") + " </summary>\n";
+  }
+
+  String tbl = "";
+  if(generateEfAttributes){
+    tbl = "[Table(\"" + tablePrefix + entity.NamePlural + "\")]\n";
+  }
+
+  String inheritance = "";
+  if(!String.IsNullOrWhiteSpace(entity.InheritedEntityName)){
+    inheritance = " : " + entityClassNamePattern.Replace("{E}", entity.InheritedEntityName);
+  }
+
+#>
+
+<#=entitySummary#><#=tbl#>public class <#=entityClassNamePattern.Replace("{E}", entity.Name)#><#=inheritance#> {
+<#
+
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  //   FIELDS                                                                                //
+  /////////////////////////////////////////////////////////////////////////////////////////////
+
+  foreach (FieldSchema field in entity.Fields) {
+    List<String> attributes = attributesPerField[field.Name];
+
+    string summary = field.Summary;
+    string typeName = field.Type;
+    if(typeName == "Binary"){
+      typeName = "Byte[]";
+    }
+    if(typeName == "Time"){
+      typeName = "TimeSpan";
+    }
+
+    bool isKeyField = false;
+    foreach (IndexSchema idx in entity.Indices) {
+      if(idx.MemberFieldNames.Contains(field.Name)){
+        if(idx.Name == entity.PrimaryKeyIndexName){
+          isKeyField = true;
+        }
+      }
+    }
+
+    if(generateEfAttributes){
+      if(isKeyField){
+        attributes.Add("Key");
+      }
+      if(field.DbGeneratedIdentity){
+        attributes.Add("DatabaseGenerated(DatabaseGeneratedOption.Identity)");
+      }
+    }
+
+    if(field.SystemInternal){
+      attributes.Add("SystemInternal");
+    }
+    if(field.FixedAfterCreation){
+      attributes.Add("FixedAfterCreation");
+    }
+
+    if(typeName == "String" && field.MaxLength > 0){
+      summary = summary + " *this field has a max length of " + field.MaxLength.ToString();
+      attributes.Add("MaxLength(" + field.MaxLength.ToString() + ")");
+    }
+
+    if(field.Required){
+      attributes.Add("Required");
+    }
+    else {
+      if(typeName != "String" && typeName != "Byte[]"){
+        typeName = "Nullable<" + typeName + ">";
+        summary = summary + " *this field is optional";
+      }
+      else {
+        summary = summary + " *this field is optional (use null as value) ";
+      }
+    }
+
+    string initializerSuffix = "";
+    if(field.DefaultValue != null){
+      initializerSuffix = " = " + field.DefaultValue + ";";
+    }
+    else{
+      if(isKeyField && !field.DbGeneratedIdentity && typeName == "Guid"){
+        initializerSuffix = " = Guid.NewGuid();";
+      }
+    }
+  
+    if(!String.IsNullOrWhiteSpace(summary)){
+      summary = "  /// <summary> " + summary.Trim().Replace("\n", "\n  /// ") + " </summary>\n";
+    }
+
+    String attr = "";
+    if(attributes.Count > 0){
+      attr = "  [" + String.Join(", ", attributes.ToArray()) + "]\n";
+    }
+
+#>
+
+<#=summary #><#=attr #>  public <#=typeName #> <#=field.Name #> { get; set; }<#=initializerSuffix #>
+<#
+
+  } // field-loop
+
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  //   NAV-PROPS (on primary-side)                                                           //
+  /////////////////////////////////////////////////////////////////////////////////////////////
+
+  foreach (RelationSchema rel in schema.Relations) {
+
+    if(rel.PrimaryEntityName == entity.Name){
+      //foreach (IndexSchema idx in entity.Indices) {
+        //if(idx.Name == entity.PrimaryKeyIndexName){
+
+          if(!String.IsNullOrWhiteSpace(rel.PrimaryNavigationName)){
+            List<String> attributes = new List<String>();
+            string summary = rel.ForeignNavigationSummary;
+
+            bool generate = true;
+            if(rel.IsLookupRelation){
+              attributes.Add("Referer");
+              generate = generateReverseNavPropsToReferers;
+            }
+            else{
+              attributes.Add("Dependent");
+              generate = generateReverseNavPropsToDependents;
+            }
+
+            if(!String.IsNullOrWhiteSpace(rel.ForeignNavigationName) && generateEfAttributes){
+              var remoteNavPropString = entityClassNamePattern.Replace("{E}", rel.ForeignEntityName) + "." + rel.ForeignNavigationName;
+              attributes.Add("InverseProperty(nameof(" + remoteNavPropString + "))");
+            }
+
+            if(!String.IsNullOrWhiteSpace(summary)){
+              summary = "  /// <summary> " + summary.Trim().Replace("\n", "\n  /// ") + " </summary>\n";
+            }
+
+            String attr = "";
+            if(attributes.Count > 0){
+              attr = "  [" + String.Join(", ", attributes.ToArray()) + "]\n";
+            }
+
+            if(generate){
+              if(!rel.ForeignEntityIsMultiple){
+#>
+
+<#=summary #><#=attr #>  public virtual <#=entityClassNamePattern.Replace("{E}", rel.ForeignEntityName) #> <#=rel.PrimaryNavigationName #> { get; set; }
+<#
+              }
+              else {
+#>
+
+<#=summary #><#=attr #>  public virtual ObservableCollection<<#=entityClassNamePattern.Replace("{E}", rel.ForeignEntityName) #>> <#=rel.PrimaryNavigationName #> { get; set; } = new ObservableCollection<<#=entityClassNamePattern.Replace("{E}", rel.ForeignEntityName) #>>();
+<#
+              }
+            }
+
+
+          }
+
+        //}
+      //}
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    //   NAV-PROPS (on foreign-side)                                                         //
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    if(rel.ForeignEntityName == entity.Name){
+      foreach (IndexSchema idx in entity.Indices) {
+        if(idx.Name == rel.ForeignKeyIndexName){
+
+          if(!String.IsNullOrWhiteSpace(rel.ForeignNavigationName)){
+            List<String> attributes = new List<String>();
+            string summary = rel.ForeignNavigationSummary;
+
+            bool generate = true;
+            if(rel.IsLookupRelation){
+              attributes.Add("Lookup");
+              generate = generateNavPropsToLookup;
+            }
+            else{
+              attributes.Add("Principal");
+              generate = generateNavPropsToPrincipal;
+            }
+
+            if(generateEfAttributes){
+              attributes.Add("ForeignKey(nameof(" + String.Join(") + \",\" + nameof(", idx.MemberFieldNames) + "))");
+            }
+
+            if(!String.IsNullOrWhiteSpace(summary)){
+              summary = "  /// <summary> " + summary.Trim().Replace("\n", "\n  /// ") + " </summary>\n";
+            }
+
+            String attr = "";
+            if(attributes.Count > 0){
+              attr = "  [" + String.Join(", ", attributes.ToArray()) + "]\n";
+            }
+
+            if(generate){
+#>
+
+<#=summary #><#=attr #>  public virtual <#=entityClassNamePattern.Replace("{E}", rel.PrimaryEntityName) #> <#=rel.ForeignNavigationName #> { get; set; }
+<#
+            }
+          }
+
+        }
+      }
+    }
+
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  //   MAPPING-METHODS                                                                     //
+  ///////////////////////////////////////////////////////////////////////////////////////////
+
+  if(generateMappingMethods){
+    String resolvedMappingTargetClassName = mappingTargetClassNamePattern.Replace("{E}", entity.Name);
+    String resolvedLocalClassName = entityClassNamePattern.Replace("{E}", entity.Name);
+
+    IEnumerable<FieldSchema> allFields = entity.Fields.ToList();
+
+    EntitySchema inheritedEntity = entity;
+    while (!String.IsNullOrWhiteSpace(inheritedEntity.InheritedEntityName)){
+      inheritedEntity = schema.Entities.Where(e => e.Name == inheritedEntity.InheritedEntityName).Single();
+      allFields = inheritedEntity.Fields.ToList().Union(allFields);
+    }
+
+#>
+
+#region Mapping
+
+  <#=mappingMethodAccessLevel#> static Expression<Func<<#=resolvedMappingTargetClassName#>, <#=resolvedLocalClassName#>>> <#=resolvedLocalClassName#>Selector = ((<#=resolvedMappingTargetClassName#> src) => new <#=resolvedLocalClassName#> {
+<#
+  foreach (FieldSchema field in allFields) {
+#>
+    <#=field.Name#> = src.<#=field.Name#>,
+<#
+  }
+#>
+  });
+
+  <#=mappingMethodAccessLevel#> static Expression<Func<<#=resolvedLocalClassName#>, <#=resolvedMappingTargetClassName#>>> <#=resolvedMappingTargetClassName#>Selector = ((<#=resolvedLocalClassName#> src) => new <#=resolvedMappingTargetClassName#> {
+<#
+  foreach (FieldSchema field in allFields) {
+#>
+    <#=field.Name#> = src.<#=field.Name#>,
+<#
+  }
+#>
+  });
+
+  <#=mappingMethodAccessLevel#> void CopyContentFrom(<#=resolvedMappingTargetClassName#> source, Func<String,bool> onFixedValueChangingCallback = null){
+<#
+  foreach (FieldSchema field in allFields) {
+ 
+    if(field.FixedAfterCreation){
+#>
+    if(!Equals(source.<#=field.Name#>, this.<#=field.Name#>)){
+      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(<#=field.Name#>))){
+        this.<#=field.Name#> = source.<#=field.Name#>;
+      }
+    }
+<#
+    }
+    else{
+#>
+    this.<#=field.Name#> = source.<#=field.Name#>;
+<#
+    }
+  }//field loop
+#>
+  }
+
+  <#=mappingMethodAccessLevel#> void CopyContentTo(<#=resolvedMappingTargetClassName#> target, Func<String,bool> onFixedValueChangingCallback = null){
+<#
+  foreach (FieldSchema field in allFields) {
+ 
+    if(field.FixedAfterCreation){
+#>
+    if(!Equals(target.<#=field.Name#>, this.<#=field.Name#>)){
+      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(<#=field.Name#>))){
+        target.<#=field.Name#> = this.<#=field.Name#>;
+      }
+    }
+<#
+    }
+    else{
+#>
+    target.<#=field.Name#> = this.<#=field.Name#>;
+<#
+    }
+  }//field loop
+#>
+  }
+
+#endregion
+<#
+
+  }
+
+#>
+
+}
+<#
+
+}// entity-loop
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+}
+<#
+}
+
+#><#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//     GENERATOR-CODE                                                                        //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+string Escape(object input){  
+  if(input == null){
+    return "";
+  }
+  string s = input.ToString();
+  String[] compilerSensitveWords = new  String[]{"class", "object"};
+  if (compilerSensitveWords.Contains(s)){
+    return "@" + s;
+  }
+  return s;
+}
+
+class SchemaRoot{
+
+  public string DescriptionFormat = "";
+
+  public string TimestampUtc = "";
+  public string SemanticVersion = "";
+
+  public EntitySchema[] Entities = {};
+
+  public RelationSchema[] Relations = {};
+
+}
+
+class EntitySchema{
+
+  public string Name = "";
+  public string NamePlural = "";
+  public string InheritedEntityName = null;
+  public string Summary = "";
+
+  public bool IsBlEntrypoint = false;
+
+  public string PrimaryKeyIndexName = "";
+  public IndexSchema[] Indices = {};
+
+  public FieldSchema[] Fields = {};
+
+}
+
+class FieldSchema{
+
+  public string Name = "";
+  public string Type = "";
+  public int MaxLength = 0;
+
+  public string Summary = "";
+  public bool SystemInternal = false;
+  public bool FixedAfterCreation = false;
+
+  public bool Required = true;
+  public string DefaultValue = null;
+  public bool DbGeneratedIdentity = false;
+
+}
+
+class IndexSchema{
+
+  public string Name = "";
+  public bool Unique = false;
+  public string[] MemberFieldNames = {};
+
+}
+
+class RelationSchema{
+
+  public string Name = "";
+
+  public string PrimaryEntityName = "";
+  public string ForeignEntityName = "";
+  public string ForeignKeyIndexName = "";
+
+  public bool IsLookupRelation = true;
+  public bool PrimaryEntityIsOptional = false;
+  public bool ForeignEntityIsMultiple = true;
+
+  public string PrimaryNavigationName = "";
+  public string ForeignNavigationName = "";
+  public string PrimaryNavigationSummary = "";
+  public string ForeignNavigationSummary = "";
+
+  public bool CascadeDelete = false;
+
+}
+
+#>

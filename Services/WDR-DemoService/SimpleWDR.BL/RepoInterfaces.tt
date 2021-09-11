@@ -1,0 +1,270 @@
+<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ output extension=".Generated.cs"#><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 01.05.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+       //CONFIGURATION:
+
+       const string inputFile = "ORSCF-StudyWorkflowDefinition.Schema.json";
+
+       const string outputNamespace = "MedicalResearch.Workflow.Persistence";
+       const string itemClassNamePattern = "{E}";
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NO EDITS BELOW THIS LINE!!!
+
+string rawSchema = File.ReadAllText(Host.ResolvePath(inputFile), System.Text.Encoding.Default);
+SchemaRoot schema = JsonConvert.DeserializeObject<SchemaRoot>(rawSchema);
+
+#>
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
+<#
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+namespace <#=outputNamespace#> {
+<#
+}
+
+foreach (EntitySchema entity in schema.Entities) {
+
+  EntitySchema baseEntity = entity;
+  while (!String.IsNullOrWhiteSpace(baseEntity.InheritedEntityName)){
+    baseEntity = schema.Entities.Where(e => e.Name == baseEntity.InheritedEntityName).Single();
+  }
+
+  String ressolvedItemName = itemClassNamePattern.Replace("{E}", entity.Name);
+
+  Dictionary<String, List<String>> attributesPerField = new Dictionary<String, List<String>>();
+  foreach (FieldSchema field in entity.Fields) {
+    attributesPerField[field.Name] = new List<String>();
+  }
+
+  // PRIMARY-KEY
+  String pkFieldType= "";
+  String pkFieldTypeNullable = "";
+  String pkCompositeTypeDeclaration= "";
+  String pkParamName = "";
+  String pkFieldSummary = "";
+  String pkNameInSignaure = "";
+
+  foreach (IndexSchema idx in baseEntity.Indices) {
+    if(idx.Name == baseEntity.PrimaryKeyIndexName){
+      if(idx.MemberFieldNames.Length > 1){
+
+        pkFieldType = baseEntity.Name + "Identity";
+        pkNameInSignaure = pkFieldType;
+        pkFieldSummary = "Composite Key, which represents the primary identity of a " + ressolvedItemName;
+        pkCompositeTypeDeclaration = "\n\n/// <summary> " + pkFieldSummary + " </summary>\npublic class " + pkFieldType + " {\n";
+        pkParamName = Ftl(pkFieldType);
+
+        foreach (String mfn in idx.MemberFieldNames) {
+          FieldSchema mf = baseEntity.Fields.Where((f)=> f.Name.Equals(mfn)).Single();
+          if(!String.IsNullOrWhiteSpace(mf.Summary)){
+            pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "  /// <summary> " + mf.Summary + " </summary>\n";
+          }
+          pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "  public " + mf.Type + " " + Escape(mf.Name) + ";\n";
+        }
+
+        pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "}";
+        //ref-types are always nullable
+        pkFieldTypeNullable = pkFieldType;
+      }
+      else{
+        FieldSchema mf = baseEntity.Fields.Where((f)=>f.Name.Equals(idx.MemberFieldNames[0])).Single();
+        pkNameInSignaure = Escape(mf.Name);
+        pkFieldSummary = mf.Summary;
+        if(String.IsNullOrWhiteSpace(pkFieldSummary)){
+          pkFieldSummary = "Represents the primary identity of a " + ressolvedItemName;
+        }
+        pkParamName = Ftl(mf.Name);
+        pkFieldType = mf.Type;
+        pkCompositeTypeDeclaration = "";
+
+        if(pkFieldType.ToLower().Equals("string")){
+          pkFieldTypeNullable = pkFieldType;
+        }
+        else {
+          pkFieldTypeNullable = pkFieldType + "?";
+        }
+
+      }
+    }
+  }
+
+  String entitySummary = entity.Summary;
+  if(!String.IsNullOrWhiteSpace(entitySummary)){
+    entitySummary = "/// <summary> " + entitySummary.Trim().Replace("\n", "\n/// ") + " </summary>\n";
+  }
+#>
+
+/// <summary> Provides CRUD access to stored <#=entity.NamePlural#> (based on schema version '<#=schema.SemanticVersion #>') </summary>
+public partial interface I<#=ressolvedItemName#>Repository {
+
+  //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding <#=entity.NamePlural#>.</summary>
+  //AccessSpecs GetAccessSpecs();
+
+  /// <summary> Loads a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  <#=ressolvedItemName#> Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=Escape(pkParamName)#>);
+
+  /// <summary> Loads <#=entity.NamePlural#>. </summary>
+  /// <param name="page">Number of the page, which should be returned </param>
+  /// <param name="pageSize">Max count of <#=entity.NamePlural#> which should be returned </param>
+  <#=ressolvedItemName#>[] Get<#=entity.NamePlural#>(int page = 1, int pageSize = 20);
+
+  /// <summary> Loads <#=entity.NamePlural#> where values matching to the given filterExpression</summary>
+    /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")'</param>
+  /// <param name="sortingExpression">one or more property names which are used as sort order (before pagination)</param>
+  /// <param name="page">Number of the page, which should be returned</param>
+  /// <param name="pageSize">Max count of <#=entity.NamePlural#> which should be returned</param>
+  <#=ressolvedItemName#>[] Search<#=entity.NamePlural#>(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20);
+
+  /// <summary> Adds a new <#=ressolvedItemName#> and returns its primary identifier (or null on failure). </summary>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values </param>
+  bool AddNew<#=ressolvedItemName#>(<#=ressolvedItemName#> <#=Escape(Ftl(ressolvedItemName))#>);
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the primary identifier fields within the given <#=ressolvedItemName#>. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be used to address the target record) </param>
+  bool Update<#=ressolvedItemName#>(<#=ressolvedItemName#> <#=Escape(Ftl(ressolvedItemName))#>);
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be ignored) </param>
+  bool Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=Escape(pkParamName)#>, <#=ressolvedItemName#> <#=Escape(Ftl(ressolvedItemName))#>);
+
+  /// <summary> Deletes a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  bool Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=Escape(pkParamName)#>);
+
+}<#=pkCompositeTypeDeclaration#>
+<#
+
+}// entity-loop
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+}
+<#
+}
+
+#><#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//     GENERATOR-CODE                                                                        //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+string Escape(object input){  
+  if(input == null){
+    return "";
+  }
+  string s = input.ToString();
+  String[] compilerSensitveWords = new  String[]{"class", "object"};
+  if (compilerSensitveWords.Contains(s)){
+    return "@" + s;
+  }
+  return s;
+}
+
+string Ftl(string input){  
+  if(Char.IsUpper(input[0])){
+    return Char.ToLower(input[0]).ToString() + input.Substring(1, input.Length - 1);
+  }
+  return input;
+}
+
+class SchemaRoot{
+
+  public string DescriptionFormat = "";
+
+  public string TimestampUtc = "";
+  public string SemanticVersion = "";
+
+  public EntitySchema[] Entities = {};
+
+  public RelationSchema[] Relations = {};
+
+}
+
+class EntitySchema{
+
+  public string Name = "";
+  public string NamePlural = "";
+  public string InheritedEntityName = null;
+  public string Summary = "";
+
+  public bool IsBlEntrypoint = false;
+
+  public string PrimaryKeyIndexName = "";
+  public IndexSchema[] Indices = {};
+
+  public FieldSchema[] Fields = {};
+
+}
+
+class FieldSchema{
+
+  public string Name = "";
+  public string Type = "";
+  public int MaxLength = 0;
+
+  public string Summary = "";
+  public bool SystemInternal = false;
+  public bool FixedAfterCreation = false;
+
+  public bool Required = true;
+  public string DefaultValue = null;
+  public bool DbGeneratedIdentity = false;
+
+}
+
+class IndexSchema{
+
+  public string Name = "";
+  public bool Unique = false;
+  public string[] MemberFieldNames = {};
+
+}
+
+class RelationSchema{
+
+  public string Name = "";
+
+  public string PrimaryEntityName = "";
+  public string ForeignEntityName = "";
+  public string ForeignKeyIndexName = "";
+
+  public bool IsLookupRelation = true;
+  public bool PrimaryEntityIsOptional = false;
+  public bool ForeignEntityIsMultiple = true;
+
+  public string PrimaryNavigationName = "";
+  public string ForeignNavigationName = "";
+  public string PrimaryNavigationSummary = "";
+  public string ForeignNavigationSummary = "";
+
+  public bool CascadeDelete = false;
+
+}
+
+#>

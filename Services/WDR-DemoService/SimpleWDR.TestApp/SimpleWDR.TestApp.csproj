@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>ORSCF.WorkflowDefinitionRepository.TestApp</AssemblyName>
+    <RootNamespace>MedicalResearch.Workflow</RootNamespace>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+    <StartupObject>MedicalResearch.WorkflowDefinition.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityAnnotations" Version="2.0.1.387" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+</Project>

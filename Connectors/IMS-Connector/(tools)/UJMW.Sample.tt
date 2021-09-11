@@ -1,0 +1,81 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ output extension=".Generated.cs"#>
+<#@ include file="..\(tools)\UJMW.ttinclude" once="true" #><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 08.05.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/UnifiedJsonMessageWrapper                                   //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+  var cfg = new {
+
+         // FIRST OF ALL: check, that the relative path in line 6 of this file is correct! 
+         //               after installing the 'UJMW.Tools.CodeGen' NuGet Pkg the '(tools)'
+         //               directory should be located at your solution root!
+
+         // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
+
+           // Source:
+           inputFile = Host.ResolvePath(".\\bin\\Demo.dll"),
+           interfaceTypeNamePattern = "MyBusinessNamespace.I*",
+
+           requireXmlDocForNamespaces = new string[] { 
+             "MyBusinessNamespace"
+           },
+
+           // Output:
+           template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
+           outputLanguage = "C#",   // <- choose between: C#|VB|TS
+           indentDepthPerLevel = 2,
+           outputNamespace = "MyBusinessNamespace.WebApi",
+           customImports = new String[] {
+             
+           },
+
+         // MODELS ////////////////////////////////////////////////////////////////////////////
+
+           modelTypeNameIncludePatterns = new string[] {
+             "MyBusinessNamespace.*"
+           },
+
+           generateDataAnnotationsForLocalModels = true, //SOAP-STYLE ONLY
+
+           generateNavigationAnnotationsForLocalModels = true, //SOAP-STYLE ONLY
+           //(requires also the "EntityAnnoations" Nuget Package!)
+
+
+         // WRAPPERS //////////////////////////////////////////////////////////////////////////
+
+            generateFaultProperty = true,
+
+         // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
+           
+           generateSwashbuckleAttributesForControllers = true,
+           customAttributesPerControllerMethod = "RequireBaererAuth(\"{C}/{O}\")",
+           fillFaultPropertyOnException = true,
+
+           exceptionDisplay = "ex.ToString()", //change this into an extension-method to do some
+           //                                    custom evaluation before exposing too much details
+
+         // CLIENTS ///////////////////////////////////////////////////////////////////////////
+
+           connectorClassName = "DemoConnector",
+           authHeaderName = "Authorization",
+           throwClientExecptionsFromFaultProperty = true,
+
+         // INTERFACES ////////////////////////////////////////////////////////////////////////
+ 
+   
+
+         //////////////////////////////////////////////////////////////////////////////////////
+       };
+
+#>
+<#=Generate(cfg)#>

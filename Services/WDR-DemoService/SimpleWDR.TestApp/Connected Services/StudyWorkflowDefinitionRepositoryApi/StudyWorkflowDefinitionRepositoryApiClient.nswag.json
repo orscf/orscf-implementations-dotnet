@@ -1,0 +1,41 @@
+﻿{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Workflow Definition Repository API",
+    "description": "stores workflow definitions for research studies (digital representations of study-protocols)",
+    "contact": {
+      "name": "Open Research Study Communication Format",
+      "url": "https://orscf.org",
+      "email": "info@orscf.org"
+    },
+    "version": "v1.0.0"
+  },
+  "paths": {
+    "/Permissions": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "returns the set of permissions which are assigned to the api-key of the request",
+        "description": "GetPermissions",
+        "operationId": "GetPermissions",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}

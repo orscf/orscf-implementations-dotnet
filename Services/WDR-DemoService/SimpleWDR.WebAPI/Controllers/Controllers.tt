@@ -1,0 +1,654 @@
+<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ output extension=".Generated.cs"#><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 01.05.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+       //CONFIGURATION:
+
+       const string inputFile = "..\\..\\SimpleWDR.BL\\ORSCF-StudyWorkflowDefinition.Schema.json";
+
+       const string outputNamespace = "MedicalResearch.Workflow.RepositoryService";
+
+       const string repositoryInterfaceNamespacePrefix = "MedicalResearch.Workflow.Persistence.";
+       const string repositoryStoreNamespacePrefix = "MedicalResearch.Workflow.Persistence.EF.";
+
+       const string itemClassNamePattern = "{E}";
+       const string entityClassNamePattern = "{E}Entity";
+
+
+       //REST-STYLE (true):  generates one controller per entity using HTTP-Verbs to represent
+       //                    CRUD-Operations
+       //SOAP-STYLE (false): generates one controller per entity with Operation-Names as sub-urls
+       //                    to represent CRUD-Operations via POST requests only
+       const bool useRestStyle = false;
+
+       const bool generateControllers    = true;
+       const bool generateRequestCapsles = false; //SOAP-STYLE ONLY
+
+       var customImports = new String[] {
+       };
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NO EDITS BELOW THIS LINE!!!
+
+string rawSchema = File.ReadAllText(Host.ResolvePath(inputFile), System.Text.Encoding.Default);
+SchemaRoot schema = JsonConvert.DeserializeObject<SchemaRoot>(rawSchema);
+
+var nsImports = new List<string>();
+nsImports.Add("System");
+if(generateControllers){
+  nsImports.Add("System.Collections.Generic");
+  nsImports.Add("System.Data.AccessControl");
+  nsImports.Add("System.Linq");
+  nsImports.Add("System.Net");
+  nsImports.Add("Security");
+  nsImports.Add("Microsoft.AspNetCore.Mvc");
+  nsImports.Add("Microsoft.Extensions.Logging");
+  nsImports.Add("Swashbuckle.AspNetCore.Annotations");
+}
+
+foreach (string import in customImports.Union(nsImports).Distinct().OrderBy((s)=> s)) {
+#>
+using <#=import#>;
+<#
+}
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+namespace <#=outputNamespace#> {
+<#
+}
+
+foreach (EntitySchema entity in schema.Entities) {
+  String ressolvedItemName = itemClassNamePattern.Replace("{E}", entity.Name);
+  String ressolvedEntityName = entityClassNamePattern.Replace("{E}", entity.Name);
+
+  EntitySchema baseEntity = entity;
+  while (!String.IsNullOrWhiteSpace(baseEntity.InheritedEntityName)){
+    string searchName = baseEntity.InheritedEntityName;
+    baseEntity = schema.Entities.Where(e => e.Name == searchName).SingleOrDefault();
+    if(baseEntity == null){
+      throw new Exception("Entity '" + searchName + "' was not found!");
+    }
+  }
+
+  String dbSetName = entity.NamePlural;
+  if(baseEntity.Name != entity.Name){
+    dbSetName = baseEntity.NamePlural;
+  }
+
+  Dictionary<String, List<String>> attributesPerField = new Dictionary<String, List<String>>();
+  foreach (FieldSchema field in entity.Fields) {
+    attributesPerField[field.Name] = new List<String>();
+  }
+
+  // PRIMARY-KEY
+  String pkFieldType= "";
+  String pkFieldTypeNullable = "";
+  String pkCompositeTypeDeclaration= "";
+  String pkParamName = "";
+  String pkFieldSummary = "";
+  String pkNameInSignaure = "";
+  String paramBasedPkWhereExpression = "";
+  String newEntityBasedPkWhereExpression = "";
+  String callerPkSignature = "";
+  String defaultOrderByExpression = "";
+  //String swaggerResponseAttrForPk = "";
+  //String swaggerResponseMimeTypeForPk = "application/json"; 
+  IndexSchema pkIdx;
+
+  foreach (IndexSchema idx in baseEntity.Indices) {
+
+    if(idx.Name == baseEntity.PrimaryKeyIndexName){
+      pkIdx = idx;
+      if(idx.MemberFieldNames.Length > 1){
+
+        pkFieldType = baseEntity.Name + "Identity";
+        pkNameInSignaure = pkFieldType;
+        pkFieldSummary = "Composite Key, which represents the primary identity of a " + ressolvedItemName;
+        pkCompositeTypeDeclaration = "\n\n/// <summary> " + pkFieldSummary + " </summary>\npublic class " + pkFieldType + " {\n";
+        pkParamName = Ftl(pkFieldType);
+
+        paramBasedPkWhereExpression = null;
+        newEntityBasedPkWhereExpression = null;
+        defaultOrderByExpression = null;
+        callerPkSignature = "new " + pkFieldType + " { ";
+
+        foreach (String mfn in idx.MemberFieldNames) {
+          FieldSchema mf = baseEntity.Fields.Where((f)=> f.Name.Equals(mfn)).Single();
+          if(!String.IsNullOrWhiteSpace(mf.Summary)){
+            pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "  /// <summary> " + mf.Summary + " </summary>\n";
+          }
+          pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "  " + mf.Type + " " + mf.Name + "\n";
+          if(paramBasedPkWhereExpression == null){
+            paramBasedPkWhereExpression = "(e)=> e." + mf.Name + " == " + pkParamName + "." + mf.Name;
+            newEntityBasedPkWhereExpression = "(e)=> e." + mf.Name + " == newEntity." + mf.Name;
+            defaultOrderByExpression = "OrderBy((e)=> e." + mf.Name + ")";
+          }
+          else{
+            paramBasedPkWhereExpression = paramBasedPkWhereExpression + " && e." + mf.Name + " == " + pkParamName + "." + mf.Name;
+            newEntityBasedPkWhereExpression = newEntityBasedPkWhereExpression + " && e." + mf.Name + " == newEntity." + mf.Name;
+            callerPkSignature = callerPkSignature + ", ";
+            defaultOrderByExpression = defaultOrderByExpression + ".ThenBy((e)=> e." + mf.Name + ")";
+          }
+          callerPkSignature = callerPkSignature + Ftl(ressolvedItemName) + "." + mf.Name;
+        }
+        callerPkSignature = callerPkSignature + " }";
+
+        pkCompositeTypeDeclaration = pkCompositeTypeDeclaration + "}";
+        //ref-types are always nullable
+        pkFieldTypeNullable = pkFieldType;
+
+      }
+      else{
+
+        //always, if not a capsle
+        //swaggerResponseMimeTypeForPk = "text/plain"; 
+
+        FieldSchema mf = baseEntity.Fields.Where((f)=>f.Name.Equals(idx.MemberFieldNames[0])).Single();
+        pkNameInSignaure = mf.Name;
+        pkFieldSummary = mf.Summary;
+        if(String.IsNullOrWhiteSpace(pkFieldSummary)){
+          pkFieldSummary = "Represents the primary identity of a " + ressolvedItemName;
+        }
+        pkParamName = Ftl(mf.Name);
+        pkFieldType = mf.Type;
+        pkCompositeTypeDeclaration = "";
+
+        if(pkFieldType.ToLower().Equals("string")){
+          pkFieldTypeNullable = pkFieldType;
+          //workarround:
+          //swaggerResponseAttrForPk = "\n  [SwaggerResponse((int)HttpStatusCode.OK, Type=typeof(string))]";
+          //swaggerResponseMimeTypeForPk = "text/plain"; 
+        }
+        else {
+          pkFieldTypeNullable = pkFieldType + "?";
+        }
+
+        newEntityBasedPkWhereExpression = "(e)=>e." + mf.Name + " == newEntity." + mf.Name;
+        paramBasedPkWhereExpression = "(e)=>e." + mf.Name + " == " + pkParamName;
+        callerPkSignature = Ftl(ressolvedItemName) + "." + mf.Name;
+        defaultOrderByExpression = "OrderBy((e)=> e." + mf.Name + ")";
+
+      }
+    }
+  }
+
+  /* ForeignKey-Attibute on this side works only for non-compisite-keys, because the column-order cant be specified
+  foreach (RelationSchema rel in schema.Relations) {
+    if(rel.ForeignEntityName == entity.Name){
+      foreach (IndexSchema idx in entity.Indices) {
+        if(idx.Name == rel.ForeignKeyIndexName){
+          int i = 0;
+          foreach (String foreignKeyFieldName in idx.MemberFieldNames) {
+              attributesPerField[foreignKeyFieldName].Add("ForeignKey(nameof(" + rel.ForeignNavigationName + "))");
+            i++;
+          }
+        }
+      }
+    }
+  }
+  */
+
+  String entitySummary = entity.Summary;
+  if(!String.IsNullOrWhiteSpace(entitySummary)){
+    entitySummary = "/// <summary> " + entitySummary.Trim().Replace("\n", "\n/// ") + " </summary>\n";
+  }
+
+  if(generateControllers){
+#>
+
+<#=entitySummary#>[ApiController]
+[Route("<#=Ftl(entity.NamePlural)#>")]
+public partial class <#=entity.NamePlural#>Controller : ControllerBase {
+
+  public const String SchemaVersion = "<#=schema.SemanticVersion #>";
+
+  private readonly ILogger<<#=entity.NamePlural#>Controller> _logger;
+  private readonly <#=repositoryInterfaceNamespacePrefix#>I<#=ressolvedItemName#>Repository _Repo;
+
+  public <#=entity.NamePlural#>Controller(ILogger<<#=entity.NamePlural#>Controller> logger) {
+    _logger = logger;
+    _Repo = new <#=repositoryStoreNamespacePrefix#><#=ressolvedItemName#>Store();
+  }
+<#
+    if (useRestStyle){
+#>
+  // /// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) when accessing <#=entity.NamePlural#>.</summary>
+  // [RequireBaererAuth()]
+  // [HttpGet("-"), Produces("application/json")]
+  // [SwaggerOperation(OperationId = nameof(Get<#=ressolvedItemName#>AccessSpecs), Description = nameof(Get<#=ressolvedItemName#>AccessSpecs))]
+  // public AccessSpecs Get<#=ressolvedItemName#>AccessSpecs(){
+  //   try {
+  //     return AccessControlContext.Current.GetAccessSpecs("<#=entity.Name#>");  
+  //   }
+  //   catch (Exception ex) {
+  //     _logger.LogCritical(ex, ex.Message);
+  //     return null;
+  //   }
+  // }
+
+  /// <summary> Loads a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  [RequireBaererAuth("read-<#=entity.Name.ToLower()#>")]
+  [HttpGet("{<#=pkParamName#>}"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>), Description = nameof(Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>))]
+  public <#=ressolvedItemName#> Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=pkParamName#>){
+    try {
+      return _Repo.Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkParamName#>);
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return null;
+    }
+  }
+
+  /// <summary> Loads <#= entity.NamePlural#>. </summary>
+  /// <param name="page">Number of the page, which should be returned </param>
+  /// <param name="pageSize">Max count of <#= entity.NamePlural#> which should be returned </param>
+  [RequireBaererAuth("read-<#=entity.Name.ToLower()#>")]
+  [HttpGet(), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Get<#= entity.NamePlural#>), Description = nameof(Get<#= entity.NamePlural#>))]
+  public <#=ressolvedItemName#>[] Get<#= entity.NamePlural#>([FromQuery] int page = 1, [FromQuery] int pageSize = 20){
+    try {
+      return _Repo.Get<#= entity.NamePlural#>(page, pageSize); 
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return null;
+    }
+  }
+
+
+  /// <summary> Loads <#= entity.NamePlural#> where values matching to the given filterExpression</summary>
+  /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")'</param>
+  /// <param name="sort">one or more property names which are used as sort order (before pagination)</param>
+  /// <param name="page">Number of the page, which should be returned</param>
+  /// <param name="pageSize">Max count of <#= entity.NamePlural#> which should be returned</param>
+  [RequireBaererAuth("read-<#=entity.Name.ToLower()#>")]
+  [HttpPost("search"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Search<#= entity.NamePlural#>), Description = nameof(Search<#= entity.NamePlural#>))]
+  public <#=ressolvedItemName#>[] Search<#= entity.NamePlural#>([FromBody][SwaggerRequestBody(Required=true)] String filterExpression, [FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] String sort = null ){
+    try {
+      return _Repo.Search<#= entity.NamePlural#>(filterExpression, sort, page, pageSize);
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return null;
+    }
+  }
+
+  /// <summary> Adds a new <#=ressolvedItemName#> and returns success. </summary>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values </param>
+  [RequireBaererAuth("add-<#=entity.Name.ToLower()#>")]
+  [HttpPost(), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(AddNew<#=ressolvedItemName#>), Description = nameof(AddNew<#=ressolvedItemName#>))]
+  public bool AddNew<#=ressolvedItemName#>([FromBody][SwaggerRequestBody(Required=true)] <#=ressolvedItemName#> <#=Ftl(ressolvedItemName)#>){
+    try {
+      return _Repo.AddNew<#=ressolvedItemName#>(<#=Ftl(ressolvedItemName)#>);  
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return false;
+    }
+  }
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the primary identifier fields within the given <#=ressolvedItemName#>. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be used to address the target record) </param>
+  [RequireBaererAuth("update-<#=entity.Name.ToLower()#>")]
+  [HttpPut(), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Update<#=ressolvedItemName#>), Description = nameof(Update<#=ressolvedItemName#>))]
+  public bool Update<#=ressolvedItemName#>([FromBody][SwaggerRequestBody(Required=true)] <#=ressolvedItemName#> <#=Ftl(ressolvedItemName)#>){
+    try {
+      return _Repo.Update<#=ressolvedItemName#>(<#=Ftl(ressolvedItemName)#>);   
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return false;
+    }
+  }
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  /// <param name="<#=Ftl(ressolvedItemName)#>"> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be ignored) </param>
+  [RequireBaererAuth("update-<#=entity.Name.ToLower()#>")]
+  [HttpPut("{<#=pkParamName#>}"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>), Description = nameof(Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>))]
+  public bool Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=pkParamName#>, [FromBody][SwaggerRequestBody(Required=true)] <#=ressolvedItemName#> <#=Ftl(ressolvedItemName)#>){
+    try {
+      return _Repo.Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkParamName#>, <#=Ftl(ressolvedItemName)#>);   
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return false;
+    }
+  }
+
+  /// <summary> Deletes a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
+  [RequireBaererAuth("delete-<#=entity.Name.ToLower()#>")]
+  [HttpDelete("{<#=pkParamName#>}"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>), Description = nameof(Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>))]
+  public bool Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkFieldType#> <#=pkParamName#>){
+    try {
+      return _Repo.Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>(<#=pkParamName#>);
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return false;
+    }
+  }
+
+<#
+    }      //useRestStyle
+    else { //useSoapStyle
+#>
+
+  /// <summary> Loads a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("read-<#=entity.Name.ToLower()#>")]
+  [HttpPost("getBy<#=pkNameInSignaure#>"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>), Description = nameof(Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>))]
+  public Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>([FromBody][SwaggerRequestBody(Required=true)] Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>Request args){
+    try {
+      return new Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response { @return = _Repo.Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>(args.<#=pkParamName#>)};
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response { @return = null};
+    }
+  }
+
+  /// <summary> Loads <#= entity.NamePlural#>. </summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("read-<#=entity.Name.ToLower()#>")]
+  [HttpPost("getAll"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Get<#= entity.NamePlural#>), Description = nameof(Get<#= entity.NamePlural#>))]
+  public Get<#= entity.NamePlural#>Response Get<#= entity.NamePlural#>([FromBody][SwaggerRequestBody(Required=true)] Get<#= entity.NamePlural#>Request args){
+    try {
+      return new Get<#= entity.NamePlural#>Response { @return = _Repo.Get<#= entity.NamePlural#>(args.page, args.pageSize) }; 
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new Get<#= entity.NamePlural#>Response { @return = null};
+    }
+  }
+
+  /// <summary> Loads <#= entity.NamePlural#> where values matching to the given filterExpression</summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("read-<#=entity.Name.ToLower()#>")]
+  [HttpPost("search"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Search<#= entity.NamePlural#>), Description = nameof(Search<#= entity.NamePlural#>))]
+  public Search<#= entity.NamePlural#>Response Search<#= entity.NamePlural#>([FromBody][SwaggerRequestBody(Required=true)] Search<#= entity.NamePlural#>Request args){
+    try {
+      return new Search<#= entity.NamePlural#>Response { @return = _Repo.Search<#= entity.NamePlural#>(args.filterExpression, args.sort, args.page, args.pageSize) };
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new Search<#= entity.NamePlural#>Response { @return = null};
+    }
+  }
+
+  /// <summary> Adds a new <#=ressolvedItemName#> and returns success. </summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("add-<#=entity.Name.ToLower()#>")]
+  [HttpPost("addNew"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(AddNew<#=ressolvedItemName#>), Description = nameof(AddNew<#=ressolvedItemName#>))]
+  public AddNew<#=ressolvedItemName#>Response AddNew<#=ressolvedItemName#>([FromBody][SwaggerRequestBody(Required=true)] AddNew<#=ressolvedItemName#>Request args){
+    try {
+      return new AddNew<#=ressolvedItemName#>Response { @return = _Repo.AddNew<#=ressolvedItemName#>(args.<#=Ftl(ressolvedItemName)#>)};  
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new AddNew<#=ressolvedItemName#>Response { @return = false};
+    }
+  }
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the primary identifier fields within the given <#=ressolvedItemName#>. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("update-<#=entity.Name.ToLower()#>")]
+  [HttpPost("update"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Update<#=ressolvedItemName#>), Description = nameof(Update<#=ressolvedItemName#>))]
+  public Update<#=ressolvedItemName#>Response Update<#=ressolvedItemName#>([FromBody][SwaggerRequestBody(Required=true)] Update<#=ressolvedItemName#>Request args){
+    try {
+      return new Update<#=ressolvedItemName#>Response { @return = _Repo.Update<#=ressolvedItemName#>(args.<#=Ftl(ressolvedItemName)#>)};   
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new Update<#=ressolvedItemName#>Response { @return = false};
+    }
+  }
+
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given <#=ressolvedItemName#> addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("update-<#=entity.Name.ToLower()#>")]
+  [HttpPost("updateBy<#=pkNameInSignaure#>"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>), Description = nameof(Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>))]
+  public Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>([FromBody][SwaggerRequestBody(Required=true)] Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>Request args){
+    try {
+      return new Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response { @return = _Repo.Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>(args.<#=pkParamName#>, args.<#=Ftl(ressolvedItemName)#>)};   
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response { @return = false};
+    }
+  }
+
+  /// <summary> Deletes a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="args"> request capsle containing the method arguments </param>
+  [RequireBaererAuth("delete-<#=entity.Name.ToLower()#>")]
+  [HttpPost("deleteBy<#=pkNameInSignaure#>"), Produces("application/json")]
+  [SwaggerOperation(OperationId = nameof(Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>), Description = nameof(Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>))]
+  public Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>([FromBody][SwaggerRequestBody(Required=true)] Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>Request args){
+    try {
+      return new Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response { @return = _Repo.Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>(args.<#=pkParamName#>)};
+    }
+    catch (Exception ex) {
+      _logger.LogCritical(ex, ex.Message);
+      return new Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response { @return = false};
+    }
+  }
+
+<#
+    }//useSoapStyle
+#>
+}
+<#
+  }//generateControllers
+
+  if (!useRestStyle && generateRequestCapsles){
+#>
+
+#region <#=entity.NamePlural#>
+
+public class Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>Request {
+  /// <summary> <#=pkFieldSummary#> </summary>
+  public <#=pkFieldType#> <#=pkParamName#> { get; set; }
+}
+public class Get<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public <#=ressolvedItemName#> @return { get; set; }
+}
+
+public class Get<#= entity.NamePlural#>Request {
+  /// <summary> Number of the page, which should be returned </summary>
+  public int page { get; set; } = 1;
+  /// <summary> Max count of <#= entity.NamePlural#> which should be returned </summary>
+  public int pageSize { get; set; } = 20;
+}
+public class Get<#= entity.NamePlural#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public <#=ressolvedItemName#>[] @return { get; set; }
+}
+
+public class Search<#= entity.NamePlural#>Request {
+  /// <summary> a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+  public String filterExpression { get; set; }
+  /// <summary> Number of the page, which should be returned </summary>
+  public int page { get; set; } = 1;
+  /// <summary> Max count of <#= entity.NamePlural#> which should be returned </summary>
+  public int pageSize { get; set; } = 20;
+  /// <summary> one or more property names which are used as sort order (before pagination) </summary>
+  public String sort { get; set; } = null;
+}
+public class Search<#= entity.NamePlural#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public <#=ressolvedItemName#>[] @return { get; set; }
+}
+
+public class AddNew<#=ressolvedItemName#>Request {
+  /// <summary> <#=ressolvedItemName#> containing the new values </summary>
+  public <#=ressolvedItemName#> <#=Ftl(ressolvedItemName)#> { get; set; }
+}
+public class AddNew<#=ressolvedItemName#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public bool @return { get; set; }
+}
+
+public class Update<#=ressolvedItemName#>Request {
+  /// <summary> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be used to address the target record) </summary>
+  public <#=ressolvedItemName#> <#=Ftl(ressolvedItemName)#> { get; set; }
+}
+public class Update<#=ressolvedItemName#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public bool @return { get; set; }
+}
+
+public class Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>Request {
+  /// <summary> <#=pkFieldSummary#> </summary>
+  public <#=pkFieldType#> <#=pkParamName#> { get; set; }
+  /// <summary> <#=ressolvedItemName#> containing the new values (the primary identifier fields within the given <#=ressolvedItemName#> will be ignored) </summary>
+  public <#=ressolvedItemName#> <#=Ftl(ressolvedItemName)#> { get; set; }
+}
+public class Update<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public bool @return { get; set; }
+}
+
+public class Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>Request {
+  /// <summary> <#=pkFieldSummary#> </summary>
+  public <#=pkFieldType#> <#=pkParamName#> { get; set; }
+}
+public class Delete<#=ressolvedItemName#>By<#=pkNameInSignaure#>Response {
+  /// <summary> the method-result of the executed operation </summary>
+  public bool @return { get; set; }
+}
+
+#endregion
+<#
+  }
+
+}// entity-loop
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+}
+<#
+}
+
+#><#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//     GENERATOR-CODE                                                                        //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+string Ftl(string input){  
+  if(Char.IsUpper(input[0])){
+    return Char.ToLower(input[0]).ToString() + input.Substring(1, input.Length - 1);
+  }
+  return input;
+}
+
+class SchemaRoot{
+
+  public string DescriptionFormat = "";
+
+  public string TimestampUtc = "";
+  public string SemanticVersion = "";
+
+  public EntitySchema[] Entities = {};
+
+  public RelationSchema[] Relations = {};
+
+}
+
+class EntitySchema{
+
+  public string Name = "";
+  public string NamePlural = "";
+  public string InheritedEntityName = null;
+  public string Summary = "";
+
+  public bool IsBlEntrypoint = false;
+
+  public string PrimaryKeyIndexName = "";
+  public IndexSchema[] Indices = {};
+
+  public FieldSchema[] Fields = {};
+
+}
+
+class FieldSchema{
+
+  public string Name = "";
+  public string Type = "";
+  public int MaxLength = 0;
+
+  public string Summary = "";
+  public bool SystemInternal = false;
+  public bool FixedAfterCreation = false;
+
+  public bool Required = true;
+  public string DefaultValue = null;
+  public bool DbGeneratedIdentity = false;
+
+}
+
+class IndexSchema{
+
+  public string Name = "";
+  public bool Unique = false;
+  public string[] MemberFieldNames = {};
+
+}
+
+class RelationSchema{
+
+  public string Name = "";
+
+  public string PrimaryEntityName = "";
+  public string ForeignEntityName = "";
+  public string ForeignKeyIndexName = "";
+
+  public bool IsLookupRelation = true;
+  public bool PrimaryEntityIsOptional = false;
+  public bool ForeignEntityIsMultiple = true;
+
+  public string PrimaryNavigationName = "";
+  public string ForeignNavigationName = "";
+  public string PrimaryNavigationSummary = "";
+  public string ForeignNavigationSummary = "";
+
+  public bool CascadeDelete = false;
+
+}
+
+#>
