@@ -18,9 +18,10 @@
 
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="3.1.1" />
+    <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
-    <PackageReference Include="ORSCF.StudyWorkflowDefinition.Contract" Version="1.6.0-localbuild2" />
+    <PackageReference Include="ORSCF.StudyWorkflowDefinition.Contract" Version="1.6.0.8091" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
     <PackageReference Include="UJMW.Tools.CodeGen" Version="1.0.19.457" />
