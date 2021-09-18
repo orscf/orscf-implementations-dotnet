@@ -1,4 +1,4 @@
-﻿using MedicalResearch.VisitData;
+﻿using MedicalResearch.VisitData.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -46,10 +46,11 @@
     <PackageReference Include="jose-jwt" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
+    <PackageReference Include="ORSCF.VisitData.Contract" Version="1.6.0-localbuild2" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
-    <PackageReference Include="UJMW.Tools.CodeGen" Version="1.0.17-localbuild" />
+    <PackageReference Include="UJMW.Tools.CodeGen" Version="1.0.19.457" />
   </ItemGroup>
 
   <ItemGroup>

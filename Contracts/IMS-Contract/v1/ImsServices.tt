@@ -19,7 +19,7 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\net5.0\\ORSCF.IdentityManagement.Model.dll"),
+           inputFile = Host.ResolvePath("..\\..\\(Stage)\\Bin\\net5.0\\ORSCF.IdentityManagement.Contract.dll"),
            interfaceTypeNamePattern = "MedicalResearch.IdentityManagement.IOrscf*Service",
 
            requireXmlDocForNamespaces = new string[] { 

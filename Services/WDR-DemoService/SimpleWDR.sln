@@ -7,13 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleWDR.BL", "SimpleWDR.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleWDR.WebAPI", "SimpleWDR.WebAPI\SimpleWDR.WebAPI.csproj", "{EF9217D6-B06D-4D72-817F-BE8C60D0BD8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleWDR.TestApp", "SimpleWDR.TestApp\SimpleWDR.TestApp.csproj", "{59A6C370-FA46-4308-A3D8-2AC84A35D9C3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EF9217D6-B06D-4D72-817F-BE8C60D0BD8D} = {EF9217D6-B06D-4D72-817F-BE8C60D0BD8D}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{CB25E81B-6869-4F00-A2AA-7F3F9A200B07}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,16 +21,9 @@ Global
 		{EF9217D6-B06D-4D72-817F-BE8C60D0BD8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF9217D6-B06D-4D72-817F-BE8C60D0BD8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF9217D6-B06D-4D72-817F-BE8C60D0BD8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59A6C370-FA46-4308-A3D8-2AC84A35D9C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59A6C370-FA46-4308-A3D8-2AC84A35D9C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59A6C370-FA46-4308-A3D8-2AC84A35D9C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59A6C370-FA46-4308-A3D8-2AC84A35D9C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{59A6C370-FA46-4308-A3D8-2AC84A35D9C3} = {CB25E81B-6869-4F00-A2AA-7F3F9A200B07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {174839FD-71CD-40F0-9F70-CAE01B1C345A}

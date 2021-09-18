@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(nuspec)", "(nuspec)", "{97541198-64F3-4A75-A186-4C2B2D533BE6}"
+	ProjectSection(SolutionItems) = preProject
+		ORSCF.BillingData.Connector.nuspec = ORSCF.BillingData.Connector.nuspec
+		ORSCF.IdentityManagement.Connector.nuspec = ORSCF.IdentityManagement.Connector.nuspec
+		ORSCF.StudyManagement.Connector.nuspec = ORSCF.StudyManagement.Connector.nuspec
+		ORSCF.VisitData.Connector.nuspec = ORSCF.VisitData.Connector.nuspec
+		ORSCF.StudyWorkflowDefinition.Connector.nuspec = ORSCF.StudyWorkflowDefinition.Connector.nuspec
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillingData.Connector", "BDR-Connector\ConnectorLib\BillingData.Connector.csproj", "{CD62598A-D786-4796-9807-9430DF553D43}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityManagement.Connector", "IMS-Connector\ConnectorLib\IdentityManagement.Connector.csproj", "{C1E93723-B7CC-43B6-81F3-466DA45910F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitData.Connector", "VDR-Connector\ConnectorLib\VisitData.Connector.csproj", "{FEA474CA-040F-4582-999F-87B1E4924507}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyManagement.Connector", "SMS-Connector\ConnectorLib\StudyManagement.Connector.csproj", "{21B80DF6-3800-471E-B21A-DD3E1841907E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyWorkflowDefinition.Connector", "WDR-Connector\ConnectorLib\StudyWorkflowDefinition.Connector.csproj", "{F7C0824A-76B7-4969-820E-92BB153658A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestClients", "TestClients", "{E9D84280-F508-4921-A5B8-43AC15EDE535}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConnectorLibs", "ConnectorLibs", "{002CC4F4-6E59-4E22-95DD-BDD190CBF964}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDR.TestClient", "WDR-Connector\TestClient\WDR.TestClient.csproj", "{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDR-TestClient", "VDR-Connector\TestClient\VDR-TestClient.csproj", "{62382CF0-23B9-459C-822C-05EE4FB19128}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD62598A-D786-4796-9807-9430DF553D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD62598A-D786-4796-9807-9430DF553D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD62598A-D786-4796-9807-9430DF553D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD62598A-D786-4796-9807-9430DF553D43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E93723-B7CC-43B6-81F3-466DA45910F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E93723-B7CC-43B6-81F3-466DA45910F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E93723-B7CC-43B6-81F3-466DA45910F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E93723-B7CC-43B6-81F3-466DA45910F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEA474CA-040F-4582-999F-87B1E4924507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEA474CA-040F-4582-999F-87B1E4924507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEA474CA-040F-4582-999F-87B1E4924507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEA474CA-040F-4582-999F-87B1E4924507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B80DF6-3800-471E-B21A-DD3E1841907E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B80DF6-3800-471E-B21A-DD3E1841907E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B80DF6-3800-471E-B21A-DD3E1841907E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B80DF6-3800-471E-B21A-DD3E1841907E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7C0824A-76B7-4969-820E-92BB153658A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C0824A-76B7-4969-820E-92BB153658A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C0824A-76B7-4969-820E-92BB153658A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C0824A-76B7-4969-820E-92BB153658A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62382CF0-23B9-459C-822C-05EE4FB19128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62382CF0-23B9-459C-822C-05EE4FB19128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62382CF0-23B9-459C-822C-05EE4FB19128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62382CF0-23B9-459C-822C-05EE4FB19128}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD62598A-D786-4796-9807-9430DF553D43} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
+		{C1E93723-B7CC-43B6-81F3-466DA45910F1} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
+		{FEA474CA-040F-4582-999F-87B1E4924507} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
+		{21B80DF6-3800-471E-B21A-DD3E1841907E} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
+		{F7C0824A-76B7-4969-820E-92BB153658A1} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
+		{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68} = {E9D84280-F508-4921-A5B8-43AC15EDE535}
+		{62382CF0-23B9-459C-822C-05EE4FB19128} = {E9D84280-F508-4921-A5B8-43AC15EDE535}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {174839FD-71CD-40F0-9F70-CAE01B1C345A}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>ORSCF.IdentityManagement.Contract</AssemblyName>
+    <RootNamespace>MedicalResearch.IdentityManagement</RootNamespace>
+    <Version>1.6.0</Version>
+    <Company>ORSCF.org</Company>
+    <Authors>ORSCF.org</Authors>
+    <Copyright>ORSCF.org</Copyright>
+    <Product>Open Research Study Communication Format</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\(Stage)\Bin\net5.0\ORSCF.IdentityManagement.Contract.xml</DocumentationFile>
+    <OutputPath>..\(Stage)\Bin\net5.0</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\(Stage)\Bin\net5.0</OutputPath>
+    <DocumentationFile>..\(Stage)\Bin\net5.0\ORSCF.IdentityManagement.Contract.xml</DocumentationFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityAnnotations" Version="2.2.0.423" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="v1\ImsServices.md">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImsServices.tt</DependentUpon>
+    </None>
+    <None Update="v1\ImsServices.tt">
+      <LastGenOutput>ImsServices.md</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="v1\Models.tt">
+      <LastGenOutput>Models.Generated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="v1\RepoInterfaces.tt">
+      <LastGenOutput>RepoInterfaces.Generated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="v1\Models.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Update="v1\RepoInterfaces.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RepoInterfaces.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

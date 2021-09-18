@@ -5,8 +5,18 @@ Provides an workflow-level API for interating with a  'WorkflowDefinitionReposit
 
 
 
+## .GetWorkflowDefintion
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|workflowDefinitionName|String|**IN**-Param (required)|
+|workflowVersion|String|**IN**-Param (required)|
+**return value:** [ResearchStudyDefinition](#MedicalResearch.Workflow.Model.ResearchStudyDefinition)
+
+
+
 ## .GetApiVersion
-returns the Version of the API itself, which can be used to
+returns the Version of the API itself, which can be used for
 backward compatibility within inhomogeneous infrastructures
 #### Parameters:
 |Name|Type|Description|
@@ -17,21 +27,13 @@ backward compatibility within inhomogeneous infrastructures
 
 
 ## .HasAccess
+returns if the authenticated accessor of the
+API has the permission to use this service
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
 |(none)|||
 **return value:** Boolean
-
-
-
-## .GetWorkflowDefintion
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|workflowDefinitionName|String|**IN**-Param (required)|
-|workflowVersion|String|**IN**-Param (required)|
-**return value:** [ResearchStudyDefinition](#MedicalResearch.Workflow.Model.ResearchStudyDefinition)
 # WorkflowDesignerService
 Provides an workflow-level API for interating with a  'WorkflowDefinitionRepository' (WDR)
 
@@ -40,7 +42,7 @@ Provides an workflow-level API for interating with a  'WorkflowDefinitionReposit
 
 
 ## .GetApiVersion
-returns the Version of the API itself, which can be used to
+returns the Version of the API itself, which can be used for
 backward compatibility within inhomogeneous infrastructures
 #### Parameters:
 |Name|Type|Description|
@@ -51,6 +53,8 @@ backward compatibility within inhomogeneous infrastructures
 
 
 ## .HasAccess
+returns if the authenticated accessor of the
+API has the permission to use this service
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|

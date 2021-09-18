@@ -19,8 +19,8 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\bin\\ORSCF.VisitData.Model.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.VisitData.I*",
+           inputFile = Host.ResolvePath("..\\bin\\ORSCF.VisitData.Contract.dll"),
+           interfaceTypeNamePattern = "MedicalResearch.VisitData.StoreAccess.I*",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
@@ -32,17 +32,19 @@
            indentDepthPerLevel = 2,
            outputNamespace = "MedicalResearch.VisitData.WebAPI",
            customImports = new String[] {
+             "MedicalResearch.VisitData.StoreAccess"
            },
 
          // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
            
            generateSwashbuckleAttributesForControllers = true,
+           //generateGroupName = "StoreAccessV1",
 
            customAttributesPerControllerMethod = "RequireBaererAuth(\"{O}\")",
 
            fillFaultPropertyOnException = true,
            exceptionDisplay = "ex.Message", //change this into an extension-method to do some
-           //                                    custom evaluation before exposing too much details
+           //                                 custom evaluation before exposing too much details
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

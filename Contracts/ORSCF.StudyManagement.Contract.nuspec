@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ORSCF.StudyManagement.Contract</id>
+    <version>1.6.0-localbuild</version>
+    <title>ORSCF - StudyManagement Contract</title>
+    <authors>ORSCF.org</authors>
+    <owners>ORSCF.org</owners>
+    <copyright>ORSCF.org</copyright>
+    <description>basic domain model of the Open Research Study Communication Format</description>
+    <tags>Research Study Clinical Trial ORSCF</tags>
+    <!-- https://spdx.org/licenses/ -->
+    <license type="expression">Apache-2.0</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://www.orscf.org</projectUrl>
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="EntityAnnotations" version="[2.2.0,2.9999]" />
+        <dependency id="Hl7.Fhir.R4" version="[3.5.0,3.9999]" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
+    <file src="PackageIcon.png" target="" />
+    <!-- .NET 5.0 -->
+    <file src="(Stage)\Bin\net5.0\ORSCF.StudyManagement.Contract.dll" target="lib/net5.0" />
+    <file src="(Stage)\Bin\net5.0\ORSCF.StudyManagement.Contract.xml" target="lib/net5.0" />
+    <file src="(Stage)\Bin\net5.0\ORSCF.StudyManagement.Contract.pdb" target="lib/net5.0" />
+  </files>
+</package>

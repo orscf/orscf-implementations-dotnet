@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace MedicalResearch.IdentityManagement.StoreAccess {
 
-/// <summary> Provides CRUD access to stored AdditionalSubjectParticipationIdentifiers (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored AdditionalSubjectParticipationIdentifiers (based on schema version '1.5.0') </summary>
 public partial interface IAdditionalSubjectParticipationIdentifiers {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding AdditionalSubjectParticipationIdentifiers.</summary>
@@ -52,7 +52,7 @@ public class AdditionalSubjectParticipationIdentifierIdentity {
   public String IdentifierName;
 }
 
-/// <summary> Provides CRUD access to stored SubjectParticipations (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored SubjectParticipations (based on schema version '1.5.0') </summary>
 public partial interface ISubjectParticipations {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding SubjectParticipations.</summary>
@@ -93,7 +93,7 @@ public partial interface ISubjectParticipations {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.5.0') </summary>
 public partial interface IStudyExecutionScopes {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding StudyExecutionScopes.</summary>
@@ -134,7 +134,7 @@ public partial interface IStudyExecutionScopes {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyScopes (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyScopes (based on schema version '1.5.0') </summary>
 public partial interface IStudyScopes {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding StudyScopes.</summary>
@@ -183,7 +183,7 @@ public class StudyScopeIdentity {
   public String StudyWorkflowVersion;
 }
 
-/// <summary> Provides CRUD access to stored SubjectAddresses (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored SubjectAddresses (based on schema version '1.5.0') </summary>
 public partial interface ISubjectAddresses {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding SubjectAddresses.</summary>
@@ -224,7 +224,7 @@ public partial interface ISubjectAddresses {
 
 }
 
-/// <summary> Provides CRUD access to stored SubjectIdentities (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored SubjectIdentities (based on schema version '1.5.0') </summary>
 public partial interface ISubjectIdentities {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding SubjectIdentities.</summary>

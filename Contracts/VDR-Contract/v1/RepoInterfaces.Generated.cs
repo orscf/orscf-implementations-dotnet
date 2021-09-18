@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace MedicalResearch.VisitData.StoreAccess {
 
-/// <summary> Provides CRUD access to stored DataRecordings (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored DataRecordings (based on schema version '1.5.0') </summary>
 public partial interface IDataRecordings {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding DataRecordings.</summary>
@@ -46,7 +46,7 @@ public partial interface IDataRecordings {
 
 }
 
-/// <summary> Provides CRUD access to stored Visits (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored Visits (based on schema version '1.5.0') </summary>
 public partial interface IVisits {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding Visits.</summary>
@@ -87,7 +87,7 @@ public partial interface IVisits {
 
 }
 
-/// <summary> Provides CRUD access to stored DrugApplyments (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored DrugApplyments (based on schema version '1.5.0') </summary>
 public partial interface IDrugApplyments {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding DrugApplyments.</summary>
@@ -128,7 +128,7 @@ public partial interface IDrugApplyments {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyEvents (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyEvents (based on schema version '1.5.0') </summary>
 public partial interface IStudyEvents {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding StudyEvents.</summary>
@@ -169,7 +169,7 @@ public partial interface IStudyEvents {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.5.0') </summary>
 public partial interface IStudyExecutionScopes {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding StudyExecutionScopes.</summary>
@@ -210,7 +210,7 @@ public partial interface IStudyExecutionScopes {
 
 }
 
-/// <summary> Provides CRUD access to stored Treatments (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored Treatments (based on schema version '1.5.0') </summary>
 public partial interface ITreatments {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding Treatments.</summary>

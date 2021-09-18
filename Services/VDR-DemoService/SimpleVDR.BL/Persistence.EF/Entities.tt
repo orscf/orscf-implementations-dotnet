@@ -21,7 +21,7 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "..\\ORSCF-VisitData.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\..\\(ORSCF) orscf-specification\\VisitData\\ORSCF-VisitData.Schema.json";
 
        const string outputNamespace = "MedicalResearch.VisitData.Persistence";
        const string entityClassNamePattern = "{E}Entity";
@@ -61,6 +61,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using MedicalResearch.VisitData.Model;
 <#
 }
 if(!String.IsNullOrWhiteSpace(outputNamespace)) {

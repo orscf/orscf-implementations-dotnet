@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace MedicalResearch.Workflow.StoreAccess {
 
-/// <summary> Provides CRUD access to stored ResearchStudyDefinitions (based on schema version '1.4.2') </summary>
+/// <summary> Provides CRUD access to stored ResearchStudyDefinitions (based on schema version '1.5.0') </summary>
 public partial interface IResearchStudyDefinitions {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding ResearchStudyDefinitions.</summary>

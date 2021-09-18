@@ -1,5 +1,5 @@
 ﻿
-namespace MedicalResearch.VisitData.TestClient {
+namespace TestClient {
   partial class FormMain {
     /// <summary>
     ///  Required designer variable.

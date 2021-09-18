@@ -23,8 +23,8 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\bin\\ORSCF.VisitData.Model.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.VisitData.I*",
+           inputFile = Host.ResolvePath("..\\bin\\ORSCF.VisitData.Contract.dll"),
+           interfaceTypeNamePattern = "MedicalResearch.VisitData.StoreAccess.I*",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"

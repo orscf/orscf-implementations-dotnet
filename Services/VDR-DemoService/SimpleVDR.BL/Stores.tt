@@ -21,7 +21,7 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "ORSCF-VisitData.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\(ORSCF) orscf-specification\\VisitData\\ORSCF-VisitData.Schema.json";
 
        const string outputNamespace = "MedicalResearch.VisitData.Persistence.EF";
 
@@ -35,6 +35,8 @@
 #>
 using MedicalResearch.VisitData;
 using MedicalResearch.VisitData.Persistence;
+using MedicalResearch.VisitData.Model;
+using MedicalResearch.VisitData.StoreAccess;
 <#
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

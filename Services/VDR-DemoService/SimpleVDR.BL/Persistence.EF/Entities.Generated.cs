@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using MedicalResearch.VisitData.Model;
 
 namespace MedicalResearch.VisitData.Persistence {
 

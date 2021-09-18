@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace MedicalResearch.BillingData.StoreAccess {
 
-/// <summary> Provides CRUD access to stored BillableTasks (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored BillableTasks (based on schema version '1.5.0') </summary>
 public partial interface IBillableTasks {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding BillableTasks.</summary>
@@ -46,7 +46,7 @@ public partial interface IBillableTasks {
 
 }
 
-/// <summary> Provides CRUD access to stored BillableVisits (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored BillableVisits (based on schema version '1.5.0') </summary>
 public partial interface IBillableVisits {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding BillableVisits.</summary>
@@ -87,7 +87,7 @@ public partial interface IBillableVisits {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.5.0') </summary>
 public partial interface IStudyExecutionScopes {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding StudyExecutionScopes.</summary>
@@ -128,7 +128,7 @@ public partial interface IStudyExecutionScopes {
 
 }
 
-/// <summary> Provides CRUD access to stored BillingDemands (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored BillingDemands (based on schema version '1.5.0') </summary>
 public partial interface IBillingDemands {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding BillingDemands.</summary>
@@ -169,7 +169,7 @@ public partial interface IBillingDemands {
 
 }
 
-/// <summary> Provides CRUD access to stored Invoices (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored Invoices (based on schema version '1.5.0') </summary>
 public partial interface IInvoices {
 
   //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding Invoices.</summary>

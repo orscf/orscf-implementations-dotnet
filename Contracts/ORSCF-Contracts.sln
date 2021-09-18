@@ -3,24 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B755BBA1-92FA-46E7-B3A7-C253E9BEBCA1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(nuspec)", "(nuspec)", "{B755BBA1-92FA-46E7-B3A7-C253E9BEBCA1}"
 	ProjectSection(SolutionItems) = preProject
-		ORSCF.BillingData.Model.nuspec = ORSCF.BillingData.Model.nuspec
-		ORSCF.IdentityManagement.Model.nuspec = ORSCF.IdentityManagement.Model.nuspec
-		ORSCF.StudyManagement.Model.nuspec = ORSCF.StudyManagement.Model.nuspec
-		ORSCF.StudyWorkflowDefinition.Model.nuspec = ORSCF.StudyWorkflowDefinition.Model.nuspec
-		ORSCF.VisitData.Model.nuspec = ORSCF.VisitData.Model.nuspec
+		ORSCF.BillingData.Contract.nuspec = ORSCF.BillingData.Contract.nuspec
+		ORSCF.IdentityManagement.Contract.nuspec = ORSCF.IdentityManagement.Contract.nuspec
+		ORSCF.StudyManagement.Contract.nuspec = ORSCF.StudyManagement.Contract.nuspec
+		ORSCF.StudyWorkflowDefinition.Contract.nuspec = ORSCF.StudyWorkflowDefinition.Contract.nuspec
+		ORSCF.VisitData.Contract.nuspec = ORSCF.VisitData.Contract.nuspec
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillingData.Model", "BDR-Contract\BillingData.Model.csproj", "{8E14149F-8DCC-4A6F-8326-5231AF51E798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillingData.Contract", "BDR-Contract\BillingData.Contract.csproj", "{8E14149F-8DCC-4A6F-8326-5231AF51E798}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityManagement.Model", "IMS-Contract\IdentityManagement.Model.csproj", "{DA1DAB49-9B39-4869-A437-192446BA3E79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityManagement.Contract", "IMS-Contract\IdentityManagement.Contract.csproj", "{DA1DAB49-9B39-4869-A437-192446BA3E79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyManagement.Model", "SMS-Contract\StudyManagement.Model.csproj", "{5C120BB0-8B57-4626-ABC4-B1C6CE5E3027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyManagement.Contract", "SMS-Contract\StudyManagement.Contract.csproj", "{5C120BB0-8B57-4626-ABC4-B1C6CE5E3027}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitData.Model", "VDR-Contract\VisitData.Model.csproj", "{3E3C30A6-E538-4AF2-A4A0-2B211E0D872D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitData.Contract", "VDR-Contract\VisitData.Contract.csproj", "{3E3C30A6-E538-4AF2-A4A0-2B211E0D872D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyWorkflowDefinition.Model", "WDR-Contract\StudyWorkflowDefinition.Model.csproj", "{67D37D91-7411-4119-A7FA-D8C6DAEF694A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyWorkflowDefinition.Contract", "WDR-Contract\StudyWorkflowDefinition.Contract.csproj", "{67D37D91-7411-4119-A7FA-D8C6DAEF694A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

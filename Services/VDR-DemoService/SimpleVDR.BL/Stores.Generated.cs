@@ -1,5 +1,7 @@
 using MedicalResearch.VisitData;
 using MedicalResearch.VisitData.Persistence;
+using MedicalResearch.VisitData.Model;
+using MedicalResearch.VisitData.StoreAccess;
 using System;
 using System.Data;
 using System.Data.AccessControl;
@@ -11,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MedicalResearch.VisitData.Persistence.EF {
 
-/// <summary> Provides CRUD access to stored DataRecordings (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored DataRecordings (based on schema version '1.5.0') </summary>
 public partial class DataRecordingStore : IDataRecordings {
 
   private ILogger _Logger = null;
@@ -243,7 +245,7 @@ public partial class DataRecordingStore : IDataRecordings {
 
 }
 
-/// <summary> Provides CRUD access to stored Visits (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored Visits (based on schema version '1.5.0') </summary>
 public partial class VisitStore : IVisits {
 
   private ILogger _Logger = null;
@@ -475,7 +477,7 @@ public partial class VisitStore : IVisits {
 
 }
 
-/// <summary> Provides CRUD access to stored DrugApplyments (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored DrugApplyments (based on schema version '1.5.0') </summary>
 public partial class DrugApplymentStore : IDrugApplyments {
 
   private ILogger _Logger = null;
@@ -707,7 +709,7 @@ public partial class DrugApplymentStore : IDrugApplyments {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyEvents (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyEvents (based on schema version '1.5.0') </summary>
 public partial class StudyEventStore : IStudyEvents {
 
   private ILogger _Logger = null;
@@ -939,7 +941,7 @@ public partial class StudyEventStore : IStudyEvents {
 
 }
 
-/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.5.0') </summary>
 public partial class StudyExecutionScopeStore : IStudyExecutionScopes {
 
   private ILogger _Logger = null;
@@ -1168,7 +1170,7 @@ public partial class StudyExecutionScopeStore : IStudyExecutionScopes {
 
 }
 
-/// <summary> Provides CRUD access to stored Treatments (based on schema version '1.3.0') </summary>
+/// <summary> Provides CRUD access to stored Treatments (based on schema version '1.5.0') </summary>
 public partial class TreatmentStore : ITreatments {
 
   private ILogger _Logger = null;

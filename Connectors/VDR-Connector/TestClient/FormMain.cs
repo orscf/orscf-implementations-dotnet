@@ -1,13 +1,20 @@
 ﻿using MedicalResearch.VisitData;
-using MedicalResearch.VisitData.WebAPI;
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
+using MedicalResearch.VisitData.WebAPI;
+using MedicalResearch.VisitData.Model;
+using MedicalResearch.VisitData.StoreAccess;
 
-namespace MedicalResearch.VisitData.TestClient {
+namespace TestClient {
 
   public partial class FormMain : Form {
 
@@ -211,7 +218,7 @@ namespace MedicalResearch.VisitData.TestClient {
 
       gCboProfile.Items.Add("default");
 
-      var registryNode = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("SOFTWARE\\ORSCF\\VdrTestClient");
+      var registryNode = Application.UserAppDataRegistry.CreateSubKey("ORSCF\\VdrTestClient");
       var names = registryNode.GetValueNames().
         Where((n) => n.EndsWith(".Url")).
         Select((n) => n.Substring(0, n.LastIndexOf(".Url"))).
@@ -229,7 +236,7 @@ namespace MedicalResearch.VisitData.TestClient {
     }
 
     private void LoadSelectedProfile() {
-      var registryNode = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("SOFTWARE\\ORSCF\\VdrTestClient");
+      var registryNode = Application.UserAppDataRegistry.CreateSubKey("ORSCF\\VdrTestClient");
       gTxtUrl.Text = registryNode.GetValue(gCboProfile.Text + ".Url", "") as string;
       gTxtToken.Text = registryNode.GetValue(gCboProfile.Text + ".Token","") as string;
       registryNode.Close();
@@ -241,7 +248,7 @@ namespace MedicalResearch.VisitData.TestClient {
         return;
       }
 
-      var registryNode = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("SOFTWARE\\ORSCF\\VdrTestClient");
+      var registryNode = Application.UserAppDataRegistry.CreateSubKey("ORSCF\\VdrTestClient");
 
       if(string.IsNullOrWhiteSpace(gTxtUrl.Text) && string.IsNullOrWhiteSpace(gTxtToken.Text)) {
         registryNode.DeleteValue(gCboProfile.Text + ".Url", false);
@@ -293,6 +300,11 @@ namespace MedicalResearch.VisitData.TestClient {
         gTxtJson.Text = JsonConvert.SerializeObject(obj, Formatting.Indented);
       }
     }
+
+
+
+
+
 
     private void InitModelClasses() {
       gCboClass.Items.Clear();

@@ -5,26 +5,6 @@ Provides an workflow-level API for interating with a 'IdentityManagementSystem' 
 
 
 
-## .GetApiVersion
-returns the Version of the API itself, which can be used to
-backward compatibility within inhomogeneous infrastructures
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** String
-
-
-
-## .HasAccess
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** Boolean
-
-
-
 ## .EnrollIdentityAsSubject
 returns the null on failure or the assigned SubjectIdentifier on success
 #### Parameters:
@@ -59,15 +39,11 @@ returns the null on failure or the assigned SubjectIdentifier on success
 |researchStudyName|String|**IN**-Param (required)|
 |subjectId|String|**IN**-Param (required)|
 **return value:** String
-# IdentityManagementService
-Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
-
-### Methods:
 
 
 
 ## .GetApiVersion
-returns the Version of the API itself, which can be used to
+returns the Version of the API itself, which can be used for
 backward compatibility within inhomogeneous infrastructures
 #### Parameters:
 |Name|Type|Description|
@@ -78,6 +54,54 @@ backward compatibility within inhomogeneous infrastructures
 
 
 ## .HasAccess
+returns if the authenticated accessor of the
+API has the permission to use this service
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|(none)|||
+**return value:** Boolean
+# IdentityManagementService
+Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
+
+### Methods:
+
+
+
+## .GetUnblindingTokenInfos
+returns the list of currently exposed unblinding-tokens
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|(none)|||
+**return value:** [UnblindingTokenInfo](#MedicalResearch.IdentityManagement.Model.UnblindingTokenInfo)[] *(array)*
+
+
+
+## .UnlockUnblindingToken
+unlocks an unblinding-token to be usable for retrieval of indentity information
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|token|String|**IN**-Param (required)|
+no return value (void)
+
+
+
+## .GetApiVersion
+returns the Version of the API itself, which can be used for
+backward compatibility within inhomogeneous infrastructures
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|(none)|||
+**return value:** String
+
+
+
+## .HasAccess
+returns if the authenticated accessor of the
+API has the permission to use this service
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
@@ -87,26 +111,6 @@ backward compatibility within inhomogeneous infrastructures
 Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
 
 ### Methods:
-
-
-
-## .GetApiVersion
-returns the Version of the API itself, which can be used to
-backward compatibility within inhomogeneous infrastructures
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** String
-
-
-
-## .HasAccess
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** Boolean
 
 
 
@@ -145,6 +149,28 @@ returns an unblindingToken which is not activated
 
 
 
+## .GetApiVersion
+returns the Version of the API itself, which can be used for
+backward compatibility within inhomogeneous infrastructures
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|(none)|||
+**return value:** String
+
+
+
+## .HasAccess
+returns if the authenticated accessor of the
+API has the permission to use this service
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|(none)|||
+**return value:** Boolean
+
+
+
 # Models:
 
 
@@ -165,3 +191,16 @@ returns an unblindingToken which is not activated
 |Country|String|(optional): two letter ISO code|
 |DateOfBirth|DateTime? *(nullable)*|(optional)|
 |DateOfDeath|DateTime? *(nullable)*|(optional)|
+
+
+
+## MedicalResearch.IdentityManagement.Model.UnblindingTokenInfo
+#### Fields:
+|Name|Type|Description|
+|----|----|-----------|
+|token|String|(optional)|
+|state|Int32? *(nullable)*|(optional)|
+|researchStudyName|String|(optional)|
+|subjectId|String|(optional)|
+|reason|String|(optional)|
+|requestingPerson|String|(optional)|

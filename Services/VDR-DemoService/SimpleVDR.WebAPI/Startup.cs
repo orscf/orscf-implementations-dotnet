@@ -12,6 +12,8 @@ using MedicalResearch.VisitData.Persistence;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using System.IO;
+using MedicalResearch.VisitData.StoreAccess;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MedicalResearch.VisitData.WebAPI {
 
@@ -25,7 +27,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     private static IConfiguration _Configuration = null;
     public static IConfiguration Configuration { get { return _Configuration; } }
 
-    const string _ApiTitle = "Visit Data Repository API";
+    const string _ApiTitle = "ORSCF VisitData";
     Version _ApiVersion = null;
 
     public void ConfigureServices(IServiceCollection services) {
@@ -38,7 +40,7 @@ namespace MedicalResearch.VisitData.WebAPI {
       VisitDataDbContext.Migrate();
 
       string outDir = AppDomain.CurrentDomain.BaseDirectory;
-     
+
       services.AddSingleton<IDataRecordings, DataRecordingStore>();
       services.AddSingleton<IVisits, VisitStore>();
       services.AddSingleton<IDrugApplyments, DrugApplymentStore>();
@@ -47,14 +49,15 @@ namespace MedicalResearch.VisitData.WebAPI {
       services.AddSingleton<ITreatments, TreatmentStore>();
 
       services.AddControllers();
-      
-      services.AddSwaggerGen(c => {
 
+      services.AddSwaggerGen(c => {
+        
         c.EnableAnnotations(true, true);
 
         c.IncludeXmlComments(outDir + "ORSCF.SimpleVisitDataRepository.WebAPI.xml", true);
         c.IncludeXmlComments(outDir + "ORSCF.SimpleVisitDataRepository.BL.xml", true);
-        c.IncludeXmlComments(outDir + "ORSCF.VisitData.Model.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.VisitData.Contract.xml", true);
+        c.IncludeXmlComments(outDir + "Hl7.Fhir.R4.Core.xml", true);
 
         #region bearer
 
@@ -89,12 +92,26 @@ namespace MedicalResearch.VisitData.WebAPI {
         c.UseInlineDefinitionsForEnums();
 
         c.SwaggerDoc(
-          "v" + _ApiVersion.ToString(1),
+          "StoreAccessV1",
           new OpenApiInfo {
-            Title = _ApiTitle,
+            Title = _ApiTitle + "-StoreAccess API ",
             Version = _ApiVersion.ToString(3),
             Description = "stores data for research study related visits",
-            Contact = new OpenApiContact { 
+            Contact = new OpenApiContact {
+              Name = "Open Research Study Communication Format",
+              Email = "info@orscf.org",
+              Url = new Uri("https://orscf.org")
+            }
+          }
+        );
+
+        c.SwaggerDoc(
+          "BlApiV1",
+          new OpenApiInfo {
+            Title = _ApiTitle + "-BL API ",
+            Version = _ApiVersion.ToString(3),
+            Description = "stores data for research study related visits",
+            Contact = new OpenApiContact {
               Name = "Open Research Study Communication Format",
               Email = "info@orscf.org",
               Url = new Uri("https://orscf.org")
@@ -103,8 +120,9 @@ namespace MedicalResearch.VisitData.WebAPI {
         );
 
       });
-    }
 
+    }
+    
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerfactory) {
 
@@ -135,9 +153,11 @@ namespace MedicalResearch.VisitData.WebAPI {
           c.DefaultModelsExpandDepth(2);
           //c.ConfigObject.DefaultModelExpandDepth = 2;
 
-          c.DocumentTitle = _ApiTitle + " - OpenAPI Schema";
+          c.DocumentTitle = _ApiTitle + "-APIs";
 
-          c.SwaggerEndpoint("schema/v" + _ApiVersion.ToString(1) + ".json", _ApiTitle + " " + _ApiVersion.ToString(3));
+          c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess API " + _ApiVersion.ToString(3));
+          c.SwaggerEndpoint("schema/BlApiV1.json", _ApiTitle + "-BL API " + _ApiVersion.ToString(3));
+
           c.RoutePrefix = "docs";
 
           //requires MVC app.UseStaticFiles();
@@ -159,4 +179,5 @@ namespace MedicalResearch.VisitData.WebAPI {
 
     }
   }
+
 }

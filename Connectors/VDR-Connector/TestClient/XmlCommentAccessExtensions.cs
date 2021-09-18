@@ -11,7 +11,7 @@ namespace System.Reflection {
   //inspired by: https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/october/csharp-accessing-xml-documentation-via-reflection
 
   /// <summary> extension methods to read summary and parameter documentation from the xml-file (if exsists) </summary>
-  internal static class XmlCommentAccessExtensions {
+  public static class XmlCommentAccessExtensions {
 
     internal static string[] RequireXmlDocForNamespaces = new string[] { };
 

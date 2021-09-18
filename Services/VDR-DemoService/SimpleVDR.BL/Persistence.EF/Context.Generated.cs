@@ -4,10 +4,10 @@ using MedicalResearch.VisitData.Persistence;
 
 namespace MedicalResearch.VisitData.Persistence.EF {
 
-  /// <summary> EntityFramework DbContext (based on schema version '1.3.0') </summary>
+  /// <summary> EntityFramework DbContext (based on schema version '1.5.0') </summary>
   public partial class VisitDataDbContext : DbContext{
 
-    public const String SchemaVersion = "1.3.0";
+    public const String SchemaVersion = "1.5.0";
 
     public DbSet<DataRecordingEntity> DataRecordings { get; set; }
 
