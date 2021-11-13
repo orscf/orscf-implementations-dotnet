@@ -2,12 +2,16 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using MedicalResearch.Workflow;
+using MedicalResearch.Workflow.Persistence;
+using MedicalResearch.Workflow.Model;
+using MedicalResearch.Workflow.StoreAccess;
 
 namespace MedicalResearch.Workflow.Persistence {
 
 public class ArmEntity {
 
-  /// <summary> *this field has a max length of 50 </summary>
+  /// <summary> Name of the Arm - INVARIANT! because it is used to generate Identifers for induced executions! *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
   public String StudyArmName { get; set; }
 
@@ -40,11 +44,12 @@ public class ArmEntity {
   /// <summary> *this field is optional (use null as value) </summary>
   public String InclusionCriteria { get; set; }
 
-  /// <summary> defines, that the arm is part of a SubStudy which is addressed by a UniqueName or a path expressen *this field is optional (use null as value) </summary>
-  public String Substudy { get; set; }
+  /// <summary> comma sparated list of Sub-Study names which are allowed to be executed for this arm
+  ///  *this field is optional (use null as value) </summary>
+  public String AllowedSubstudies { get; set; }
 
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
   /// <summary> the ProcedureSchedule which is representing the primary-/entry-workflow (estimated visits) for participants of this arm </summary>
   [Lookup]
@@ -63,7 +68,7 @@ public class ArmEntity {
     BillablePriceOnCompletedParticipation = src.BillablePriceOnCompletedParticipation,
     ArmSpecificDocumentationUrl = src.ArmSpecificDocumentationUrl,
     InclusionCriteria = src.InclusionCriteria,
-    Substudy = src.Substudy,
+    AllowedSubstudies = src.AllowedSubstudies,
   });
 
   internal static Expression<Func<ArmEntity, Arm>> ArmSelector = ((ArmEntity src) => new Arm {
@@ -77,7 +82,7 @@ public class ArmEntity {
     BillablePriceOnCompletedParticipation = src.BillablePriceOnCompletedParticipation,
     ArmSpecificDocumentationUrl = src.ArmSpecificDocumentationUrl,
     InclusionCriteria = src.InclusionCriteria,
-    Substudy = src.Substudy,
+    AllowedSubstudies = src.AllowedSubstudies,
   });
 
   internal void CopyContentFrom(Arm source, Func<String,bool> onFixedValueChangingCallback = null){
@@ -91,7 +96,7 @@ public class ArmEntity {
     this.BillablePriceOnCompletedParticipation = source.BillablePriceOnCompletedParticipation;
     this.ArmSpecificDocumentationUrl = source.ArmSpecificDocumentationUrl;
     this.InclusionCriteria = source.InclusionCriteria;
-    this.Substudy = source.Substudy;
+    this.AllowedSubstudies = source.AllowedSubstudies;
   }
 
   internal void CopyContentTo(Arm target, Func<String,bool> onFixedValueChangingCallback = null){
@@ -105,14 +110,14 @@ public class ArmEntity {
     target.BillablePriceOnCompletedParticipation = this.BillablePriceOnCompletedParticipation;
     target.ArmSpecificDocumentationUrl = this.ArmSpecificDocumentationUrl;
     target.InclusionCriteria = this.InclusionCriteria;
-    target.Substudy = this.Substudy;
+    target.AllowedSubstudies = this.AllowedSubstudies;
   }
 
 #endregion
 
 }
 
-public class ResearchStudyEntity {
+public class ResearchStudyDefinitionEntity {
 
   /// <summary> the official invariant name of the study as given by the sponsor *this field has a max length of 100 </summary>
   [MaxLength(100), Required]
@@ -131,7 +136,7 @@ public class ResearchStudyEntity {
   [Required]
   public String DocumentationUrl { get; set; }
 
-  [Required]
+  /// <summary> Logo in base64 *this field is optional (use null as value) </summary>
   public String LogoImage { get; set; }
 
   [Required]
@@ -164,29 +169,32 @@ public class ResearchStudyEntity {
   public virtual ObservableCollection<ArmEntity> Arms { get; set; } = new ObservableCollection<ArmEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<DataRecordingTaskEntity> DataRecordingTasks { get; set; } = new ObservableCollection<DataRecordingTaskEntity>();
+  public virtual ObservableCollection<DataRecordingTaskDefinitionEntity> DataRecordingTasks { get; set; } = new ObservableCollection<DataRecordingTaskDefinitionEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<DrugApplymentTaskEntity> DrugApplymentTasks { get; set; } = new ObservableCollection<DrugApplymentTaskEntity>();
+  public virtual ObservableCollection<DrugApplymentTaskDefinitionEntity> DrugApplymentTasks { get; set; } = new ObservableCollection<DrugApplymentTaskDefinitionEntity>();
+
+  [Dependent]
+  public virtual ObservableCollection<ProcedureDefinitionEntity> ProcedureDefinitions { get; set; } = new ObservableCollection<ProcedureDefinitionEntity>();
 
   [Dependent]
   public virtual ObservableCollection<ProcedureScheduleEntity> ProcedureSchedules { get; set; } = new ObservableCollection<ProcedureScheduleEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<TreatmentTaskEntity> TreatmentTasks { get; set; } = new ObservableCollection<TreatmentTaskEntity>();
+  public virtual ObservableCollection<TreatmentTaskDefinitionEntity> TreatmentTasks { get; set; } = new ObservableCollection<TreatmentTaskDefinitionEntity>();
 
   [Dependent]
   public virtual ObservableCollection<TaskScheduleEntity> TaskSchedules { get; set; } = new ObservableCollection<TaskScheduleEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<VisitProdecureDefinitionEntity> VisitProdecureDefinitions { get; set; } = new ObservableCollection<VisitProdecureDefinitionEntity>();
+  public virtual ObservableCollection<StudyEventEntity> Events { get; set; } = new ObservableCollection<StudyEventEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<StudyEventEntity> Events { get; set; } = new ObservableCollection<StudyEventEntity>();
+  public virtual ObservableCollection<SubStudyEntity> SubStudies { get; set; } = new ObservableCollection<SubStudyEntity>();
 
 #region Mapping
 
-  internal static Expression<Func<ResearchStudy, ResearchStudyEntity>> ResearchStudyEntitySelector = ((ResearchStudy src) => new ResearchStudyEntity {
+  internal static Expression<Func<ResearchStudyDefinition, ResearchStudyDefinitionEntity>> ResearchStudyDefinitionEntitySelector = ((ResearchStudyDefinition src) => new ResearchStudyDefinitionEntity {
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     OfficialLabel = src.OfficialLabel,
@@ -203,7 +211,7 @@ public class ResearchStudyEntity {
     CaseReportFormUrl = src.CaseReportFormUrl,
   });
 
-  internal static Expression<Func<ResearchStudyEntity, ResearchStudy>> ResearchStudySelector = ((ResearchStudyEntity src) => new ResearchStudy {
+  internal static Expression<Func<ResearchStudyDefinitionEntity, ResearchStudyDefinition>> ResearchStudyDefinitionSelector = ((ResearchStudyDefinitionEntity src) => new ResearchStudyDefinition {
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     OfficialLabel = src.OfficialLabel,
@@ -220,7 +228,7 @@ public class ResearchStudyEntity {
     CaseReportFormUrl = src.CaseReportFormUrl,
   });
 
-  internal void CopyContentFrom(ResearchStudy source, Func<String,bool> onFixedValueChangingCallback = null){
+  internal void CopyContentFrom(ResearchStudyDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
     this.StudyWorkflowName = source.StudyWorkflowName;
     this.StudyWorkflowVersion = source.StudyWorkflowVersion;
     this.OfficialLabel = source.OfficialLabel;
@@ -237,7 +245,7 @@ public class ResearchStudyEntity {
     this.CaseReportFormUrl = source.CaseReportFormUrl;
   }
 
-  internal void CopyContentTo(ResearchStudy target, Func<String,bool> onFixedValueChangingCallback = null){
+  internal void CopyContentTo(ResearchStudyDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
     target.StudyWorkflowName = this.StudyWorkflowName;
     target.StudyWorkflowVersion = this.StudyWorkflowVersion;
     target.OfficialLabel = this.OfficialLabel;
@@ -271,8 +279,9 @@ public class ProcedureScheduleEntity {
   [MaxLength(20), Required]
   public String StudyWorkflowVersion { get; set; }
 
+  /// <summary> Name of the Workflow which is represented by this schedule - INVARIANT! because it is used to generate Identifers for induced executions! </summary>
   [Required]
-  public String Title { get; set; }
+  public String ScheduleWorkflowName { get; set; }
 
   [Required]
   public String MaxSkipsBeforeLost { get; set; }
@@ -306,19 +315,19 @@ public class ProcedureScheduleEntity {
   public virtual ObservableCollection<ArmEntity> EntryArms { get; set; } = new ObservableCollection<ArmEntity>();
 
   [Dependent]
+  public virtual ObservableCollection<InducedProcedureEntity> InducedProcedures { get; set; } = new ObservableCollection<InducedProcedureEntity>();
+
+  [Dependent]
   public virtual ObservableCollection<InducedSubProcedureScheduleEntity> InducedSubProcedureSchedules { get; set; } = new ObservableCollection<InducedSubProcedureScheduleEntity>();
 
   [Referer]
   public virtual ObservableCollection<InducedSubProcedureScheduleEntity> InducingSubProcedureSchedules { get; set; } = new ObservableCollection<InducedSubProcedureScheduleEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<InducedVisitProcedureEntity> InducedProcedures { get; set; } = new ObservableCollection<InducedVisitProcedureEntity>();
-
-  [Dependent]
   public virtual ProcedureCycleDefinitionEntity CycleDefinition { get; set; }
 
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
 #region Mapping
 
@@ -326,7 +335,7 @@ public class ProcedureScheduleEntity {
     ProcedureScheduleId = src.ProcedureScheduleId,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
-    Title = src.Title,
+    ScheduleWorkflowName = src.ScheduleWorkflowName,
     MaxSkipsBeforeLost = src.MaxSkipsBeforeLost,
     MaxSubsequentSkipsBeforeLost = src.MaxSubsequentSkipsBeforeLost,
     MaxLostsBeforeLtfuAbort = src.MaxLostsBeforeLtfuAbort,
@@ -342,7 +351,7 @@ public class ProcedureScheduleEntity {
     ProcedureScheduleId = src.ProcedureScheduleId,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
-    Title = src.Title,
+    ScheduleWorkflowName = src.ScheduleWorkflowName,
     MaxSkipsBeforeLost = src.MaxSkipsBeforeLost,
     MaxSubsequentSkipsBeforeLost = src.MaxSubsequentSkipsBeforeLost,
     MaxLostsBeforeLtfuAbort = src.MaxLostsBeforeLtfuAbort,
@@ -358,7 +367,7 @@ public class ProcedureScheduleEntity {
     this.ProcedureScheduleId = source.ProcedureScheduleId;
     this.StudyWorkflowName = source.StudyWorkflowName;
     this.StudyWorkflowVersion = source.StudyWorkflowVersion;
-    this.Title = source.Title;
+    this.ScheduleWorkflowName = source.ScheduleWorkflowName;
     this.MaxSkipsBeforeLost = source.MaxSkipsBeforeLost;
     this.MaxSubsequentSkipsBeforeLost = source.MaxSubsequentSkipsBeforeLost;
     this.MaxLostsBeforeLtfuAbort = source.MaxLostsBeforeLtfuAbort;
@@ -374,7 +383,7 @@ public class ProcedureScheduleEntity {
     target.ProcedureScheduleId = this.ProcedureScheduleId;
     target.StudyWorkflowName = this.StudyWorkflowName;
     target.StudyWorkflowVersion = this.StudyWorkflowVersion;
-    target.Title = this.Title;
+    target.ScheduleWorkflowName = this.ScheduleWorkflowName;
     target.MaxSkipsBeforeLost = this.MaxSkipsBeforeLost;
     target.MaxSubsequentSkipsBeforeLost = this.MaxSubsequentSkipsBeforeLost;
     target.MaxLostsBeforeLtfuAbort = this.MaxLostsBeforeLtfuAbort;
@@ -390,11 +399,11 @@ public class ProcedureScheduleEntity {
 
 }
 
-public class DataRecordingTaskEntity {
+public class DataRecordingTaskDefinitionEntity {
 
-  /// <summary> *this field has a max length of 50 </summary>
+  /// <summary> Name of the Definition - INVARIANT! because it is used to generate Identifers for induced executions! *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
-  public String DataRecordingName { get; set; }
+  public String TaskDefinitionName { get; set; }
 
   /// <summary> *this field has a max length of 100 </summary>
   [MaxLength(100), Required]
@@ -427,12 +436,12 @@ public class DataRecordingTaskEntity {
   public virtual ObservableCollection<InducedDataRecordingTaskEntity> Inducements { get; set; } = new ObservableCollection<InducedDataRecordingTaskEntity>();
 
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
 #region Mapping
 
-  internal static Expression<Func<DataRecordingTask, DataRecordingTaskEntity>> DataRecordingTaskEntitySelector = ((DataRecordingTask src) => new DataRecordingTaskEntity {
-    DataRecordingName = src.DataRecordingName,
+  internal static Expression<Func<DataRecordingTaskDefinition, DataRecordingTaskDefinitionEntity>> DataRecordingTaskDefinitionEntitySelector = ((DataRecordingTaskDefinition src) => new DataRecordingTaskDefinitionEntity {
+    TaskDefinitionName = src.TaskDefinitionName,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
@@ -443,8 +452,8 @@ public class DataRecordingTaskEntity {
     DefaultData = src.DefaultData,
   });
 
-  internal static Expression<Func<DataRecordingTaskEntity, DataRecordingTask>> DataRecordingTaskSelector = ((DataRecordingTaskEntity src) => new DataRecordingTask {
-    DataRecordingName = src.DataRecordingName,
+  internal static Expression<Func<DataRecordingTaskDefinitionEntity, DataRecordingTaskDefinition>> DataRecordingTaskDefinitionSelector = ((DataRecordingTaskDefinitionEntity src) => new DataRecordingTaskDefinition {
+    TaskDefinitionName = src.TaskDefinitionName,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
@@ -455,8 +464,8 @@ public class DataRecordingTaskEntity {
     DefaultData = src.DefaultData,
   });
 
-  internal void CopyContentFrom(DataRecordingTask source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.DataRecordingName = source.DataRecordingName;
+  internal void CopyContentFrom(DataRecordingTaskDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
+    this.TaskDefinitionName = source.TaskDefinitionName;
     this.StudyWorkflowName = source.StudyWorkflowName;
     this.StudyWorkflowVersion = source.StudyWorkflowVersion;
     this.BillablePriceOnCompletedExecution = source.BillablePriceOnCompletedExecution;
@@ -467,8 +476,8 @@ public class DataRecordingTaskEntity {
     this.DefaultData = source.DefaultData;
   }
 
-  internal void CopyContentTo(DataRecordingTask target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.DataRecordingName = this.DataRecordingName;
+  internal void CopyContentTo(DataRecordingTaskDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
+    target.TaskDefinitionName = this.TaskDefinitionName;
     target.StudyWorkflowName = this.StudyWorkflowName;
     target.StudyWorkflowVersion = this.StudyWorkflowVersion;
     target.BillablePriceOnCompletedExecution = this.BillablePriceOnCompletedExecution;
@@ -493,15 +502,15 @@ public class InducedDataRecordingTaskEntity {
 
   /// <summary> *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
-  public String InducedDataRecordingName { get; set; }
+  public String TaskDefinitionName { get; set; }
 
   /// <summary> estimated scheduling time relative to the scheduling date of the parent TaskSchedule </summary>
   [Required]
-  public Int32 Offset { get; set; }
+  public Int32 SchedulingOffset { get; set; }
 
   /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
   [Required]
-  public String OffsetUnit { get; set; }
+  public String SchedulingOffsetUnit { get; set; }
 
   /// <summary> defines an additional variability RELATIVE to the estimated scheduling time (which is calculated from the offset), in this case the EARLIEST possible time. </summary>
   [Required]
@@ -515,9 +524,9 @@ public class InducedDataRecordingTaskEntity {
   [Required]
   public String SchedulingVariabilityUnit { get; set; }
 
-  /// <summary> the title for the induced execution, like 'Measurement X', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: '{vt} - Measurement X') to prevent from duplicate execution titles. </summary>
+  /// <summary> the name for the induced execution, like 'Measurement X', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: '{vt} - Measurement X') to prevent from duplicate execution names. </summary>
   [Required]
-  public String InducedTaskExecutionTitle { get; set; }
+  public String UniqueExecutionName { get; set; }
 
   /// <summary> defines, if the study protocol tolerates this execution to be 'skipped' (if not, a missed execution is treated as 'lost' and can cause the exclusion of the participant) </summary>
   [Required]
@@ -529,8 +538,29 @@ public class InducedDataRecordingTaskEntity {
   [Required]
   public String EventOnLost { get; set; }
 
+  /// <summary> The Position (1..x) of this inducement within the parent schedule. This value is relevant for addressing predecessors as fixpoint for the offest-calculation. Within one schedule there can only be one inducement for each position! The 0 is reserved for addressing the parent schedule itself and must not be used as well as negative values! </summary>
+  [Required]
+  public Int32 Position { get; set; }
+
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the parent Schedule (for the current cycle) was induced / -1=InducementOfPredessessor: when the direct predecessor task or subschedule (based on the 'Position') within the current schedule was induced / 1..x: when the predecessor at the Position within the current schedule, ADRESSED by the given value, was induced 
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'SchedulingByEstimate' </summary>
+  [Required]
+  public Int32 SchedulingOffsetFixpoint { get; set; }
+
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean SchedulingByEstimate { get; set; }
+
+  /// <summary> The name of a Sub-Study for which this Task should be induced or empty when its part of the current Arms regular workflow *this field is optional (use null as value) </summary>
+  public String DedicatedToSubstudy { get; set; }
+
+  /// <summary> Number, which can be used via Placeholder {#} within the UniqueExecutionName and which will automatically increase when using cycles or sub-schedules </summary>
+  [Required]
+  public Int32 TaskNumber { get; set; }
+
   [Lookup]
-  public virtual DataRecordingTaskEntity InducedTask { get; set; }
+  public virtual DataRecordingTaskDefinitionEntity InducedTask { get; set; }
 
   [Principal]
   public virtual TaskScheduleEntity TaskSchedule { get; set; }
@@ -540,72 +570,92 @@ public class InducedDataRecordingTaskEntity {
   internal static Expression<Func<InducedDataRecordingTask, InducedDataRecordingTaskEntity>> InducedDataRecordingTaskEntitySelector = ((InducedDataRecordingTask src) => new InducedDataRecordingTaskEntity {
     Id = src.Id,
     TaskScheduleId = src.TaskScheduleId,
-    InducedDataRecordingName = src.InducedDataRecordingName,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
+    TaskDefinitionName = src.TaskDefinitionName,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
     SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
     SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedTaskExecutionTitle = src.InducedTaskExecutionTitle,
+    UniqueExecutionName = src.UniqueExecutionName,
     Skipable = src.Skipable,
     EventOnSkip = src.EventOnSkip,
     EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    TaskNumber = src.TaskNumber,
   });
 
   internal static Expression<Func<InducedDataRecordingTaskEntity, InducedDataRecordingTask>> InducedDataRecordingTaskSelector = ((InducedDataRecordingTaskEntity src) => new InducedDataRecordingTask {
     Id = src.Id,
     TaskScheduleId = src.TaskScheduleId,
-    InducedDataRecordingName = src.InducedDataRecordingName,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
+    TaskDefinitionName = src.TaskDefinitionName,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
     SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
     SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedTaskExecutionTitle = src.InducedTaskExecutionTitle,
+    UniqueExecutionName = src.UniqueExecutionName,
     Skipable = src.Skipable,
     EventOnSkip = src.EventOnSkip,
     EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    TaskNumber = src.TaskNumber,
   });
 
   internal void CopyContentFrom(InducedDataRecordingTask source, Func<String,bool> onFixedValueChangingCallback = null){
     this.Id = source.Id;
     this.TaskScheduleId = source.TaskScheduleId;
-    this.InducedDataRecordingName = source.InducedDataRecordingName;
-    this.Offset = source.Offset;
-    this.OffsetUnit = source.OffsetUnit;
+    this.TaskDefinitionName = source.TaskDefinitionName;
+    this.SchedulingOffset = source.SchedulingOffset;
+    this.SchedulingOffsetUnit = source.SchedulingOffsetUnit;
     this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
     this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
     this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
-    this.InducedTaskExecutionTitle = source.InducedTaskExecutionTitle;
+    this.UniqueExecutionName = source.UniqueExecutionName;
     this.Skipable = source.Skipable;
     this.EventOnSkip = source.EventOnSkip;
     this.EventOnLost = source.EventOnLost;
+    this.Position = source.Position;
+    this.SchedulingOffsetFixpoint = source.SchedulingOffsetFixpoint;
+    this.SchedulingByEstimate = source.SchedulingByEstimate;
+    this.DedicatedToSubstudy = source.DedicatedToSubstudy;
+    this.TaskNumber = source.TaskNumber;
   }
 
   internal void CopyContentTo(InducedDataRecordingTask target, Func<String,bool> onFixedValueChangingCallback = null){
     target.Id = this.Id;
     target.TaskScheduleId = this.TaskScheduleId;
-    target.InducedDataRecordingName = this.InducedDataRecordingName;
-    target.Offset = this.Offset;
-    target.OffsetUnit = this.OffsetUnit;
+    target.TaskDefinitionName = this.TaskDefinitionName;
+    target.SchedulingOffset = this.SchedulingOffset;
+    target.SchedulingOffsetUnit = this.SchedulingOffsetUnit;
     target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
     target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
     target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
-    target.InducedTaskExecutionTitle = this.InducedTaskExecutionTitle;
+    target.UniqueExecutionName = this.UniqueExecutionName;
     target.Skipable = this.Skipable;
     target.EventOnSkip = this.EventOnSkip;
     target.EventOnLost = this.EventOnLost;
+    target.Position = this.Position;
+    target.SchedulingOffsetFixpoint = this.SchedulingOffsetFixpoint;
+    target.SchedulingByEstimate = this.SchedulingByEstimate;
+    target.DedicatedToSubstudy = this.DedicatedToSubstudy;
+    target.TaskNumber = this.TaskNumber;
   }
 
 #endregion
 
 }
 
-public class DrugApplymentTaskEntity {
+public class DrugApplymentTaskDefinitionEntity {
 
-  /// <summary> *this field has a max length of 50 </summary>
+  /// <summary> Name of the Definition - INVARIANT! because it is used to generate Identifers for induced executions! *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
-  public String DrugApplymentName { get; set; }
+  public String TaskDefinitionName { get; set; }
 
   /// <summary> *this field has a max length of 100 </summary>
   [MaxLength(100), Required]
@@ -643,12 +693,12 @@ public class DrugApplymentTaskEntity {
   public virtual ObservableCollection<InducedDrugApplymentTaskEntity> Inducements { get; set; } = new ObservableCollection<InducedDrugApplymentTaskEntity>();
 
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
 #region Mapping
 
-  internal static Expression<Func<DrugApplymentTask, DrugApplymentTaskEntity>> DrugApplymentTaskEntitySelector = ((DrugApplymentTask src) => new DrugApplymentTaskEntity {
-    DrugApplymentName = src.DrugApplymentName,
+  internal static Expression<Func<DrugApplymentTaskDefinition, DrugApplymentTaskDefinitionEntity>> DrugApplymentTaskDefinitionEntitySelector = ((DrugApplymentTaskDefinition src) => new DrugApplymentTaskDefinitionEntity {
+    TaskDefinitionName = src.TaskDefinitionName,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
@@ -661,8 +711,8 @@ public class DrugApplymentTaskEntity {
     ImportantNotices = src.ImportantNotices,
   });
 
-  internal static Expression<Func<DrugApplymentTaskEntity, DrugApplymentTask>> DrugApplymentTaskSelector = ((DrugApplymentTaskEntity src) => new DrugApplymentTask {
-    DrugApplymentName = src.DrugApplymentName,
+  internal static Expression<Func<DrugApplymentTaskDefinitionEntity, DrugApplymentTaskDefinition>> DrugApplymentTaskDefinitionSelector = ((DrugApplymentTaskDefinitionEntity src) => new DrugApplymentTaskDefinition {
+    TaskDefinitionName = src.TaskDefinitionName,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
@@ -675,8 +725,8 @@ public class DrugApplymentTaskEntity {
     ImportantNotices = src.ImportantNotices,
   });
 
-  internal void CopyContentFrom(DrugApplymentTask source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.DrugApplymentName = source.DrugApplymentName;
+  internal void CopyContentFrom(DrugApplymentTaskDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
+    this.TaskDefinitionName = source.TaskDefinitionName;
     this.StudyWorkflowName = source.StudyWorkflowName;
     this.StudyWorkflowVersion = source.StudyWorkflowVersion;
     this.BillablePriceOnCompletedExecution = source.BillablePriceOnCompletedExecution;
@@ -689,8 +739,8 @@ public class DrugApplymentTaskEntity {
     this.ImportantNotices = source.ImportantNotices;
   }
 
-  internal void CopyContentTo(DrugApplymentTask target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.DrugApplymentName = this.DrugApplymentName;
+  internal void CopyContentTo(DrugApplymentTaskDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
+    target.TaskDefinitionName = this.TaskDefinitionName;
     target.StudyWorkflowName = this.StudyWorkflowName;
     target.StudyWorkflowVersion = this.StudyWorkflowVersion;
     target.BillablePriceOnCompletedExecution = this.BillablePriceOnCompletedExecution;
@@ -717,31 +767,31 @@ public class InducedDrugApplymentTaskEntity {
 
   /// <summary> *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
-  public String InducedDrugApplymentName { get; set; }
+  public String TaskDefinitionName { get; set; }
 
   /// <summary> estimated scheduling time relative to the scheduling date of the parent TaskSchedule </summary>
   [Required]
-  public Int32 Offset { get; set; }
+  public Int32 SchedulingOffset { get; set; }
 
   /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
   [Required]
-  public String OffsetUnit { get; set; }
+  public String SchedulingOffsetUnit { get; set; }
 
   /// <summary> defines an additional variability RELATIVE to the estimated scheduling time (which is calculated from the offset), in this case the EARLIEST possible time. </summary>
   [Required]
-  public String SchedulingVariabilityBefore { get; set; }
+  public Int32 SchedulingVariabilityBefore { get; set; }
 
   /// <summary> defines an additional variability RELATIVE to the estimated scheduling time (which is calculated from the offset), in this case the LATEST possible time. </summary>
   [Required]
-  public String SchedulingVariabilityAfter { get; set; }
+  public Int32 SchedulingVariabilityAfter { get; set; }
 
   /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
   [Required]
   public String SchedulingVariabilityUnit { get; set; }
 
-  /// <summary> the title for the induced execution, like 'Measurement X', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: '{vt} - Measurement X') to prevent from duplicate execution titles. </summary>
+  /// <summary> the name for the induced execution, like 'Measurement X', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: '{vt} - Measurement X') to prevent from duplicate execution names. </summary>
   [Required]
-  public String InducedTaskExecutionTitle { get; set; }
+  public String UniqueExecutionName { get; set; }
 
   /// <summary> defines, if the study protocol tolerates this execution to be 'skipped' (if not, a missed execution is treated as 'lost' and can cause the exclusion of the participant) </summary>
   [Required]
@@ -753,8 +803,29 @@ public class InducedDrugApplymentTaskEntity {
   [Required]
   public String EventOnLost { get; set; }
 
+  /// <summary> The Position (1..x) of this inducement within the parent schedule. This value is relevant for addressing predecessors as fixpoint for the offest-calculation. Within one schedule there can only be one inducement for each position! The 0 is reserved for addressing the parent schedule itself and must not be used as well as negative values! </summary>
+  [Required]
+  public Int32 Position { get; set; }
+
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the parent Schedule (for the current cycle) was induced / -1=InducementOfPredessessor: when the direct predecessor task or subschedule (based on the 'Position') within the current schedule was induced / 1..x: when the predecessor at the Position within the current schedule, ADRESSED by the given value, was induced 
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'SchedulingByEstimate' </summary>
+  [Required]
+  public Int32 SchedulingOffsetFixpoint { get; set; }
+
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean SchedulingByEstimate { get; set; }
+
+  /// <summary> The name of a Sub-Study for which this Task should be induced or empty when its part of the current Arms regular workflow *this field is optional (use null as value) </summary>
+  public String DedicatedToSubstudy { get; set; }
+
+  /// <summary> Number, which can be used via Placeholder {#} within the UniqueExecutionName and which will automatically increase when using cycles or sub-schedules </summary>
+  [Required]
+  public Int32 TaskNumber { get; set; }
+
   [Lookup]
-  public virtual DrugApplymentTaskEntity InducedTask { get; set; }
+  public virtual DrugApplymentTaskDefinitionEntity InducedTask { get; set; }
 
   [Principal]
   public virtual TaskScheduleEntity TaskSchedule { get; set; }
@@ -764,61 +835,81 @@ public class InducedDrugApplymentTaskEntity {
   internal static Expression<Func<InducedDrugApplymentTask, InducedDrugApplymentTaskEntity>> InducedDrugApplymentTaskEntitySelector = ((InducedDrugApplymentTask src) => new InducedDrugApplymentTaskEntity {
     Id = src.Id,
     TaskScheduleId = src.TaskScheduleId,
-    InducedDrugApplymentName = src.InducedDrugApplymentName,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
+    TaskDefinitionName = src.TaskDefinitionName,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
     SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
     SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedTaskExecutionTitle = src.InducedTaskExecutionTitle,
+    UniqueExecutionName = src.UniqueExecutionName,
     Skipable = src.Skipable,
     EventOnSkip = src.EventOnSkip,
     EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    TaskNumber = src.TaskNumber,
   });
 
   internal static Expression<Func<InducedDrugApplymentTaskEntity, InducedDrugApplymentTask>> InducedDrugApplymentTaskSelector = ((InducedDrugApplymentTaskEntity src) => new InducedDrugApplymentTask {
     Id = src.Id,
     TaskScheduleId = src.TaskScheduleId,
-    InducedDrugApplymentName = src.InducedDrugApplymentName,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
+    TaskDefinitionName = src.TaskDefinitionName,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
     SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
     SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedTaskExecutionTitle = src.InducedTaskExecutionTitle,
+    UniqueExecutionName = src.UniqueExecutionName,
     Skipable = src.Skipable,
     EventOnSkip = src.EventOnSkip,
     EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    TaskNumber = src.TaskNumber,
   });
 
   internal void CopyContentFrom(InducedDrugApplymentTask source, Func<String,bool> onFixedValueChangingCallback = null){
     this.Id = source.Id;
     this.TaskScheduleId = source.TaskScheduleId;
-    this.InducedDrugApplymentName = source.InducedDrugApplymentName;
-    this.Offset = source.Offset;
-    this.OffsetUnit = source.OffsetUnit;
+    this.TaskDefinitionName = source.TaskDefinitionName;
+    this.SchedulingOffset = source.SchedulingOffset;
+    this.SchedulingOffsetUnit = source.SchedulingOffsetUnit;
     this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
     this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
     this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
-    this.InducedTaskExecutionTitle = source.InducedTaskExecutionTitle;
+    this.UniqueExecutionName = source.UniqueExecutionName;
     this.Skipable = source.Skipable;
     this.EventOnSkip = source.EventOnSkip;
     this.EventOnLost = source.EventOnLost;
+    this.Position = source.Position;
+    this.SchedulingOffsetFixpoint = source.SchedulingOffsetFixpoint;
+    this.SchedulingByEstimate = source.SchedulingByEstimate;
+    this.DedicatedToSubstudy = source.DedicatedToSubstudy;
+    this.TaskNumber = source.TaskNumber;
   }
 
   internal void CopyContentTo(InducedDrugApplymentTask target, Func<String,bool> onFixedValueChangingCallback = null){
     target.Id = this.Id;
     target.TaskScheduleId = this.TaskScheduleId;
-    target.InducedDrugApplymentName = this.InducedDrugApplymentName;
-    target.Offset = this.Offset;
-    target.OffsetUnit = this.OffsetUnit;
+    target.TaskDefinitionName = this.TaskDefinitionName;
+    target.SchedulingOffset = this.SchedulingOffset;
+    target.SchedulingOffsetUnit = this.SchedulingOffsetUnit;
     target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
     target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
     target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
-    target.InducedTaskExecutionTitle = this.InducedTaskExecutionTitle;
+    target.UniqueExecutionName = this.UniqueExecutionName;
     target.Skipable = this.Skipable;
     target.EventOnSkip = this.EventOnSkip;
     target.EventOnLost = this.EventOnLost;
+    target.Position = this.Position;
+    target.SchedulingOffsetFixpoint = this.SchedulingOffsetFixpoint;
+    target.SchedulingByEstimate = this.SchedulingByEstimate;
+    target.DedicatedToSubstudy = this.DedicatedToSubstudy;
+    target.TaskNumber = this.TaskNumber;
   }
 
 #endregion
@@ -838,8 +929,9 @@ public class TaskScheduleEntity {
   [MaxLength(20), Required]
   public String StudyWorkflowVersion { get; set; }
 
+  /// <summary> Name of the Workflow which is represented by this schedule - INVARIANT! because it is used to generate Identifers for induced executions! </summary>
   [Required]
-  public String Title { get; set; }
+  public String ScheduleWorkflowName { get; set; }
 
   [Required]
   public String MaxSkipsBeforeLost { get; set; }
@@ -883,15 +975,15 @@ public class TaskScheduleEntity {
   [Dependent]
   public virtual ObservableCollection<InducedTreatmentTaskEntity> InducedTreatmentTasks { get; set; } = new ObservableCollection<InducedTreatmentTaskEntity>();
 
+  /// <summary> the TaskSchedule which is representing the primary-/entry-workflow (estimated tasks) when executing this visit </summary>
+  [Referer]
+  public virtual ObservableCollection<ProcedureDefinitionEntity> EntryProdecureDefinitions { get; set; } = new ObservableCollection<ProcedureDefinitionEntity>();
+
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
   [Dependent]
   public virtual TaskCycleDefinitionEntity CycleDefinition { get; set; }
-
-  /// <summary> the TaskSchedule which is representing the primary-/entry-workflow (estimated tasks) when executing this visit </summary>
-  [Referer]
-  public virtual ObservableCollection<VisitProdecureDefinitionEntity> EntryVisitProdecureDefinitions { get; set; } = new ObservableCollection<VisitProdecureDefinitionEntity>();
 
 #region Mapping
 
@@ -899,7 +991,7 @@ public class TaskScheduleEntity {
     TaskScheduleId = src.TaskScheduleId,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
-    Title = src.Title,
+    ScheduleWorkflowName = src.ScheduleWorkflowName,
     MaxSkipsBeforeLost = src.MaxSkipsBeforeLost,
     MaxSubsequentSkipsBeforeLost = src.MaxSubsequentSkipsBeforeLost,
     MaxLostsBeforeLtfuAbort = src.MaxLostsBeforeLtfuAbort,
@@ -915,7 +1007,7 @@ public class TaskScheduleEntity {
     TaskScheduleId = src.TaskScheduleId,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
-    Title = src.Title,
+    ScheduleWorkflowName = src.ScheduleWorkflowName,
     MaxSkipsBeforeLost = src.MaxSkipsBeforeLost,
     MaxSubsequentSkipsBeforeLost = src.MaxSubsequentSkipsBeforeLost,
     MaxLostsBeforeLtfuAbort = src.MaxLostsBeforeLtfuAbort,
@@ -931,7 +1023,7 @@ public class TaskScheduleEntity {
     this.TaskScheduleId = source.TaskScheduleId;
     this.StudyWorkflowName = source.StudyWorkflowName;
     this.StudyWorkflowVersion = source.StudyWorkflowVersion;
-    this.Title = source.Title;
+    this.ScheduleWorkflowName = source.ScheduleWorkflowName;
     this.MaxSkipsBeforeLost = source.MaxSkipsBeforeLost;
     this.MaxSubsequentSkipsBeforeLost = source.MaxSubsequentSkipsBeforeLost;
     this.MaxLostsBeforeLtfuAbort = source.MaxLostsBeforeLtfuAbort;
@@ -947,7 +1039,7 @@ public class TaskScheduleEntity {
     target.TaskScheduleId = this.TaskScheduleId;
     target.StudyWorkflowName = this.StudyWorkflowName;
     target.StudyWorkflowVersion = this.StudyWorkflowVersion;
-    target.Title = this.Title;
+    target.ScheduleWorkflowName = this.ScheduleWorkflowName;
     target.MaxSkipsBeforeLost = this.MaxSkipsBeforeLost;
     target.MaxSubsequentSkipsBeforeLost = this.MaxSubsequentSkipsBeforeLost;
     target.MaxLostsBeforeLtfuAbort = this.MaxLostsBeforeLtfuAbort;
@@ -957,6 +1049,247 @@ public class TaskScheduleEntity {
     target.EventOnAllCyclesEnded = this.EventOnAllCyclesEnded;
     target.InducingEvents = this.InducingEvents;
     target.AbortCausingEvents = this.AbortCausingEvents;
+  }
+
+#endregion
+
+}
+
+public class InducedProcedureEntity {
+
+  [Required]
+  public Guid Id { get; set; } = Guid.NewGuid();
+
+  [Required]
+  public Guid ProcedureScheduleId { get; set; }
+
+  /// <summary> estimated scheduling date relative to the scheduling date of the parent ProcedureSchedule </summary>
+  [Required]
+  public Int32 SchedulingOffset { get; set; }
+
+  /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
+  [Required]
+  public String SchedulingOffsetUnit { get; set; }
+
+  /// <summary> defines an additional variability RELATIVE to the estimated scheduling date (which is calculated from the offset), in this case the EARLIEST possible date. </summary>
+  [Required]
+  public Int32 SchedulingVariabilityBefore { get; set; }
+
+  /// <summary> defines an additional variability RELATIVE to the estimated scheduling date (which is calculated from the offset), in this case the LATEST possible date. </summary>
+  [Required]
+  public Int32 SchedulingVariabilityAfter { get; set; }
+
+  /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
+  [Required]
+  public String SchedulingVariabilityUnit { get; set; }
+
+  /// <summary> *this field has a max length of 50 </summary>
+  [MaxLength(50), Required]
+  public String ProdecureDefinitionName { get; set; }
+
+  /// <summary> the name for the induced execution (=VISIT), like 'V0', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: 'C{cy}-V0') to prevent from duplicate execution names. </summary>
+  [Required]
+  public String UniqueExecutionName { get; set; }
+
+  /// <summary> defines, if the study protocol tolerates this execution to be 'skipped' (if not, a missed execution is treated as 'lost' and can cause the exclusion of the participant) </summary>
+  [Required]
+  public Boolean Skipable { get; set; }
+
+  [Required]
+  public String EventOnSkip { get; set; }
+
+  [Required]
+  public String EventOnLost { get; set; }
+
+  /// <summary> The Position (1..x) of this inducement within the parent schedule. This value is relevant for addressing predecessors as fixpoint for the offest-calculation. Within one schedule there can only be one inducement for each position! The 0 is reserved for addressing the parent schedule itself and must not be used as well as negative values! </summary>
+  [Required]
+  public Int32 Position { get; set; }
+
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the parent Schedule (for the current cycle) was induced / -1=InducementOfPredessessor: when the direct predecessor procedure or subschedule (based on the 'Position') within the current schedule was induced / 1..x: when the predecessor at the Position within the current schedule, ADRESSED by the given value, was induced 
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'SchedulingByEstimate' </summary>
+  [Required]
+  public Int32 SchedulingOffsetFixpoint { get; set; }
+
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean SchedulingByEstimate { get; set; }
+
+  /// <summary> The name of a Sub-Study for which this procedure should be induced or empty when its part of the current Arms regular workflow  *this field is optional (use null as value) </summary>
+  public String DedicatedToSubstudy { get; set; }
+
+  /// <summary> Number, which can be used via Placeholder {#} within the UniqueExecutionName and which will automatically increase when using cycles or sub-schedules </summary>
+  [Required]
+  public Int32 VisitNumber { get; set; }
+
+  [Principal]
+  public virtual ProcedureScheduleEntity ProcedureSchedule { get; set; }
+
+  [Lookup]
+  public virtual ProcedureDefinitionEntity InducedVisitProdecure { get; set; }
+
+#region Mapping
+
+  internal static Expression<Func<InducedProcedure, InducedProcedureEntity>> InducedProcedureEntitySelector = ((InducedProcedure src) => new InducedProcedureEntity {
+    Id = src.Id,
+    ProcedureScheduleId = src.ProcedureScheduleId,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
+    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
+    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
+    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
+    ProdecureDefinitionName = src.ProdecureDefinitionName,
+    UniqueExecutionName = src.UniqueExecutionName,
+    Skipable = src.Skipable,
+    EventOnSkip = src.EventOnSkip,
+    EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    VisitNumber = src.VisitNumber,
+  });
+
+  internal static Expression<Func<InducedProcedureEntity, InducedProcedure>> InducedProcedureSelector = ((InducedProcedureEntity src) => new InducedProcedure {
+    Id = src.Id,
+    ProcedureScheduleId = src.ProcedureScheduleId,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
+    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
+    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
+    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
+    ProdecureDefinitionName = src.ProdecureDefinitionName,
+    UniqueExecutionName = src.UniqueExecutionName,
+    Skipable = src.Skipable,
+    EventOnSkip = src.EventOnSkip,
+    EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    VisitNumber = src.VisitNumber,
+  });
+
+  internal void CopyContentFrom(InducedProcedure source, Func<String,bool> onFixedValueChangingCallback = null){
+    this.Id = source.Id;
+    this.ProcedureScheduleId = source.ProcedureScheduleId;
+    this.SchedulingOffset = source.SchedulingOffset;
+    this.SchedulingOffsetUnit = source.SchedulingOffsetUnit;
+    this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
+    this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
+    this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
+    this.ProdecureDefinitionName = source.ProdecureDefinitionName;
+    this.UniqueExecutionName = source.UniqueExecutionName;
+    this.Skipable = source.Skipable;
+    this.EventOnSkip = source.EventOnSkip;
+    this.EventOnLost = source.EventOnLost;
+    this.Position = source.Position;
+    this.SchedulingOffsetFixpoint = source.SchedulingOffsetFixpoint;
+    this.SchedulingByEstimate = source.SchedulingByEstimate;
+    this.DedicatedToSubstudy = source.DedicatedToSubstudy;
+    this.VisitNumber = source.VisitNumber;
+  }
+
+  internal void CopyContentTo(InducedProcedure target, Func<String,bool> onFixedValueChangingCallback = null){
+    target.Id = this.Id;
+    target.ProcedureScheduleId = this.ProcedureScheduleId;
+    target.SchedulingOffset = this.SchedulingOffset;
+    target.SchedulingOffsetUnit = this.SchedulingOffsetUnit;
+    target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
+    target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
+    target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
+    target.ProdecureDefinitionName = this.ProdecureDefinitionName;
+    target.UniqueExecutionName = this.UniqueExecutionName;
+    target.Skipable = this.Skipable;
+    target.EventOnSkip = this.EventOnSkip;
+    target.EventOnLost = this.EventOnLost;
+    target.Position = this.Position;
+    target.SchedulingOffsetFixpoint = this.SchedulingOffsetFixpoint;
+    target.SchedulingByEstimate = this.SchedulingByEstimate;
+    target.DedicatedToSubstudy = this.DedicatedToSubstudy;
+    target.VisitNumber = this.VisitNumber;
+  }
+
+#endregion
+
+}
+
+public class ProcedureDefinitionEntity {
+
+  /// <summary> Name of the Definition - INVARIANT! because it is used to generate Identifers for induced executions! *this field has a max length of 50 </summary>
+  [MaxLength(50), Required]
+  public String ProdecureDefinitionName { get; set; }
+
+  /// <summary> *this field has a max length of 100 </summary>
+  [MaxLength(100), Required]
+  public String StudyWorkflowName { get; set; }
+
+  /// <summary> *this field has a max length of 20 </summary>
+  [MaxLength(20), Required]
+  public String StudyWorkflowVersion { get; set; }
+
+  /// <summary> the TaskSchedule which is representing the primary-/entry-workflow (estimated tasks) when executing this visit *this field is optional </summary>
+  public Nullable<Guid> RootTaskScheduleId { get; set; }
+
+  /// <summary> *this field is optional </summary>
+  public Nullable<Decimal> BillablePriceOnAbortedExecution { get; set; }
+
+  /// <summary> *this field is optional </summary>
+  public Nullable<Decimal> BillablePriceOnCompletedExecution { get; set; }
+
+  /// <summary> *this field is optional (use null as value) </summary>
+  public String VisitSpecificDocumentationUrl { get; set; }
+
+  [Referer]
+  public virtual ObservableCollection<InducedProcedureEntity> Inducements { get; set; } = new ObservableCollection<InducedProcedureEntity>();
+
+  [Principal]
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
+
+  /// <summary> the TaskSchedule which is representing the primary-/entry-workflow (estimated tasks) when executing this visit </summary>
+  [Lookup]
+  public virtual TaskScheduleEntity RootTaskSchedule { get; set; }
+
+#region Mapping
+
+  internal static Expression<Func<ProcedureDefinition, ProcedureDefinitionEntity>> ProcedureDefinitionEntitySelector = ((ProcedureDefinition src) => new ProcedureDefinitionEntity {
+    ProdecureDefinitionName = src.ProdecureDefinitionName,
+    StudyWorkflowName = src.StudyWorkflowName,
+    StudyWorkflowVersion = src.StudyWorkflowVersion,
+    RootTaskScheduleId = src.RootTaskScheduleId,
+    BillablePriceOnAbortedExecution = src.BillablePriceOnAbortedExecution,
+    BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
+    VisitSpecificDocumentationUrl = src.VisitSpecificDocumentationUrl,
+  });
+
+  internal static Expression<Func<ProcedureDefinitionEntity, ProcedureDefinition>> ProcedureDefinitionSelector = ((ProcedureDefinitionEntity src) => new ProcedureDefinition {
+    ProdecureDefinitionName = src.ProdecureDefinitionName,
+    StudyWorkflowName = src.StudyWorkflowName,
+    StudyWorkflowVersion = src.StudyWorkflowVersion,
+    RootTaskScheduleId = src.RootTaskScheduleId,
+    BillablePriceOnAbortedExecution = src.BillablePriceOnAbortedExecution,
+    BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
+    VisitSpecificDocumentationUrl = src.VisitSpecificDocumentationUrl,
+  });
+
+  internal void CopyContentFrom(ProcedureDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
+    this.ProdecureDefinitionName = source.ProdecureDefinitionName;
+    this.StudyWorkflowName = source.StudyWorkflowName;
+    this.StudyWorkflowVersion = source.StudyWorkflowVersion;
+    this.RootTaskScheduleId = source.RootTaskScheduleId;
+    this.BillablePriceOnAbortedExecution = source.BillablePriceOnAbortedExecution;
+    this.BillablePriceOnCompletedExecution = source.BillablePriceOnCompletedExecution;
+    this.VisitSpecificDocumentationUrl = source.VisitSpecificDocumentationUrl;
+  }
+
+  internal void CopyContentTo(ProcedureDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
+    target.ProdecureDefinitionName = this.ProdecureDefinitionName;
+    target.StudyWorkflowName = this.StudyWorkflowName;
+    target.StudyWorkflowVersion = this.StudyWorkflowVersion;
+    target.RootTaskScheduleId = this.RootTaskScheduleId;
+    target.BillablePriceOnAbortedExecution = this.BillablePriceOnAbortedExecution;
+    target.BillablePriceOnCompletedExecution = this.BillablePriceOnCompletedExecution;
+    target.VisitSpecificDocumentationUrl = this.VisitSpecificDocumentationUrl;
   }
 
 #endregion
@@ -976,29 +1309,40 @@ public class InducedSubProcedureScheduleEntity {
 
   /// <summary> estimated scheduling date relative to the scheduling date of the parent ProcedureSchedule </summary>
   [Required]
-  public Int32 Offset { get; set; }
+  public Int32 SchedulingOffset { get; set; }
 
   /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
   [Required]
-  public String OffsetUnit { get; set; }
-
-  /// <summary> defines an additional variability RELATIVE to the estimated scheduling date (which is calculated from the offset), in this case the EARLIEST possible date. </summary>
-  [Required]
-  public String SchedulingVariabilityBefore { get; set; }
-
-  /// <summary> defines an additional variability RELATIVE to the estimated scheduling date (which is calculated from the offset), in this case the LATEST possible date. </summary>
-  [Required]
-  public String SchedulingVariabilityAfter { get; set; }
-
-  /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
-  [Required]
-  public String SchedulingVariabilityUnit { get; set; }
+  public String SchedulingOffsetUnit { get; set; }
 
   [Required]
   public Boolean SharedSkipCounters { get; set; }
 
   [Required]
   public Boolean SharedLostCounters { get; set; }
+
+  /// <summary> The Position (1..x) of this inducement within the parent schedule. This value is relevant for addressing predecessors as fixpoint for the offest-calculation. Within one schedule there can only be one inducement for each position! The 0 is reserved for addressing the parent schedule itself and must not be used as well as negative values! </summary>
+  [Required]
+  public Int32 Position { get; set; }
+
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the parent Schedule (for the current cycle) was induced / -1=InducementOfPredessessor: when the direct predecessor procedure or subschedule (based on the 'Position') within the current schedule was induced / 1..x: when the predecessor at the Position within the current schedule, ADRESSED by the given value, was induced 
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'SchedulingByEstimate' </summary>
+  [Required]
+  public Int32 SchedulingOffsetFixpoint { get; set; }
+
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean SchedulingByEstimate { get; set; }
+
+  /// <summary> The name of a Sub-Study for which this schedule should be induced or empty when its part of the current Arms regular workflow  *this field is optional (use null as value) </summary>
+  public String DedicatedToSubstudy { get; set; }
+
+  [Required]
+  public Int32 IncreaseVisitNumberBase { get; set; }
+
+  [Required]
+  public Boolean InheritVisitNumberBase { get; set; }
 
   [Principal]
   public virtual ProcedureScheduleEntity ParentProcedureSchedule { get; set; }
@@ -1012,52 +1356,64 @@ public class InducedSubProcedureScheduleEntity {
     Id = src.Id,
     ParentProcedureScheduleId = src.ParentProcedureScheduleId,
     InducedProcedureScheduleId = src.InducedProcedureScheduleId,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
-    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
-    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
-    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    IncreaseVisitNumberBase = src.IncreaseVisitNumberBase,
+    InheritVisitNumberBase = src.InheritVisitNumberBase,
   });
 
   internal static Expression<Func<InducedSubProcedureScheduleEntity, InducedSubProcedureSchedule>> InducedSubProcedureScheduleSelector = ((InducedSubProcedureScheduleEntity src) => new InducedSubProcedureSchedule {
     Id = src.Id,
     ParentProcedureScheduleId = src.ParentProcedureScheduleId,
     InducedProcedureScheduleId = src.InducedProcedureScheduleId,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
-    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
-    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
-    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    IncreaseVisitNumberBase = src.IncreaseVisitNumberBase,
+    InheritVisitNumberBase = src.InheritVisitNumberBase,
   });
 
   internal void CopyContentFrom(InducedSubProcedureSchedule source, Func<String,bool> onFixedValueChangingCallback = null){
     this.Id = source.Id;
     this.ParentProcedureScheduleId = source.ParentProcedureScheduleId;
     this.InducedProcedureScheduleId = source.InducedProcedureScheduleId;
-    this.Offset = source.Offset;
-    this.OffsetUnit = source.OffsetUnit;
-    this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
-    this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
-    this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
+    this.SchedulingOffset = source.SchedulingOffset;
+    this.SchedulingOffsetUnit = source.SchedulingOffsetUnit;
     this.SharedSkipCounters = source.SharedSkipCounters;
     this.SharedLostCounters = source.SharedLostCounters;
+    this.Position = source.Position;
+    this.SchedulingOffsetFixpoint = source.SchedulingOffsetFixpoint;
+    this.SchedulingByEstimate = source.SchedulingByEstimate;
+    this.DedicatedToSubstudy = source.DedicatedToSubstudy;
+    this.IncreaseVisitNumberBase = source.IncreaseVisitNumberBase;
+    this.InheritVisitNumberBase = source.InheritVisitNumberBase;
   }
 
   internal void CopyContentTo(InducedSubProcedureSchedule target, Func<String,bool> onFixedValueChangingCallback = null){
     target.Id = this.Id;
     target.ParentProcedureScheduleId = this.ParentProcedureScheduleId;
     target.InducedProcedureScheduleId = this.InducedProcedureScheduleId;
-    target.Offset = this.Offset;
-    target.OffsetUnit = this.OffsetUnit;
-    target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
-    target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
-    target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
+    target.SchedulingOffset = this.SchedulingOffset;
+    target.SchedulingOffsetUnit = this.SchedulingOffsetUnit;
     target.SharedSkipCounters = this.SharedSkipCounters;
     target.SharedLostCounters = this.SharedLostCounters;
+    target.Position = this.Position;
+    target.SchedulingOffsetFixpoint = this.SchedulingOffsetFixpoint;
+    target.SchedulingByEstimate = this.SchedulingByEstimate;
+    target.DedicatedToSubstudy = this.DedicatedToSubstudy;
+    target.IncreaseVisitNumberBase = this.IncreaseVisitNumberBase;
+    target.InheritVisitNumberBase = this.InheritVisitNumberBase;
   }
 
 #endregion
@@ -1077,29 +1433,40 @@ public class InducedSubTaskScheduleEntity {
 
   /// <summary> estimated scheduling time relative to the scheduling date of the parent ProcedureSchedule </summary>
   [Required]
-  public Int32 Offset { get; set; }
+  public Int32 SchedulingOffset { get; set; }
 
   /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
   [Required]
-  public String OffsetUnit { get; set; }
-
-  /// <summary> defines an additional variability RELATIVE to the estimated scheduling time (which is calculated from the offset), in this case the EARLIEST possible time. </summary>
-  [Required]
-  public String SchedulingVariabilityBefore { get; set; }
-
-  /// <summary> defines an additional variability RELATIVE to the estimated scheduling time (which is calculated from the offset), in this case the LATEST possible time. </summary>
-  [Required]
-  public String SchedulingVariabilityAfter { get; set; }
-
-  /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
-  [Required]
-  public String SchedulingVariabilityUnit { get; set; }
+  public String SchedulingOffsetUnit { get; set; }
 
   [Required]
   public Boolean SharedSkipCounters { get; set; }
 
   [Required]
   public Boolean SharedLostCounters { get; set; }
+
+  /// <summary> The Position (1..x) of this inducement within the parent schedule. This value is relevant for addressing predecessors as fixpoint for the offest-calculation. Within one schedule there can only be one inducement for each position! The 0 is reserved for addressing the parent schedule itself and must not be used as well as negative values! </summary>
+  [Required]
+  public Int32 Position { get; set; }
+
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the parent Schedule (for the current cycle) was induced / -1=InducementOfPredessessor: when the direct predecessor task or subschedule (based on the 'Position') within the current schedule was induced / 1..x: when the predecessor at the Position within the current schedule, ADRESSED by the given value, was induced 
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'SchedulingByEstimate' </summary>
+  [Required]
+  public Int32 SchedulingOffsetFixpoint { get; set; }
+
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean SchedulingByEstimate { get; set; }
+
+  /// <summary> The name of a Sub-Study for which this schedule should be induced or empty when its part of the current Arms regular workflow  *this field is optional (use null as value) </summary>
+  public String DedicatedToSubstudy { get; set; }
+
+  [Required]
+  public Int32 IncreaseVisitNumberBase { get; set; }
+
+  [Required]
+  public Boolean InheritVisitNumberBase { get; set; }
 
   [Principal]
   public virtual TaskScheduleEntity ParentTaskSchedule { get; set; }
@@ -1113,52 +1480,64 @@ public class InducedSubTaskScheduleEntity {
     Id = src.Id,
     ParentTaskScheduleId = src.ParentTaskScheduleId,
     InducedTaskScheduleId = src.InducedTaskScheduleId,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
-    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
-    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
-    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    IncreaseVisitNumberBase = src.IncreaseVisitNumberBase,
+    InheritVisitNumberBase = src.InheritVisitNumberBase,
   });
 
   internal static Expression<Func<InducedSubTaskScheduleEntity, InducedSubTaskSchedule>> InducedSubTaskScheduleSelector = ((InducedSubTaskScheduleEntity src) => new InducedSubTaskSchedule {
     Id = src.Id,
     ParentTaskScheduleId = src.ParentTaskScheduleId,
     InducedTaskScheduleId = src.InducedTaskScheduleId,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
-    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
-    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
-    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    IncreaseVisitNumberBase = src.IncreaseVisitNumberBase,
+    InheritVisitNumberBase = src.InheritVisitNumberBase,
   });
 
   internal void CopyContentFrom(InducedSubTaskSchedule source, Func<String,bool> onFixedValueChangingCallback = null){
     this.Id = source.Id;
     this.ParentTaskScheduleId = source.ParentTaskScheduleId;
     this.InducedTaskScheduleId = source.InducedTaskScheduleId;
-    this.Offset = source.Offset;
-    this.OffsetUnit = source.OffsetUnit;
-    this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
-    this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
-    this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
+    this.SchedulingOffset = source.SchedulingOffset;
+    this.SchedulingOffsetUnit = source.SchedulingOffsetUnit;
     this.SharedSkipCounters = source.SharedSkipCounters;
     this.SharedLostCounters = source.SharedLostCounters;
+    this.Position = source.Position;
+    this.SchedulingOffsetFixpoint = source.SchedulingOffsetFixpoint;
+    this.SchedulingByEstimate = source.SchedulingByEstimate;
+    this.DedicatedToSubstudy = source.DedicatedToSubstudy;
+    this.IncreaseVisitNumberBase = source.IncreaseVisitNumberBase;
+    this.InheritVisitNumberBase = source.InheritVisitNumberBase;
   }
 
   internal void CopyContentTo(InducedSubTaskSchedule target, Func<String,bool> onFixedValueChangingCallback = null){
     target.Id = this.Id;
     target.ParentTaskScheduleId = this.ParentTaskScheduleId;
     target.InducedTaskScheduleId = this.InducedTaskScheduleId;
-    target.Offset = this.Offset;
-    target.OffsetUnit = this.OffsetUnit;
-    target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
-    target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
-    target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
+    target.SchedulingOffset = this.SchedulingOffset;
+    target.SchedulingOffsetUnit = this.SchedulingOffsetUnit;
     target.SharedSkipCounters = this.SharedSkipCounters;
     target.SharedLostCounters = this.SharedLostCounters;
+    target.Position = this.Position;
+    target.SchedulingOffsetFixpoint = this.SchedulingOffsetFixpoint;
+    target.SchedulingByEstimate = this.SchedulingByEstimate;
+    target.DedicatedToSubstudy = this.DedicatedToSubstudy;
+    target.IncreaseVisitNumberBase = this.IncreaseVisitNumberBase;
+    target.InheritVisitNumberBase = this.InheritVisitNumberBase;
   }
 
 #endregion
@@ -1175,15 +1554,15 @@ public class InducedTreatmentTaskEntity {
 
   /// <summary> *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
-  public String InducedTreatmentName { get; set; }
+  public String TaskDefinitionName { get; set; }
 
   /// <summary> estimated scheduling time relative to the scheduling date of the parent TaskSchedule </summary>
   [Required]
-  public Int32 Offset { get; set; }
+  public Int32 SchedulingOffset { get; set; }
 
   /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
   [Required]
-  public String OffsetUnit { get; set; }
+  public String SchedulingOffsetUnit { get; set; }
 
   /// <summary> defines an additional variability RELATIVE to the estimated scheduling time (which is calculated from the offset), in this case the EARLIEST possible time. </summary>
   [Required]
@@ -1197,9 +1576,9 @@ public class InducedTreatmentTaskEntity {
   [Required]
   public String SchedulingVariabilityUnit { get; set; }
 
-  /// <summary> the title for the induced execution, like 'Measurement X', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: '{vt} - Measurement X') to prevent from duplicate execution titles. </summary>
+  /// <summary> the name for the induced execution, like 'Measurement X', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: '{vt} - Measurement X') to prevent from duplicate execution names. </summary>
   [Required]
-  public String InducedTaskExecutionTitle { get; set; }
+  public String UniqueExecutionName { get; set; }
 
   /// <summary> defines, if the study protocol tolerates this execution to be 'skipped' (if not, a missed execution is treated as 'lost' and can cause the exclusion of the participant) </summary>
   [Required]
@@ -1211,83 +1590,124 @@ public class InducedTreatmentTaskEntity {
   [Required]
   public String EventOnLost { get; set; }
 
+  /// <summary> The Position (1..x) of this inducement within the parent schedule. This value is relevant for addressing predecessors as fixpoint for the offest-calculation. Within one schedule there can only be one inducement for each position! The 0 is reserved for addressing the parent schedule itself and must not be used as well as negative values! </summary>
+  [Required]
+  public Int32 Position { get; set; }
+
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the parent Schedule (for the current cycle) was induced / -1=InducementOfPredessessor: when the direct predecessor task or subschedule (based on the 'Position') within the current schedule was induced / 1..x: when the predecessor at the Position within the current schedule, ADRESSED by the given value, was induced 
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'SchedulingByEstimate' </summary>
+  [Required]
+  public Int32 SchedulingOffsetFixpoint { get; set; }
+
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean SchedulingByEstimate { get; set; }
+
+  /// <summary> The name of a Sub-Study for which this Task should be induced or empty when its part of the current Arms regular workflow *this field is optional (use null as value) </summary>
+  public String DedicatedToSubstudy { get; set; }
+
+  /// <summary> Number, which can be used via Placeholder {#} within the UniqueExecutionName and which will automatically increase when using cycles or sub-schedules </summary>
+  [Required]
+  public Int32 TaskNumber { get; set; }
+
   [Principal]
   public virtual TaskScheduleEntity TaskSchedule { get; set; }
 
   [Lookup]
-  public virtual TreatmentTaskEntity InducedTask { get; set; }
+  public virtual TreatmentTaskDefinitionEntity InducedTask { get; set; }
 
 #region Mapping
 
   internal static Expression<Func<InducedTreatmentTask, InducedTreatmentTaskEntity>> InducedTreatmentTaskEntitySelector = ((InducedTreatmentTask src) => new InducedTreatmentTaskEntity {
     Id = src.Id,
     TaskScheduleId = src.TaskScheduleId,
-    InducedTreatmentName = src.InducedTreatmentName,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
+    TaskDefinitionName = src.TaskDefinitionName,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
     SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
     SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedTaskExecutionTitle = src.InducedTaskExecutionTitle,
+    UniqueExecutionName = src.UniqueExecutionName,
     Skipable = src.Skipable,
     EventOnSkip = src.EventOnSkip,
     EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    TaskNumber = src.TaskNumber,
   });
 
   internal static Expression<Func<InducedTreatmentTaskEntity, InducedTreatmentTask>> InducedTreatmentTaskSelector = ((InducedTreatmentTaskEntity src) => new InducedTreatmentTask {
     Id = src.Id,
     TaskScheduleId = src.TaskScheduleId,
-    InducedTreatmentName = src.InducedTreatmentName,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
+    TaskDefinitionName = src.TaskDefinitionName,
+    SchedulingOffset = src.SchedulingOffset,
+    SchedulingOffsetUnit = src.SchedulingOffsetUnit,
     SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
     SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
     SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedTaskExecutionTitle = src.InducedTaskExecutionTitle,
+    UniqueExecutionName = src.UniqueExecutionName,
     Skipable = src.Skipable,
     EventOnSkip = src.EventOnSkip,
     EventOnLost = src.EventOnLost,
+    Position = src.Position,
+    SchedulingOffsetFixpoint = src.SchedulingOffsetFixpoint,
+    SchedulingByEstimate = src.SchedulingByEstimate,
+    DedicatedToSubstudy = src.DedicatedToSubstudy,
+    TaskNumber = src.TaskNumber,
   });
 
   internal void CopyContentFrom(InducedTreatmentTask source, Func<String,bool> onFixedValueChangingCallback = null){
     this.Id = source.Id;
     this.TaskScheduleId = source.TaskScheduleId;
-    this.InducedTreatmentName = source.InducedTreatmentName;
-    this.Offset = source.Offset;
-    this.OffsetUnit = source.OffsetUnit;
+    this.TaskDefinitionName = source.TaskDefinitionName;
+    this.SchedulingOffset = source.SchedulingOffset;
+    this.SchedulingOffsetUnit = source.SchedulingOffsetUnit;
     this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
     this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
     this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
-    this.InducedTaskExecutionTitle = source.InducedTaskExecutionTitle;
+    this.UniqueExecutionName = source.UniqueExecutionName;
     this.Skipable = source.Skipable;
     this.EventOnSkip = source.EventOnSkip;
     this.EventOnLost = source.EventOnLost;
+    this.Position = source.Position;
+    this.SchedulingOffsetFixpoint = source.SchedulingOffsetFixpoint;
+    this.SchedulingByEstimate = source.SchedulingByEstimate;
+    this.DedicatedToSubstudy = source.DedicatedToSubstudy;
+    this.TaskNumber = source.TaskNumber;
   }
 
   internal void CopyContentTo(InducedTreatmentTask target, Func<String,bool> onFixedValueChangingCallback = null){
     target.Id = this.Id;
     target.TaskScheduleId = this.TaskScheduleId;
-    target.InducedTreatmentName = this.InducedTreatmentName;
-    target.Offset = this.Offset;
-    target.OffsetUnit = this.OffsetUnit;
+    target.TaskDefinitionName = this.TaskDefinitionName;
+    target.SchedulingOffset = this.SchedulingOffset;
+    target.SchedulingOffsetUnit = this.SchedulingOffsetUnit;
     target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
     target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
     target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
-    target.InducedTaskExecutionTitle = this.InducedTaskExecutionTitle;
+    target.UniqueExecutionName = this.UniqueExecutionName;
     target.Skipable = this.Skipable;
     target.EventOnSkip = this.EventOnSkip;
     target.EventOnLost = this.EventOnLost;
+    target.Position = this.Position;
+    target.SchedulingOffsetFixpoint = this.SchedulingOffsetFixpoint;
+    target.SchedulingByEstimate = this.SchedulingByEstimate;
+    target.DedicatedToSubstudy = this.DedicatedToSubstudy;
+    target.TaskNumber = this.TaskNumber;
   }
 
 #endregion
 
 }
 
-public class TreatmentTaskEntity {
+public class TreatmentTaskDefinitionEntity {
 
-  /// <summary> *this field has a max length of 50 </summary>
+  /// <summary> Name of the Definition - INVARIANT! because it is used to generate Identifers for induced executions! *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
-  public String TreatmentName { get; set; }
+  public String TaskDefinitionName { get; set; }
 
   /// <summary> *this field has a max length of 100 </summary>
   [MaxLength(100), Required]
@@ -1316,12 +1736,12 @@ public class TreatmentTaskEntity {
   public virtual ObservableCollection<InducedTreatmentTaskEntity> Inducements { get; set; } = new ObservableCollection<InducedTreatmentTaskEntity>();
 
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
 #region Mapping
 
-  internal static Expression<Func<TreatmentTask, TreatmentTaskEntity>> TreatmentTaskEntitySelector = ((TreatmentTask src) => new TreatmentTaskEntity {
-    TreatmentName = src.TreatmentName,
+  internal static Expression<Func<TreatmentTaskDefinition, TreatmentTaskDefinitionEntity>> TreatmentTaskDefinitionEntitySelector = ((TreatmentTaskDefinition src) => new TreatmentTaskDefinitionEntity {
+    TaskDefinitionName = src.TaskDefinitionName,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
@@ -1331,8 +1751,8 @@ public class TreatmentTaskEntity {
     ImportantNotices = src.ImportantNotices,
   });
 
-  internal static Expression<Func<TreatmentTaskEntity, TreatmentTask>> TreatmentTaskSelector = ((TreatmentTaskEntity src) => new TreatmentTask {
-    TreatmentName = src.TreatmentName,
+  internal static Expression<Func<TreatmentTaskDefinitionEntity, TreatmentTaskDefinition>> TreatmentTaskDefinitionSelector = ((TreatmentTaskDefinitionEntity src) => new TreatmentTaskDefinition {
+    TaskDefinitionName = src.TaskDefinitionName,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
     BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
@@ -1342,8 +1762,8 @@ public class TreatmentTaskEntity {
     ImportantNotices = src.ImportantNotices,
   });
 
-  internal void CopyContentFrom(TreatmentTask source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.TreatmentName = source.TreatmentName;
+  internal void CopyContentFrom(TreatmentTaskDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
+    this.TaskDefinitionName = source.TaskDefinitionName;
     this.StudyWorkflowName = source.StudyWorkflowName;
     this.StudyWorkflowVersion = source.StudyWorkflowVersion;
     this.BillablePriceOnCompletedExecution = source.BillablePriceOnCompletedExecution;
@@ -1353,8 +1773,8 @@ public class TreatmentTaskEntity {
     this.ImportantNotices = source.ImportantNotices;
   }
 
-  internal void CopyContentTo(TreatmentTask target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.TreatmentName = this.TreatmentName;
+  internal void CopyContentTo(TreatmentTaskDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
+    target.TaskDefinitionName = this.TaskDefinitionName;
     target.StudyWorkflowName = this.StudyWorkflowName;
     target.StudyWorkflowVersion = this.StudyWorkflowVersion;
     target.BillablePriceOnCompletedExecution = this.BillablePriceOnCompletedExecution;
@@ -1368,218 +1788,20 @@ public class TreatmentTaskEntity {
 
 }
 
-public class InducedVisitProcedureEntity {
-
-  [Required]
-  public Guid Id { get; set; } = Guid.NewGuid();
-
-  [Required]
-  public Guid ProcedureScheduleId { get; set; }
-
-  /// <summary> estimated scheduling date relative to the scheduling date of the parent ProcedureSchedule </summary>
-  [Required]
-  public Int32 Offset { get; set; }
-
-  /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
-  [Required]
-  public String OffsetUnit { get; set; }
-
-  /// <summary> defines an additional variability RELATIVE to the estimated scheduling date (which is calculated from the offset), in this case the EARLIEST possible date. </summary>
-  [Required]
-  public String SchedulingVariabilityBefore { get; set; }
-
-  /// <summary> defines an additional variability RELATIVE to the estimated scheduling date (which is calculated from the offset), in this case the LATEST possible date. </summary>
-  [Required]
-  public String SchedulingVariabilityAfter { get; set; }
-
-  /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
-  [Required]
-  public String SchedulingVariabilityUnit { get; set; }
-
-  /// <summary> *this field has a max length of 50 </summary>
-  [MaxLength(50), Required]
-  public String InducedVisitProdecureName { get; set; }
-
-  /// <summary> the title for the induced execution, like 'V0', which is usually defined by the study protocol. if multiple inducements are possible (for example when using cycles), the title should to contain a placeholder (example: 'C{cs}-V0') to prevent from duplicate execution titles. </summary>
-  [Required]
-  public String InducedVisitExecutionTitle { get; set; }
-
-  /// <summary> defines, if the study protocol tolerates this execution to be 'skipped' (if not, a missed execution is treated as 'lost' and can cause the exclusion of the participant) </summary>
-  [Required]
-  public Boolean Skipable { get; set; }
-
-  [Required]
-  public String EventOnSkip { get; set; }
-
-  [Required]
-  public String EventOnLost { get; set; }
-
-  [Principal]
-  public virtual ProcedureScheduleEntity ProcedureSchedule { get; set; }
-
-  [Lookup]
-  public virtual VisitProdecureDefinitionEntity InducedVisitProdecure { get; set; }
-
-#region Mapping
-
-  internal static Expression<Func<InducedVisitProcedure, InducedVisitProcedureEntity>> InducedVisitProcedureEntitySelector = ((InducedVisitProcedure src) => new InducedVisitProcedureEntity {
-    Id = src.Id,
-    ProcedureScheduleId = src.ProcedureScheduleId,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
-    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
-    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
-    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedVisitProdecureName = src.InducedVisitProdecureName,
-    InducedVisitExecutionTitle = src.InducedVisitExecutionTitle,
-    Skipable = src.Skipable,
-    EventOnSkip = src.EventOnSkip,
-    EventOnLost = src.EventOnLost,
-  });
-
-  internal static Expression<Func<InducedVisitProcedureEntity, InducedVisitProcedure>> InducedVisitProcedureSelector = ((InducedVisitProcedureEntity src) => new InducedVisitProcedure {
-    Id = src.Id,
-    ProcedureScheduleId = src.ProcedureScheduleId,
-    Offset = src.Offset,
-    OffsetUnit = src.OffsetUnit,
-    SchedulingVariabilityBefore = src.SchedulingVariabilityBefore,
-    SchedulingVariabilityAfter = src.SchedulingVariabilityAfter,
-    SchedulingVariabilityUnit = src.SchedulingVariabilityUnit,
-    InducedVisitProdecureName = src.InducedVisitProdecureName,
-    InducedVisitExecutionTitle = src.InducedVisitExecutionTitle,
-    Skipable = src.Skipable,
-    EventOnSkip = src.EventOnSkip,
-    EventOnLost = src.EventOnLost,
-  });
-
-  internal void CopyContentFrom(InducedVisitProcedure source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.Id = source.Id;
-    this.ProcedureScheduleId = source.ProcedureScheduleId;
-    this.Offset = source.Offset;
-    this.OffsetUnit = source.OffsetUnit;
-    this.SchedulingVariabilityBefore = source.SchedulingVariabilityBefore;
-    this.SchedulingVariabilityAfter = source.SchedulingVariabilityAfter;
-    this.SchedulingVariabilityUnit = source.SchedulingVariabilityUnit;
-    this.InducedVisitProdecureName = source.InducedVisitProdecureName;
-    this.InducedVisitExecutionTitle = source.InducedVisitExecutionTitle;
-    this.Skipable = source.Skipable;
-    this.EventOnSkip = source.EventOnSkip;
-    this.EventOnLost = source.EventOnLost;
-  }
-
-  internal void CopyContentTo(InducedVisitProcedure target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.Id = this.Id;
-    target.ProcedureScheduleId = this.ProcedureScheduleId;
-    target.Offset = this.Offset;
-    target.OffsetUnit = this.OffsetUnit;
-    target.SchedulingVariabilityBefore = this.SchedulingVariabilityBefore;
-    target.SchedulingVariabilityAfter = this.SchedulingVariabilityAfter;
-    target.SchedulingVariabilityUnit = this.SchedulingVariabilityUnit;
-    target.InducedVisitProdecureName = this.InducedVisitProdecureName;
-    target.InducedVisitExecutionTitle = this.InducedVisitExecutionTitle;
-    target.Skipable = this.Skipable;
-    target.EventOnSkip = this.EventOnSkip;
-    target.EventOnLost = this.EventOnLost;
-  }
-
-#endregion
-
-}
-
-public class VisitProdecureDefinitionEntity {
-
-  /// <summary> *this field has a max length of 50 </summary>
-  [MaxLength(50), Required]
-  public String VisitProdecureName { get; set; }
-
-  /// <summary> *this field has a max length of 100 </summary>
-  [MaxLength(100), Required]
-  public String StudyWorkflowName { get; set; }
-
-  /// <summary> *this field has a max length of 20 </summary>
-  [MaxLength(20), Required]
-  public String StudyWorkflowVersion { get; set; }
-
-  /// <summary> the TaskSchedule which is representing the primary-/entry-workflow (estimated tasks) when executing this visit *this field is optional </summary>
-  public Nullable<Guid> RootTaskScheduleId { get; set; }
-
-  /// <summary> *this field is optional </summary>
-  public Nullable<Decimal> BillablePriceOnAbortedExecution { get; set; }
-
-  /// <summary> *this field is optional </summary>
-  public Nullable<Decimal> BillablePriceOnCompletedExecution { get; set; }
-
-  /// <summary> *this field is optional (use null as value) </summary>
-  public String VisitSpecificDocumentationUrl { get; set; }
-
-  [Referer]
-  public virtual ObservableCollection<InducedVisitProcedureEntity> Inducements { get; set; } = new ObservableCollection<InducedVisitProcedureEntity>();
-
-  [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
-
-  /// <summary> the TaskSchedule which is representing the primary-/entry-workflow (estimated tasks) when executing this visit </summary>
-  [Lookup]
-  public virtual TaskScheduleEntity RootTaskSchedule { get; set; }
-
-#region Mapping
-
-  internal static Expression<Func<VisitProdecureDefinition, VisitProdecureDefinitionEntity>> VisitProdecureDefinitionEntitySelector = ((VisitProdecureDefinition src) => new VisitProdecureDefinitionEntity {
-    VisitProdecureName = src.VisitProdecureName,
-    StudyWorkflowName = src.StudyWorkflowName,
-    StudyWorkflowVersion = src.StudyWorkflowVersion,
-    RootTaskScheduleId = src.RootTaskScheduleId,
-    BillablePriceOnAbortedExecution = src.BillablePriceOnAbortedExecution,
-    BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
-    VisitSpecificDocumentationUrl = src.VisitSpecificDocumentationUrl,
-  });
-
-  internal static Expression<Func<VisitProdecureDefinitionEntity, VisitProdecureDefinition>> VisitProdecureDefinitionSelector = ((VisitProdecureDefinitionEntity src) => new VisitProdecureDefinition {
-    VisitProdecureName = src.VisitProdecureName,
-    StudyWorkflowName = src.StudyWorkflowName,
-    StudyWorkflowVersion = src.StudyWorkflowVersion,
-    RootTaskScheduleId = src.RootTaskScheduleId,
-    BillablePriceOnAbortedExecution = src.BillablePriceOnAbortedExecution,
-    BillablePriceOnCompletedExecution = src.BillablePriceOnCompletedExecution,
-    VisitSpecificDocumentationUrl = src.VisitSpecificDocumentationUrl,
-  });
-
-  internal void CopyContentFrom(VisitProdecureDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.VisitProdecureName = source.VisitProdecureName;
-    this.StudyWorkflowName = source.StudyWorkflowName;
-    this.StudyWorkflowVersion = source.StudyWorkflowVersion;
-    this.RootTaskScheduleId = source.RootTaskScheduleId;
-    this.BillablePriceOnAbortedExecution = source.BillablePriceOnAbortedExecution;
-    this.BillablePriceOnCompletedExecution = source.BillablePriceOnCompletedExecution;
-    this.VisitSpecificDocumentationUrl = source.VisitSpecificDocumentationUrl;
-  }
-
-  internal void CopyContentTo(VisitProdecureDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.VisitProdecureName = this.VisitProdecureName;
-    target.StudyWorkflowName = this.StudyWorkflowName;
-    target.StudyWorkflowVersion = this.StudyWorkflowVersion;
-    target.RootTaskScheduleId = this.RootTaskScheduleId;
-    target.BillablePriceOnAbortedExecution = this.BillablePriceOnAbortedExecution;
-    target.BillablePriceOnCompletedExecution = this.BillablePriceOnCompletedExecution;
-    target.VisitSpecificDocumentationUrl = this.VisitSpecificDocumentationUrl;
-  }
-
-#endregion
-
-}
-
 public class ProcedureCycleDefinitionEntity {
 
   [Required]
   public Guid ProcedureScheduleId { get; set; } = Guid.NewGuid();
 
-  /// <summary> 1=EstimatedParent (related to the inducing date of the parent ProcedureSchedule) / 2=LastEstimatedInducement (related to the ESTIMATED scheduling date of the last inducement within the parent ProcedureSchedule) / 3=LastExecutedInducement  (related to the REAL EXECUTION date of the last inducement within the parent ProcedureSchedule) </summary>
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the last cycle was induced / -1=InducementOfPredessessor: when the last procedure or subschedule (based on the 'Position') of the previous cycle was induced.
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'ReschedulingByEstimate' </summary>
   [Required]
-  public Int32 ReschedulingBase { get; set; }
+  public Int32 ReschedulingOffsetFixpoint { get; set; }
 
   /// <summary> estimated scheduling date relative to the ReschedulingBase </summary>
   [Required]
-  public String ReschedulingOffset { get; set; }
+  public Int32 ReschedulingOffset { get; set; }
 
   /// <summary> 'M'=Months / 'W'=Weeks / 'D'=Days </summary>
   [Required]
@@ -1594,6 +1816,14 @@ public class ProcedureCycleDefinitionEntity {
   [Required]
   public Boolean SharedLostCounters { get; set; }
 
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean ReschedulingByEstimate { get; set; }
+
+  /// <summary> -1: automatic, based on the usage of visit numbers within the schedule </summary>
+  [Required]
+  public Int32 IncreaseVisitNumberBasePerCycle { get; set; }
+
   [Principal]
   public virtual ProcedureScheduleEntity ProcedureSchedule { get; set; }
 
@@ -1601,42 +1831,50 @@ public class ProcedureCycleDefinitionEntity {
 
   internal static Expression<Func<ProcedureCycleDefinition, ProcedureCycleDefinitionEntity>> ProcedureCycleDefinitionEntitySelector = ((ProcedureCycleDefinition src) => new ProcedureCycleDefinitionEntity {
     ProcedureScheduleId = src.ProcedureScheduleId,
-    ReschedulingBase = src.ReschedulingBase,
+    ReschedulingOffsetFixpoint = src.ReschedulingOffsetFixpoint,
     ReschedulingOffset = src.ReschedulingOffset,
     ReschedulingOffsetUnit = src.ReschedulingOffsetUnit,
     CycleLimit = src.CycleLimit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    ReschedulingByEstimate = src.ReschedulingByEstimate,
+    IncreaseVisitNumberBasePerCycle = src.IncreaseVisitNumberBasePerCycle,
   });
 
   internal static Expression<Func<ProcedureCycleDefinitionEntity, ProcedureCycleDefinition>> ProcedureCycleDefinitionSelector = ((ProcedureCycleDefinitionEntity src) => new ProcedureCycleDefinition {
     ProcedureScheduleId = src.ProcedureScheduleId,
-    ReschedulingBase = src.ReschedulingBase,
+    ReschedulingOffsetFixpoint = src.ReschedulingOffsetFixpoint,
     ReschedulingOffset = src.ReschedulingOffset,
     ReschedulingOffsetUnit = src.ReschedulingOffsetUnit,
     CycleLimit = src.CycleLimit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    ReschedulingByEstimate = src.ReschedulingByEstimate,
+    IncreaseVisitNumberBasePerCycle = src.IncreaseVisitNumberBasePerCycle,
   });
 
   internal void CopyContentFrom(ProcedureCycleDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
     this.ProcedureScheduleId = source.ProcedureScheduleId;
-    this.ReschedulingBase = source.ReschedulingBase;
+    this.ReschedulingOffsetFixpoint = source.ReschedulingOffsetFixpoint;
     this.ReschedulingOffset = source.ReschedulingOffset;
     this.ReschedulingOffsetUnit = source.ReschedulingOffsetUnit;
     this.CycleLimit = source.CycleLimit;
     this.SharedSkipCounters = source.SharedSkipCounters;
     this.SharedLostCounters = source.SharedLostCounters;
+    this.ReschedulingByEstimate = source.ReschedulingByEstimate;
+    this.IncreaseVisitNumberBasePerCycle = source.IncreaseVisitNumberBasePerCycle;
   }
 
   internal void CopyContentTo(ProcedureCycleDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
     target.ProcedureScheduleId = this.ProcedureScheduleId;
-    target.ReschedulingBase = this.ReschedulingBase;
+    target.ReschedulingOffsetFixpoint = this.ReschedulingOffsetFixpoint;
     target.ReschedulingOffset = this.ReschedulingOffset;
     target.ReschedulingOffsetUnit = this.ReschedulingOffsetUnit;
     target.CycleLimit = this.CycleLimit;
     target.SharedSkipCounters = this.SharedSkipCounters;
     target.SharedLostCounters = this.SharedLostCounters;
+    target.ReschedulingByEstimate = this.ReschedulingByEstimate;
+    target.IncreaseVisitNumberBasePerCycle = this.IncreaseVisitNumberBasePerCycle;
   }
 
 #endregion
@@ -1670,7 +1908,7 @@ public class StudyEventEntity {
   public String EvenSpecificDocumentationUrl { get; set; }
 
   [Principal]
-  public virtual ResearchStudyEntity ResearchStudy { get; set; }
+  public virtual ResearchStudyDefinitionEntity ResearchStudy { get; set; }
 
 #region Mapping
 
@@ -1718,18 +1956,67 @@ public class StudyEventEntity {
 
 }
 
+public class SubStudyEntity {
+
+  /// <summary> *this field has a max length of 50 </summary>
+  [MaxLength(50), Required]
+  public String SubStudyName { get; set; }
+
+  /// <summary> *this field has a max length of 100 </summary>
+  [MaxLength(100), Required]
+  public String StudyWorkflowName { get; set; }
+
+  /// <summary> *this field has a max length of 20 </summary>
+  [MaxLength(20), Required]
+  public String StudyWorkflowVersion { get; set; }
+
+  [Principal]
+  public virtual ResearchStudyDefinitionEntity ResearchStudyDefinition { get; set; }
+
+#region Mapping
+
+  internal static Expression<Func<SubStudy, SubStudyEntity>> SubStudyEntitySelector = ((SubStudy src) => new SubStudyEntity {
+    SubStudyName = src.SubStudyName,
+    StudyWorkflowName = src.StudyWorkflowName,
+    StudyWorkflowVersion = src.StudyWorkflowVersion,
+  });
+
+  internal static Expression<Func<SubStudyEntity, SubStudy>> SubStudySelector = ((SubStudyEntity src) => new SubStudy {
+    SubStudyName = src.SubStudyName,
+    StudyWorkflowName = src.StudyWorkflowName,
+    StudyWorkflowVersion = src.StudyWorkflowVersion,
+  });
+
+  internal void CopyContentFrom(SubStudy source, Func<String,bool> onFixedValueChangingCallback = null){
+    this.SubStudyName = source.SubStudyName;
+    this.StudyWorkflowName = source.StudyWorkflowName;
+    this.StudyWorkflowVersion = source.StudyWorkflowVersion;
+  }
+
+  internal void CopyContentTo(SubStudy target, Func<String,bool> onFixedValueChangingCallback = null){
+    target.SubStudyName = this.SubStudyName;
+    target.StudyWorkflowName = this.StudyWorkflowName;
+    target.StudyWorkflowVersion = this.StudyWorkflowVersion;
+  }
+
+#endregion
+
+}
+
 public class TaskCycleDefinitionEntity {
 
   [Required]
   public Guid TaskScheduleId { get; set; } = Guid.NewGuid();
 
-  /// <summary> 1=EstimatedParent (related to the inducing time of the parent TaskSchedule) / 2=LastEstimatedInducement (related to the ESTIMATED scheduling time of the last inducement within the parent TaskSchedule) / 3=LastExecutedInducement  (related to the REAL EXECUTION time of the last inducement within the parent TaskSchedule) </summary>
+  /// <summary> 0=InducementOfScheduleOrCycle: when the start of the last cycle was induced / -1=InducementOfPredessessor: when the last task or subschedule (based on the 'Position') of the previous cycle was induced.
+  /// *items of sub-schedules are not relevant - when addressing a sub-schedule as predecessor, then only its entry will be used
+  /// *this behaviour can be concretized via 'ReschedulingByEstimate' </summary>
   [Required]
-  public String ReschedulingBase { get; set; }
+  public Int32 ReschedulingOffsetFixpoint { get; set; }
 
   /// <summary> estimated scheduling time relative to the ReschedulingBase </summary>
   [Required]
-  public String ReschedulingOffset { get; set; }
+  public Int32 ReschedulingOffset { get; set; }
 
   /// <summary> 'h'=Hours / 'm'=Minutes / 's'=Seconds </summary>
   [Required]
@@ -1744,6 +2031,14 @@ public class TaskCycleDefinitionEntity {
   [Required]
   public Boolean SharedLostCounters { get; set; }
 
+  /// <summary> If set to true, the offset calculation will be based on the ESTIMATED completion of the predecessor (see 'Fixpoint'). Otherwise, when set to false, the offset calculation will be based on the REAL completion (if recorded execution data is available during calculation) of the predecessor. *this will not evaluated, when the 'Fixpoint' is set to 0! </summary>
+  [Required]
+  public Boolean ReschedulingByEstimate { get; set; }
+
+  /// <summary> -1: automatic, based on the usage of task numbers within the schedule </summary>
+  [Required]
+  public Int32 IncreaseTaskNumberBasePerCycle { get; set; }
+
   [Principal]
   public virtual TaskScheduleEntity TaskSchedule { get; set; }
 
@@ -1751,42 +2046,50 @@ public class TaskCycleDefinitionEntity {
 
   internal static Expression<Func<TaskCycleDefinition, TaskCycleDefinitionEntity>> TaskCycleDefinitionEntitySelector = ((TaskCycleDefinition src) => new TaskCycleDefinitionEntity {
     TaskScheduleId = src.TaskScheduleId,
-    ReschedulingBase = src.ReschedulingBase,
+    ReschedulingOffsetFixpoint = src.ReschedulingOffsetFixpoint,
     ReschedulingOffset = src.ReschedulingOffset,
     ReschedulingOffsetUnit = src.ReschedulingOffsetUnit,
     CycleLimit = src.CycleLimit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    ReschedulingByEstimate = src.ReschedulingByEstimate,
+    IncreaseTaskNumberBasePerCycle = src.IncreaseTaskNumberBasePerCycle,
   });
 
   internal static Expression<Func<TaskCycleDefinitionEntity, TaskCycleDefinition>> TaskCycleDefinitionSelector = ((TaskCycleDefinitionEntity src) => new TaskCycleDefinition {
     TaskScheduleId = src.TaskScheduleId,
-    ReschedulingBase = src.ReschedulingBase,
+    ReschedulingOffsetFixpoint = src.ReschedulingOffsetFixpoint,
     ReschedulingOffset = src.ReschedulingOffset,
     ReschedulingOffsetUnit = src.ReschedulingOffsetUnit,
     CycleLimit = src.CycleLimit,
     SharedSkipCounters = src.SharedSkipCounters,
     SharedLostCounters = src.SharedLostCounters,
+    ReschedulingByEstimate = src.ReschedulingByEstimate,
+    IncreaseTaskNumberBasePerCycle = src.IncreaseTaskNumberBasePerCycle,
   });
 
   internal void CopyContentFrom(TaskCycleDefinition source, Func<String,bool> onFixedValueChangingCallback = null){
     this.TaskScheduleId = source.TaskScheduleId;
-    this.ReschedulingBase = source.ReschedulingBase;
+    this.ReschedulingOffsetFixpoint = source.ReschedulingOffsetFixpoint;
     this.ReschedulingOffset = source.ReschedulingOffset;
     this.ReschedulingOffsetUnit = source.ReschedulingOffsetUnit;
     this.CycleLimit = source.CycleLimit;
     this.SharedSkipCounters = source.SharedSkipCounters;
     this.SharedLostCounters = source.SharedLostCounters;
+    this.ReschedulingByEstimate = source.ReschedulingByEstimate;
+    this.IncreaseTaskNumberBasePerCycle = source.IncreaseTaskNumberBasePerCycle;
   }
 
   internal void CopyContentTo(TaskCycleDefinition target, Func<String,bool> onFixedValueChangingCallback = null){
     target.TaskScheduleId = this.TaskScheduleId;
-    target.ReschedulingBase = this.ReschedulingBase;
+    target.ReschedulingOffsetFixpoint = this.ReschedulingOffsetFixpoint;
     target.ReschedulingOffset = this.ReschedulingOffset;
     target.ReschedulingOffsetUnit = this.ReschedulingOffsetUnit;
     target.CycleLimit = this.CycleLimit;
     target.SharedSkipCounters = this.SharedSkipCounters;
     target.SharedLostCounters = this.SharedLostCounters;
+    target.ReschedulingByEstimate = this.ReschedulingByEstimate;
+    target.IncreaseTaskNumberBasePerCycle = this.IncreaseTaskNumberBasePerCycle;
   }
 
 #endregion

@@ -21,7 +21,7 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "..\\..\\..\\..\\(ORSCF) orscf-modeling\\EDMX\\StudyWorkflowDefinition\\ORSCF-StudyWorkflowDefinition.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\orscf-modeling\\EDMX\\StudyWorkflowDefinition\\ORSCF-StudyWorkflowDefinition.Schema.json";
 
        const string outputNamespace = "MedicalResearch.Workflow.Model";
        const string entityClassNamePattern = "{E}";

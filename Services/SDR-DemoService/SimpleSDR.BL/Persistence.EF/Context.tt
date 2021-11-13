@@ -1,0 +1,454 @@
+<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ output extension=".Generated.cs"#>
+using System;
+using Microsoft.EntityFrameworkCore;
+<#
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 24.04.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+       //CONFIGURATION:
+
+       const string inputFile               = "..\\..\\..\\..\\..\\orscf-modeling\\EDMX\\SubjectData\\ORSCF-SubjectData.Schema.json";
+
+       const string outputNamespace         = "MedicalResearch.SubjectData.Persistence.EF";
+       const string entityClassNamePattern  = "{E}Entity";
+       const string tablePrefix             = "Sms";
+       const string contextName             = "SubjectDataDbContext";
+       const string defaultConnectionString = "Server=(localdb)\\MsSqlLocalDb;Database={CN};Integrated Security=True;Persist Security Info=True;MultipleActiveResultSets=True;";
+       const bool generateEfMapping         = true;
+
+#>
+using MedicalResearch.SubjectData.Persistence;
+<#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NO EDITS BELOW THIS LINE!!!
+
+string rawSchema = File.ReadAllText(Host.ResolvePath(inputFile), System.Text.Encoding.Default);
+SchemaRoot schema = JsonConvert.DeserializeObject<SchemaRoot>(rawSchema);
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+
+namespace <#=outputNamespace#> {
+<#
+}
+
+#>
+
+  /// <summary> EntityFramework DbContext (based on schema version '<#=schema.SemanticVersion #>') </summary>
+  public partial class <#=contextName#> : DbContext{
+
+    public const String SchemaVersion = "<#=schema.SemanticVersion #>";
+<#
+
+foreach (EntitySchema entity in schema.Entities) {
+
+  String entitySummary = entity.Summary;
+  if(!String.IsNullOrWhiteSpace(entitySummary)){
+    entitySummary = "    /// <summary> " + entity.Name + ": " + entitySummary.Trim().Replace("\n", "\n    /// ") + " </summary>\n";
+  }
+
+  //generate DbSets only for Base entities
+  if(String.IsNullOrWhiteSpace(entity.InheritedEntityName)){
+#>
+
+<#=entitySummary#>    public DbSet<<#=entityClassNamePattern.Replace("{E}", entity.Name)#>> <#=entity.NamePlural#> { get; set; }
+<#
+  }
+
+}// entity-loop
+
+#>
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+      base.OnModelCreating(modelBuilder);
+<#
+  if(generateEfMapping){
+#>
+
+#region Mapping
+<#
+  foreach (EntitySchema entity in schema.Entities) {
+
+    EntitySchema baseEntity = entity;
+    while (!String.IsNullOrWhiteSpace(baseEntity.InheritedEntityName)){
+      baseEntity = schema.Entities.Where(e => e.Name == baseEntity.InheritedEntityName).Single();
+    }
+
+    String resolvedEntityName = entityClassNamePattern.Replace("{E}", entity.Name);
+
+    // PRIMARY-KEY
+    String pkFieldNames = "";
+    String pkFieldNamesNameof = "";
+    String identityExpression = "";
+    foreach (IndexSchema idx in baseEntity.Indices) {
+      if(idx.Name == baseEntity.PrimaryKeyIndexName){
+        //pkFieldNames = "nameof(" + resolvedEntityName + "." + String.Join("), nameof(" + resolvedEntityName + ".", idx.MemberFieldNames) + ")";
+        if(idx.MemberFieldNames.Length > 1){
+          pkFieldNames = "(e) => new {e." + String.Join(", e.", idx.MemberFieldNames) + "}";
+          pkFieldNamesNameof  = "nameof(" + resolvedEntityName + "." + String.Join("), nameof(" + resolvedEntityName + ".", idx.MemberFieldNames) + ")";
+        }
+        else{
+          pkFieldNames = "(e) => e." + idx.MemberFieldNames[0];
+          pkFieldNamesNameof = "nameof(" + resolvedEntityName + "." + idx.MemberFieldNames[0] + ")";
+        }
+
+        /*foreach (String pkFieldName in idx.MemberFieldNames) {
+          FieldSchema field = baseEntity.Fields.Where((f)=> f.Name == pkFieldName).Single();
+          if(field.DbGeneratedIdentity){
+            if(field.Type == "Guid"){
+              identityExpression = identityExpression + "\n      cfg" + entity.Name + ".Property((e) => e." + field.Name + ").ValueGeneratedOnAdd();";
+            }
+            else{
+              identityExpression = identityExpression + "\n      cfg" + entity.Name + ".Property((e) => e." + field.Name + ").UseIdentityColumn();";
+            }
+          }
+        }*/
+      }
+    }
+    foreach (FieldSchema field in entity.Fields) {
+      if(field.DbGeneratedIdentity){
+        if(field.Type == "Guid"){
+          identityExpression = identityExpression + "\n      cfg" + entity.Name + ".Property((e) => e." + field.Name + ").ValueGeneratedOnAdd();";
+        }
+        else{
+          identityExpression = identityExpression + "\n      cfg" + entity.Name + ".Property((e) => e." + field.Name + ").UseIdentityColumn();";
+        }
+      }
+    }
+
+
+#>
+
+      //////////////////////////////////////////////////////////////////////////////////////
+      // <#=entity.Name#>
+      //////////////////////////////////////////////////////////////////////////////////////
+
+      var cfg<#=entity.Name#> = modelBuilder.Entity<<#=resolvedEntityName#>>();
+      cfg<#=entity.Name#>.ToTable("<#=tablePrefix+entity.NamePlural#>");
+<#
+      if(!String.IsNullOrWhiteSpace(entity.InheritedEntityName)){
+#>
+      cfg<#=entity.Name#>.HasBaseType<<#=entityClassNamePattern.Replace("{E}", entity.InheritedEntityName)#>>();
+<#
+      }
+      else{
+#>
+      cfg<#=entity.Name#>.HasKey(<#=pkFieldNames#>);<#=identityExpression#>
+<#
+      }
+#>
+<#
+
+    foreach (RelationSchema rel in schema.Relations) {
+
+      bool regularDeclaredOnForeignEntity = false;
+      bool reverseDeclaredOnPrimaryEntity = false;
+      bool navlessDeclaredOnPrimaryEntity = false;
+      EntitySchema remoteEntity = null;
+      String resolvedRemoteEntityName = "";
+      IndexSchema fkIndex = null;
+      String fkFieldNames = "";
+
+      if(!String.IsNullOrWhiteSpace(rel.ForeignNavigationName)){
+        if(rel.ForeignEntityName == entity.Name){
+          regularDeclaredOnForeignEntity = true;
+          remoteEntity = schema.Entities.Where((e) => e.Name == rel.PrimaryEntityName).Single();
+          resolvedRemoteEntityName = entityClassNamePattern.Replace("{E}", remoteEntity.Name);
+          fkIndex = entity.Indices.Where((e) => e.Name == rel.ForeignKeyIndexName).Single();
+          // FOREIGN-KEY
+          fkFieldNames = "nameof(" + resolvedEntityName + "." + String.Join("), nameof(" + resolvedEntityName + ".", fkIndex.MemberFieldNames) + ")";
+        }
+      }
+      else{
+        if(rel.PrimaryEntityName == entity.Name){
+          remoteEntity = schema.Entities.Where((e) => e.Name == rel.ForeignEntityName).Single();
+          resolvedRemoteEntityName = entityClassNamePattern.Replace("{E}", remoteEntity.Name);
+          fkIndex = remoteEntity.Indices.Where((e) => e.Name == rel.ForeignKeyIndexName).Single();
+          // FOREIGN-KEY
+          fkFieldNames = "nameof(" + resolvedRemoteEntityName + "." + String.Join("), nameof(" + resolvedRemoteEntityName + ".", fkIndex.MemberFieldNames) + ")";
+          if(!String.IsNullOrWhiteSpace(rel.PrimaryNavigationName)){
+            reverseDeclaredOnPrimaryEntity = true;
+          }
+          else{
+            navlessDeclaredOnPrimaryEntity = true;
+          }
+        }
+      }
+
+      String fluentDeclaration = "";
+      String infoString = "";
+
+      ///////////////////////////////////////////////////////////////////
+      if(regularDeclaredOnForeignEntity){
+
+        if(rel.IsLookupRelation){
+          infoString = "LOOKUP: ";
+        }
+        else{
+          infoString = "PRINCIPAL: ";
+        }
+        infoString = infoString + ">>> " + remoteEntity.Name;
+
+        if(rel.PrimaryEntityIsOptional){
+          fluentDeclaration = fluentDeclaration + "\n        .HasOne((lcl) => lcl." + rel.ForeignNavigationName + " )";
+        }
+        else{
+          fluentDeclaration = fluentDeclaration + "\n        .HasOne((lcl) => lcl." + rel.ForeignNavigationName + " )";
+        }
+
+        if(!String.IsNullOrWhiteSpace(rel.PrimaryNavigationName)){
+          if(rel.ForeignEntityIsMultiple){
+            fluentDeclaration = fluentDeclaration + "\n        .WithMany((rem) => rem." + rel.PrimaryNavigationName + " )";
+          }
+          else{
+            fluentDeclaration = fluentDeclaration + "\n        .WithOne((rem) => rem." + rel.PrimaryNavigationName + " )";
+          }
+        }
+        else{
+          if(rel.ForeignEntityIsMultiple){
+            fluentDeclaration = fluentDeclaration + "\n        .WithMany()";
+          }
+          else{
+            fluentDeclaration = fluentDeclaration + "\n        .WithOne()";
+          }
+        }
+
+        if(rel.ForeignEntityIsMultiple){
+          fluentDeclaration = fluentDeclaration + "\n        .HasForeignKey(" + fkFieldNames + ")";
+        }
+        else{
+          fluentDeclaration = fluentDeclaration + "\n        .HasForeignKey(typeof(" + resolvedEntityName + "), " + pkFieldNamesNameof + ")";
+        }
+
+
+        if(rel.CascadeDelete){
+          fluentDeclaration = fluentDeclaration + "\n        .OnDelete(DeleteBehavior.Cascade)";
+        }
+        else{
+          fluentDeclaration = fluentDeclaration + "\n        .OnDelete(DeleteBehavior.Restrict)";
+        }
+
+#>
+
+      // <#=infoString#>
+      cfg<#=entity.Name#><#=fluentDeclaration#>;
+<#
+      } // end regularDeclaredOnForeignEntity
+
+      ///////////////////////////////////////////////////////////////////
+      if(reverseDeclaredOnPrimaryEntity || navlessDeclaredOnPrimaryEntity){
+
+        if(rel.IsLookupRelation){
+          infoString = "REFERER: ";
+        }
+        else{
+          infoString = "DEPENDENT: ";
+        }
+        infoString = infoString + "<<< " + remoteEntity.Name;
+
+        if(rel.ForeignEntityIsMultiple){
+          fluentDeclaration = fluentDeclaration + "\n        .HasMany((lcl) => lcl." + rel.PrimaryNavigationName + " )";
+        }
+        else{
+          fluentDeclaration = fluentDeclaration + "\n        .HasOne((lcl) => lcl." + rel.PrimaryNavigationName + " )";
+        }
+
+        if(!String.IsNullOrWhiteSpace(rel.ForeignNavigationName)){
+          if(rel.PrimaryEntityIsOptional){
+            fluentDeclaration = fluentDeclaration + "\n        .WithOne((rem) => rem." + rel.ForeignNavigationName + " )";
+          }
+          else{
+            fluentDeclaration = fluentDeclaration + "\n        .WithOne((rem) => rem." + rel.ForeignNavigationName + " )";
+          }
+        }
+        else{
+          if(rel.PrimaryEntityIsOptional){
+            fluentDeclaration = fluentDeclaration + "\n        .WithOne()";
+          }
+          else{
+            fluentDeclaration = fluentDeclaration + "\n        .WithOne()";
+          }
+        }
+
+        if(rel.ForeignEntityIsMultiple){
+          fluentDeclaration = fluentDeclaration + "\n        .HasForeignKey(" + fkFieldNames + ")";
+        }
+
+        if(rel.CascadeDelete){
+          fluentDeclaration = fluentDeclaration + "\n        .OnDelete(DeleteBehavior.Cascade)";
+        }
+        else{
+          fluentDeclaration = fluentDeclaration + "\n        .OnDelete(DeleteBehavior.Restrict)";
+        }
+
+#>
+
+      // <#=infoString#>
+      //cfg<#=entity.Name#><#=fluentDeclaration#>;
+<#
+      } // end declaredOnPrimaryEntity
+
+    }// relation loop
+
+  }
+#>
+
+#endregion
+
+<#
+  } // end generateEfMapping
+#>
+      this.OnModelCreatingCustom(modelBuilder);
+    }
+
+    partial void OnModelCreatingCustom(ModelBuilder modelBuilder);
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options) {
+
+      //reqires separate nuget-package Microsoft.EntityFrameworkCore.SqlServer
+      options.UseSqlServer(_ConnectionString);
+
+      //reqires separate nuget-package Microsoft.EntityFrameworkCore.Proxies
+      options.UseLazyLoadingProxies();
+
+      this.OnConfiguringCustom(options);
+    }
+
+    partial void OnConfiguringCustom(DbContextOptionsBuilder options);
+
+    public static void Migrate() {
+      if (!_Migrated) {
+        <#=contextName#> c = new <#=contextName#>();
+        c.Database.Migrate();
+        _Migrated = true;
+        c.Dispose();
+      }
+    }
+
+   private static bool _Migrated = false;
+
+    private static String _ConnectionString = "<#=defaultConnectionString.Replace("{CN}", contextName).Replace("\\", "\\\\") #>";
+    public static String ConnectionString {
+      set{ _ConnectionString = value;  }
+    }
+
+  }
+
+<#
+
+if(!String.IsNullOrWhiteSpace(outputNamespace)) {
+#>
+}
+<#
+}
+
+#><#+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//     GENERATOR-CODE                                                                        //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+string Escape(object input){  
+  if(input == null){
+    return "";
+  }
+  string s = input.ToString();
+  String[] compilerSensitveWords = new  String[]{"class", "object"};
+  if (compilerSensitveWords.Contains(s)){
+    return "@" + s;
+  }
+  return s;
+}
+
+class SchemaRoot{
+
+  public string DescriptionFormat = "";
+
+  public string TimestampUtc = "";
+  public string SemanticVersion = "";
+
+  public EntitySchema[] Entities = {};
+
+  public RelationSchema[] Relations = {};
+
+}
+
+class EntitySchema{
+
+  public string Name = "";
+  public string NamePlural = "";
+  public string InheritedEntityName = null;
+  public string Summary = "";
+
+  public bool IsBlEntrypoint = false;
+
+  public string PrimaryKeyIndexName = "";
+  public IndexSchema[] Indices = {};
+
+  public FieldSchema[] Fields = {};
+
+}
+
+class FieldSchema{
+
+  public string Name = "";
+  public string Type = "";
+  public int MaxLength = 0;
+
+  public string Summary = "";
+  public bool SystemInternal = false;
+  public bool FixedAfterCreation = false;
+
+  public bool Required = true;
+  public string DefaultValue = null;
+  public bool DbGeneratedIdentity = false;
+
+}
+
+class IndexSchema{
+
+  public string Name = "";
+  public bool Unique = false;
+  public string[] MemberFieldNames = {};
+
+}
+
+class RelationSchema{
+
+  public string Name = "";
+
+  public string PrimaryEntityName = "";
+  public string ForeignEntityName = "";
+  public string ForeignKeyIndexName = "";
+
+  public bool IsLookupRelation = true;
+  public bool PrimaryEntityIsOptional = false;
+  public bool ForeignEntityIsMultiple = true;
+
+  public string PrimaryNavigationName = "";
+  public string ForeignNavigationName = "";
+  public string PrimaryNavigationSummary = "";
+  public string ForeignNavigationSummary = "";
+
+  public bool CascadeDelete = false;
+
+}
+
+#>

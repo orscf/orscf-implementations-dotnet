@@ -10,7 +10,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                           //
-//     Copyright: Tobias Korn / version: 01.05.2021                                          //
+//     Copyright: Tobias Korn / version: 22.05.2021                                          //
 //                                                                                           //
 //     this template is open source (under Apache-2 license) and originated here:            //
 //     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
@@ -21,19 +21,22 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "ORSCF-StudyWorkflowDefinition.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\orscf-modeling\\EDMX\\StudyWorkflowDefinition\\ORSCF-StudyWorkflowDefinition.Schema.json";
 
-       const string outputNamespace = "MedicalResearch.Workflow.Persistence.EF";
+       const string outputNamespace = "MedicalResearch.Workflow.StoreAccess";
 
        const string repositoryInterfaceNamespacePrefix = "";
        const string itemClassNamePattern = "{E}";
        const string entityClassNamePattern = "{E}Entity";
+       const string interfaceNamePattern = "I{P}";
 
        const string dbContextClassName = "WorkflowDefinitionDbContext";
 
 #>
 using MedicalResearch.Workflow;
 using MedicalResearch.Workflow.Persistence;
+using MedicalResearch.Workflow.Persistence.EF;
+using MedicalResearch.Workflow.Model;
 <#
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +53,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 <#
 
 if(!String.IsNullOrWhiteSpace(outputNamespace)) {
@@ -76,7 +80,7 @@ foreach (EntitySchema entity in schema.Entities) {
 
   String ressolvedItemName = itemClassNamePattern.Replace("{E}", entity.Name);
   String ressolvedEntityName = entityClassNamePattern.Replace("{E}", entity.Name);
-
+  
   String dbSetName = entity.NamePlural;
   String inheritedEntityTypeOfSelector = "";
   if(baseEntity.Name != entity.Name){
@@ -238,7 +242,12 @@ foreach (EntitySchema entity in schema.Entities) {
 #>
 
 /// <summary> Provides CRUD access to stored <#= entity.NamePlural#> (based on schema version '<#=schema.SemanticVersion #>') </summary>
-public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespacePrefix#>I<#=ressolvedItemName#>Repository {
+public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespacePrefix#><#=interfaceNamePattern.Replace("{E}", entity.Name).Replace("{P}", entity.NamePlural)#> {
+
+  private ILogger _Logger = null;
+  public <#=ressolvedItemName#>Store(ILogger<<#=ressolvedItemName#>Store> logger){
+    _Logger = logger;
+  }
 
   /// <summary> Loads a specific <#=ressolvedItemName#> addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
   /// <param name="<#=pkParamName#>"> <#=pkFieldSummary#> </param>
@@ -272,12 +281,19 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
   private static String[] _FreetextPropNames = new String[] {<#=String.Join(", ", freetextPropNames.ToArray())#>};
 
   /// <summary> Loads <#= entity.NamePlural#> where values matching to the given filterExpression</summary>
-  /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")'</param>
+  /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>
   /// <param name="sortingExpression">one or more property names which are used as sort order (before pagination)</param>
   /// <param name="page">Number of the page, which should be returned</param>
   /// <param name="pageSize">Max count of <#= entity.NamePlural#> which should be returned</param>
   public <#=ressolvedItemName#>[] Search<#= entity.NamePlural#>(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20){
     var mac = AccessControlContext.Current;
+
+    if(page < 1){
+      page = 1;
+    }
+    if(pageSize < 1 || pageSize > 10000){
+      pageSize = 20;
+    }
 
     <#=ressolvedItemName#>[] result;
     using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
@@ -290,12 +306,12 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
       ;
       
       //apply filter (if given)
-      if(filterExpression != null) {
+      if(!String.IsNullOrWhiteSpace(filterExpression) && filterExpression != "*") {
         //just if the filterExpression isnt already a valid expression, treat it as a freetext seach string and transform it to a valid expression
         filterExpression = DynamicLinqExtensions.FreetextSearchStringToFilterExpression(filterExpression, _ExactMatchPropNames, _FreetextPropNames);
-      }
-      if(filterExpression != null) {
-        query = query.DynamicallyFiltered(filterExpression);
+        if(filterExpression != null) {
+          query = query.DynamicallyFiltered(filterExpression);
+        }
       }
 
       //apply sorting
@@ -329,16 +345,25 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
 
       //checks, that the new values are within the access control scope
       if(!this.PreValidateAccessControlScope(newEntity, db)){
+        if(_Logger != null){
+          _Logger.LogInformation("Adding <#=ressolvedItemName#> failed: record would be out of access control scope!");
+        }
         return false;
       }
 
       if (db.<#=dbSetName#><#=inheritedEntityTypeOfSelector#>.Where(<#=newEntityBasedPkWhereExpression#>).Any()) {
+        if(_Logger != null){
+          _Logger.LogInformation("Adding <#=ressolvedItemName#> failed: already existing record with this PK!");
+        }
         return false;
       }
 
       db.<#=dbSetName#>.Add(newEntity);
 
       db.SaveChanges();
+    }
+    if(_Logger != null){
+      _Logger.LogInformation("A <#=ressolvedItemName#> was added!");
     }
 
     return true;
@@ -359,7 +384,7 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
     <#=ressolvedEntityName#> existingEntity;
     using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
 
-      var query = db.<#=dbSetName#>.AsNoTracking()<#=inheritedEntityTypeOfSelector#>;
+      IQueryable<<#=ressolvedEntityName#>> query = db.<#=dbSetName#><#=inheritedEntityTypeOfSelector#>;
 
       query = query.Where(<#=paramBasedPkWhereExpression#>).AccessScopeFiltered();
 
@@ -367,6 +392,9 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
       existingEntity = query.SingleOrDefault();
 
       if(existingEntity == null) {
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: no record with this PK!");
+        }
         return false;
       }
 
@@ -374,15 +402,24 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
       existingEntity.CopyContentFrom(<#=Escape(Ftl(ressolvedItemName))#>, (name) => changeAttemptOnFixedField = true);
 
       if (changeAttemptOnFixedField) {
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: change attempt on FIXED field!");
+        }
         return false;
       }
 
       //checks, that the new values are within the access control scope
       if(!this.PreValidateAccessControlScope(existingEntity, db)){
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: record would be out of access control scope!");
+        }
         return false;
       }
 
       db.SaveChanges();
+    }
+    if(_Logger != null){
+      _Logger.LogInformation("A <#=ressolvedItemName#> was updated!");
     }
 
     return true;
@@ -396,7 +433,7 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
     <#=ressolvedEntityName#> existingEntity;
     using (<#=dbContextClassName#> db = new <#=dbContextClassName#>()) {
 
-      var query = db.<#=dbSetName#>.AsNoTracking()<#=inheritedEntityTypeOfSelector#>.AccessScopeFiltered();
+      IQueryable<<#=ressolvedEntityName#>> query = db.<#=dbSetName#><#=inheritedEntityTypeOfSelector#>.AccessScopeFiltered();
 
       query = query.Where(<#=paramBasedPkWhereExpression#>);
 
@@ -404,12 +441,18 @@ public partial class <#=ressolvedItemName#>Store : <#=repositoryInterfaceNamespa
       existingEntity = query.SingleOrDefault();
 
       if (existingEntity == null) {
+        if(_Logger != null){
+          _Logger.LogInformation("Updating <#=ressolvedItemName#> failed: no record with this PK!");
+        }
         return false;
       }
 
       db.<#=dbSetName#>.Remove(existingEntity);
 
       db.SaveChanges();
+    }
+    if(_Logger != null){
+      _Logger.LogInformation("A <#=ressolvedItemName#> was deleted!");
     }
 
     return true;

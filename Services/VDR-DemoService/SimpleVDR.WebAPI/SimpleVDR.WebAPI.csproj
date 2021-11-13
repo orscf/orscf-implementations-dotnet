@@ -2,23 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>ORSCF.SimpleVisitDataRepository.WebAPI</AssemblyName>
+    <AssemblyName>ORSCF.VisitData.Service.WebAPI</AssemblyName>
     <RootNamespace>MedicalResearch.VisitData</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\ORSCF.SimpleVisitDataRepository.WebAPI.xml</DocumentationFile>
-    <OutputPath>bin</OutputPath>
+    <DocumentationFile>.\bin\ORSCF.VisitData.Service.WebAPI.xml</DocumentationFile>
+    <OutputPath>.\bin</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\ORSCF.SimpleVisitDataRepository.WebAPI.xml</DocumentationFile>
-    <OutputPath>bin</OutputPath>
+    <DocumentationFile>.\bin\ORSCF.VisitData.Service.WebAPI.xml</DocumentationFile>
+    <OutputPath>.\bin</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -47,11 +47,13 @@
     <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
-    <PackageReference Include="ORSCF.VisitData.Contract" Version="1.6.0.8091" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
-    <PackageReference Include="UJMW.Tools.CodeGen" Version="1.0.19.457" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,12 +61,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Controllers\Controllers.tt">
+    <None Update="Controllers\StoreAccess.Controllers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Controllers.Generated.cs</LastGenOutput>
+      <LastGenOutput>StoreAccess.Controllers.Generated.cs</LastGenOutput>
     </None>
-    <None Update="DTOs\Wrappers.tt">
-      <LastGenOutput>Wrappers.Generated.cs</LastGenOutput>
+    <None Update="DTOs\StoreAccess.Wrappers.tt">
+      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
@@ -74,20 +76,51 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controllers\Controllers.Generated.cs">
+    <Compile Update="Controllers\StoreAccess.Controllers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Controllers.tt</DependentUpon>
+      <DependentUpon>StoreAccess.Controllers.tt</DependentUpon>
     </Compile>
-    <Compile Update="DTOs\Wrappers.Generated.cs">
+    <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Wrappers.tt</DependentUpon>
+      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Hl7.Fhir.ElementModel">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.ElementModel.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.R4.Core">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.R4.Core.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Serialization">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.Serialization.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Support">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.Support.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Support.Poco">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.Support.Poco.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.FhirPath">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.FhirPath.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="ORSCF.VisitData.Contract">
+      <HintPath>..\..\..\(Stage)\Bin\ORSCF.VisitData.Contract.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>

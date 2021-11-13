@@ -1,0 +1,55 @@
+
+.swagger-ui .topbar {
+    background-color: #000;
+}
+.swagger-ui .topbar .download-url-wrapper .select-label select {
+    border-color: #1C314C;
+}
+.topbar-wrapper img[alt="Swagger UI"], .topbar-wrapper span {
+    visibility: hidden;
+}
+
+.swagger-ui .btn.authorize {
+  color: #1C314C;
+  border-color: #1C314C;
+}
+.swagger-ui .btn.authorize svg {
+  fill: #1C314C;
+}
+
+.swagger-ui .opblock.opblock-post {
+  border-color: #1C314C;
+}
+.swagger-ui .opblock.opblock-post .opblock-summary {
+  background-color: #e2fcff;
+  border-color: #1C314C;
+}
+.swagger-ui .opblock.opblock-post .tab-header .tab-item.active h4 span::after {
+  background-color: #1C314C;
+}
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+  background-color: #1C314C;
+}
+.swagger-ui .opblock.opblock-post {
+  background-color: #e2fcff;
+}
+
+.topbar-wrapper .link:after {
+  content: '';
+  background: url(logo.jpg) center no-repeat;
+  background-color: white;
+  border-radius: 8px;
+  min-height: 50px;
+  min-width: 100px;
+  color: #fff;
+  visibility: visible;
+  display: block;
+  position: absolute;
+  padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.swagger-ui .info .title small:last-child {
+    background-color: #1C314C !important;
+}

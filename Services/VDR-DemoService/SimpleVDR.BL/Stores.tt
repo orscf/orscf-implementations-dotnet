@@ -21,9 +21,9 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "..\\..\\..\\..\\(ORSCF) orscf-specification\\VisitData\\ORSCF-VisitData.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\orscf-modeling\\EDMX\\VisitData\\ORSCF-VisitData.Schema.json";
 
-       const string outputNamespace = "MedicalResearch.VisitData.Persistence.EF";
+       const string outputNamespace = "MedicalResearch.VisitData.StoreAccess";
 
        const string repositoryInterfaceNamespacePrefix = "";
        const string itemClassNamePattern = "{E}";
@@ -35,8 +35,8 @@
 #>
 using MedicalResearch.VisitData;
 using MedicalResearch.VisitData.Persistence;
+using MedicalResearch.VisitData.Persistence.EF;
 using MedicalResearch.VisitData.Model;
-using MedicalResearch.VisitData.StoreAccess;
 <#
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -14,16 +14,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\(Stage)\Bin\net5.0</OutputPath>
-    <DocumentationFile>..\(Stage)\Bin\net5.0\ORSCF.StudyManagement.Contract.xml</DocumentationFile>
+    <OutputPath>..\..\(Stage)\Bin</OutputPath>
+    <DocumentationFile>..\..\(Stage)\Bin\ORSCF.StudyManagement.Contract.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\(Stage)\Bin\net5.0</OutputPath>
-    <DocumentationFile>..\(Stage)\Bin\net5.0\ORSCF.StudyManagement.Contract.xml</DocumentationFile>
+    <OutputPath>..\..\(Stage)\Bin</OutputPath>
+    <DocumentationFile>..\..\(Stage)\Bin\ORSCF.StudyManagement.Contract.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1591</NoWarn>

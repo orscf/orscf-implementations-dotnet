@@ -21,7 +21,7 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "..\\..\\..\\..\\(ORSCF) orscf-modeling\\EDMX\\VisitData\\ORSCF-VisitData.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\orscf-modeling\\EDMX\\VisitData\\ORSCF-VisitData.Schema.json";
 
        const bool onlyRootPrincipals = false;
 

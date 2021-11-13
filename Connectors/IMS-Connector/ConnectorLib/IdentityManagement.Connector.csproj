@@ -20,17 +20,17 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\(Stage)\Bin</OutputPath>
+    <OutputPath>..\..\..\(Stage)\Bin</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <DocumentationFile>..\..\(Stage)\Bin\ORSCF.IdentityManagement.Connector.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\(Stage)\Bin\ORSCF.IdentityManagement.Connector.xml</DocumentationFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\(Stage)\Bin</OutputPath>
+    <OutputPath>..\..\..\(Stage)\Bin</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <DocumentationFile>..\..\(Stage)\Bin\ORSCF.IdentityManagement.Connector.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\(Stage)\Bin\ORSCF.IdentityManagement.Connector.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   
@@ -43,11 +43,10 @@
   
   <ItemGroup>
     <PackageReference Include="EntityAnnotations" Version="2.2.0.423" />
+    <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ORSCF.IdentityManagement.Contract" Version="1.6.0.8091" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="UJMW.Tools.CodeGen" Version="1.0.19.457" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,13 +54,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Connector.tt">
-      <LastGenOutput>Connector.Generated.cs</LastGenOutput>
+    <None Update="StoreAccess.Connector.tt">
+      <LastGenOutput>StoreAccess.Connector.Generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Wrappers.tt">
+    <None Update="StoreAccess\StoreAccess.Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Wrappers.Generated.cs</LastGenOutput>
+      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -74,15 +73,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Connector.Generated.cs">
+    <Reference Include="ORSCF.IdentityManagement.Contract">
+      <HintPath>..\..\..\(Stage)\Bin\ORSCF.IdentityManagement.Contract.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="StoreAccess.Connector.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Connector.tt</DependentUpon>
+      <DependentUpon>StoreAccess.Connector.tt</DependentUpon>
     </Compile>
-    <Compile Update="Wrappers.Generated.cs">
+    <Compile Update="StoreAccess\StoreAccess.Wrappers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Wrappers.tt</DependentUpon>
+      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

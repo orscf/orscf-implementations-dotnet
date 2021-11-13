@@ -1,0 +1,1031 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ORSCF.SimpleVisitDataRepository.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.GetDataRecordingByTaskGuid(MedicalResearch.VisitData.WebAPI.GetDataRecordingByTaskGuidRequest)">
+            <summary> Loads a specific DataRecording addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.GetDataRecordings(MedicalResearch.VisitData.WebAPI.GetDataRecordingsRequest)">
+            <summary> Loads DataRecordings. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.SearchDataRecordings(MedicalResearch.VisitData.WebAPI.SearchDataRecordingsRequest)">
+            <summary> Loads DataRecordings where values matching to the given filterExpression </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.AddNewDataRecording(MedicalResearch.VisitData.WebAPI.AddNewDataRecordingRequest)">
+            <summary> Adds a new DataRecording and returns its primary identifier (or null on failure). </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.UpdateDataRecording(MedicalResearch.VisitData.WebAPI.UpdateDataRecordingRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the primary identifier fields within the given DataRecording. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.UpdateDataRecordingByTaskGuid(MedicalResearch.VisitData.WebAPI.UpdateDataRecordingByTaskGuidRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DataRecordingsController.DeleteDataRecordingByTaskGuid(MedicalResearch.VisitData.WebAPI.DeleteDataRecordingByTaskGuidRequest)">
+            <summary> Deletes a specific DataRecording addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.GetVisitByVisitGuid(MedicalResearch.VisitData.WebAPI.GetVisitByVisitGuidRequest)">
+            <summary> Loads a specific Visit addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.GetVisits(MedicalResearch.VisitData.WebAPI.GetVisitsRequest)">
+            <summary> Loads Visits. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.SearchVisits(MedicalResearch.VisitData.WebAPI.SearchVisitsRequest)">
+            <summary> Loads Visits where values matching to the given filterExpression </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.AddNewVisit(MedicalResearch.VisitData.WebAPI.AddNewVisitRequest)">
+            <summary> Adds a new Visit and returns its primary identifier (or null on failure). </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.UpdateVisit(MedicalResearch.VisitData.WebAPI.UpdateVisitRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the primary identifier fields within the given Visit. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.UpdateVisitByVisitGuid(MedicalResearch.VisitData.WebAPI.UpdateVisitByVisitGuidRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.VisitsController.DeleteVisitByVisitGuid(MedicalResearch.VisitData.WebAPI.DeleteVisitByVisitGuidRequest)">
+            <summary> Deletes a specific Visit addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.GetDrugApplymentByTaskGuid(MedicalResearch.VisitData.WebAPI.GetDrugApplymentByTaskGuidRequest)">
+            <summary> Loads a specific DrugApplyment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.GetDrugApplyments(MedicalResearch.VisitData.WebAPI.GetDrugApplymentsRequest)">
+            <summary> Loads DrugApplyments. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.SearchDrugApplyments(MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsRequest)">
+            <summary> Loads DrugApplyments where values matching to the given filterExpression </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.AddNewDrugApplyment(MedicalResearch.VisitData.WebAPI.AddNewDrugApplymentRequest)">
+            <summary> Adds a new DrugApplyment and returns its primary identifier (or null on failure). </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.UpdateDrugApplyment(MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the primary identifier fields within the given DrugApplyment. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.UpdateDrugApplymentByTaskGuid(MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentByTaskGuidRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.DrugApplymentsController.DeleteDrugApplymentByTaskGuid(MedicalResearch.VisitData.WebAPI.DeleteDrugApplymentByTaskGuidRequest)">
+            <summary> Deletes a specific DrugApplyment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.GetStudyEventByEventGuid(MedicalResearch.VisitData.WebAPI.GetStudyEventByEventGuidRequest)">
+            <summary> Loads a specific StudyEvent addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.GetStudyEvents(MedicalResearch.VisitData.WebAPI.GetStudyEventsRequest)">
+            <summary> Loads StudyEvents. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.SearchStudyEvents(MedicalResearch.VisitData.WebAPI.SearchStudyEventsRequest)">
+            <summary> Loads StudyEvents where values matching to the given filterExpression </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.AddNewStudyEvent(MedicalResearch.VisitData.WebAPI.AddNewStudyEventRequest)">
+            <summary> Adds a new StudyEvent and returns its primary identifier (or null on failure). </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.UpdateStudyEvent(MedicalResearch.VisitData.WebAPI.UpdateStudyEventRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the primary identifier fields within the given StudyEvent. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.UpdateStudyEventByEventGuid(MedicalResearch.VisitData.WebAPI.UpdateStudyEventByEventGuidRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyEventsController.DeleteStudyEventByEventGuid(MedicalResearch.VisitData.WebAPI.DeleteStudyEventByEventGuidRequest)">
+            <summary> Deletes a specific StudyEvent addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.GetStudyExecutionScopeByStudyExecutionIdentifier(MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopeByStudyExecutionIdentifierRequest)">
+            <summary> Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.GetStudyExecutionScopes(MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopesRequest)">
+            <summary> Loads StudyExecutionScopes. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.SearchStudyExecutionScopes(MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesRequest)">
+            <summary> Loads StudyExecutionScopes where values matching to the given filterExpression </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.AddNewStudyExecutionScope(MedicalResearch.VisitData.WebAPI.AddNewStudyExecutionScopeRequest)">
+            <summary> Adds a new StudyExecutionScope and returns its primary identifier (or null on failure). </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.UpdateStudyExecutionScope(MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.UpdateStudyExecutionScopeByStudyExecutionIdentifier(MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeByStudyExecutionIdentifierRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.StudyExecutionScopesController.DeleteStudyExecutionScopeByStudyExecutionIdentifier(MedicalResearch.VisitData.WebAPI.DeleteStudyExecutionScopeByStudyExecutionIdentifierRequest)">
+            <summary> Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.GetTreatmentByTaskGuid(MedicalResearch.VisitData.WebAPI.GetTreatmentByTaskGuidRequest)">
+            <summary> Loads a specific Treatment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.GetTreatments(MedicalResearch.VisitData.WebAPI.GetTreatmentsRequest)">
+            <summary> Loads Treatments. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.SearchTreatments(MedicalResearch.VisitData.WebAPI.SearchTreatmentsRequest)">
+            <summary> Loads Treatments where values matching to the given filterExpression </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.AddNewTreatment(MedicalResearch.VisitData.WebAPI.AddNewTreatmentRequest)">
+            <summary> Adds a new Treatment and returns its primary identifier (or null on failure). </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.UpdateTreatment(MedicalResearch.VisitData.WebAPI.UpdateTreatmentRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the primary identifier fields within the given Treatment. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.UpdateTreatmentByTaskGuid(MedicalResearch.VisitData.WebAPI.UpdateTreatmentByTaskGuidRequest)">
+            <summary> Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="M:MedicalResearch.VisitData.WebAPI.TreatmentsController.DeleteTreatmentByTaskGuid(MedicalResearch.VisitData.WebAPI.DeleteTreatmentByTaskGuidRequest)">
+            <summary> Deletes a specific Treatment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+            <param name="args"> request capsule containing the method arguments </param>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDataRecordingByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'GetDataRecordingByTaskGuid'.
+            Method: Loads a specific DataRecording addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDataRecordingByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'GetDataRecordingByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDataRecordingByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'GetDataRecordingByTaskGuid'.
+            Method: Loads a specific DataRecording addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDataRecordingByTaskGuidResponse.return">
+            <summary> Return-Value of 'GetDataRecordingByTaskGuid' (DataRecording) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDataRecordingsRequest">
+            <summary>
+            Contains arguments for calling 'GetDataRecordings'.
+            Method: Loads DataRecordings.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDataRecordingsRequest.page">
+            <summary> Optional Argument for 'GetDataRecordings' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDataRecordingsRequest.pageSize">
+            <summary> Optional Argument for 'GetDataRecordings' (Int32?): Max count of DataRecordings which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDataRecordingsResponse">
+            <summary>
+            Contains results from calling 'GetDataRecordings'.
+            Method: Loads DataRecordings.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDataRecordingsResponse.return">
+            <summary> Return-Value of 'GetDataRecordings' (DataRecording[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsRequest">
+            <summary>
+            Contains arguments for calling 'SearchDataRecordings'.
+            Method: Loads DataRecordings where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsRequest.filterExpression">
+            <summary> Required Argument for 'SearchDataRecordings' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsRequest.sortingExpression">
+            <summary> Optional Argument for 'SearchDataRecordings' (String): one or more property names which are used as sort order (before pagination) </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsRequest.page">
+            <summary> Optional Argument for 'SearchDataRecordings' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsRequest.pageSize">
+            <summary> Optional Argument for 'SearchDataRecordings' (Int32?): Max count of DataRecordings which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsResponse">
+            <summary>
+            Contains results from calling 'SearchDataRecordings'.
+            Method: Loads DataRecordings where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDataRecordingsResponse.return">
+            <summary> Return-Value of 'SearchDataRecordings' (DataRecording[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewDataRecordingRequest">
+            <summary>
+            Contains arguments for calling 'AddNewDataRecording'.
+            Method: Adds a new DataRecording and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewDataRecordingRequest.dataRecording">
+            <summary> Required Argument for 'AddNewDataRecording' (DataRecording): DataRecording containing the new values </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewDataRecordingResponse">
+            <summary>
+            Contains results from calling 'AddNewDataRecording'.
+            Method: Adds a new DataRecording and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewDataRecordingResponse.return">
+            <summary> Return-Value of 'AddNewDataRecording' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingRequest">
+            <summary>
+            Contains arguments for calling 'UpdateDataRecording'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the primary identifier fields within the given DataRecording. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingRequest.dataRecording">
+            <summary> Required Argument for 'UpdateDataRecording' (DataRecording): DataRecording containing the new values (the primary identifier fields within the given DataRecording will be used to address the target record) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingResponse">
+            <summary>
+            Contains results from calling 'UpdateDataRecording'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the primary identifier fields within the given DataRecording. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingResponse.return">
+            <summary> Return-Value of 'UpdateDataRecording' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'UpdateDataRecordingByTaskGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'UpdateDataRecordingByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingByTaskGuidRequest.dataRecording">
+            <summary> Required Argument for 'UpdateDataRecordingByTaskGuid' (DataRecording): DataRecording containing the new values (the primary identifier fields within the given DataRecording will be ignored) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'UpdateDataRecordingByTaskGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDataRecordingByTaskGuidResponse.return">
+            <summary> Return-Value of 'UpdateDataRecordingByTaskGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteDataRecordingByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'DeleteDataRecordingByTaskGuid'.
+            Method: Deletes a specific DataRecording addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteDataRecordingByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'DeleteDataRecordingByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteDataRecordingByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'DeleteDataRecordingByTaskGuid'.
+            Method: Deletes a specific DataRecording addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteDataRecordingByTaskGuidResponse.return">
+            <summary> Return-Value of 'DeleteDataRecordingByTaskGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetVisitByVisitGuidRequest">
+            <summary>
+            Contains arguments for calling 'GetVisitByVisitGuid'.
+            Method: Loads a specific Visit addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetVisitByVisitGuidRequest.visitGuid">
+            <summary> Required Argument for 'GetVisitByVisitGuid' (Guid): a global unique id of a concrete study-visit execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetVisitByVisitGuidResponse">
+            <summary>
+            Contains results from calling 'GetVisitByVisitGuid'.
+            Method: Loads a specific Visit addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetVisitByVisitGuidResponse.return">
+            <summary> Return-Value of 'GetVisitByVisitGuid' (Visit) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetVisitsRequest">
+            <summary>
+            Contains arguments for calling 'GetVisits'.
+            Method: Loads Visits.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetVisitsRequest.page">
+            <summary> Optional Argument for 'GetVisits' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetVisitsRequest.pageSize">
+            <summary> Optional Argument for 'GetVisits' (Int32?): Max count of Visits which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetVisitsResponse">
+            <summary>
+            Contains results from calling 'GetVisits'.
+            Method: Loads Visits.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetVisitsResponse.return">
+            <summary> Return-Value of 'GetVisits' (Visit[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchVisitsRequest">
+            <summary>
+            Contains arguments for calling 'SearchVisits'.
+            Method: Loads Visits where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchVisitsRequest.filterExpression">
+            <summary> Required Argument for 'SearchVisits' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchVisitsRequest.sortingExpression">
+            <summary> Optional Argument for 'SearchVisits' (String): one or more property names which are used as sort order (before pagination) </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchVisitsRequest.page">
+            <summary> Optional Argument for 'SearchVisits' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchVisitsRequest.pageSize">
+            <summary> Optional Argument for 'SearchVisits' (Int32?): Max count of Visits which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchVisitsResponse">
+            <summary>
+            Contains results from calling 'SearchVisits'.
+            Method: Loads Visits where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchVisitsResponse.return">
+            <summary> Return-Value of 'SearchVisits' (Visit[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewVisitRequest">
+            <summary>
+            Contains arguments for calling 'AddNewVisit'.
+            Method: Adds a new Visit and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewVisitRequest.visit">
+            <summary> Required Argument for 'AddNewVisit' (Visit): Visit containing the new values </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewVisitResponse">
+            <summary>
+            Contains results from calling 'AddNewVisit'.
+            Method: Adds a new Visit and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewVisitResponse.return">
+            <summary> Return-Value of 'AddNewVisit' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateVisitRequest">
+            <summary>
+            Contains arguments for calling 'UpdateVisit'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the primary identifier fields within the given Visit. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateVisitRequest.visit">
+            <summary> Required Argument for 'UpdateVisit' (Visit): Visit containing the new values (the primary identifier fields within the given Visit will be used to address the target record) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateVisitResponse">
+            <summary>
+            Contains results from calling 'UpdateVisit'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the primary identifier fields within the given Visit. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateVisitResponse.return">
+            <summary> Return-Value of 'UpdateVisit' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateVisitByVisitGuidRequest">
+            <summary>
+            Contains arguments for calling 'UpdateVisitByVisitGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateVisitByVisitGuidRequest.visitGuid">
+            <summary> Required Argument for 'UpdateVisitByVisitGuid' (Guid): a global unique id of a concrete study-visit execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateVisitByVisitGuidRequest.visit">
+            <summary> Required Argument for 'UpdateVisitByVisitGuid' (Visit): Visit containing the new values (the primary identifier fields within the given Visit will be ignored) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateVisitByVisitGuidResponse">
+            <summary>
+            Contains results from calling 'UpdateVisitByVisitGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateVisitByVisitGuidResponse.return">
+            <summary> Return-Value of 'UpdateVisitByVisitGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteVisitByVisitGuidRequest">
+            <summary>
+            Contains arguments for calling 'DeleteVisitByVisitGuid'.
+            Method: Deletes a specific Visit addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteVisitByVisitGuidRequest.visitGuid">
+            <summary> Required Argument for 'DeleteVisitByVisitGuid' (Guid): a global unique id of a concrete study-visit execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteVisitByVisitGuidResponse">
+            <summary>
+            Contains results from calling 'DeleteVisitByVisitGuid'.
+            Method: Deletes a specific Visit addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteVisitByVisitGuidResponse.return">
+            <summary> Return-Value of 'DeleteVisitByVisitGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDrugApplymentByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'GetDrugApplymentByTaskGuid'.
+            Method: Loads a specific DrugApplyment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDrugApplymentByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'GetDrugApplymentByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDrugApplymentByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'GetDrugApplymentByTaskGuid'.
+            Method: Loads a specific DrugApplyment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDrugApplymentByTaskGuidResponse.return">
+            <summary> Return-Value of 'GetDrugApplymentByTaskGuid' (DrugApplyment) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDrugApplymentsRequest">
+            <summary>
+            Contains arguments for calling 'GetDrugApplyments'.
+            Method: Loads DrugApplyments.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDrugApplymentsRequest.page">
+            <summary> Optional Argument for 'GetDrugApplyments' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDrugApplymentsRequest.pageSize">
+            <summary> Optional Argument for 'GetDrugApplyments' (Int32?): Max count of DrugApplyments which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetDrugApplymentsResponse">
+            <summary>
+            Contains results from calling 'GetDrugApplyments'.
+            Method: Loads DrugApplyments.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetDrugApplymentsResponse.return">
+            <summary> Return-Value of 'GetDrugApplyments' (DrugApplyment[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsRequest">
+            <summary>
+            Contains arguments for calling 'SearchDrugApplyments'.
+            Method: Loads DrugApplyments where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsRequest.filterExpression">
+            <summary> Required Argument for 'SearchDrugApplyments' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsRequest.sortingExpression">
+            <summary> Optional Argument for 'SearchDrugApplyments' (String): one or more property names which are used as sort order (before pagination) </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsRequest.page">
+            <summary> Optional Argument for 'SearchDrugApplyments' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsRequest.pageSize">
+            <summary> Optional Argument for 'SearchDrugApplyments' (Int32?): Max count of DrugApplyments which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsResponse">
+            <summary>
+            Contains results from calling 'SearchDrugApplyments'.
+            Method: Loads DrugApplyments where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchDrugApplymentsResponse.return">
+            <summary> Return-Value of 'SearchDrugApplyments' (DrugApplyment[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewDrugApplymentRequest">
+            <summary>
+            Contains arguments for calling 'AddNewDrugApplyment'.
+            Method: Adds a new DrugApplyment and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewDrugApplymentRequest.drugApplyment">
+            <summary> Required Argument for 'AddNewDrugApplyment' (DrugApplyment): DrugApplyment containing the new values </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewDrugApplymentResponse">
+            <summary>
+            Contains results from calling 'AddNewDrugApplyment'.
+            Method: Adds a new DrugApplyment and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewDrugApplymentResponse.return">
+            <summary> Return-Value of 'AddNewDrugApplyment' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentRequest">
+            <summary>
+            Contains arguments for calling 'UpdateDrugApplyment'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the primary identifier fields within the given DrugApplyment. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentRequest.drugApplyment">
+            <summary> Required Argument for 'UpdateDrugApplyment' (DrugApplyment): DrugApplyment containing the new values (the primary identifier fields within the given DrugApplyment will be used to address the target record) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentResponse">
+            <summary>
+            Contains results from calling 'UpdateDrugApplyment'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the primary identifier fields within the given DrugApplyment. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentResponse.return">
+            <summary> Return-Value of 'UpdateDrugApplyment' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'UpdateDrugApplymentByTaskGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'UpdateDrugApplymentByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentByTaskGuidRequest.drugApplyment">
+            <summary> Required Argument for 'UpdateDrugApplymentByTaskGuid' (DrugApplyment): DrugApplyment containing the new values (the primary identifier fields within the given DrugApplyment will be ignored) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'UpdateDrugApplymentByTaskGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateDrugApplymentByTaskGuidResponse.return">
+            <summary> Return-Value of 'UpdateDrugApplymentByTaskGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteDrugApplymentByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'DeleteDrugApplymentByTaskGuid'.
+            Method: Deletes a specific DrugApplyment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteDrugApplymentByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'DeleteDrugApplymentByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteDrugApplymentByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'DeleteDrugApplymentByTaskGuid'.
+            Method: Deletes a specific DrugApplyment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteDrugApplymentByTaskGuidResponse.return">
+            <summary> Return-Value of 'DeleteDrugApplymentByTaskGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyEventByEventGuidRequest">
+            <summary>
+            Contains arguments for calling 'GetStudyEventByEventGuid'.
+            Method: Loads a specific StudyEvent addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyEventByEventGuidRequest.eventGuid">
+            <summary> Required Argument for 'GetStudyEventByEventGuid' (Guid): a global unique id of a concrete study-event occurrence which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyEventByEventGuidResponse">
+            <summary>
+            Contains results from calling 'GetStudyEventByEventGuid'.
+            Method: Loads a specific StudyEvent addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyEventByEventGuidResponse.return">
+            <summary> Return-Value of 'GetStudyEventByEventGuid' (StudyEvent) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyEventsRequest">
+            <summary>
+            Contains arguments for calling 'GetStudyEvents'.
+            Method: Loads StudyEvents.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyEventsRequest.page">
+            <summary> Optional Argument for 'GetStudyEvents' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyEventsRequest.pageSize">
+            <summary> Optional Argument for 'GetStudyEvents' (Int32?): Max count of StudyEvents which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyEventsResponse">
+            <summary>
+            Contains results from calling 'GetStudyEvents'.
+            Method: Loads StudyEvents.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyEventsResponse.return">
+            <summary> Return-Value of 'GetStudyEvents' (StudyEvent[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchStudyEventsRequest">
+            <summary>
+            Contains arguments for calling 'SearchStudyEvents'.
+            Method: Loads StudyEvents where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyEventsRequest.filterExpression">
+            <summary> Required Argument for 'SearchStudyEvents' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyEventsRequest.sortingExpression">
+            <summary> Optional Argument for 'SearchStudyEvents' (String): one or more property names which are used as sort order (before pagination) </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyEventsRequest.page">
+            <summary> Optional Argument for 'SearchStudyEvents' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyEventsRequest.pageSize">
+            <summary> Optional Argument for 'SearchStudyEvents' (Int32?): Max count of StudyEvents which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchStudyEventsResponse">
+            <summary>
+            Contains results from calling 'SearchStudyEvents'.
+            Method: Loads StudyEvents where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyEventsResponse.return">
+            <summary> Return-Value of 'SearchStudyEvents' (StudyEvent[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewStudyEventRequest">
+            <summary>
+            Contains arguments for calling 'AddNewStudyEvent'.
+            Method: Adds a new StudyEvent and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewStudyEventRequest.studyEvent">
+            <summary> Required Argument for 'AddNewStudyEvent' (StudyEvent): StudyEvent containing the new values </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewStudyEventResponse">
+            <summary>
+            Contains results from calling 'AddNewStudyEvent'.
+            Method: Adds a new StudyEvent and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewStudyEventResponse.return">
+            <summary> Return-Value of 'AddNewStudyEvent' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyEventRequest">
+            <summary>
+            Contains arguments for calling 'UpdateStudyEvent'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the primary identifier fields within the given StudyEvent. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyEventRequest.studyEvent">
+            <summary> Required Argument for 'UpdateStudyEvent' (StudyEvent): StudyEvent containing the new values (the primary identifier fields within the given StudyEvent will be used to address the target record) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyEventResponse">
+            <summary>
+            Contains results from calling 'UpdateStudyEvent'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the primary identifier fields within the given StudyEvent. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyEventResponse.return">
+            <summary> Return-Value of 'UpdateStudyEvent' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyEventByEventGuidRequest">
+            <summary>
+            Contains arguments for calling 'UpdateStudyEventByEventGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyEventByEventGuidRequest.eventGuid">
+            <summary> Required Argument for 'UpdateStudyEventByEventGuid' (Guid): a global unique id of a concrete study-event occurrence which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyEventByEventGuidRequest.studyEvent">
+            <summary> Required Argument for 'UpdateStudyEventByEventGuid' (StudyEvent): StudyEvent containing the new values (the primary identifier fields within the given StudyEvent will be ignored) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyEventByEventGuidResponse">
+            <summary>
+            Contains results from calling 'UpdateStudyEventByEventGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyEventByEventGuidResponse.return">
+            <summary> Return-Value of 'UpdateStudyEventByEventGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteStudyEventByEventGuidRequest">
+            <summary>
+            Contains arguments for calling 'DeleteStudyEventByEventGuid'.
+            Method: Deletes a specific StudyEvent addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteStudyEventByEventGuidRequest.eventGuid">
+            <summary> Required Argument for 'DeleteStudyEventByEventGuid' (Guid): a global unique id of a concrete study-event occurrence which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteStudyEventByEventGuidResponse">
+            <summary>
+            Contains results from calling 'DeleteStudyEventByEventGuid'.
+            Method: Deletes a specific StudyEvent addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteStudyEventByEventGuidResponse.return">
+            <summary> Return-Value of 'DeleteStudyEventByEventGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopeByStudyExecutionIdentifierRequest">
+            <summary>
+            Contains arguments for calling 'GetStudyExecutionScopeByStudyExecutionIdentifier'.
+            Method: Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopeByStudyExecutionIdentifierRequest.studyExecutionIdentifier">
+            <summary> Required Argument for 'GetStudyExecutionScopeByStudyExecutionIdentifier' (Guid): a global unique id of a concrete study execution (dedicated to a concrete institute) which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopeByStudyExecutionIdentifierResponse">
+            <summary>
+            Contains results from calling 'GetStudyExecutionScopeByStudyExecutionIdentifier'.
+            Method: Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopeByStudyExecutionIdentifierResponse.return">
+            <summary> Return-Value of 'GetStudyExecutionScopeByStudyExecutionIdentifier' (StudyExecutionScope) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopesRequest">
+            <summary>
+            Contains arguments for calling 'GetStudyExecutionScopes'.
+            Method: Loads StudyExecutionScopes.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopesRequest.page">
+            <summary> Optional Argument for 'GetStudyExecutionScopes' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopesRequest.pageSize">
+            <summary> Optional Argument for 'GetStudyExecutionScopes' (Int32?): Max count of StudyExecutionScopes which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopesResponse">
+            <summary>
+            Contains results from calling 'GetStudyExecutionScopes'.
+            Method: Loads StudyExecutionScopes.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetStudyExecutionScopesResponse.return">
+            <summary> Return-Value of 'GetStudyExecutionScopes' (StudyExecutionScope[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesRequest">
+            <summary>
+            Contains arguments for calling 'SearchStudyExecutionScopes'.
+            Method: Loads StudyExecutionScopes where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesRequest.filterExpression">
+            <summary> Required Argument for 'SearchStudyExecutionScopes' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesRequest.sortingExpression">
+            <summary> Optional Argument for 'SearchStudyExecutionScopes' (String): one or more property names which are used as sort order (before pagination) </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesRequest.page">
+            <summary> Optional Argument for 'SearchStudyExecutionScopes' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesRequest.pageSize">
+            <summary> Optional Argument for 'SearchStudyExecutionScopes' (Int32?): Max count of StudyExecutionScopes which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesResponse">
+            <summary>
+            Contains results from calling 'SearchStudyExecutionScopes'.
+            Method: Loads StudyExecutionScopes where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchStudyExecutionScopesResponse.return">
+            <summary> Return-Value of 'SearchStudyExecutionScopes' (StudyExecutionScope[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewStudyExecutionScopeRequest">
+            <summary>
+            Contains arguments for calling 'AddNewStudyExecutionScope'.
+            Method: Adds a new StudyExecutionScope and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewStudyExecutionScopeRequest.studyExecutionScope">
+            <summary> Required Argument for 'AddNewStudyExecutionScope' (StudyExecutionScope): StudyExecutionScope containing the new values </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewStudyExecutionScopeResponse">
+            <summary>
+            Contains results from calling 'AddNewStudyExecutionScope'.
+            Method: Adds a new StudyExecutionScope and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewStudyExecutionScopeResponse.return">
+            <summary> Return-Value of 'AddNewStudyExecutionScope' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeRequest">
+            <summary>
+            Contains arguments for calling 'UpdateStudyExecutionScope'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeRequest.studyExecutionScope">
+            <summary> Required Argument for 'UpdateStudyExecutionScope' (StudyExecutionScope): StudyExecutionScope containing the new values (the primary identifier fields within the given StudyExecutionScope will be used to address the target record) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeResponse">
+            <summary>
+            Contains results from calling 'UpdateStudyExecutionScope'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeResponse.return">
+            <summary> Return-Value of 'UpdateStudyExecutionScope' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeByStudyExecutionIdentifierRequest">
+            <summary>
+            Contains arguments for calling 'UpdateStudyExecutionScopeByStudyExecutionIdentifier'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeByStudyExecutionIdentifierRequest.studyExecutionIdentifier">
+            <summary> Required Argument for 'UpdateStudyExecutionScopeByStudyExecutionIdentifier' (Guid): a global unique id of a concrete study execution (dedicated to a concrete institute) which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeByStudyExecutionIdentifierRequest.studyExecutionScope">
+            <summary> Required Argument for 'UpdateStudyExecutionScopeByStudyExecutionIdentifier' (StudyExecutionScope): StudyExecutionScope containing the new values (the primary identifier fields within the given StudyExecutionScope will be ignored) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeByStudyExecutionIdentifierResponse">
+            <summary>
+            Contains results from calling 'UpdateStudyExecutionScopeByStudyExecutionIdentifier'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateStudyExecutionScopeByStudyExecutionIdentifierResponse.return">
+            <summary> Return-Value of 'UpdateStudyExecutionScopeByStudyExecutionIdentifier' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteStudyExecutionScopeByStudyExecutionIdentifierRequest">
+            <summary>
+            Contains arguments for calling 'DeleteStudyExecutionScopeByStudyExecutionIdentifier'.
+            Method: Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteStudyExecutionScopeByStudyExecutionIdentifierRequest.studyExecutionIdentifier">
+            <summary> Required Argument for 'DeleteStudyExecutionScopeByStudyExecutionIdentifier' (Guid): a global unique id of a concrete study execution (dedicated to a concrete institute) which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteStudyExecutionScopeByStudyExecutionIdentifierResponse">
+            <summary>
+            Contains results from calling 'DeleteStudyExecutionScopeByStudyExecutionIdentifier'.
+            Method: Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteStudyExecutionScopeByStudyExecutionIdentifierResponse.return">
+            <summary> Return-Value of 'DeleteStudyExecutionScopeByStudyExecutionIdentifier' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetTreatmentByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'GetTreatmentByTaskGuid'.
+            Method: Loads a specific Treatment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetTreatmentByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'GetTreatmentByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetTreatmentByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'GetTreatmentByTaskGuid'.
+            Method: Loads a specific Treatment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetTreatmentByTaskGuidResponse.return">
+            <summary> Return-Value of 'GetTreatmentByTaskGuid' (Treatment) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetTreatmentsRequest">
+            <summary>
+            Contains arguments for calling 'GetTreatments'.
+            Method: Loads Treatments.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetTreatmentsRequest.page">
+            <summary> Optional Argument for 'GetTreatments' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetTreatmentsRequest.pageSize">
+            <summary> Optional Argument for 'GetTreatments' (Int32?): Max count of Treatments which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.GetTreatmentsResponse">
+            <summary>
+            Contains results from calling 'GetTreatments'.
+            Method: Loads Treatments.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.GetTreatmentsResponse.return">
+            <summary> Return-Value of 'GetTreatments' (Treatment[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchTreatmentsRequest">
+            <summary>
+            Contains arguments for calling 'SearchTreatments'.
+            Method: Loads Treatments where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchTreatmentsRequest.filterExpression">
+            <summary> Required Argument for 'SearchTreatments' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchTreatmentsRequest.sortingExpression">
+            <summary> Optional Argument for 'SearchTreatments' (String): one or more property names which are used as sort order (before pagination) </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchTreatmentsRequest.page">
+            <summary> Optional Argument for 'SearchTreatments' (Int32?): Number of the page, which should be returned </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchTreatmentsRequest.pageSize">
+            <summary> Optional Argument for 'SearchTreatments' (Int32?): Max count of Treatments which should be returned </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.SearchTreatmentsResponse">
+            <summary>
+            Contains results from calling 'SearchTreatments'.
+            Method: Loads Treatments where values matching to the given filterExpression
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.SearchTreatmentsResponse.return">
+            <summary> Return-Value of 'SearchTreatments' (Treatment[]) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewTreatmentRequest">
+            <summary>
+            Contains arguments for calling 'AddNewTreatment'.
+            Method: Adds a new Treatment and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewTreatmentRequest.treatment">
+            <summary> Required Argument for 'AddNewTreatment' (Treatment): Treatment containing the new values </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.AddNewTreatmentResponse">
+            <summary>
+            Contains results from calling 'AddNewTreatment'.
+            Method: Adds a new Treatment and returns its primary identifier (or null on failure).
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.AddNewTreatmentResponse.return">
+            <summary> Return-Value of 'AddNewTreatment' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateTreatmentRequest">
+            <summary>
+            Contains arguments for calling 'UpdateTreatment'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the primary identifier fields within the given Treatment. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateTreatmentRequest.treatment">
+            <summary> Required Argument for 'UpdateTreatment' (Treatment): Treatment containing the new values (the primary identifier fields within the given Treatment will be used to address the target record) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateTreatmentResponse">
+            <summary>
+            Contains results from calling 'UpdateTreatment'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the primary identifier fields within the given Treatment. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateTreatmentResponse.return">
+            <summary> Return-Value of 'UpdateTreatment' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateTreatmentByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'UpdateTreatmentByTaskGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateTreatmentByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'UpdateTreatmentByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateTreatmentByTaskGuidRequest.treatment">
+            <summary> Required Argument for 'UpdateTreatmentByTaskGuid' (Treatment): Treatment containing the new values (the primary identifier fields within the given Treatment will be ignored) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.UpdateTreatmentByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'UpdateTreatmentByTaskGuid'.
+            Method: Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.UpdateTreatmentByTaskGuidResponse.return">
+            <summary> Return-Value of 'UpdateTreatmentByTaskGuid' (Boolean) </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteTreatmentByTaskGuidRequest">
+            <summary>
+            Contains arguments for calling 'DeleteTreatmentByTaskGuid'.
+            Method: Deletes a specific Treatment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteTreatmentByTaskGuidRequest.taskGuid">
+            <summary> Required Argument for 'DeleteTreatmentByTaskGuid' (Guid): a global unique id of a concrete study-task execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
+        </member>
+        <member name="T:MedicalResearch.VisitData.WebAPI.DeleteTreatmentByTaskGuidResponse">
+            <summary>
+            Contains results from calling 'DeleteTreatmentByTaskGuid'.
+            Method: Deletes a specific Treatment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+            </summary>
+        </member>
+        <member name="P:MedicalResearch.VisitData.WebAPI.DeleteTreatmentByTaskGuidResponse.return">
+            <summary> Return-Value of 'DeleteTreatmentByTaskGuid' (Boolean) </summary>
+        </member>
+        <member name="P:Security.BearerContent.iss">
+            <summary> issuer </summary>
+        </member>
+        <member name="P:Security.BearerContent.sub">
+            <summary> subject </summary>
+        </member>
+        <member name="P:Security.BearerContent.exp">
+            <summary> expires (unix-epoch utc) </summary>
+        </member>
+    </members>
+</doc>

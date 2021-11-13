@@ -25,8 +25,8 @@
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
     <file src="PackageIcon.png" target="" />
     <!-- .NET 5.0 -->
-    <file src="(Stage)\Bin\net5.0\ORSCF.IdentityManagement.Contract.dll" target="lib/net5.0" />
-    <file src="(Stage)\Bin\net5.0\ORSCF.IdentityManagement.Contract.xml" target="lib/net5.0" />
-    <file src="(Stage)\Bin\net5.0\ORSCF.IdentityManagement.Contract.pdb" target="lib/net5.0" />
+    <file src="..\(Stage)\Bin\ORSCF.IdentityManagement.Contract.dll" target="lib/net5.0" />
+    <file src="..\(Stage)\Bin\ORSCF.IdentityManagement.Contract.xml" target="lib/net5.0" />
+    <file src="..\(Stage)\Bin\ORSCF.IdentityManagement.Contract.pdb" target="lib/net5.0" />
   </files>
 </package>

@@ -2,18 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>ORSCF.WorkflowDefinitionRepository.WebAPI</AssemblyName>
+    <AssemblyName>ORSCF.StudyWorkflowDefinition.Service.WebAPI</AssemblyName>
     <RootNamespace>MedicalResearch.Workflow</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>.\bin\ORSCF.StudyWorkflowDefinition.Service.WebAPI.xml</DocumentationFile>
+    <OutputPath>.\bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\(git)\ORSCF\(ORSCF) orscf-showcase\StudyWorkflowDefinitionRepository\net5.0\SimpleWDR.WebAPI\ORSCF.WorkflowDefinitionRepository.WebAPI.xml</DocumentationFile>
+    <DocumentationFile>.\bin\ORSCF.StudyWorkflowDefinition.Service.WebAPI.xml</DocumentationFile>
+    <OutputPath>.\bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,10 +29,13 @@
     <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
-    <PackageReference Include="ORSCF.StudyWorkflowDefinition.Contract" Version="1.6.0.8091" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
-    <PackageReference Include="UJMW.Tools.CodeGen" Version="1.0.19.457" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,13 +47,44 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Controllers\Controllers.tt">
+    <Reference Include="Hl7.Fhir.ElementModel">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.ElementModel.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.R4.Core">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.R4.Core.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Serialization">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.Serialization.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Support">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.Support.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Support.Poco">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.Fhir.Support.Poco.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Hl7.FhirPath">
+      <HintPath>..\..\..\(Stage)\Bin\Hl7.FhirPath.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="ORSCF.StudyWorkflowDefinition.Contract">
+      <HintPath>..\..\..\(Stage)\Bin\ORSCF.StudyWorkflowDefinition.Contract.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Controllers\StoreAccess.Controllers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Controllers.Generated.cs</LastGenOutput>
+      <LastGenOutput>StoreAccess.Controllers.Generated.cs</LastGenOutput>
     </None>
-    <None Update="DTOs\Wrappers.tt">
+    <None Update="DTOs\StoreAccess.Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Wrappers.Generated.cs</LastGenOutput>
+      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -51,15 +93,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controllers\Controllers.Generated.cs">
+    <Compile Update="Controllers\StoreAccess.Controllers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Controllers.tt</DependentUpon>
+      <DependentUpon>StoreAccess.Controllers.tt</DependentUpon>
     </Compile>
-    <Compile Update="DTOs\Wrappers.Generated.cs">
+    <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Wrappers.tt</DependentUpon>
+      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

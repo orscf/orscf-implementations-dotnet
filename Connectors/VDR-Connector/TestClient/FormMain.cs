@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
-using MedicalResearch.VisitData.WebAPI;
 using MedicalResearch.VisitData.Model;
 using MedicalResearch.VisitData.StoreAccess;
 
@@ -204,11 +203,11 @@ namespace TestClient {
 
     #endregion
 
-    private VdrConnector _CurrentConnector = null;
+    private VdrStoreConnector _CurrentConnector = null;
 
-    private VdrConnector GetOrCreateCurrentConnector() {
+    private VdrStoreConnector GetOrCreateCurrentConnector() {
       if(_CurrentConnector == null) {
-        _CurrentConnector = new VdrConnector(gTxtUrl.Text, gTxtToken.Text);
+        _CurrentConnector = new VdrStoreConnector(gTxtUrl.Text, gTxtToken.Text);
       }
       return _CurrentConnector;
     }

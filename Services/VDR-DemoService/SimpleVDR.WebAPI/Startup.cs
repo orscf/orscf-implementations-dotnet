@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging.Configuration;
 using System.IO;
 using MedicalResearch.VisitData.StoreAccess;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.OpenApi.Writers;
+using MedicalResearch.VisitData.Model;
 
 namespace MedicalResearch.VisitData.WebAPI {
 
@@ -34,8 +36,7 @@ namespace MedicalResearch.VisitData.WebAPI {
 
       services.AddLogging();
 
-      //Version.TryParse(VisitDataDbContext.SchemaVersion, out _ApiVersion);
-      _ApiVersion = typeof(IVisits).Assembly.GetName().Version;
+      _ApiVersion = typeof(StudyExecutionScope).Assembly.GetName().Version;
 
       VisitDataDbContext.Migrate();
 
@@ -54,10 +55,10 @@ namespace MedicalResearch.VisitData.WebAPI {
         
         c.EnableAnnotations(true, true);
 
-        c.IncludeXmlComments(outDir + "ORSCF.SimpleVisitDataRepository.WebAPI.xml", true);
-        c.IncludeXmlComments(outDir + "ORSCF.SimpleVisitDataRepository.BL.xml", true);
-        c.IncludeXmlComments(outDir + "ORSCF.VisitData.Contract.xml", true);
         c.IncludeXmlComments(outDir + "Hl7.Fhir.R4.Core.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.VisitData.Contract.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.VisitData.Service.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.VisitData.Service.WebAPI.xml", true);
 
         #region bearer
 
@@ -94,7 +95,7 @@ namespace MedicalResearch.VisitData.WebAPI {
         c.SwaggerDoc(
           "StoreAccessV1",
           new OpenApiInfo {
-            Title = _ApiTitle + "-StoreAccess API ",
+            Title = _ApiTitle + "-StoreAccess",
             Version = _ApiVersion.ToString(3),
             Description = "stores data for research study related visits",
             Contact = new OpenApiContact {
@@ -105,19 +106,19 @@ namespace MedicalResearch.VisitData.WebAPI {
           }
         );
 
-        c.SwaggerDoc(
-          "BlApiV1",
-          new OpenApiInfo {
-            Title = _ApiTitle + "-BL API ",
-            Version = _ApiVersion.ToString(3),
-            Description = "stores data for research study related visits",
-            Contact = new OpenApiContact {
-              Name = "Open Research Study Communication Format",
-              Email = "info@orscf.org",
-              Url = new Uri("https://orscf.org")
-            }
-          }
-        );
+        //c.SwaggerDoc(
+        //  "ApiV1",
+        //  new OpenApiInfo {
+        //    Title = _ApiTitle + "-API",
+        //    Version = _ApiVersion.ToString(3),
+        //    Description = "stores data for research study related visits",
+        //    Contact = new OpenApiContact {
+        //      Name = "Open Research Study Communication Format",
+        //      Email = "info@orscf.org",
+        //      Url = new Uri("https://orscf.org")
+        //    },
+        //  }
+        //);
 
       });
 
@@ -144,6 +145,7 @@ namespace MedicalResearch.VisitData.WebAPI {
         app.UseSwagger(o => {
           //warning: needs subfolder! jsons cant be within same dir as swaggerui (below)
           o.RouteTemplate = "docs/schema/{documentName}.{json|yaml}";
+          //o.SerializeAsV2 = true;
         });
 
         app.UseSwaggerUI(c => {
@@ -153,10 +155,11 @@ namespace MedicalResearch.VisitData.WebAPI {
           c.DefaultModelsExpandDepth(2);
           //c.ConfigObject.DefaultModelExpandDepth = 2;
 
-          c.DocumentTitle = _ApiTitle + "-APIs";
+          c.DocumentTitle = _ApiTitle + " - OpenAPI Definition(s)";
 
-          c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess API " + _ApiVersion.ToString(3));
-          c.SwaggerEndpoint("schema/BlApiV1.json", _ApiTitle + "-BL API " + _ApiVersion.ToString(3));
+          //represents the sorting in SwaggerUI combo-box
+          //c.SwaggerEndpoint("schema/ApiV1.json", _ApiTitle + "-API v" + _ApiVersion.ToString(3));
+          c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess v" + _ApiVersion.ToString(3));
 
           c.RoutePrefix = "docs";
 

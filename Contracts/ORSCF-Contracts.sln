@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(nuspec)", "(nuspec)", "{B7
 		ORSCF.IdentityManagement.Contract.nuspec = ORSCF.IdentityManagement.Contract.nuspec
 		ORSCF.StudyManagement.Contract.nuspec = ORSCF.StudyManagement.Contract.nuspec
 		ORSCF.StudyWorkflowDefinition.Contract.nuspec = ORSCF.StudyWorkflowDefinition.Contract.nuspec
+		ORSCF.SubjectData.Contract.nuspec = ORSCF.SubjectData.Contract.nuspec
 		ORSCF.VisitData.Contract.nuspec = ORSCF.VisitData.Contract.nuspec
 	EndProjectSection
 EndProject
@@ -21,6 +22,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitData.Contract", "VDR-Contract\VisitData.Contract.csproj", "{3E3C30A6-E538-4AF2-A4A0-2B211E0D872D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyWorkflowDefinition.Contract", "WDR-Contract\StudyWorkflowDefinition.Contract.csproj", "{67D37D91-7411-4119-A7FA-D8C6DAEF694A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubjectData.Contract", "SDR-Contract\SubjectData.Contract.csproj", "{D4CA66FA-2FA3-45D8-B21B-C92835D50633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +51,10 @@ Global
 		{67D37D91-7411-4119-A7FA-D8C6DAEF694A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67D37D91-7411-4119-A7FA-D8C6DAEF694A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67D37D91-7411-4119-A7FA-D8C6DAEF694A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4CA66FA-2FA3-45D8-B21B-C92835D50633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4CA66FA-2FA3-45D8-B21B-C92835D50633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4CA66FA-2FA3-45D8-B21B-C92835D50633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4CA66FA-2FA3-45D8-B21B-C92835D50633}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

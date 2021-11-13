@@ -19,8 +19,8 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\..\\(Stage)\\Bin\\net5.0\\ORSCF.VisitData.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.VisitData.IOrscf*Service",
+           inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\ORSCF.VisitData.Contract.dll"),
+           interfaceTypeNamePattern = "MedicalResearch.VisitData.I*Service",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch.VisitData"
@@ -31,7 +31,7 @@
              
          // DEFAULT //////////////////////////////////////////////////////////////////////////
 
-           countOfPrefixCharsToRemove = 6,
+           countOfPrefixCharsToRemove = 1,
 
            namespaceWildcardsForModelImport = new string[] { 
              "MedicalResearch.VisitData.*"

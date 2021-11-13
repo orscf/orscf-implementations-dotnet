@@ -21,14 +21,14 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "..\\..\\..\\..\\(ORSCF) orscf-modeling\\EDMX\\StudyManagement\\ORSCF-StudyManagement.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\orscf-modeling\\EDMX\\StudyManagement\\ORSCF-StudyManagement.Schema.json";
 
        const bool onlyRootPrincipals = false;
 
        const string outputNamespace = "MedicalResearch.StudyManagement.StoreAccess";
        const string itemClassNamePattern = "{E}";
        const string interfaceNamePattern = "I{P}";
-       const string removalActionName = "Archive";
+       const string removalActionName = "Delete";
 #>
 using MedicalResearch.StudyManagement.Model;
 <#

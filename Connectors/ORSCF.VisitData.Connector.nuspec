@@ -7,7 +7,7 @@
     <authors>ORSCF.org</authors>
     <owners>ORSCF.org</owners>
     <copyright>ORSCF.org</copyright>
-    <description>Provides access to a "VisitDataRepository" based un the ORSCF standards</description>
+    <description>Provides access to a "VisitDataRepository" based on the ORSCF standards</description>
     <tags>Research Study Clinical Trial ORSCF</tags>
     <!-- https://spdx.org/licenses/ -->
     <license type="expression">Apache-2.0</license>
@@ -22,8 +22,8 @@
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
     <file src="packageIcon.png" target="" />
     <!-- .NET 5.0 -->
-    <file src="(Stage)\Bin\ORSCF.VisitData.Connector.dll" target="lib/net5.0" />
-    <file src="(Stage)\Bin\ORSCF.VisitData.Connector.xml" target="lib/net5.0" />
-    <file src="(Stage)\Bin\ORSCF.VisitData.Connector.pdb" target="lib/net5.0" />
+    <file src="..\(Stage)\Bin\ORSCF.VisitData.Connector.dll" target="lib/net5.0" />
+    <file src="..\(Stage)\Bin\ORSCF.VisitData.Connector.xml" target="lib/net5.0" />
+    <file src="..\(Stage)\Bin\ORSCF.VisitData.Connector.pdb" target="lib/net5.0" />
   </files>
 </package>

@@ -19,7 +19,7 @@ namespace MedicalResearch.VisitData.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("MedicalResearch.VisitData.DataRecordingEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.DataRecordingEntity", b =>
                 {
                     b.Property<Guid>("TaskGuid")
                         .ValueGeneratedOnAdd()
@@ -70,7 +70,7 @@ namespace MedicalResearch.VisitData.Migrations
                     b.ToTable("VdrDataRecordings");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.DrugApplymentEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.DrugApplymentEntity", b =>
                 {
                     b.Property<Guid>("TaskGuid")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace MedicalResearch.VisitData.Migrations
                     b.ToTable("VdrDrugApplyments");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.StudyEventEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.StudyEventEntity", b =>
                 {
                     b.Property<Guid>("EventGuid")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace MedicalResearch.VisitData.Migrations
                     b.ToTable("VdrStudyEvents");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.StudyExecutionScopeEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.StudyExecutionScopeEntity", b =>
                 {
                     b.Property<Guid>("StudyExecutionIdentifier")
                         .ValueGeneratedOnAdd()
@@ -188,7 +188,7 @@ namespace MedicalResearch.VisitData.Migrations
                     b.ToTable("VdrStudyExecutionScopes");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.TreatmentEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.TreatmentEntity", b =>
                 {
                     b.Property<Guid>("TaskGuid")
                         .ValueGeneratedOnAdd()
@@ -231,7 +231,7 @@ namespace MedicalResearch.VisitData.Migrations
                     b.ToTable("VdrTreatments");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.VisitEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.VisitEntity", b =>
                 {
                     b.Property<Guid>("VisitGuid")
                         .ValueGeneratedOnAdd()
@@ -275,9 +275,9 @@ namespace MedicalResearch.VisitData.Migrations
                     b.ToTable("VdrVisits");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.DataRecordingEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.DataRecordingEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.VisitData.VisitEntity", "Visit")
+                    b.HasOne("MedicalResearch.VisitData.Persistence.VisitEntity", "Visit")
                         .WithMany("DataRecordings")
                         .HasForeignKey("VisitGuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -286,9 +286,9 @@ namespace MedicalResearch.VisitData.Migrations
                     b.Navigation("Visit");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.DrugApplymentEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.DrugApplymentEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.VisitData.VisitEntity", "Visit")
+                    b.HasOne("MedicalResearch.VisitData.Persistence.VisitEntity", "Visit")
                         .WithMany("DrugApplyments")
                         .HasForeignKey("VisitGuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -297,9 +297,9 @@ namespace MedicalResearch.VisitData.Migrations
                     b.Navigation("Visit");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.StudyEventEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.StudyEventEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.VisitData.StudyExecutionScopeEntity", "StudyExecution")
+                    b.HasOne("MedicalResearch.VisitData.Persistence.StudyExecutionScopeEntity", "StudyExecution")
                         .WithMany("Events")
                         .HasForeignKey("StudyExecutionIdentifier")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -308,9 +308,9 @@ namespace MedicalResearch.VisitData.Migrations
                     b.Navigation("StudyExecution");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.TreatmentEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.TreatmentEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.VisitData.VisitEntity", "Visit")
+                    b.HasOne("MedicalResearch.VisitData.Persistence.VisitEntity", "Visit")
                         .WithMany("Treatments")
                         .HasForeignKey("VisitGuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -319,9 +319,9 @@ namespace MedicalResearch.VisitData.Migrations
                     b.Navigation("Visit");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.VisitEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.VisitEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.VisitData.StudyExecutionScopeEntity", "StudyExecution")
+                    b.HasOne("MedicalResearch.VisitData.Persistence.StudyExecutionScopeEntity", "StudyExecution")
                         .WithMany("Visits")
                         .HasForeignKey("StudyExecutionIdentifier")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -330,14 +330,14 @@ namespace MedicalResearch.VisitData.Migrations
                     b.Navigation("StudyExecution");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.StudyExecutionScopeEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.StudyExecutionScopeEntity", b =>
                 {
                     b.Navigation("Events");
 
                     b.Navigation("Visits");
                 });
 
-            modelBuilder.Entity("MedicalResearch.VisitData.VisitEntity", b =>
+            modelBuilder.Entity("MedicalResearch.VisitData.Persistence.VisitEntity", b =>
                 {
                     b.Navigation("DataRecordings");
 

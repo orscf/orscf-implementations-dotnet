@@ -1,12 +1,16 @@
+using MedicalResearch.Workflow.Model;
 using MedicalResearch.Workflow.Persistence.EF;
+using MedicalResearch.Workflow.StoreAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
 
-namespace WebAPI {
+namespace MedicalResearch.StudyWorkflowDefinition.WebAPI {
 
   public class Startup {
 
@@ -18,15 +22,19 @@ namespace WebAPI {
     private static IConfiguration _Configuration = null;
     public static IConfiguration Configuration { get { return _Configuration; } }
 
-    const string _ApiTitle = "mt2s 'Legacy' API";
+    const string _ApiTitle = "ORSCF StudyWorkflowDefinition";
     Version _ApiVersion = null;
 
     public void ConfigureServices(IServiceCollection services) {
-      Version.TryParse(WorkflowDefinitionDbContext.SchemaVersion, out _ApiVersion);
+      services.AddLogging();
+
+      _ApiVersion = typeof(ResearchStudyDefinition).Assembly.GetName().Version;
 
       WorkflowDefinitionDbContext.Migrate();
 
       string outDir = AppDomain.CurrentDomain.BaseDirectory;
+
+      services.AddSingleton<IResearchStudyDefinitions, ResearchStudyDefinitionStore>();
 
       services.AddControllers();
       
@@ -34,8 +42,10 @@ namespace WebAPI {
 
         c.EnableAnnotations(true, true);
 
-        c.IncludeXmlComments(outDir + "ORSCF.WorkflowDefinitionRepository.WebAPI.xml", true);
-        c.IncludeXmlComments(outDir + "ORSCF.WorkflowDefinitionRepository.BL.xml", true);
+        c.IncludeXmlComments(outDir + "Hl7.Fhir.R4.Core.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.StudyWorkflowDefinition.Contract.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.StudyWorkflowDefinition.Service.xml", true);
+        c.IncludeXmlComments(outDir + "ORSCF.StudyWorkflowDefinition.Service.WebAPI.xml", true);
 
         #region bearer
 
@@ -70,12 +80,12 @@ namespace WebAPI {
         c.UseInlineDefinitionsForEnums();
 
         c.SwaggerDoc(
-          "v" + _ApiVersion.ToString(1),
+          "StoreAccessV1",
           new OpenApiInfo {
-            Title = _ApiTitle,
+            Title = _ApiTitle + "-StoreAccess",
             Version = _ApiVersion.ToString(3),
             Description = "stores workflow definitions for research studies (digital representations of study-protocols)",
-            Contact = new OpenApiContact { 
+            Contact = new OpenApiContact {
               Name = "Open Research Study Communication Format",
               Email = "info@orscf.org",
               Url = new Uri("https://orscf.org")
@@ -83,11 +93,30 @@ namespace WebAPI {
           }
         );
 
+        //c.SwaggerDoc(
+        //  "ApiV1",
+        //  new OpenApiInfo {
+        //    Title = _ApiTitle + "-API",
+        //    Version = _ApiVersion.ToString(3),
+        //    Description = "stores workflow definitions for research studies (digital representations of study-protocols)",
+        //    Contact = new OpenApiContact {
+        //      Name = "Open Research Study Communication Format",
+        //      Email = "info@orscf.org",
+        //      Url = new Uri("https://orscf.org")
+        //    },
+        //  }
+        //);
+
       });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerfactory) {
+
+      var logFileFullName = _Configuration.GetValue<string>("LogFileName");
+      var logDir = Path.GetFullPath(Path.GetDirectoryName(logFileFullName));
+      Directory.CreateDirectory(logDir);
+      loggerfactory.AddFile(logFileFullName);
 
       //required for the www-root
       app.UseStaticFiles();
@@ -102,6 +131,7 @@ namespace WebAPI {
         app.UseSwagger(o => {
           //warning: needs subfolder! jsons cant be within same dir as swaggerui (below)
           o.RouteTemplate = "docs/schema/{documentName}.{json|yaml}";
+          //o.SerializeAsV2 = true;
         });
 
         app.UseSwaggerUI(c => {
@@ -111,9 +141,12 @@ namespace WebAPI {
           c.DefaultModelsExpandDepth(2);
           //c.ConfigObject.DefaultModelExpandDepth = 2;
 
-          c.DocumentTitle = _ApiTitle + " - OpenAPI Schema";
+          c.DocumentTitle = _ApiTitle + " - OpenAPI Definition(s)";
 
-          c.SwaggerEndpoint("schema/v" + _ApiVersion.ToString(1) + ".json", _ApiTitle + " " + _ApiVersion.ToString(3));
+          //represents the sorting in SwaggerUI combo-box
+          //c.SwaggerEndpoint("schema/ApiV1.json", _ApiTitle + "-API v" + _ApiVersion.ToString(3));
+          c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess v" + _ApiVersion.ToString(3));
+   
           c.RoutePrefix = "docs";
 
           //requires MVC app.UseStaticFiles();

@@ -8,8 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(nuspec)", "(nuspec)", "{97
 		ORSCF.BillingData.Connector.nuspec = ORSCF.BillingData.Connector.nuspec
 		ORSCF.IdentityManagement.Connector.nuspec = ORSCF.IdentityManagement.Connector.nuspec
 		ORSCF.StudyManagement.Connector.nuspec = ORSCF.StudyManagement.Connector.nuspec
-		ORSCF.VisitData.Connector.nuspec = ORSCF.VisitData.Connector.nuspec
 		ORSCF.StudyWorkflowDefinition.Connector.nuspec = ORSCF.StudyWorkflowDefinition.Connector.nuspec
+		ORSCF.SubjectData.Connector.nuspec = ORSCF.SubjectData.Connector.nuspec
+		ORSCF.VisitData.Connector.nuspec = ORSCF.VisitData.Connector.nuspec
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillingData.Connector", "BDR-Connector\ConnectorLib\BillingData.Connector.csproj", "{CD62598A-D786-4796-9807-9430DF553D43}"
@@ -29,6 +30,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDR.TestClient", "WDR-Connector\TestClient\WDR.TestClient.csproj", "{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDR-TestClient", "VDR-Connector\TestClient\VDR-TestClient.csproj", "{62382CF0-23B9-459C-822C-05EE4FB19128}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC0EDA14-6A2E-40B3-9D5B-42BAA9776959}"
+	ProjectSection(SolutionItems) = preProject
+		(tools)\kGEN.Readme.txt = (tools)\kGEN.Readme.txt
+		(tools)\kGEN.Sample.tt = (tools)\kGEN.Sample.tt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubjectData.Connector", "SDR-Connector\ConnectorLib\SubjectData.Connector.csproj", "{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +73,10 @@ Global
 		{62382CF0-23B9-459C-822C-05EE4FB19128}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62382CF0-23B9-459C-822C-05EE4FB19128}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62382CF0-23B9-459C-822C-05EE4FB19128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +89,7 @@ Global
 		{F7C0824A-76B7-4969-820E-92BB153658A1} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
 		{229A45DC-B1FC-4EB6-ABBD-70B0DF18FE68} = {E9D84280-F508-4921-A5B8-43AC15EDE535}
 		{62382CF0-23B9-459C-822C-05EE4FB19128} = {E9D84280-F508-4921-A5B8-43AC15EDE535}
+		{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A} = {002CC4F4-6E59-4E22-95DD-BDD190CBF964}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {174839FD-71CD-40F0-9F70-CAE01B1C345A}

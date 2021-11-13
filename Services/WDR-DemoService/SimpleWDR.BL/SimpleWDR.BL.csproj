@@ -3,17 +3,25 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>MedicalResearch.Workflow</RootNamespace>
-    <AssemblyName>ORSCF.WorkflowDefinitionRepository.BL</AssemblyName>
+    <AssemblyName>ORSCF.StudyWorkflowDefinition.Service</AssemblyName>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>.\bin\ORSCF.StudyWorkflowDefinition.Service.xml</DocumentationFile>
+    <OutputPath>.\bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\(git)\ORSCF\(ORSCF) orscf-showcase\StudyWorkflowDefinitionRepository\net5.0\SimpleWDR.BL\ORSCF.WorkflowDefinitionRepository.BL.xml</DocumentationFile>
+    <DocumentationFile>.\bin\ORSCF.StudyWorkflowDefinition.Service.xml</DocumentationFile>
+    <OutputPath>.\bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,20 +30,19 @@
     <PackageReference Include="KornSW.DynamicRepository" Version="0.1.0.406" />
     <PackageReference Include="KornSW.EntityFrameworkCore.DataAccessFilter" Version="1.0.1.417" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ORSCF.StudyWorkflowDefinition.Contract" Version="1.6.0.8091" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Models.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Models.Generated.cs</LastGenOutput>
-    </None>
     <None Update="Persistence.EF\Entities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entities.Generated.cs</LastGenOutput>
@@ -59,11 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Models.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
     <Compile Update="Persistence.EF\Context.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -88,6 +90,13 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ORSCF.StudyWorkflowDefinition.Contract">
+      <HintPath>..\..\..\(Stage)\Bin\ORSCF.StudyWorkflowDefinition.Contract.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,7 @@
+﻿
+   - just create a copy of the 'kGEN.Sample.tt' T4-Template and configure it for your project
+
+   - make sure, that it points to the 'kGEN.ttinclude' file which has been installed into 
+     "<your-solution-root>\(tools)\kGEN.ttinclude" >> if your template is not located inside
+     a directory which is exactly one level below your solution root, then youll need to adust
+     the relative include-path in line :6 !!!

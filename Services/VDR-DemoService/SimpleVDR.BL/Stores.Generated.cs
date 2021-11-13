@@ -1,7 +1,7 @@
 using MedicalResearch.VisitData;
 using MedicalResearch.VisitData.Persistence;
+using MedicalResearch.VisitData.Persistence.EF;
 using MedicalResearch.VisitData.Model;
-using MedicalResearch.VisitData.StoreAccess;
 using System;
 using System.Data;
 using System.Data.AccessControl;
@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace MedicalResearch.VisitData.Persistence.EF {
+namespace MedicalResearch.VisitData.StoreAccess {
 
 /// <summary> Provides CRUD access to stored DataRecordings (based on schema version '1.5.0') </summary>
 public partial class DataRecordingStore : IDataRecordings {

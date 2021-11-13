@@ -21,7 +21,7 @@
 
        //CONFIGURATION:
 
-       const string inputFile = "..\\..\\..\\..\\(ORSCF) orscf-modeling\\EDMX\\IdentityManagement\\ORSCF-IdentityManagement.Schema.json";
+       const string inputFile = "..\\..\\..\\..\\orscf-modeling\\EDMX\\IdentityManagement\\ORSCF-IdentityManagement.Schema.json";
 
        const string outputNamespace = "MedicalResearch.IdentityManagement.Model";
        const string entityClassNamePattern = "{E}";

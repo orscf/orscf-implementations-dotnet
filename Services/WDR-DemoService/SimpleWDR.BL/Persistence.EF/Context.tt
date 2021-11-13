@@ -23,7 +23,7 @@ using Microsoft.EntityFrameworkCore;
 
        //CONFIGURATION:
 
-       const string inputFile               = "..\\ORSCF-StudyWorkflowDefinition.Schema.json";
+       const string inputFile               = "..\\..\\..\\..\\..\\orscf-modeling\\EDMX\\StudyWorkflowDefinition\\ORSCF-StudyWorkflowDefinition.Schema.json";
 
        const string outputNamespace         = "MedicalResearch.Workflow.Persistence.EF";
        const string entityClassNamePattern  = "{E}Entity";
