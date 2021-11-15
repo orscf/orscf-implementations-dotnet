@@ -20,8 +20,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\(Stage)\Bin\net5.0</OutputPath>
-    <DocumentationFile>..\..\(Stage)\Bin\net5.0\ORSCF.VisitData.Contract.xml</DocumentationFile>
+    <OutputPath>..\..\(Stage)\Bin</OutputPath>
+    <DocumentationFile>..\..\(Stage)\Bin\ORSCF.VisitData.Contract.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1591</NoWarn>
