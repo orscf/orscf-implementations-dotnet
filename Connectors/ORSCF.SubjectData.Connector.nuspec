@@ -12,7 +12,7 @@
     <!-- https://spdx.org/licenses/ -->
     <license type="expression">Apache-2.0</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <icon>packageIcon.png</icon>
+    <icon>PackageIcon.png</icon>
     <projectUrl>https://www.orscf.org</projectUrl>
     <dependencies>
       <dependency id="ORSCF.SubjectData.Contract" version="[0.1.0,1.9999]" />
@@ -20,7 +20,7 @@
   </metadata>
   <files>
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
-    <file src="packageIcon.png" target="" />
+    <file src="PackageIcon.png" target="" />
     <!-- .NET 5.0 -->
     <file src="..\(Stage)\Bin\ORSCF.SubjectData.Connector.dll" target="lib/net5.0" />
     <file src="..\(Stage)\Bin\ORSCF.SubjectData.Connector.xml" target="lib/net5.0" />
