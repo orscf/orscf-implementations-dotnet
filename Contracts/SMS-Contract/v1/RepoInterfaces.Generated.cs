@@ -169,44 +169,44 @@ public partial interface ISystemEndpoints {
 
 }
 
-/// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignemnts (based on schema version '1.6.0') </summary>
-public partial interface IInstituteRelatedSystemAssignemnts {
+/// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignments (based on schema version '1.6.0') </summary>
+public partial interface IInstituteRelatedSystemAssignments {
 
-  //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding InstituteRelatedSystemAssignemnts.</summary>
+  //// <summary> Returns an info object, which specifies the possible operations (accessor specific permissions) regarding InstituteRelatedSystemAssignments.</summary>
   //AccessSpecs GetAccessSpecs();
 
-  /// <summary> Loads a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
-  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-  InstituteRelatedSystemAssignemnt GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid);
+  /// <summary> Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
+  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+  InstituteRelatedSystemAssignment GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid);
 
-  /// <summary> Loads InstituteRelatedSystemAssignemnts. </summary>
+  /// <summary> Loads InstituteRelatedSystemAssignments. </summary>
   /// <param name="page">Number of the page, which should be returned </param>
-  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignemnts which should be returned </param>
-  InstituteRelatedSystemAssignemnt[] GetInstituteRelatedSystemAssignemnts(int page = 1, int pageSize = 20);
+  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignments which should be returned </param>
+  InstituteRelatedSystemAssignment[] GetInstituteRelatedSystemAssignments(int page = 1, int pageSize = 20);
 
-  /// <summary> Loads InstituteRelatedSystemAssignemnts where values matching to the given filterExpression</summary>
+  /// <summary> Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression</summary>
     /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")'</param>
   /// <param name="sortingExpression">one or more property names which are used as sort order (before pagination)</param>
   /// <param name="page">Number of the page, which should be returned</param>
-  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignemnts which should be returned</param>
-  InstituteRelatedSystemAssignemnt[] SearchInstituteRelatedSystemAssignemnts(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20);
+  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignments which should be returned</param>
+  InstituteRelatedSystemAssignment[] SearchInstituteRelatedSystemAssignments(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20);
 
-  /// <summary> Adds a new InstituteRelatedSystemAssignemnt and returns its primary identifier (or null on failure). </summary>
-  /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values </param>
-  bool AddNewInstituteRelatedSystemAssignemnt(InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt);
+  /// <summary> Adds a new InstituteRelatedSystemAssignment and returns its primary identifier (or null on failure). </summary>
+  /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values </param>
+  bool AddNewInstituteRelatedSystemAssignment(InstituteRelatedSystemAssignment instituteRelatedSystemAssignment);
 
-  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the primary identifier fields within the given InstituteRelatedSystemAssignemnt. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be used to address the target record) </param>
-  bool UpdateInstituteRelatedSystemAssignemnt(InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt);
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be used to address the target record) </param>
+  bool UpdateInstituteRelatedSystemAssignment(InstituteRelatedSystemAssignment instituteRelatedSystemAssignment);
 
-  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-  /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be ignored) </param>
-  bool UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid, InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt);
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+  /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be ignored) </param>
+  bool UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid, InstituteRelatedSystemAssignment instituteRelatedSystemAssignment);
 
-  /// <summary> Deletes a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-  bool DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid);
+  /// <summary> Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+  bool DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid);
 
 }
 

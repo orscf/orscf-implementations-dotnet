@@ -1,4 +1,6 @@
-﻿using MedicalResearch.StudyManagement.StoreAccess;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.StudyManagement.StoreAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Security;
@@ -13,7 +15,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/institutes")]
-  public partial class InstitutesController : ControllerBase {
+  public class InstitutesController : ControllerBase {
     
     private readonly ILogger<InstitutesController> _Logger;
     private readonly IInstitutes _Institutes;
@@ -27,7 +29,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetInstituteByInstituteUid")]
     [HttpPost("getInstituteByInstituteUid"), Produces("application/json")]
-    public GetInstituteByInstituteUidResponse GetInstituteByInstituteUid([FromBody][SwaggerRequestBody(Required = true)] GetInstituteByInstituteUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetInstituteByInstituteUid), Description = "Loads a specific Institute addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetInstituteByInstituteUidResponse GetInstituteByInstituteUid([FromBody][SwaggerRequestBody(Required = true)]  GetInstituteByInstituteUidRequest args) {
       try {
         var response = new GetInstituteByInstituteUidResponse();
         response.@return = _Institutes.GetInstituteByInstituteUid(
@@ -45,7 +48,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetInstitutes")]
     [HttpPost("getInstitutes"), Produces("application/json")]
-    public GetInstitutesResponse GetInstitutes([FromBody][SwaggerRequestBody(Required = true)] GetInstitutesRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetInstitutes), Description = "Loads Institutes.")]
+    public GetInstitutesResponse GetInstitutes([FromBody][SwaggerRequestBody(Required = true)]  GetInstitutesRequest args) {
       try {
         var response = new GetInstitutesResponse();
         response.@return = _Institutes.GetInstitutes(
@@ -64,7 +68,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchInstitutes")]
     [HttpPost("searchInstitutes"), Produces("application/json")]
-    public SearchInstitutesResponse SearchInstitutes([FromBody][SwaggerRequestBody(Required = true)] SearchInstitutesRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchInstitutes), Description = "Loads Institutes where values matching to the given filterExpression")]
+    public SearchInstitutesResponse SearchInstitutes([FromBody][SwaggerRequestBody(Required = true)]  SearchInstitutesRequest args) {
       try {
         var response = new SearchInstitutesResponse();
         response.@return = _Institutes.SearchInstitutes(
@@ -85,7 +90,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewInstitute")]
     [HttpPost("addNewInstitute"), Produces("application/json")]
-    public AddNewInstituteResponse AddNewInstitute([FromBody][SwaggerRequestBody(Required = true)] AddNewInstituteRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewInstitute), Description = "Adds a new Institute and returns its primary identifier (or null on failure).")]
+    public AddNewInstituteResponse AddNewInstitute([FromBody][SwaggerRequestBody(Required = true)]  AddNewInstituteRequest args) {
       try {
         var response = new AddNewInstituteResponse();
         response.@return = _Institutes.AddNewInstitute(
@@ -103,7 +109,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateInstitute")]
     [HttpPost("updateInstitute"), Produces("application/json")]
-    public UpdateInstituteResponse UpdateInstitute([FromBody][SwaggerRequestBody(Required = true)] UpdateInstituteRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateInstitute), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Institute addressed by the primary identifier fields within the given Institute. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInstituteResponse UpdateInstitute([FromBody][SwaggerRequestBody(Required = true)]  UpdateInstituteRequest args) {
       try {
         var response = new UpdateInstituteResponse();
         response.@return = _Institutes.UpdateInstitute(
@@ -121,7 +128,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateInstituteByInstituteUid")]
     [HttpPost("updateInstituteByInstituteUid"), Produces("application/json")]
-    public UpdateInstituteByInstituteUidResponse UpdateInstituteByInstituteUid([FromBody][SwaggerRequestBody(Required = true)] UpdateInstituteByInstituteUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateInstituteByInstituteUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Institute addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInstituteByInstituteUidResponse UpdateInstituteByInstituteUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateInstituteByInstituteUidRequest args) {
       try {
         var response = new UpdateInstituteByInstituteUidResponse();
         response.@return = _Institutes.UpdateInstituteByInstituteUid(
@@ -140,7 +148,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteInstituteByInstituteUid")]
     [HttpPost("deleteInstituteByInstituteUid"), Produces("application/json")]
-    public DeleteInstituteByInstituteUidResponse DeleteInstituteByInstituteUid([FromBody][SwaggerRequestBody(Required = true)] DeleteInstituteByInstituteUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteInstituteByInstituteUid), Description = "Deletes a specific Institute addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteInstituteByInstituteUidResponse DeleteInstituteByInstituteUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteInstituteByInstituteUidRequest args) {
       try {
         var response = new DeleteInstituteByInstituteUidResponse();
         response.@return = _Institutes.DeleteInstituteByInstituteUid(
@@ -159,7 +168,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/researchStudies")]
-  public partial class ResearchStudiesController : ControllerBase {
+  public class ResearchStudiesController : ControllerBase {
     
     private readonly ILogger<ResearchStudiesController> _Logger;
     private readonly IResearchStudies _ResearchStudies;
@@ -173,7 +182,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetResearchStudyByResearchStudyUid")]
     [HttpPost("getResearchStudyByResearchStudyUid"), Produces("application/json")]
-    public GetResearchStudyByResearchStudyUidResponse GetResearchStudyByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)] GetResearchStudyByResearchStudyUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetResearchStudyByResearchStudyUid), Description = "Loads a specific ResearchStudy addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetResearchStudyByResearchStudyUidResponse GetResearchStudyByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)]  GetResearchStudyByResearchStudyUidRequest args) {
       try {
         var response = new GetResearchStudyByResearchStudyUidResponse();
         response.@return = _ResearchStudies.GetResearchStudyByResearchStudyUid(
@@ -191,7 +201,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetResearchStudies")]
     [HttpPost("getResearchStudies"), Produces("application/json")]
-    public GetResearchStudiesResponse GetResearchStudies([FromBody][SwaggerRequestBody(Required = true)] GetResearchStudiesRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetResearchStudies), Description = "Loads ResearchStudies.")]
+    public GetResearchStudiesResponse GetResearchStudies([FromBody][SwaggerRequestBody(Required = true)]  GetResearchStudiesRequest args) {
       try {
         var response = new GetResearchStudiesResponse();
         response.@return = _ResearchStudies.GetResearchStudies(
@@ -210,7 +221,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchResearchStudies")]
     [HttpPost("searchResearchStudies"), Produces("application/json")]
-    public SearchResearchStudiesResponse SearchResearchStudies([FromBody][SwaggerRequestBody(Required = true)] SearchResearchStudiesRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchResearchStudies), Description = "Loads ResearchStudies where values matching to the given filterExpression")]
+    public SearchResearchStudiesResponse SearchResearchStudies([FromBody][SwaggerRequestBody(Required = true)]  SearchResearchStudiesRequest args) {
       try {
         var response = new SearchResearchStudiesResponse();
         response.@return = _ResearchStudies.SearchResearchStudies(
@@ -231,7 +243,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewResearchStudy")]
     [HttpPost("addNewResearchStudy"), Produces("application/json")]
-    public AddNewResearchStudyResponse AddNewResearchStudy([FromBody][SwaggerRequestBody(Required = true)] AddNewResearchStudyRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewResearchStudy), Description = "Adds a new ResearchStudy and returns its primary identifier (or null on failure).")]
+    public AddNewResearchStudyResponse AddNewResearchStudy([FromBody][SwaggerRequestBody(Required = true)]  AddNewResearchStudyRequest args) {
       try {
         var response = new AddNewResearchStudyResponse();
         response.@return = _ResearchStudies.AddNewResearchStudy(
@@ -249,7 +262,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateResearchStudy")]
     [HttpPost("updateResearchStudy"), Produces("application/json")]
-    public UpdateResearchStudyResponse UpdateResearchStudy([FromBody][SwaggerRequestBody(Required = true)] UpdateResearchStudyRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateResearchStudy), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given ResearchStudy addressed by the primary identifier fields within the given ResearchStudy. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateResearchStudyResponse UpdateResearchStudy([FromBody][SwaggerRequestBody(Required = true)]  UpdateResearchStudyRequest args) {
       try {
         var response = new UpdateResearchStudyResponse();
         response.@return = _ResearchStudies.UpdateResearchStudy(
@@ -267,7 +281,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateResearchStudyByResearchStudyUid")]
     [HttpPost("updateResearchStudyByResearchStudyUid"), Produces("application/json")]
-    public UpdateResearchStudyByResearchStudyUidResponse UpdateResearchStudyByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)] UpdateResearchStudyByResearchStudyUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateResearchStudyByResearchStudyUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given ResearchStudy addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateResearchStudyByResearchStudyUidResponse UpdateResearchStudyByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateResearchStudyByResearchStudyUidRequest args) {
       try {
         var response = new UpdateResearchStudyByResearchStudyUidResponse();
         response.@return = _ResearchStudies.UpdateResearchStudyByResearchStudyUid(
@@ -286,7 +301,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteResearchStudyByResearchStudyUid")]
     [HttpPost("deleteResearchStudyByResearchStudyUid"), Produces("application/json")]
-    public DeleteResearchStudyByResearchStudyUidResponse DeleteResearchStudyByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)] DeleteResearchStudyByResearchStudyUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteResearchStudyByResearchStudyUid), Description = "Deletes a specific ResearchStudy addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteResearchStudyByResearchStudyUidResponse DeleteResearchStudyByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteResearchStudyByResearchStudyUidRequest args) {
       try {
         var response = new DeleteResearchStudyByResearchStudyUidResponse();
         response.@return = _ResearchStudies.DeleteResearchStudyByResearchStudyUid(
@@ -305,7 +321,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/sites")]
-  public partial class SitesController : ControllerBase {
+  public class SitesController : ControllerBase {
     
     private readonly ILogger<SitesController> _Logger;
     private readonly ISites _Sites;
@@ -319,7 +335,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSiteBySiteUid")]
     [HttpPost("getSiteBySiteUid"), Produces("application/json")]
-    public GetSiteBySiteUidResponse GetSiteBySiteUid([FromBody][SwaggerRequestBody(Required = true)] GetSiteBySiteUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSiteBySiteUid), Description = "Loads a specific Site addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetSiteBySiteUidResponse GetSiteBySiteUid([FromBody][SwaggerRequestBody(Required = true)]  GetSiteBySiteUidRequest args) {
       try {
         var response = new GetSiteBySiteUidResponse();
         response.@return = _Sites.GetSiteBySiteUid(
@@ -337,7 +354,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSites")]
     [HttpPost("getSites"), Produces("application/json")]
-    public GetSitesResponse GetSites([FromBody][SwaggerRequestBody(Required = true)] GetSitesRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSites), Description = "Loads Sites.")]
+    public GetSitesResponse GetSites([FromBody][SwaggerRequestBody(Required = true)]  GetSitesRequest args) {
       try {
         var response = new GetSitesResponse();
         response.@return = _Sites.GetSites(
@@ -356,7 +374,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchSites")]
     [HttpPost("searchSites"), Produces("application/json")]
-    public SearchSitesResponse SearchSites([FromBody][SwaggerRequestBody(Required = true)] SearchSitesRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchSites), Description = "Loads Sites where values matching to the given filterExpression")]
+    public SearchSitesResponse SearchSites([FromBody][SwaggerRequestBody(Required = true)]  SearchSitesRequest args) {
       try {
         var response = new SearchSitesResponse();
         response.@return = _Sites.SearchSites(
@@ -377,7 +396,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewSite")]
     [HttpPost("addNewSite"), Produces("application/json")]
-    public AddNewSiteResponse AddNewSite([FromBody][SwaggerRequestBody(Required = true)] AddNewSiteRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewSite), Description = "Adds a new Site and returns its primary identifier (or null on failure).")]
+    public AddNewSiteResponse AddNewSite([FromBody][SwaggerRequestBody(Required = true)]  AddNewSiteRequest args) {
       try {
         var response = new AddNewSiteResponse();
         response.@return = _Sites.AddNewSite(
@@ -395,7 +415,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSite")]
     [HttpPost("updateSite"), Produces("application/json")]
-    public UpdateSiteResponse UpdateSite([FromBody][SwaggerRequestBody(Required = true)] UpdateSiteRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSite), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Site addressed by the primary identifier fields within the given Site. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSiteResponse UpdateSite([FromBody][SwaggerRequestBody(Required = true)]  UpdateSiteRequest args) {
       try {
         var response = new UpdateSiteResponse();
         response.@return = _Sites.UpdateSite(
@@ -413,7 +434,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSiteBySiteUid")]
     [HttpPost("updateSiteBySiteUid"), Produces("application/json")]
-    public UpdateSiteBySiteUidResponse UpdateSiteBySiteUid([FromBody][SwaggerRequestBody(Required = true)] UpdateSiteBySiteUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSiteBySiteUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Site addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSiteBySiteUidResponse UpdateSiteBySiteUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateSiteBySiteUidRequest args) {
       try {
         var response = new UpdateSiteBySiteUidResponse();
         response.@return = _Sites.UpdateSiteBySiteUid(
@@ -432,7 +454,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteSiteBySiteUid")]
     [HttpPost("deleteSiteBySiteUid"), Produces("application/json")]
-    public DeleteSiteBySiteUidResponse DeleteSiteBySiteUid([FromBody][SwaggerRequestBody(Required = true)] DeleteSiteBySiteUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteSiteBySiteUid), Description = "Deletes a specific Site addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteSiteBySiteUidResponse DeleteSiteBySiteUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteSiteBySiteUidRequest args) {
       try {
         var response = new DeleteSiteBySiteUidResponse();
         response.@return = _Sites.DeleteSiteBySiteUid(
@@ -451,7 +474,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/systemEndpoints")]
-  public partial class SystemEndpointsController : ControllerBase {
+  public class SystemEndpointsController : ControllerBase {
     
     private readonly ILogger<SystemEndpointsController> _Logger;
     private readonly ISystemEndpoints _SystemEndpoints;
@@ -465,7 +488,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSystemEndpointBySystemEndpointUid")]
     [HttpPost("getSystemEndpointBySystemEndpointUid"), Produces("application/json")]
-    public GetSystemEndpointBySystemEndpointUidResponse GetSystemEndpointBySystemEndpointUid([FromBody][SwaggerRequestBody(Required = true)] GetSystemEndpointBySystemEndpointUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSystemEndpointBySystemEndpointUid), Description = "Loads a specific SystemEndpoint addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetSystemEndpointBySystemEndpointUidResponse GetSystemEndpointBySystemEndpointUid([FromBody][SwaggerRequestBody(Required = true)]  GetSystemEndpointBySystemEndpointUidRequest args) {
       try {
         var response = new GetSystemEndpointBySystemEndpointUidResponse();
         response.@return = _SystemEndpoints.GetSystemEndpointBySystemEndpointUid(
@@ -483,7 +507,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSystemEndpoints")]
     [HttpPost("getSystemEndpoints"), Produces("application/json")]
-    public GetSystemEndpointsResponse GetSystemEndpoints([FromBody][SwaggerRequestBody(Required = true)] GetSystemEndpointsRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSystemEndpoints), Description = "Loads SystemEndpoints.")]
+    public GetSystemEndpointsResponse GetSystemEndpoints([FromBody][SwaggerRequestBody(Required = true)]  GetSystemEndpointsRequest args) {
       try {
         var response = new GetSystemEndpointsResponse();
         response.@return = _SystemEndpoints.GetSystemEndpoints(
@@ -502,7 +527,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchSystemEndpoints")]
     [HttpPost("searchSystemEndpoints"), Produces("application/json")]
-    public SearchSystemEndpointsResponse SearchSystemEndpoints([FromBody][SwaggerRequestBody(Required = true)] SearchSystemEndpointsRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchSystemEndpoints), Description = "Loads SystemEndpoints where values matching to the given filterExpression")]
+    public SearchSystemEndpointsResponse SearchSystemEndpoints([FromBody][SwaggerRequestBody(Required = true)]  SearchSystemEndpointsRequest args) {
       try {
         var response = new SearchSystemEndpointsResponse();
         response.@return = _SystemEndpoints.SearchSystemEndpoints(
@@ -523,7 +549,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewSystemEndpoint")]
     [HttpPost("addNewSystemEndpoint"), Produces("application/json")]
-    public AddNewSystemEndpointResponse AddNewSystemEndpoint([FromBody][SwaggerRequestBody(Required = true)] AddNewSystemEndpointRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewSystemEndpoint), Description = "Adds a new SystemEndpoint and returns its primary identifier (or null on failure).")]
+    public AddNewSystemEndpointResponse AddNewSystemEndpoint([FromBody][SwaggerRequestBody(Required = true)]  AddNewSystemEndpointRequest args) {
       try {
         var response = new AddNewSystemEndpointResponse();
         response.@return = _SystemEndpoints.AddNewSystemEndpoint(
@@ -541,7 +568,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSystemEndpoint")]
     [HttpPost("updateSystemEndpoint"), Produces("application/json")]
-    public UpdateSystemEndpointResponse UpdateSystemEndpoint([FromBody][SwaggerRequestBody(Required = true)] UpdateSystemEndpointRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSystemEndpoint), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SystemEndpoint addressed by the primary identifier fields within the given SystemEndpoint. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSystemEndpointResponse UpdateSystemEndpoint([FromBody][SwaggerRequestBody(Required = true)]  UpdateSystemEndpointRequest args) {
       try {
         var response = new UpdateSystemEndpointResponse();
         response.@return = _SystemEndpoints.UpdateSystemEndpoint(
@@ -559,7 +587,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSystemEndpointBySystemEndpointUid")]
     [HttpPost("updateSystemEndpointBySystemEndpointUid"), Produces("application/json")]
-    public UpdateSystemEndpointBySystemEndpointUidResponse UpdateSystemEndpointBySystemEndpointUid([FromBody][SwaggerRequestBody(Required = true)] UpdateSystemEndpointBySystemEndpointUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSystemEndpointBySystemEndpointUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SystemEndpoint addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSystemEndpointBySystemEndpointUidResponse UpdateSystemEndpointBySystemEndpointUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateSystemEndpointBySystemEndpointUidRequest args) {
       try {
         var response = new UpdateSystemEndpointBySystemEndpointUidResponse();
         response.@return = _SystemEndpoints.UpdateSystemEndpointBySystemEndpointUid(
@@ -578,7 +607,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteSystemEndpointBySystemEndpointUid")]
     [HttpPost("deleteSystemEndpointBySystemEndpointUid"), Produces("application/json")]
-    public DeleteSystemEndpointBySystemEndpointUidResponse DeleteSystemEndpointBySystemEndpointUid([FromBody][SwaggerRequestBody(Required = true)] DeleteSystemEndpointBySystemEndpointUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteSystemEndpointBySystemEndpointUid), Description = "Deletes a specific SystemEndpoint addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteSystemEndpointBySystemEndpointUidResponse DeleteSystemEndpointBySystemEndpointUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteSystemEndpointBySystemEndpointUidRequest args) {
       try {
         var response = new DeleteSystemEndpointBySystemEndpointUidResponse();
         response.@return = _SystemEndpoints.DeleteSystemEndpointBySystemEndpointUid(
@@ -596,43 +626,45 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
-  [Route("store/instituteRelatedSystemAssignemnts")]
-  public partial class InstituteRelatedSystemAssignemntsController : ControllerBase {
+  [Route("store/instituteRelatedSystemAssignments")]
+  public class InstituteRelatedSystemAssignmentsController : ControllerBase {
     
-    private readonly ILogger<InstituteRelatedSystemAssignemntsController> _Logger;
-    private readonly IInstituteRelatedSystemAssignemnts _InstituteRelatedSystemAssignemnts;
+    private readonly ILogger<InstituteRelatedSystemAssignmentsController> _Logger;
+    private readonly IInstituteRelatedSystemAssignments _InstituteRelatedSystemAssignments;
     
-    public InstituteRelatedSystemAssignemntsController(ILogger<InstituteRelatedSystemAssignemntsController> logger, IInstituteRelatedSystemAssignemnts instituteRelatedSystemAssignemnts) {
+    public InstituteRelatedSystemAssignmentsController(ILogger<InstituteRelatedSystemAssignmentsController> logger, IInstituteRelatedSystemAssignments instituteRelatedSystemAssignments) {
       _Logger = logger;
-      _InstituteRelatedSystemAssignemnts = instituteRelatedSystemAssignemnts;
+      _InstituteRelatedSystemAssignments = instituteRelatedSystemAssignments;
     }
     
-    /// <summary> Loads a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+    /// <summary> Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid")]
-    [HttpPost("getInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid"), Produces("application/json")]
-    public GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid([FromBody][SwaggerRequestBody(Required = true)] GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest args) {
+    [RequireBaererAuth("store-GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid")]
+    [HttpPost("getInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid), Description = "Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid([FromBody][SwaggerRequestBody(Required = true)]  GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest args) {
       try {
-        var response = new GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(
+        var response = new GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse();
+        response.@return = _InstituteRelatedSystemAssignments.GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(
         args.instituteRelatedSystemAssignemntUid
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse { fault = ex.Message };
+        return new GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse { fault = ex.Message };
       }
     }
     
-    /// <summary> Loads InstituteRelatedSystemAssignemnts. </summary>
+    /// <summary> Loads InstituteRelatedSystemAssignments. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetInstituteRelatedSystemAssignemnts")]
-    [HttpPost("getInstituteRelatedSystemAssignemnts"), Produces("application/json")]
-    public GetInstituteRelatedSystemAssignemntsResponse GetInstituteRelatedSystemAssignemnts([FromBody][SwaggerRequestBody(Required = true)] GetInstituteRelatedSystemAssignemntsRequest args) {
+    [RequireBaererAuth("store-GetInstituteRelatedSystemAssignments")]
+    [HttpPost("getInstituteRelatedSystemAssignments"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetInstituteRelatedSystemAssignments), Description = "Loads InstituteRelatedSystemAssignments.")]
+    public GetInstituteRelatedSystemAssignmentsResponse GetInstituteRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)]  GetInstituteRelatedSystemAssignmentsRequest args) {
       try {
-        var response = new GetInstituteRelatedSystemAssignemntsResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.GetInstituteRelatedSystemAssignemnts(
+        var response = new GetInstituteRelatedSystemAssignmentsResponse();
+        response.@return = _InstituteRelatedSystemAssignments.GetInstituteRelatedSystemAssignments(
         (args.page.HasValue ? args.page.Value : 1),
         (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
@@ -640,18 +672,19 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new GetInstituteRelatedSystemAssignemntsResponse { fault = ex.Message };
+        return new GetInstituteRelatedSystemAssignmentsResponse { fault = ex.Message };
       }
     }
     
-    /// <summary> Loads InstituteRelatedSystemAssignemnts where values matching to the given filterExpression </summary>
+    /// <summary> Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchInstituteRelatedSystemAssignemnts")]
-    [HttpPost("searchInstituteRelatedSystemAssignemnts"), Produces("application/json")]
-    public SearchInstituteRelatedSystemAssignemntsResponse SearchInstituteRelatedSystemAssignemnts([FromBody][SwaggerRequestBody(Required = true)] SearchInstituteRelatedSystemAssignemntsRequest args) {
+    [RequireBaererAuth("store-SearchInstituteRelatedSystemAssignments")]
+    [HttpPost("searchInstituteRelatedSystemAssignments"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchInstituteRelatedSystemAssignments), Description = "Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression")]
+    public SearchInstituteRelatedSystemAssignmentsResponse SearchInstituteRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)]  SearchInstituteRelatedSystemAssignmentsRequest args) {
       try {
-        var response = new SearchInstituteRelatedSystemAssignemntsResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.SearchInstituteRelatedSystemAssignemnts(
+        var response = new SearchInstituteRelatedSystemAssignmentsResponse();
+        response.@return = _InstituteRelatedSystemAssignments.SearchInstituteRelatedSystemAssignments(
         args.filterExpression,
         args.sortingExpression,
         (args.page.HasValue ? args.page.Value : 1),
@@ -661,80 +694,84 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new SearchInstituteRelatedSystemAssignemntsResponse { fault = ex.Message };
+        return new SearchInstituteRelatedSystemAssignmentsResponse { fault = ex.Message };
       }
     }
     
-    /// <summary> Adds a new InstituteRelatedSystemAssignemnt and returns its primary identifier (or null on failure). </summary>
+    /// <summary> Adds a new InstituteRelatedSystemAssignment and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewInstituteRelatedSystemAssignemnt")]
-    [HttpPost("addNewInstituteRelatedSystemAssignemnt"), Produces("application/json")]
-    public AddNewInstituteRelatedSystemAssignemntResponse AddNewInstituteRelatedSystemAssignemnt([FromBody][SwaggerRequestBody(Required = true)] AddNewInstituteRelatedSystemAssignemntRequest args) {
+    [RequireBaererAuth("store-AddNewInstituteRelatedSystemAssignment")]
+    [HttpPost("addNewInstituteRelatedSystemAssignment"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewInstituteRelatedSystemAssignment), Description = "Adds a new InstituteRelatedSystemAssignment and returns its primary identifier (or null on failure).")]
+    public AddNewInstituteRelatedSystemAssignmentResponse AddNewInstituteRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)]  AddNewInstituteRelatedSystemAssignmentRequest args) {
       try {
-        var response = new AddNewInstituteRelatedSystemAssignemntResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.AddNewInstituteRelatedSystemAssignemnt(
-        args.instituteRelatedSystemAssignemnt
+        var response = new AddNewInstituteRelatedSystemAssignmentResponse();
+        response.@return = _InstituteRelatedSystemAssignments.AddNewInstituteRelatedSystemAssignment(
+        args.instituteRelatedSystemAssignment
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new AddNewInstituteRelatedSystemAssignemntResponse { fault = ex.Message };
+        return new AddNewInstituteRelatedSystemAssignmentResponse { fault = ex.Message };
       }
     }
     
-    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the primary identifier fields within the given InstituteRelatedSystemAssignemnt. Returns false on failure or if no target record was found, otherwise true. </summary>
+    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateInstituteRelatedSystemAssignemnt")]
-    [HttpPost("updateInstituteRelatedSystemAssignemnt"), Produces("application/json")]
-    public UpdateInstituteRelatedSystemAssignemntResponse UpdateInstituteRelatedSystemAssignemnt([FromBody][SwaggerRequestBody(Required = true)] UpdateInstituteRelatedSystemAssignemntRequest args) {
+    [RequireBaererAuth("store-UpdateInstituteRelatedSystemAssignment")]
+    [HttpPost("updateInstituteRelatedSystemAssignment"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateInstituteRelatedSystemAssignment), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInstituteRelatedSystemAssignmentResponse UpdateInstituteRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)]  UpdateInstituteRelatedSystemAssignmentRequest args) {
       try {
-        var response = new UpdateInstituteRelatedSystemAssignemntResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.UpdateInstituteRelatedSystemAssignemnt(
-        args.instituteRelatedSystemAssignemnt
+        var response = new UpdateInstituteRelatedSystemAssignmentResponse();
+        response.@return = _InstituteRelatedSystemAssignments.UpdateInstituteRelatedSystemAssignment(
+        args.instituteRelatedSystemAssignment
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new UpdateInstituteRelatedSystemAssignemntResponse { fault = ex.Message };
+        return new UpdateInstituteRelatedSystemAssignmentResponse { fault = ex.Message };
       }
     }
     
-    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid")]
-    [HttpPost("updateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid"), Produces("application/json")]
-    public UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid([FromBody][SwaggerRequestBody(Required = true)] UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest args) {
+    [RequireBaererAuth("store-UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid")]
+    [HttpPost("updateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest args) {
       try {
-        var response = new UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(
+        var response = new UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse();
+        response.@return = _InstituteRelatedSystemAssignments.UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(
         args.instituteRelatedSystemAssignemntUid,
-        args.instituteRelatedSystemAssignemnt
+        args.instituteRelatedSystemAssignment
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse { fault = ex.Message };
+        return new UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse { fault = ex.Message };
       }
     }
     
-    /// <summary> Deletes a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+    /// <summary> Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid")]
-    [HttpPost("deleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid"), Produces("application/json")]
-    public DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid([FromBody][SwaggerRequestBody(Required = true)] DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest args) {
+    [RequireBaererAuth("store-DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid")]
+    [HttpPost("deleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid), Description = "Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest args) {
       try {
-        var response = new DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse();
-        response.@return = _InstituteRelatedSystemAssignemnts.DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(
+        var response = new DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse();
+        response.@return = _InstituteRelatedSystemAssignments.DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(
         args.instituteRelatedSystemAssignemntUid
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse { fault = ex.Message };
+        return new DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse { fault = ex.Message };
       }
     }
     
@@ -743,7 +780,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/systemConnections")]
-  public partial class SystemConnectionsController : ControllerBase {
+  public class SystemConnectionsController : ControllerBase {
     
     private readonly ILogger<SystemConnectionsController> _Logger;
     private readonly ISystemConnections _SystemConnections;
@@ -757,7 +794,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSystemConnectionBySystemConnectionUid")]
     [HttpPost("getSystemConnectionBySystemConnectionUid"), Produces("application/json")]
-    public GetSystemConnectionBySystemConnectionUidResponse GetSystemConnectionBySystemConnectionUid([FromBody][SwaggerRequestBody(Required = true)] GetSystemConnectionBySystemConnectionUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSystemConnectionBySystemConnectionUid), Description = "Loads a specific SystemConnection addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetSystemConnectionBySystemConnectionUidResponse GetSystemConnectionBySystemConnectionUid([FromBody][SwaggerRequestBody(Required = true)]  GetSystemConnectionBySystemConnectionUidRequest args) {
       try {
         var response = new GetSystemConnectionBySystemConnectionUidResponse();
         response.@return = _SystemConnections.GetSystemConnectionBySystemConnectionUid(
@@ -775,7 +813,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSystemConnections")]
     [HttpPost("getSystemConnections"), Produces("application/json")]
-    public GetSystemConnectionsResponse GetSystemConnections([FromBody][SwaggerRequestBody(Required = true)] GetSystemConnectionsRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSystemConnections), Description = "Loads SystemConnections.")]
+    public GetSystemConnectionsResponse GetSystemConnections([FromBody][SwaggerRequestBody(Required = true)]  GetSystemConnectionsRequest args) {
       try {
         var response = new GetSystemConnectionsResponse();
         response.@return = _SystemConnections.GetSystemConnections(
@@ -794,7 +833,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchSystemConnections")]
     [HttpPost("searchSystemConnections"), Produces("application/json")]
-    public SearchSystemConnectionsResponse SearchSystemConnections([FromBody][SwaggerRequestBody(Required = true)] SearchSystemConnectionsRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchSystemConnections), Description = "Loads SystemConnections where values matching to the given filterExpression")]
+    public SearchSystemConnectionsResponse SearchSystemConnections([FromBody][SwaggerRequestBody(Required = true)]  SearchSystemConnectionsRequest args) {
       try {
         var response = new SearchSystemConnectionsResponse();
         response.@return = _SystemConnections.SearchSystemConnections(
@@ -815,7 +855,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewSystemConnection")]
     [HttpPost("addNewSystemConnection"), Produces("application/json")]
-    public AddNewSystemConnectionResponse AddNewSystemConnection([FromBody][SwaggerRequestBody(Required = true)] AddNewSystemConnectionRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewSystemConnection), Description = "Adds a new SystemConnection and returns its primary identifier (or null on failure).")]
+    public AddNewSystemConnectionResponse AddNewSystemConnection([FromBody][SwaggerRequestBody(Required = true)]  AddNewSystemConnectionRequest args) {
       try {
         var response = new AddNewSystemConnectionResponse();
         response.@return = _SystemConnections.AddNewSystemConnection(
@@ -833,7 +874,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSystemConnection")]
     [HttpPost("updateSystemConnection"), Produces("application/json")]
-    public UpdateSystemConnectionResponse UpdateSystemConnection([FromBody][SwaggerRequestBody(Required = true)] UpdateSystemConnectionRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSystemConnection), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SystemConnection addressed by the primary identifier fields within the given SystemConnection. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSystemConnectionResponse UpdateSystemConnection([FromBody][SwaggerRequestBody(Required = true)]  UpdateSystemConnectionRequest args) {
       try {
         var response = new UpdateSystemConnectionResponse();
         response.@return = _SystemConnections.UpdateSystemConnection(
@@ -851,7 +893,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSystemConnectionBySystemConnectionUid")]
     [HttpPost("updateSystemConnectionBySystemConnectionUid"), Produces("application/json")]
-    public UpdateSystemConnectionBySystemConnectionUidResponse UpdateSystemConnectionBySystemConnectionUid([FromBody][SwaggerRequestBody(Required = true)] UpdateSystemConnectionBySystemConnectionUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSystemConnectionBySystemConnectionUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SystemConnection addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSystemConnectionBySystemConnectionUidResponse UpdateSystemConnectionBySystemConnectionUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateSystemConnectionBySystemConnectionUidRequest args) {
       try {
         var response = new UpdateSystemConnectionBySystemConnectionUidResponse();
         response.@return = _SystemConnections.UpdateSystemConnectionBySystemConnectionUid(
@@ -870,7 +913,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteSystemConnectionBySystemConnectionUid")]
     [HttpPost("deleteSystemConnectionBySystemConnectionUid"), Produces("application/json")]
-    public DeleteSystemConnectionBySystemConnectionUidResponse DeleteSystemConnectionBySystemConnectionUid([FromBody][SwaggerRequestBody(Required = true)] DeleteSystemConnectionBySystemConnectionUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteSystemConnectionBySystemConnectionUid), Description = "Deletes a specific SystemConnection addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteSystemConnectionBySystemConnectionUidResponse DeleteSystemConnectionBySystemConnectionUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteSystemConnectionBySystemConnectionUidRequest args) {
       try {
         var response = new DeleteSystemConnectionBySystemConnectionUidResponse();
         response.@return = _SystemConnections.DeleteSystemConnectionBySystemConnectionUid(
@@ -889,7 +933,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/involvedPersons")]
-  public partial class InvolvedPersonsController : ControllerBase {
+  public class InvolvedPersonsController : ControllerBase {
     
     private readonly ILogger<InvolvedPersonsController> _Logger;
     private readonly IInvolvedPersons _InvolvedPersons;
@@ -903,7 +947,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetInvolvedPersonByInvolvedPersonUid")]
     [HttpPost("getInvolvedPersonByInvolvedPersonUid"), Produces("application/json")]
-    public GetInvolvedPersonByInvolvedPersonUidResponse GetInvolvedPersonByInvolvedPersonUid([FromBody][SwaggerRequestBody(Required = true)] GetInvolvedPersonByInvolvedPersonUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetInvolvedPersonByInvolvedPersonUid), Description = "Loads a specific InvolvedPerson addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetInvolvedPersonByInvolvedPersonUidResponse GetInvolvedPersonByInvolvedPersonUid([FromBody][SwaggerRequestBody(Required = true)]  GetInvolvedPersonByInvolvedPersonUidRequest args) {
       try {
         var response = new GetInvolvedPersonByInvolvedPersonUidResponse();
         response.@return = _InvolvedPersons.GetInvolvedPersonByInvolvedPersonUid(
@@ -921,7 +966,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetInvolvedPersons")]
     [HttpPost("getInvolvedPersons"), Produces("application/json")]
-    public GetInvolvedPersonsResponse GetInvolvedPersons([FromBody][SwaggerRequestBody(Required = true)] GetInvolvedPersonsRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetInvolvedPersons), Description = "Loads InvolvedPersons.")]
+    public GetInvolvedPersonsResponse GetInvolvedPersons([FromBody][SwaggerRequestBody(Required = true)]  GetInvolvedPersonsRequest args) {
       try {
         var response = new GetInvolvedPersonsResponse();
         response.@return = _InvolvedPersons.GetInvolvedPersons(
@@ -940,7 +986,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchInvolvedPersons")]
     [HttpPost("searchInvolvedPersons"), Produces("application/json")]
-    public SearchInvolvedPersonsResponse SearchInvolvedPersons([FromBody][SwaggerRequestBody(Required = true)] SearchInvolvedPersonsRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchInvolvedPersons), Description = "Loads InvolvedPersons where values matching to the given filterExpression")]
+    public SearchInvolvedPersonsResponse SearchInvolvedPersons([FromBody][SwaggerRequestBody(Required = true)]  SearchInvolvedPersonsRequest args) {
       try {
         var response = new SearchInvolvedPersonsResponse();
         response.@return = _InvolvedPersons.SearchInvolvedPersons(
@@ -961,7 +1008,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewInvolvedPerson")]
     [HttpPost("addNewInvolvedPerson"), Produces("application/json")]
-    public AddNewInvolvedPersonResponse AddNewInvolvedPerson([FromBody][SwaggerRequestBody(Required = true)] AddNewInvolvedPersonRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewInvolvedPerson), Description = "Adds a new InvolvedPerson and returns its primary identifier (or null on failure).")]
+    public AddNewInvolvedPersonResponse AddNewInvolvedPerson([FromBody][SwaggerRequestBody(Required = true)]  AddNewInvolvedPersonRequest args) {
       try {
         var response = new AddNewInvolvedPersonResponse();
         response.@return = _InvolvedPersons.AddNewInvolvedPerson(
@@ -979,7 +1027,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateInvolvedPerson")]
     [HttpPost("updateInvolvedPerson"), Produces("application/json")]
-    public UpdateInvolvedPersonResponse UpdateInvolvedPerson([FromBody][SwaggerRequestBody(Required = true)] UpdateInvolvedPersonRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateInvolvedPerson), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given InvolvedPerson addressed by the primary identifier fields within the given InvolvedPerson. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInvolvedPersonResponse UpdateInvolvedPerson([FromBody][SwaggerRequestBody(Required = true)]  UpdateInvolvedPersonRequest args) {
       try {
         var response = new UpdateInvolvedPersonResponse();
         response.@return = _InvolvedPersons.UpdateInvolvedPerson(
@@ -997,7 +1046,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateInvolvedPersonByInvolvedPersonUid")]
     [HttpPost("updateInvolvedPersonByInvolvedPersonUid"), Produces("application/json")]
-    public UpdateInvolvedPersonByInvolvedPersonUidResponse UpdateInvolvedPersonByInvolvedPersonUid([FromBody][SwaggerRequestBody(Required = true)] UpdateInvolvedPersonByInvolvedPersonUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateInvolvedPersonByInvolvedPersonUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given InvolvedPerson addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInvolvedPersonByInvolvedPersonUidResponse UpdateInvolvedPersonByInvolvedPersonUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateInvolvedPersonByInvolvedPersonUidRequest args) {
       try {
         var response = new UpdateInvolvedPersonByInvolvedPersonUidResponse();
         response.@return = _InvolvedPersons.UpdateInvolvedPersonByInvolvedPersonUid(
@@ -1016,7 +1066,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteInvolvedPersonByInvolvedPersonUid")]
     [HttpPost("deleteInvolvedPersonByInvolvedPersonUid"), Produces("application/json")]
-    public DeleteInvolvedPersonByInvolvedPersonUidResponse DeleteInvolvedPersonByInvolvedPersonUid([FromBody][SwaggerRequestBody(Required = true)] DeleteInvolvedPersonByInvolvedPersonUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteInvolvedPersonByInvolvedPersonUid), Description = "Deletes a specific InvolvedPerson addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteInvolvedPersonByInvolvedPersonUidResponse DeleteInvolvedPersonByInvolvedPersonUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteInvolvedPersonByInvolvedPersonUidRequest args) {
       try {
         var response = new DeleteInvolvedPersonByInvolvedPersonUidResponse();
         response.@return = _InvolvedPersons.DeleteInvolvedPersonByInvolvedPersonUid(
@@ -1035,7 +1086,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/involvementRoles")]
-  public partial class InvolvementRolesController : ControllerBase {
+  public class InvolvementRolesController : ControllerBase {
     
     private readonly ILogger<InvolvementRolesController> _Logger;
     private readonly IInvolvementRoles _InvolvementRoles;
@@ -1049,7 +1100,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetInvolvementRoleByInvolvedPersonRoleUid")]
     [HttpPost("getInvolvementRoleByInvolvedPersonRoleUid"), Produces("application/json")]
-    public GetInvolvementRoleByInvolvedPersonRoleUidResponse GetInvolvementRoleByInvolvedPersonRoleUid([FromBody][SwaggerRequestBody(Required = true)] GetInvolvementRoleByInvolvedPersonRoleUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetInvolvementRoleByInvolvedPersonRoleUid), Description = "Loads a specific InvolvementRole addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetInvolvementRoleByInvolvedPersonRoleUidResponse GetInvolvementRoleByInvolvedPersonRoleUid([FromBody][SwaggerRequestBody(Required = true)]  GetInvolvementRoleByInvolvedPersonRoleUidRequest args) {
       try {
         var response = new GetInvolvementRoleByInvolvedPersonRoleUidResponse();
         response.@return = _InvolvementRoles.GetInvolvementRoleByInvolvedPersonRoleUid(
@@ -1067,7 +1119,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetInvolvementRoles")]
     [HttpPost("getInvolvementRoles"), Produces("application/json")]
-    public GetInvolvementRolesResponse GetInvolvementRoles([FromBody][SwaggerRequestBody(Required = true)] GetInvolvementRolesRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetInvolvementRoles), Description = "Loads InvolvementRoles.")]
+    public GetInvolvementRolesResponse GetInvolvementRoles([FromBody][SwaggerRequestBody(Required = true)]  GetInvolvementRolesRequest args) {
       try {
         var response = new GetInvolvementRolesResponse();
         response.@return = _InvolvementRoles.GetInvolvementRoles(
@@ -1086,7 +1139,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchInvolvementRoles")]
     [HttpPost("searchInvolvementRoles"), Produces("application/json")]
-    public SearchInvolvementRolesResponse SearchInvolvementRoles([FromBody][SwaggerRequestBody(Required = true)] SearchInvolvementRolesRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchInvolvementRoles), Description = "Loads InvolvementRoles where values matching to the given filterExpression")]
+    public SearchInvolvementRolesResponse SearchInvolvementRoles([FromBody][SwaggerRequestBody(Required = true)]  SearchInvolvementRolesRequest args) {
       try {
         var response = new SearchInvolvementRolesResponse();
         response.@return = _InvolvementRoles.SearchInvolvementRoles(
@@ -1107,7 +1161,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewInvolvementRole")]
     [HttpPost("addNewInvolvementRole"), Produces("application/json")]
-    public AddNewInvolvementRoleResponse AddNewInvolvementRole([FromBody][SwaggerRequestBody(Required = true)] AddNewInvolvementRoleRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewInvolvementRole), Description = "Adds a new InvolvementRole and returns its primary identifier (or null on failure).")]
+    public AddNewInvolvementRoleResponse AddNewInvolvementRole([FromBody][SwaggerRequestBody(Required = true)]  AddNewInvolvementRoleRequest args) {
       try {
         var response = new AddNewInvolvementRoleResponse();
         response.@return = _InvolvementRoles.AddNewInvolvementRole(
@@ -1125,7 +1180,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateInvolvementRole")]
     [HttpPost("updateInvolvementRole"), Produces("application/json")]
-    public UpdateInvolvementRoleResponse UpdateInvolvementRole([FromBody][SwaggerRequestBody(Required = true)] UpdateInvolvementRoleRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateInvolvementRole), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given InvolvementRole addressed by the primary identifier fields within the given InvolvementRole. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInvolvementRoleResponse UpdateInvolvementRole([FromBody][SwaggerRequestBody(Required = true)]  UpdateInvolvementRoleRequest args) {
       try {
         var response = new UpdateInvolvementRoleResponse();
         response.@return = _InvolvementRoles.UpdateInvolvementRole(
@@ -1143,7 +1199,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateInvolvementRoleByInvolvedPersonRoleUid")]
     [HttpPost("updateInvolvementRoleByInvolvedPersonRoleUid"), Produces("application/json")]
-    public UpdateInvolvementRoleByInvolvedPersonRoleUidResponse UpdateInvolvementRoleByInvolvedPersonRoleUid([FromBody][SwaggerRequestBody(Required = true)] UpdateInvolvementRoleByInvolvedPersonRoleUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateInvolvementRoleByInvolvedPersonRoleUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given InvolvementRole addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateInvolvementRoleByInvolvedPersonRoleUidResponse UpdateInvolvementRoleByInvolvedPersonRoleUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateInvolvementRoleByInvolvedPersonRoleUidRequest args) {
       try {
         var response = new UpdateInvolvementRoleByInvolvedPersonRoleUidResponse();
         response.@return = _InvolvementRoles.UpdateInvolvementRoleByInvolvedPersonRoleUid(
@@ -1162,7 +1219,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteInvolvementRoleByInvolvedPersonRoleUid")]
     [HttpPost("deleteInvolvementRoleByInvolvedPersonRoleUid"), Produces("application/json")]
-    public DeleteInvolvementRoleByInvolvedPersonRoleUidResponse DeleteInvolvementRoleByInvolvedPersonRoleUid([FromBody][SwaggerRequestBody(Required = true)] DeleteInvolvementRoleByInvolvedPersonRoleUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteInvolvementRoleByInvolvedPersonRoleUid), Description = "Deletes a specific InvolvementRole addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteInvolvementRoleByInvolvedPersonRoleUidResponse DeleteInvolvementRoleByInvolvedPersonRoleUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteInvolvementRoleByInvolvedPersonRoleUidRequest args) {
       try {
         var response = new DeleteInvolvementRoleByInvolvedPersonRoleUidResponse();
         response.@return = _InvolvementRoles.DeleteInvolvementRoleByInvolvedPersonRoleUid(
@@ -1181,7 +1239,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/studyRelatedSystemAssignments")]
-  public partial class StudyRelatedSystemAssignmentsController : ControllerBase {
+  public class StudyRelatedSystemAssignmentsController : ControllerBase {
     
     private readonly ILogger<StudyRelatedSystemAssignmentsController> _Logger;
     private readonly IStudyRelatedSystemAssignments _StudyRelatedSystemAssignments;
@@ -1195,7 +1253,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid")]
     [HttpPost("getStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid"), Produces("application/json")]
-    public GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)] GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid), Description = "Loads a specific StudyRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)]  GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidRequest args) {
       try {
         var response = new GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse();
         response.@return = _StudyRelatedSystemAssignments.GetStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid(
@@ -1213,7 +1272,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetStudyRelatedSystemAssignments")]
     [HttpPost("getStudyRelatedSystemAssignments"), Produces("application/json")]
-    public GetStudyRelatedSystemAssignmentsResponse GetStudyRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)] GetStudyRelatedSystemAssignmentsRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetStudyRelatedSystemAssignments), Description = "Loads StudyRelatedSystemAssignments.")]
+    public GetStudyRelatedSystemAssignmentsResponse GetStudyRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)]  GetStudyRelatedSystemAssignmentsRequest args) {
       try {
         var response = new GetStudyRelatedSystemAssignmentsResponse();
         response.@return = _StudyRelatedSystemAssignments.GetStudyRelatedSystemAssignments(
@@ -1232,7 +1292,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchStudyRelatedSystemAssignments")]
     [HttpPost("searchStudyRelatedSystemAssignments"), Produces("application/json")]
-    public SearchStudyRelatedSystemAssignmentsResponse SearchStudyRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)] SearchStudyRelatedSystemAssignmentsRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchStudyRelatedSystemAssignments), Description = "Loads StudyRelatedSystemAssignments where values matching to the given filterExpression")]
+    public SearchStudyRelatedSystemAssignmentsResponse SearchStudyRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)]  SearchStudyRelatedSystemAssignmentsRequest args) {
       try {
         var response = new SearchStudyRelatedSystemAssignmentsResponse();
         response.@return = _StudyRelatedSystemAssignments.SearchStudyRelatedSystemAssignments(
@@ -1253,7 +1314,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewStudyRelatedSystemAssignment")]
     [HttpPost("addNewStudyRelatedSystemAssignment"), Produces("application/json")]
-    public AddNewStudyRelatedSystemAssignmentResponse AddNewStudyRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)] AddNewStudyRelatedSystemAssignmentRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewStudyRelatedSystemAssignment), Description = "Adds a new StudyRelatedSystemAssignment and returns its primary identifier (or null on failure).")]
+    public AddNewStudyRelatedSystemAssignmentResponse AddNewStudyRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)]  AddNewStudyRelatedSystemAssignmentRequest args) {
       try {
         var response = new AddNewStudyRelatedSystemAssignmentResponse();
         response.@return = _StudyRelatedSystemAssignments.AddNewStudyRelatedSystemAssignment(
@@ -1271,7 +1333,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateStudyRelatedSystemAssignment")]
     [HttpPost("updateStudyRelatedSystemAssignment"), Produces("application/json")]
-    public UpdateStudyRelatedSystemAssignmentResponse UpdateStudyRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyRelatedSystemAssignmentRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateStudyRelatedSystemAssignment), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyRelatedSystemAssignment addressed by the primary identifier fields within the given StudyRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateStudyRelatedSystemAssignmentResponse UpdateStudyRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)]  UpdateStudyRelatedSystemAssignmentRequest args) {
       try {
         var response = new UpdateStudyRelatedSystemAssignmentResponse();
         response.@return = _StudyRelatedSystemAssignments.UpdateStudyRelatedSystemAssignment(
@@ -1289,7 +1352,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid")]
     [HttpPost("updateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid"), Produces("application/json")]
-    public UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidRequest args) {
       try {
         var response = new UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse();
         response.@return = _StudyRelatedSystemAssignments.UpdateStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid(
@@ -1308,7 +1372,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid")]
     [HttpPost("deleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid"), Produces("application/json")]
-    public DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)] DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid), Description = "Deletes a specific StudyRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidRequest args) {
       try {
         var response = new DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUidResponse();
         response.@return = _StudyRelatedSystemAssignments.DeleteStudyRelatedSystemAssignmentByStudyRelatedSystemAssignmentUid(
@@ -1327,7 +1392,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/siteRelatedSystemAssignments")]
-  public partial class SiteRelatedSystemAssignmentsController : ControllerBase {
+  public class SiteRelatedSystemAssignmentsController : ControllerBase {
     
     private readonly ILogger<SiteRelatedSystemAssignmentsController> _Logger;
     private readonly ISiteRelatedSystemAssignments _SiteRelatedSystemAssignments;
@@ -1341,7 +1406,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid")]
     [HttpPost("getSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid"), Produces("application/json")]
-    public GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)] GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid), Description = "Loads a specific SiteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)]  GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidRequest args) {
       try {
         var response = new GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse();
         response.@return = _SiteRelatedSystemAssignments.GetSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid(
@@ -1359,7 +1425,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-GetSiteRelatedSystemAssignments")]
     [HttpPost("getSiteRelatedSystemAssignments"), Produces("application/json")]
-    public GetSiteRelatedSystemAssignmentsResponse GetSiteRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)] GetSiteRelatedSystemAssignmentsRequest args) {
+    [SwaggerOperation(OperationId = nameof(GetSiteRelatedSystemAssignments), Description = "Loads SiteRelatedSystemAssignments.")]
+    public GetSiteRelatedSystemAssignmentsResponse GetSiteRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)]  GetSiteRelatedSystemAssignmentsRequest args) {
       try {
         var response = new GetSiteRelatedSystemAssignmentsResponse();
         response.@return = _SiteRelatedSystemAssignments.GetSiteRelatedSystemAssignments(
@@ -1378,7 +1445,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-SearchSiteRelatedSystemAssignments")]
     [HttpPost("searchSiteRelatedSystemAssignments"), Produces("application/json")]
-    public SearchSiteRelatedSystemAssignmentsResponse SearchSiteRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)] SearchSiteRelatedSystemAssignmentsRequest args) {
+    [SwaggerOperation(OperationId = nameof(SearchSiteRelatedSystemAssignments), Description = "Loads SiteRelatedSystemAssignments where values matching to the given filterExpression")]
+    public SearchSiteRelatedSystemAssignmentsResponse SearchSiteRelatedSystemAssignments([FromBody][SwaggerRequestBody(Required = true)]  SearchSiteRelatedSystemAssignmentsRequest args) {
       try {
         var response = new SearchSiteRelatedSystemAssignmentsResponse();
         response.@return = _SiteRelatedSystemAssignments.SearchSiteRelatedSystemAssignments(
@@ -1399,7 +1467,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-AddNewSiteRelatedSystemAssignment")]
     [HttpPost("addNewSiteRelatedSystemAssignment"), Produces("application/json")]
-    public AddNewSiteRelatedSystemAssignmentResponse AddNewSiteRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)] AddNewSiteRelatedSystemAssignmentRequest args) {
+    [SwaggerOperation(OperationId = nameof(AddNewSiteRelatedSystemAssignment), Description = "Adds a new SiteRelatedSystemAssignment and returns its primary identifier (or null on failure).")]
+    public AddNewSiteRelatedSystemAssignmentResponse AddNewSiteRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)]  AddNewSiteRelatedSystemAssignmentRequest args) {
       try {
         var response = new AddNewSiteRelatedSystemAssignmentResponse();
         response.@return = _SiteRelatedSystemAssignments.AddNewSiteRelatedSystemAssignment(
@@ -1417,7 +1486,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSiteRelatedSystemAssignment")]
     [HttpPost("updateSiteRelatedSystemAssignment"), Produces("application/json")]
-    public UpdateSiteRelatedSystemAssignmentResponse UpdateSiteRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)] UpdateSiteRelatedSystemAssignmentRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSiteRelatedSystemAssignment), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SiteRelatedSystemAssignment addressed by the primary identifier fields within the given SiteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSiteRelatedSystemAssignmentResponse UpdateSiteRelatedSystemAssignment([FromBody][SwaggerRequestBody(Required = true)]  UpdateSiteRelatedSystemAssignmentRequest args) {
       try {
         var response = new UpdateSiteRelatedSystemAssignmentResponse();
         response.@return = _SiteRelatedSystemAssignments.UpdateSiteRelatedSystemAssignment(
@@ -1435,7 +1505,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid")]
     [HttpPost("updateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid"), Produces("application/json")]
-    public UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)] UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SiteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)]  UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidRequest args) {
       try {
         var response = new UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse();
         response.@return = _SiteRelatedSystemAssignments.UpdateSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid(
@@ -1454,7 +1525,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     /// <param name="args"> request capsule containing the method arguments </param>
     [RequireBaererAuth("store-DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid")]
     [HttpPost("deleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid"), Produces("application/json")]
-    public DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)] DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidRequest args) {
+    [SwaggerOperation(OperationId = nameof(DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid), Description = "Deletes a specific SiteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid([FromBody][SwaggerRequestBody(Required = true)]  DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidRequest args) {
       try {
         var response = new DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUidResponse();
         response.@return = _SiteRelatedSystemAssignments.DeleteSiteRelatedSystemAssignmentBySiteRelatedSystemAssignmentUid(

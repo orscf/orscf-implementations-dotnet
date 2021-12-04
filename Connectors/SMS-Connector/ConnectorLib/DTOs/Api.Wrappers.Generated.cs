@@ -1,4 +1,6 @@
-﻿using MedicalResearch.StudyManagement.Model;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.StudyManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

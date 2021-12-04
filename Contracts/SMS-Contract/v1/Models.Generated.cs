@@ -18,9 +18,6 @@ public class Institute {
   [Required]
   public Boolean IsArchived { get; set; }
 
-  [Required]
-  public Guid OwnPatientSdrEndpointUid { get; set; }
-
 }
 
 /// <summary> entity, which relates to <see href="https://www.hl7.org/fhir/researchstudy.html">HL7.ResearchStudy</see> </summary>
@@ -71,11 +68,8 @@ public class ResearchStudy {
   /// <summary> *this field is optional (use null as value) </summary>
   public String InitiatorRelatedProjectNumber { get; set; }
 
-  [Required]
-  public Guid OriginWdrEndpointUid { get; set; }
-
-  [Required]
-  public Guid PrimaryImsEndpointUid { get; set; }
+  /// <summary> *this field is optional </summary>
+  public Nullable<Guid> OriginWdrEndpointUid { get; set; }
 
 }
 
@@ -144,7 +138,7 @@ public class SystemEndpoint {
 
 }
 
-public class InstituteRelatedSystemAssignemnt {
+public class InstituteRelatedSystemAssignment {
 
   [Required]
   public Guid InstituteRelatedSystemAssignemntUid { get; set; } = Guid.NewGuid();
@@ -166,6 +160,10 @@ public class InstituteRelatedSystemAssignemnt {
 
   [Required]
   public String UseAsConsumingExternalWdr { get; set; }
+
+  /// <summary> semicolon separated list of custom role-names </summary>
+  [Required]
+  public String CustomRoles { get; set; }
 
 }
 
@@ -242,6 +240,10 @@ public class StudyRelatedSystemAssignment {
   [Required]
   public Guid SystemEndpointUid { get; set; }
 
+  /// <summary> semicolon separated list of custom role-names </summary>
+  [Required]
+  public String CustomRoles { get; set; }
+
 }
 
 public class SiteRelatedSystemAssignment {
@@ -254,6 +256,10 @@ public class SiteRelatedSystemAssignment {
 
   [Required]
   public Guid SiteUid { get; set; }
+
+  /// <summary> semicolon separated list of custom role-names </summary>
+  [Required]
+  public String CustomRoles { get; set; }
 
 }
 

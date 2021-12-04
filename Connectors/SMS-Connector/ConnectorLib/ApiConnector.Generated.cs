@@ -1,4 +1,6 @@
-﻿using MedicalResearch.StudyManagement.InstituteRegistry;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.StudyManagement.InstituteRegistry;
 using MedicalResearch.StudyManagement.Model;
 using MedicalResearch.StudyManagement.SiteParticipation;
 using MedicalResearch.StudyManagement.StudyAccess;

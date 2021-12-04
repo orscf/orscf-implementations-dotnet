@@ -19,9 +19,6 @@ public class InstituteEntity {
   [Required]
   public Boolean IsArchived { get; set; }
 
-  [Required]
-  public Guid OwnPatientSdrEndpointUid { get; set; }
-
   [Referer]
   public virtual ObservableCollection<ResearchStudyEntity> InitiatedStudies { get; set; } = new ObservableCollection<ResearchStudyEntity>();
 
@@ -32,10 +29,7 @@ public class InstituteEntity {
   public virtual ObservableCollection<SystemEndpointEntity> ProvidedSystemEndpoints { get; set; } = new ObservableCollection<SystemEndpointEntity>();
 
   [Dependent]
-  public virtual ObservableCollection<InstituteRelatedSystemAssignemntEntity> SystemAssignment { get; set; } = new ObservableCollection<InstituteRelatedSystemAssignemntEntity>();
-
-  [Lookup]
-  public virtual SystemEndpointEntity OwnPatientSdr { get; set; }
+  public virtual ObservableCollection<InstituteRelatedSystemAssignmentEntity> SystemAssignment { get; set; } = new ObservableCollection<InstituteRelatedSystemAssignmentEntity>();
 
   [Dependent]
   public virtual ObservableCollection<SystemConnectionEntity> SystemConnections { get; set; } = new ObservableCollection<SystemConnectionEntity>();
@@ -46,28 +40,24 @@ public class InstituteEntity {
     InstituteUid = src.InstituteUid,
     DisplayLabel = src.DisplayLabel,
     IsArchived = src.IsArchived,
-    OwnPatientSdrEndpointUid = src.OwnPatientSdrEndpointUid,
   });
 
   internal static Expression<Func<InstituteEntity, Institute>> InstituteSelector = ((InstituteEntity src) => new Institute {
     InstituteUid = src.InstituteUid,
     DisplayLabel = src.DisplayLabel,
     IsArchived = src.IsArchived,
-    OwnPatientSdrEndpointUid = src.OwnPatientSdrEndpointUid,
   });
 
   internal void CopyContentFrom(Institute source, Func<String,bool> onFixedValueChangingCallback = null){
     this.InstituteUid = source.InstituteUid;
     this.DisplayLabel = source.DisplayLabel;
     this.IsArchived = source.IsArchived;
-    this.OwnPatientSdrEndpointUid = source.OwnPatientSdrEndpointUid;
   }
 
   internal void CopyContentTo(Institute target, Func<String,bool> onFixedValueChangingCallback = null){
     target.InstituteUid = this.InstituteUid;
     target.DisplayLabel = this.DisplayLabel;
     target.IsArchived = this.IsArchived;
-    target.OwnPatientSdrEndpointUid = this.OwnPatientSdrEndpointUid;
   }
 
 #endregion
@@ -122,11 +112,8 @@ public class ResearchStudyEntity {
   /// <summary> *this field is optional (use null as value) </summary>
   public String InitiatorRelatedProjectNumber { get; set; }
 
-  [Required]
-  public Guid OriginWdrEndpointUid { get; set; }
-
-  [Required]
-  public Guid PrimaryImsEndpointUid { get; set; }
+  /// <summary> *this field is optional </summary>
+  public Nullable<Guid> OriginWdrEndpointUid { get; set; }
 
   [Lookup]
   public virtual InstituteEntity InitiatorInstitute { get; set; }
@@ -139,9 +126,6 @@ public class ResearchStudyEntity {
 
   [Lookup]
   public virtual SystemEndpointEntity OriginWdr { get; set; }
-
-  [Lookup]
-  public virtual SystemEndpointEntity PrimaryIms { get; set; }
 
   [Dependent]
   public virtual ObservableCollection<StudyRelatedSystemAssignmentEntity> SystemAssignments { get; set; } = new ObservableCollection<StudyRelatedSystemAssignmentEntity>();
@@ -163,7 +147,6 @@ public class ResearchStudyEntity {
     IsArchived = src.IsArchived,
     InitiatorRelatedProjectNumber = src.InitiatorRelatedProjectNumber,
     OriginWdrEndpointUid = src.OriginWdrEndpointUid,
-    PrimaryImsEndpointUid = src.PrimaryImsEndpointUid,
   });
 
   internal static Expression<Func<ResearchStudyEntity, ResearchStudy>> ResearchStudySelector = ((ResearchStudyEntity src) => new ResearchStudy {
@@ -181,7 +164,6 @@ public class ResearchStudyEntity {
     IsArchived = src.IsArchived,
     InitiatorRelatedProjectNumber = src.InitiatorRelatedProjectNumber,
     OriginWdrEndpointUid = src.OriginWdrEndpointUid,
-    PrimaryImsEndpointUid = src.PrimaryImsEndpointUid,
   });
 
   internal void CopyContentFrom(ResearchStudy source, Func<String,bool> onFixedValueChangingCallback = null){
@@ -199,7 +181,6 @@ public class ResearchStudyEntity {
     this.IsArchived = source.IsArchived;
     this.InitiatorRelatedProjectNumber = source.InitiatorRelatedProjectNumber;
     this.OriginWdrEndpointUid = source.OriginWdrEndpointUid;
-    this.PrimaryImsEndpointUid = source.PrimaryImsEndpointUid;
   }
 
   internal void CopyContentTo(ResearchStudy target, Func<String,bool> onFixedValueChangingCallback = null){
@@ -217,7 +198,6 @@ public class ResearchStudyEntity {
     target.IsArchived = this.IsArchived;
     target.InitiatorRelatedProjectNumber = this.InitiatorRelatedProjectNumber;
     target.OriginWdrEndpointUid = this.OriginWdrEndpointUid;
-    target.PrimaryImsEndpointUid = this.PrimaryImsEndpointUid;
   }
 
 #endregion
@@ -359,7 +339,7 @@ public class SystemEndpointEntity {
   public virtual InstituteEntity ProviderInstitute { get; set; }
 
   [Referer]
-  public virtual ObservableCollection<InstituteRelatedSystemAssignemntEntity> InstituteAssignments { get; set; } = new ObservableCollection<InstituteRelatedSystemAssignemntEntity>();
+  public virtual ObservableCollection<InstituteRelatedSystemAssignmentEntity> InstituteAssignments { get; set; } = new ObservableCollection<InstituteRelatedSystemAssignmentEntity>();
 
   [Referer]
   public virtual ObservableCollection<SiteRelatedSystemAssignmentEntity> SiteAssignments { get; set; } = new ObservableCollection<SiteRelatedSystemAssignmentEntity>();
@@ -413,7 +393,7 @@ public class SystemEndpointEntity {
 
 }
 
-public class InstituteRelatedSystemAssignemntEntity {
+public class InstituteRelatedSystemAssignmentEntity {
 
   [Required]
   public Guid InstituteRelatedSystemAssignemntUid { get; set; } = Guid.NewGuid();
@@ -436,6 +416,10 @@ public class InstituteRelatedSystemAssignemntEntity {
   [Required]
   public String UseAsConsumingExternalWdr { get; set; }
 
+  /// <summary> semicolon separated list of custom role-names </summary>
+  [Required]
+  public String CustomRoles { get; set; }
+
   [Principal]
   public virtual InstituteEntity Institute { get; set; }
 
@@ -444,7 +428,7 @@ public class InstituteRelatedSystemAssignemntEntity {
 
 #region Mapping
 
-  internal static Expression<Func<InstituteRelatedSystemAssignemnt, InstituteRelatedSystemAssignemntEntity>> InstituteRelatedSystemAssignemntEntitySelector = ((InstituteRelatedSystemAssignemnt src) => new InstituteRelatedSystemAssignemntEntity {
+  internal static Expression<Func<InstituteRelatedSystemAssignment, InstituteRelatedSystemAssignmentEntity>> InstituteRelatedSystemAssignmentEntitySelector = ((InstituteRelatedSystemAssignment src) => new InstituteRelatedSystemAssignmentEntity {
     InstituteRelatedSystemAssignemntUid = src.InstituteRelatedSystemAssignemntUid,
     SystemEndpointUid = src.SystemEndpointUid,
     InstituteUid = src.InstituteUid,
@@ -452,9 +436,10 @@ public class InstituteRelatedSystemAssignemntEntity {
     UseAsCandidateSdr = src.UseAsCandidateSdr,
     UseAsOwnWdr = src.UseAsOwnWdr,
     UseAsConsumingExternalWdr = src.UseAsConsumingExternalWdr,
+    CustomRoles = src.CustomRoles,
   });
 
-  internal static Expression<Func<InstituteRelatedSystemAssignemntEntity, InstituteRelatedSystemAssignemnt>> InstituteRelatedSystemAssignemntSelector = ((InstituteRelatedSystemAssignemntEntity src) => new InstituteRelatedSystemAssignemnt {
+  internal static Expression<Func<InstituteRelatedSystemAssignmentEntity, InstituteRelatedSystemAssignment>> InstituteRelatedSystemAssignmentSelector = ((InstituteRelatedSystemAssignmentEntity src) => new InstituteRelatedSystemAssignment {
     InstituteRelatedSystemAssignemntUid = src.InstituteRelatedSystemAssignemntUid,
     SystemEndpointUid = src.SystemEndpointUid,
     InstituteUid = src.InstituteUid,
@@ -462,9 +447,10 @@ public class InstituteRelatedSystemAssignemntEntity {
     UseAsCandidateSdr = src.UseAsCandidateSdr,
     UseAsOwnWdr = src.UseAsOwnWdr,
     UseAsConsumingExternalWdr = src.UseAsConsumingExternalWdr,
+    CustomRoles = src.CustomRoles,
   });
 
-  internal void CopyContentFrom(InstituteRelatedSystemAssignemnt source, Func<String,bool> onFixedValueChangingCallback = null){
+  internal void CopyContentFrom(InstituteRelatedSystemAssignment source, Func<String,bool> onFixedValueChangingCallback = null){
     this.InstituteRelatedSystemAssignemntUid = source.InstituteRelatedSystemAssignemntUid;
     this.SystemEndpointUid = source.SystemEndpointUid;
     this.InstituteUid = source.InstituteUid;
@@ -472,9 +458,10 @@ public class InstituteRelatedSystemAssignemntEntity {
     this.UseAsCandidateSdr = source.UseAsCandidateSdr;
     this.UseAsOwnWdr = source.UseAsOwnWdr;
     this.UseAsConsumingExternalWdr = source.UseAsConsumingExternalWdr;
+    this.CustomRoles = source.CustomRoles;
   }
 
-  internal void CopyContentTo(InstituteRelatedSystemAssignemnt target, Func<String,bool> onFixedValueChangingCallback = null){
+  internal void CopyContentTo(InstituteRelatedSystemAssignment target, Func<String,bool> onFixedValueChangingCallback = null){
     target.InstituteRelatedSystemAssignemntUid = this.InstituteRelatedSystemAssignemntUid;
     target.SystemEndpointUid = this.SystemEndpointUid;
     target.InstituteUid = this.InstituteUid;
@@ -482,6 +469,7 @@ public class InstituteRelatedSystemAssignemntEntity {
     target.UseAsCandidateSdr = this.UseAsCandidateSdr;
     target.UseAsOwnWdr = this.UseAsOwnWdr;
     target.UseAsConsumingExternalWdr = this.UseAsConsumingExternalWdr;
+    target.CustomRoles = this.CustomRoles;
   }
 
 #endregion
@@ -694,6 +682,10 @@ public class StudyRelatedSystemAssignmentEntity {
   [Required]
   public Guid SystemEndpointUid { get; set; }
 
+  /// <summary> semicolon separated list of custom role-names </summary>
+  [Required]
+  public String CustomRoles { get; set; }
+
   [Principal]
   public virtual ResearchStudyEntity ResearchStudy { get; set; }
 
@@ -706,24 +698,28 @@ public class StudyRelatedSystemAssignmentEntity {
     StudyRelatedSystemAssignmentUid = src.StudyRelatedSystemAssignmentUid,
     ResearchStudyUid = src.ResearchStudyUid,
     SystemEndpointUid = src.SystemEndpointUid,
+    CustomRoles = src.CustomRoles,
   });
 
   internal static Expression<Func<StudyRelatedSystemAssignmentEntity, StudyRelatedSystemAssignment>> StudyRelatedSystemAssignmentSelector = ((StudyRelatedSystemAssignmentEntity src) => new StudyRelatedSystemAssignment {
     StudyRelatedSystemAssignmentUid = src.StudyRelatedSystemAssignmentUid,
     ResearchStudyUid = src.ResearchStudyUid,
     SystemEndpointUid = src.SystemEndpointUid,
+    CustomRoles = src.CustomRoles,
   });
 
   internal void CopyContentFrom(StudyRelatedSystemAssignment source, Func<String,bool> onFixedValueChangingCallback = null){
     this.StudyRelatedSystemAssignmentUid = source.StudyRelatedSystemAssignmentUid;
     this.ResearchStudyUid = source.ResearchStudyUid;
     this.SystemEndpointUid = source.SystemEndpointUid;
+    this.CustomRoles = source.CustomRoles;
   }
 
   internal void CopyContentTo(StudyRelatedSystemAssignment target, Func<String,bool> onFixedValueChangingCallback = null){
     target.StudyRelatedSystemAssignmentUid = this.StudyRelatedSystemAssignmentUid;
     target.ResearchStudyUid = this.ResearchStudyUid;
     target.SystemEndpointUid = this.SystemEndpointUid;
+    target.CustomRoles = this.CustomRoles;
   }
 
 #endregion
@@ -741,6 +737,10 @@ public class SiteRelatedSystemAssignmentEntity {
   [Required]
   public Guid SiteUid { get; set; }
 
+  /// <summary> semicolon separated list of custom role-names </summary>
+  [Required]
+  public String CustomRoles { get; set; }
+
   [Principal]
   public virtual SiteEntity Site { get; set; }
 
@@ -756,24 +756,28 @@ public class SiteRelatedSystemAssignmentEntity {
     SiteRelatedSystemAssignmentUid = src.SiteRelatedSystemAssignmentUid,
     SystemEndpointUid = src.SystemEndpointUid,
     SiteUid = src.SiteUid,
+    CustomRoles = src.CustomRoles,
   });
 
   internal static Expression<Func<SiteRelatedSystemAssignmentEntity, SiteRelatedSystemAssignment>> SiteRelatedSystemAssignmentSelector = ((SiteRelatedSystemAssignmentEntity src) => new SiteRelatedSystemAssignment {
     SiteRelatedSystemAssignmentUid = src.SiteRelatedSystemAssignmentUid,
     SystemEndpointUid = src.SystemEndpointUid,
     SiteUid = src.SiteUid,
+    CustomRoles = src.CustomRoles,
   });
 
   internal void CopyContentFrom(SiteRelatedSystemAssignment source, Func<String,bool> onFixedValueChangingCallback = null){
     this.SiteRelatedSystemAssignmentUid = source.SiteRelatedSystemAssignmentUid;
     this.SystemEndpointUid = source.SystemEndpointUid;
     this.SiteUid = source.SiteUid;
+    this.CustomRoles = source.CustomRoles;
   }
 
   internal void CopyContentTo(SiteRelatedSystemAssignment target, Func<String,bool> onFixedValueChangingCallback = null){
     target.SiteRelatedSystemAssignmentUid = this.SiteRelatedSystemAssignmentUid;
     target.SystemEndpointUid = this.SystemEndpointUid;
     target.SiteUid = this.SiteUid;
+    target.CustomRoles = this.CustomRoles;
   }
 
 #endregion

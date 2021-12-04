@@ -1,4 +1,6 @@
-﻿using MedicalResearch.StudyManagement.Model;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.StudyManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -794,198 +796,198 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
   }
   
   /// <summary>
-  /// Contains arguments for calling 'GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid'.
-  /// Method: Loads a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+  /// Contains arguments for calling 'GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid'.
+  /// Method: Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
   /// </summary>
-  public class GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest {
+  public class GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest {
   
-    /// <summary> Required Argument for 'GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (Guid): Represents the primary identity of a InstituteRelatedSystemAssignemnt </summary>
+    /// <summary> Required Argument for 'GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (Guid): Represents the primary identity of a InstituteRelatedSystemAssignment </summary>
     [Required]
     public Guid instituteRelatedSystemAssignemntUid { get; set; }
   
   }
   
   /// <summary>
-  /// Contains results from calling 'GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid'.
-  /// Method: Loads a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
+  /// Contains results from calling 'GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid'.
+  /// Method: Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.
   /// </summary>
-  public class GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse {
+  public class GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (InstituteRelatedSystemAssignemnt) </summary>
-    public InstituteRelatedSystemAssignemnt @return { get; set; }
+    /// <summary> Return-Value of 'GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (InstituteRelatedSystemAssignment) </summary>
+    public InstituteRelatedSystemAssignment @return { get; set; }
   
   }
   
   /// <summary>
-  /// Contains arguments for calling 'GetInstituteRelatedSystemAssignemnts'.
-  /// Method: Loads InstituteRelatedSystemAssignemnts.
+  /// Contains arguments for calling 'GetInstituteRelatedSystemAssignments'.
+  /// Method: Loads InstituteRelatedSystemAssignments.
   /// </summary>
-  public class GetInstituteRelatedSystemAssignemntsRequest {
+  public class GetInstituteRelatedSystemAssignmentsRequest {
   
-    /// <summary> Optional Argument for 'GetInstituteRelatedSystemAssignemnts' (Int32?): Number of the page, which should be returned </summary>
+    /// <summary> Optional Argument for 'GetInstituteRelatedSystemAssignments' (Int32?): Number of the page, which should be returned </summary>
     public Int32? page { get; set; } = null;
   
-    /// <summary> Optional Argument for 'GetInstituteRelatedSystemAssignemnts' (Int32?): Max count of InstituteRelatedSystemAssignemnts which should be returned </summary>
+    /// <summary> Optional Argument for 'GetInstituteRelatedSystemAssignments' (Int32?): Max count of InstituteRelatedSystemAssignments which should be returned </summary>
     public Int32? pageSize { get; set; } = null;
   
   }
   
   /// <summary>
-  /// Contains results from calling 'GetInstituteRelatedSystemAssignemnts'.
-  /// Method: Loads InstituteRelatedSystemAssignemnts.
+  /// Contains results from calling 'GetInstituteRelatedSystemAssignments'.
+  /// Method: Loads InstituteRelatedSystemAssignments.
   /// </summary>
-  public class GetInstituteRelatedSystemAssignemntsResponse {
+  public class GetInstituteRelatedSystemAssignmentsResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'GetInstituteRelatedSystemAssignemnts' (InstituteRelatedSystemAssignemnt[]) </summary>
-    public InstituteRelatedSystemAssignemnt[] @return { get; set; }
+    /// <summary> Return-Value of 'GetInstituteRelatedSystemAssignments' (InstituteRelatedSystemAssignment[]) </summary>
+    public InstituteRelatedSystemAssignment[] @return { get; set; }
   
   }
   
   /// <summary>
-  /// Contains arguments for calling 'SearchInstituteRelatedSystemAssignemnts'.
-  /// Method: Loads InstituteRelatedSystemAssignemnts where values matching to the given filterExpression
+  /// Contains arguments for calling 'SearchInstituteRelatedSystemAssignments'.
+  /// Method: Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression
   /// </summary>
-  public class SearchInstituteRelatedSystemAssignemntsRequest {
+  public class SearchInstituteRelatedSystemAssignmentsRequest {
   
-    /// <summary> Required Argument for 'SearchInstituteRelatedSystemAssignemnts' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
+    /// <summary> Required Argument for 'SearchInstituteRelatedSystemAssignments' (String): a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </summary>
     [Required]
     public String filterExpression { get; set; }
   
-    /// <summary> Optional Argument for 'SearchInstituteRelatedSystemAssignemnts' (String): one or more property names which are used as sort order (before pagination) </summary>
+    /// <summary> Optional Argument for 'SearchInstituteRelatedSystemAssignments' (String): one or more property names which are used as sort order (before pagination) </summary>
     public String sortingExpression { get; set; }
   
-    /// <summary> Optional Argument for 'SearchInstituteRelatedSystemAssignemnts' (Int32?): Number of the page, which should be returned </summary>
+    /// <summary> Optional Argument for 'SearchInstituteRelatedSystemAssignments' (Int32?): Number of the page, which should be returned </summary>
     public Int32? page { get; set; } = null;
   
-    /// <summary> Optional Argument for 'SearchInstituteRelatedSystemAssignemnts' (Int32?): Max count of InstituteRelatedSystemAssignemnts which should be returned </summary>
+    /// <summary> Optional Argument for 'SearchInstituteRelatedSystemAssignments' (Int32?): Max count of InstituteRelatedSystemAssignments which should be returned </summary>
     public Int32? pageSize { get; set; } = null;
   
   }
   
   /// <summary>
-  /// Contains results from calling 'SearchInstituteRelatedSystemAssignemnts'.
-  /// Method: Loads InstituteRelatedSystemAssignemnts where values matching to the given filterExpression
+  /// Contains results from calling 'SearchInstituteRelatedSystemAssignments'.
+  /// Method: Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression
   /// </summary>
-  public class SearchInstituteRelatedSystemAssignemntsResponse {
+  public class SearchInstituteRelatedSystemAssignmentsResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'SearchInstituteRelatedSystemAssignemnts' (InstituteRelatedSystemAssignemnt[]) </summary>
-    public InstituteRelatedSystemAssignemnt[] @return { get; set; }
+    /// <summary> Return-Value of 'SearchInstituteRelatedSystemAssignments' (InstituteRelatedSystemAssignment[]) </summary>
+    public InstituteRelatedSystemAssignment[] @return { get; set; }
   
   }
   
   /// <summary>
-  /// Contains arguments for calling 'AddNewInstituteRelatedSystemAssignemnt'.
-  /// Method: Adds a new InstituteRelatedSystemAssignemnt and returns its primary identifier (or null on failure).
+  /// Contains arguments for calling 'AddNewInstituteRelatedSystemAssignment'.
+  /// Method: Adds a new InstituteRelatedSystemAssignment and returns its primary identifier (or null on failure).
   /// </summary>
-  public class AddNewInstituteRelatedSystemAssignemntRequest {
+  public class AddNewInstituteRelatedSystemAssignmentRequest {
   
-    /// <summary> Required Argument for 'AddNewInstituteRelatedSystemAssignemnt' (InstituteRelatedSystemAssignemnt): InstituteRelatedSystemAssignemnt containing the new values </summary>
+    /// <summary> Required Argument for 'AddNewInstituteRelatedSystemAssignment' (InstituteRelatedSystemAssignment): InstituteRelatedSystemAssignment containing the new values </summary>
     [Required]
-    public InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt { get; set; }
+    public InstituteRelatedSystemAssignment instituteRelatedSystemAssignment { get; set; }
   
   }
   
   /// <summary>
-  /// Contains results from calling 'AddNewInstituteRelatedSystemAssignemnt'.
-  /// Method: Adds a new InstituteRelatedSystemAssignemnt and returns its primary identifier (or null on failure).
+  /// Contains results from calling 'AddNewInstituteRelatedSystemAssignment'.
+  /// Method: Adds a new InstituteRelatedSystemAssignment and returns its primary identifier (or null on failure).
   /// </summary>
-  public class AddNewInstituteRelatedSystemAssignemntResponse {
+  public class AddNewInstituteRelatedSystemAssignmentResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'AddNewInstituteRelatedSystemAssignemnt' (Boolean) </summary>
+    /// <summary> Return-Value of 'AddNewInstituteRelatedSystemAssignment' (Boolean) </summary>
     public Boolean @return { get; set; }
   
   }
   
   /// <summary>
-  /// Contains arguments for calling 'UpdateInstituteRelatedSystemAssignemnt'.
-  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the primary identifier fields within the given InstituteRelatedSystemAssignemnt. Returns false on failure or if no target record was found, otherwise true.
+  /// Contains arguments for calling 'UpdateInstituteRelatedSystemAssignment'.
+  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.
   /// </summary>
-  public class UpdateInstituteRelatedSystemAssignemntRequest {
+  public class UpdateInstituteRelatedSystemAssignmentRequest {
   
-    /// <summary> Required Argument for 'UpdateInstituteRelatedSystemAssignemnt' (InstituteRelatedSystemAssignemnt): InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be used to address the target record) </summary>
+    /// <summary> Required Argument for 'UpdateInstituteRelatedSystemAssignment' (InstituteRelatedSystemAssignment): InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be used to address the target record) </summary>
     [Required]
-    public InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt { get; set; }
+    public InstituteRelatedSystemAssignment instituteRelatedSystemAssignment { get; set; }
   
   }
   
   /// <summary>
-  /// Contains results from calling 'UpdateInstituteRelatedSystemAssignemnt'.
-  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the primary identifier fields within the given InstituteRelatedSystemAssignemnt. Returns false on failure or if no target record was found, otherwise true.
+  /// Contains results from calling 'UpdateInstituteRelatedSystemAssignment'.
+  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.
   /// </summary>
-  public class UpdateInstituteRelatedSystemAssignemntResponse {
+  public class UpdateInstituteRelatedSystemAssignmentResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'UpdateInstituteRelatedSystemAssignemnt' (Boolean) </summary>
+    /// <summary> Return-Value of 'UpdateInstituteRelatedSystemAssignment' (Boolean) </summary>
     public Boolean @return { get; set; }
   
   }
   
   /// <summary>
-  /// Contains arguments for calling 'UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid'.
-  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+  /// Contains arguments for calling 'UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid'.
+  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
   /// </summary>
-  public class UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest {
+  public class UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest {
   
-    /// <summary> Required Argument for 'UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (Guid): Represents the primary identity of a InstituteRelatedSystemAssignemnt </summary>
+    /// <summary> Required Argument for 'UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (Guid): Represents the primary identity of a InstituteRelatedSystemAssignment </summary>
     [Required]
     public Guid instituteRelatedSystemAssignemntUid { get; set; }
   
-    /// <summary> Required Argument for 'UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (InstituteRelatedSystemAssignemnt): InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be ignored) </summary>
+    /// <summary> Required Argument for 'UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (InstituteRelatedSystemAssignment): InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be ignored) </summary>
     [Required]
-    public InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt { get; set; }
+    public InstituteRelatedSystemAssignment instituteRelatedSystemAssignment { get; set; }
   
   }
   
   /// <summary>
-  /// Contains results from calling 'UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid'.
-  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+  /// Contains results from calling 'UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid'.
+  /// Method: Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.
   /// </summary>
-  public class UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse {
+  public class UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (Boolean) </summary>
+    /// <summary> Return-Value of 'UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (Boolean) </summary>
     public Boolean @return { get; set; }
   
   }
   
   /// <summary>
-  /// Contains arguments for calling 'DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid'.
-  /// Method: Deletes a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+  /// Contains arguments for calling 'DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid'.
+  /// Method: Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
   /// </summary>
-  public class DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest {
+  public class DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest {
   
-    /// <summary> Required Argument for 'DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (Guid): Represents the primary identity of a InstituteRelatedSystemAssignemnt </summary>
+    /// <summary> Required Argument for 'DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (Guid): Represents the primary identity of a InstituteRelatedSystemAssignment </summary>
     [Required]
     public Guid instituteRelatedSystemAssignemntUid { get; set; }
   
   }
   
   /// <summary>
-  /// Contains results from calling 'DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid'.
-  /// Method: Deletes a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
+  /// Contains results from calling 'DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid'.
+  /// Method: Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.
   /// </summary>
-  public class DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse {
+  public class DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse {
   
     /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null)  </summary>
     public string fault { get; set; } = null;
   
-    /// <summary> Return-Value of 'DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid' (Boolean) </summary>
+    /// <summary> Return-Value of 'DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid' (Boolean) </summary>
     public Boolean @return { get; set; }
   
   }

@@ -30,7 +30,7 @@
            template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
            outputLanguage = "C#",   // <- choose between: C#|VB|TS
            indentDepthPerLevel = 2,
-           outputNamespace = "MedicalResearch.StudyManagement",
+           outputNamespace = "MedicalResearch.StudyManagement.WebAPI",
            customImports = new String[] {
            },
 
@@ -38,13 +38,13 @@
 
            generateFaultProperty = true,
 
-           appendOwnerNameAsNamespace = true,
-           removeLeadingCharCountForOwnerName = 1,
-           removeTrailingCharCountForOwnerName = 0,
+           //appendOwnerNameAsNamespace = true,
+           //removeLeadingCharCountForOwnerName = 1,
+           //removeTrailingCharCountForOwnerName = 0,
 
-           //useInterfaceTypeNameToGenerateSubNamespace = true,
-           //removeLeadingCharCountForSubNamespace = 1,
-           //removeTrailingCharCountForSubNamespace = 0,
+           useInterfaceTypeNameToGenerateSubNamespace = true,
+           removeLeadingCharCountForSubNamespace = 1,
+           removeTrailingCharCountForSubNamespace = 0,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

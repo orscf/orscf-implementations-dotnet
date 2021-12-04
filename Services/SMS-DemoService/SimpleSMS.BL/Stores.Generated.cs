@@ -237,9 +237,6 @@ public partial class InstituteStore : IInstitutes {
       return false;
     }
 
-    if(!db.SystemEndpoints.Where((tgt)=> tgt.SystemEndpointUid==entity.OwnPatientSdrEndpointUid ).AccessScopeFiltered().Any()) {
-      return false;
-    }
     return true;
   }
 
@@ -473,9 +470,6 @@ public partial class ResearchStudyStore : IResearchStudies {
       return false;
     }
     if(!db.SystemEndpoints.Where((tgt)=> tgt.SystemEndpointUid==entity.OriginWdrEndpointUid ).AccessScopeFiltered().Any()) {
-      return false;
-    }
-    if(!db.SystemEndpoints.Where((tgt)=> tgt.SystemEndpointUid==entity.PrimaryImsEndpointUid ).AccessScopeFiltered().Any()) {
       return false;
     }
     return true;
@@ -950,24 +944,24 @@ public partial class SystemEndpointStore : ISystemEndpoints {
 
 }
 
-/// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignemnts (based on schema version '1.6.0') </summary>
-public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSystemAssignemnts {
+/// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignments (based on schema version '1.6.0') </summary>
+public partial class InstituteRelatedSystemAssignmentStore : IInstituteRelatedSystemAssignments {
 
   private ILogger _Logger = null;
-  public InstituteRelatedSystemAssignemntStore(ILogger<InstituteRelatedSystemAssignemntStore> logger){
+  public InstituteRelatedSystemAssignmentStore(ILogger<InstituteRelatedSystemAssignmentStore> logger){
     _Logger = logger;
   }
 
-  /// <summary> Loads a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
-  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-  public InstituteRelatedSystemAssignemnt GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid){
+  /// <summary> Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
+  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+  public InstituteRelatedSystemAssignment GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid){
     var mac = AccessControlContext.Current;
 
-    InstituteRelatedSystemAssignemnt result;
+    InstituteRelatedSystemAssignment result;
     using (StudyManagementDbContext db = new StudyManagementDbContext()) {
 
       //select models, bacause we dont want to return types with navigation-properties!
-      var query = db.InstituteRelatedSystemAssignemnts.AsNoTracking().AccessScopeFiltered().Select(InstituteRelatedSystemAssignemntEntity.InstituteRelatedSystemAssignemntSelector);
+      var query = db.InstituteRelatedSystemAssignments.AsNoTracking().AccessScopeFiltered().Select(InstituteRelatedSystemAssignmentEntity.InstituteRelatedSystemAssignmentSelector);
 
       query = query.Where((e)=>e.InstituteRelatedSystemAssignemntUid == instituteRelatedSystemAssignemntUid);
 
@@ -979,22 +973,22 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
     return result;
   }
 
-  /// <summary> Loads InstituteRelatedSystemAssignemnts. </summary>
+  /// <summary> Loads InstituteRelatedSystemAssignments. </summary>
   /// <param name="page">Number of the page, which should be returned </param>
-  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignemnts which should be returned </param>
-  public InstituteRelatedSystemAssignemnt[] GetInstituteRelatedSystemAssignemnts(int page = 1, int pageSize = 20){
-    return this.SearchInstituteRelatedSystemAssignemnts(null, null, page, pageSize); 
+  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignments which should be returned </param>
+  public InstituteRelatedSystemAssignment[] GetInstituteRelatedSystemAssignments(int page = 1, int pageSize = 20){
+    return this.SearchInstituteRelatedSystemAssignments(null, null, page, pageSize); 
   }
 
   private static String[] _ExactMatchPropNames = new String[] {};
-  private static String[] _FreetextPropNames = new String[] {"UseAsOwnPatientSdr", "UseAsCandidateSdr", "UseAsOwnWdr", "UseAsConsumingExternalWdr"};
+  private static String[] _FreetextPropNames = new String[] {"UseAsOwnPatientSdr", "UseAsCandidateSdr", "UseAsOwnWdr", "UseAsConsumingExternalWdr", "CustomRoles"};
 
-  /// <summary> Loads InstituteRelatedSystemAssignemnts where values matching to the given filterExpression</summary>
+  /// <summary> Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression</summary>
   /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>
   /// <param name="sortingExpression">one or more property names which are used as sort order (before pagination)</param>
   /// <param name="page">Number of the page, which should be returned</param>
-  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignemnts which should be returned</param>
-  public InstituteRelatedSystemAssignemnt[] SearchInstituteRelatedSystemAssignemnts(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20){
+  /// <param name="pageSize">Max count of InstituteRelatedSystemAssignments which should be returned</param>
+  public InstituteRelatedSystemAssignment[] SearchInstituteRelatedSystemAssignments(String filterExpression, String sortingExpression = null, int page = 1, int pageSize = 20){
     var mac = AccessControlContext.Current;
 
     if(page < 1){
@@ -1004,14 +998,14 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
       pageSize = 20;
     }
 
-    InstituteRelatedSystemAssignemnt[] result;
+    InstituteRelatedSystemAssignment[] result;
     using (StudyManagementDbContext db = new StudyManagementDbContext()) {
 
       //select models, bacause we dont want to return types with navigation-properties!
-      var query = db.InstituteRelatedSystemAssignemnts
+      var query = db.InstituteRelatedSystemAssignments
         .AsNoTracking()
         .AccessScopeFiltered()
-        .Select(InstituteRelatedSystemAssignemntEntity.InstituteRelatedSystemAssignemntSelector)
+        .Select(InstituteRelatedSystemAssignmentEntity.InstituteRelatedSystemAssignmentSelector)
       ;
       
       //apply filter (if given)
@@ -1042,58 +1036,58 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
     return result;
   }
 
-  /// <summary> Adds a new InstituteRelatedSystemAssignemnt and returns success. </summary>
-  /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values </param>
-  public bool AddNewInstituteRelatedSystemAssignemnt(InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt){
+  /// <summary> Adds a new InstituteRelatedSystemAssignment and returns success. </summary>
+  /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values </param>
+  public bool AddNewInstituteRelatedSystemAssignment(InstituteRelatedSystemAssignment instituteRelatedSystemAssignment){
     var mac = AccessControlContext.Current;
 
-    InstituteRelatedSystemAssignemntEntity newEntity = new InstituteRelatedSystemAssignemntEntity();
-    newEntity.CopyContentFrom(instituteRelatedSystemAssignemnt);
+    InstituteRelatedSystemAssignmentEntity newEntity = new InstituteRelatedSystemAssignmentEntity();
+    newEntity.CopyContentFrom(instituteRelatedSystemAssignment);
 
     using (StudyManagementDbContext db = new StudyManagementDbContext()) {
 
       //checks, that the new values are within the access control scope
       if(!this.PreValidateAccessControlScope(newEntity, db)){
         if(_Logger != null){
-          _Logger.LogInformation("Adding InstituteRelatedSystemAssignemnt failed: record would be out of access control scope!");
+          _Logger.LogInformation("Adding InstituteRelatedSystemAssignment failed: record would be out of access control scope!");
         }
         return false;
       }
 
-      if (db.InstituteRelatedSystemAssignemnts.Where((e)=>e.InstituteRelatedSystemAssignemntUid == newEntity.InstituteRelatedSystemAssignemntUid).Any()) {
+      if (db.InstituteRelatedSystemAssignments.Where((e)=>e.InstituteRelatedSystemAssignemntUid == newEntity.InstituteRelatedSystemAssignemntUid).Any()) {
         if(_Logger != null){
-          _Logger.LogInformation("Adding InstituteRelatedSystemAssignemnt failed: already existing record with this PK!");
+          _Logger.LogInformation("Adding InstituteRelatedSystemAssignment failed: already existing record with this PK!");
         }
         return false;
       }
 
-      db.InstituteRelatedSystemAssignemnts.Add(newEntity);
+      db.InstituteRelatedSystemAssignments.Add(newEntity);
 
       db.SaveChanges();
     }
     if(_Logger != null){
-      _Logger.LogInformation("A InstituteRelatedSystemAssignemnt was added!");
+      _Logger.LogInformation("A InstituteRelatedSystemAssignment was added!");
     }
 
     return true;
   }
 
-  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the primary identifier fields within the given InstituteRelatedSystemAssignemnt. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be used to address the target record) </param>
-  public bool UpdateInstituteRelatedSystemAssignemnt(InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt){
-    return this.UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(instituteRelatedSystemAssignemnt.InstituteRelatedSystemAssignemntUid, instituteRelatedSystemAssignemnt);
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be used to address the target record) </param>
+  public bool UpdateInstituteRelatedSystemAssignment(InstituteRelatedSystemAssignment instituteRelatedSystemAssignment){
+    return this.UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(instituteRelatedSystemAssignment.InstituteRelatedSystemAssignemntUid, instituteRelatedSystemAssignment);
   }
 
-  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-  /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be ignored) </param>
-  public bool UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid, InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt){
+  /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+  /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be ignored) </param>
+  public bool UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid, InstituteRelatedSystemAssignment instituteRelatedSystemAssignment){
     var mac = AccessControlContext.Current;
 
-    InstituteRelatedSystemAssignemntEntity existingEntity;
+    InstituteRelatedSystemAssignmentEntity existingEntity;
     using (StudyManagementDbContext db = new StudyManagementDbContext()) {
 
-      IQueryable<InstituteRelatedSystemAssignemntEntity> query = db.InstituteRelatedSystemAssignemnts;
+      IQueryable<InstituteRelatedSystemAssignmentEntity> query = db.InstituteRelatedSystemAssignments;
 
       query = query.Where((e)=>e.InstituteRelatedSystemAssignemntUid == instituteRelatedSystemAssignemntUid).AccessScopeFiltered();
 
@@ -1102,17 +1096,17 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
 
       if(existingEntity == null) {
         if(_Logger != null){
-          _Logger.LogInformation("Updating InstituteRelatedSystemAssignemnt failed: no record with this PK!");
+          _Logger.LogInformation("Updating InstituteRelatedSystemAssignment failed: no record with this PK!");
         }
         return false;
       }
 
       bool changeAttemptOnFixedField = false;
-      existingEntity.CopyContentFrom(instituteRelatedSystemAssignemnt, (name) => changeAttemptOnFixedField = true);
+      existingEntity.CopyContentFrom(instituteRelatedSystemAssignment, (name) => changeAttemptOnFixedField = true);
 
       if (changeAttemptOnFixedField) {
         if(_Logger != null){
-          _Logger.LogInformation("Updating InstituteRelatedSystemAssignemnt failed: change attempt on FIXED field!");
+          _Logger.LogInformation("Updating InstituteRelatedSystemAssignment failed: change attempt on FIXED field!");
         }
         return false;
       }
@@ -1120,7 +1114,7 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
       //checks, that the new values are within the access control scope
       if(!this.PreValidateAccessControlScope(existingEntity, db)){
         if(_Logger != null){
-          _Logger.LogInformation("Updating InstituteRelatedSystemAssignemnt failed: record would be out of access control scope!");
+          _Logger.LogInformation("Updating InstituteRelatedSystemAssignment failed: record would be out of access control scope!");
         }
         return false;
       }
@@ -1128,21 +1122,21 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
       db.SaveChanges();
     }
     if(_Logger != null){
-      _Logger.LogInformation("A InstituteRelatedSystemAssignemnt was updated!");
+      _Logger.LogInformation("A InstituteRelatedSystemAssignment was updated!");
     }
 
     return true;
   }
 
-  /// <summary> Deletes a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-  public bool DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid){
+  /// <summary> Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
+  /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+  public bool DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid){
     var mac = AccessControlContext.Current;
 
-    InstituteRelatedSystemAssignemntEntity existingEntity;
+    InstituteRelatedSystemAssignmentEntity existingEntity;
     using (StudyManagementDbContext db = new StudyManagementDbContext()) {
 
-      IQueryable<InstituteRelatedSystemAssignemntEntity> query = db.InstituteRelatedSystemAssignemnts.AccessScopeFiltered();
+      IQueryable<InstituteRelatedSystemAssignmentEntity> query = db.InstituteRelatedSystemAssignments.AccessScopeFiltered();
 
       query = query.Where((e)=>e.InstituteRelatedSystemAssignemntUid == instituteRelatedSystemAssignemntUid);
 
@@ -1151,25 +1145,25 @@ public partial class InstituteRelatedSystemAssignemntStore : IInstituteRelatedSy
 
       if (existingEntity == null) {
         if(_Logger != null){
-          _Logger.LogInformation("Updating InstituteRelatedSystemAssignemnt failed: no record with this PK!");
+          _Logger.LogInformation("Updating InstituteRelatedSystemAssignment failed: no record with this PK!");
         }
         return false;
       }
 
-      db.InstituteRelatedSystemAssignemnts.Remove(existingEntity);
+      db.InstituteRelatedSystemAssignments.Remove(existingEntity);
 
       db.SaveChanges();
     }
     if(_Logger != null){
-      _Logger.LogInformation("A InstituteRelatedSystemAssignemnt was deleted!");
+      _Logger.LogInformation("A InstituteRelatedSystemAssignment was deleted!");
     }
 
     return true;
   }
 
-  private bool PreValidateAccessControlScope(InstituteRelatedSystemAssignemntEntity entity, StudyManagementDbContext db){
+  private bool PreValidateAccessControlScope(InstituteRelatedSystemAssignmentEntity entity, StudyManagementDbContext db){
 
-    var filterExpression = EntityAccessControl.BuildExpressionForLocalEntity<InstituteRelatedSystemAssignemntEntity>(AccessControlContext.Current);
+    var filterExpression = EntityAccessControl.BuildExpressionForLocalEntity<InstituteRelatedSystemAssignmentEntity>(AccessControlContext.Current);
     if(!filterExpression.Compile().Invoke(entity)) {
       return false;
     }
@@ -1927,7 +1921,7 @@ public partial class StudyRelatedSystemAssignmentStore : IStudyRelatedSystemAssi
   }
 
   private static String[] _ExactMatchPropNames = new String[] {};
-  private static String[] _FreetextPropNames = new String[] {};
+  private static String[] _FreetextPropNames = new String[] {"CustomRoles"};
 
   /// <summary> Loads StudyRelatedSystemAssignments where values matching to the given filterExpression</summary>
   /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>
@@ -2162,7 +2156,7 @@ public partial class SiteRelatedSystemAssignmentStore : ISiteRelatedSystemAssign
   }
 
   private static String[] _ExactMatchPropNames = new String[] {};
-  private static String[] _FreetextPropNames = new String[] {};
+  private static String[] _FreetextPropNames = new String[] {"CustomRoles"};
 
   /// <summary> Loads SiteRelatedSystemAssignments where values matching to the given filterExpression</summary>
   /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>

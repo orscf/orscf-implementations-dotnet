@@ -1,4 +1,6 @@
-﻿using MedicalResearch.StudyManagement.Model;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.StudyManagement.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -17,7 +19,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       _ResearchStudiesClient = new ResearchStudiesClient(url + "researchStudies/", apiToken);
       _SitesClient = new SitesClient(url + "sites/", apiToken);
       _SystemEndpointsClient = new SystemEndpointsClient(url + "systemEndpoints/", apiToken);
-      _InstituteRelatedSystemAssignemntsClient = new InstituteRelatedSystemAssignemntsClient(url + "instituteRelatedSystemAssignemnts/", apiToken);
+      _InstituteRelatedSystemAssignmentsClient = new InstituteRelatedSystemAssignmentsClient(url + "instituteRelatedSystemAssignments/", apiToken);
       _SystemConnectionsClient = new SystemConnectionsClient(url + "systemConnections/", apiToken);
       _InvolvedPersonsClient = new InvolvedPersonsClient(url + "involvedPersons/", apiToken);
       _InvolvementRolesClient = new InvolvementRolesClient(url + "involvementRoles/", apiToken);
@@ -58,11 +60,11 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    private InstituteRelatedSystemAssignemntsClient _InstituteRelatedSystemAssignemntsClient = null;
-    /// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignemnts (based on schema version '1.6.0') </summary>
-    public IInstituteRelatedSystemAssignemnts InstituteRelatedSystemAssignemnts {
+    private InstituteRelatedSystemAssignmentsClient _InstituteRelatedSystemAssignmentsClient = null;
+    /// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignments (based on schema version '1.6.0') </summary>
+    public IInstituteRelatedSystemAssignments InstituteRelatedSystemAssignments {
       get {
-        return _InstituteRelatedSystemAssignemntsClient;
+        return _InstituteRelatedSystemAssignmentsClient;
       }
     }
     
@@ -732,13 +734,13 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     
   }
   
-  /// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignemnts (based on schema version '1.6.0') </summary>
-  internal partial class InstituteRelatedSystemAssignemntsClient : IInstituteRelatedSystemAssignemnts {
+  /// <summary> Provides CRUD access to stored InstituteRelatedSystemAssignments (based on schema version '1.6.0') </summary>
+  internal partial class InstituteRelatedSystemAssignmentsClient : IInstituteRelatedSystemAssignments {
     
     private string _Url;
     private string _ApiToken;
     
-    public InstituteRelatedSystemAssignemntsClient(string url, string apiToken) {
+    public InstituteRelatedSystemAssignmentsClient(string url, string apiToken) {
       _Url = url;
       _ApiToken = apiToken;
     }
@@ -750,17 +752,17 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       return wc;
     }
     
-    /// <summary> Loads a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
-    /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-    public InstituteRelatedSystemAssignemnt GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid) {
+    /// <summary> Loads a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
+    /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+    public InstituteRelatedSystemAssignment GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "getInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid";
-        var args = new GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest {
+        string url = _Url + "getInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid";
+        var args = new GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest {
           instituteRelatedSystemAssignemntUid = instituteRelatedSystemAssignemntUid
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<GetInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<GetInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -768,19 +770,19 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    /// <summary> Loads InstituteRelatedSystemAssignemnts. </summary>
+    /// <summary> Loads InstituteRelatedSystemAssignments. </summary>
     /// <param name="page"> Number of the page, which should be returned </param>
-    /// <param name="pageSize"> Max count of InstituteRelatedSystemAssignemnts which should be returned </param>
-    public InstituteRelatedSystemAssignemnt[] GetInstituteRelatedSystemAssignemnts(Int32 page = 1, Int32 pageSize = 20) {
+    /// <param name="pageSize"> Max count of InstituteRelatedSystemAssignments which should be returned </param>
+    public InstituteRelatedSystemAssignment[] GetInstituteRelatedSystemAssignments(Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "getInstituteRelatedSystemAssignemnts";
-        var args = new GetInstituteRelatedSystemAssignemntsRequest {
+        string url = _Url + "getInstituteRelatedSystemAssignments";
+        var args = new GetInstituteRelatedSystemAssignmentsRequest {
           page = page,
           pageSize = pageSize
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<GetInstituteRelatedSystemAssignemntsResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<GetInstituteRelatedSystemAssignmentsResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -788,15 +790,15 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    /// <summary> Loads InstituteRelatedSystemAssignemnts where values matching to the given filterExpression </summary>
+    /// <summary> Loads InstituteRelatedSystemAssignments where values matching to the given filterExpression </summary>
     /// <param name="filterExpression"> a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' </param>
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
-    /// <param name="pageSize"> Max count of InstituteRelatedSystemAssignemnts which should be returned </param>
-    public InstituteRelatedSystemAssignemnt[] SearchInstituteRelatedSystemAssignemnts(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    /// <param name="pageSize"> Max count of InstituteRelatedSystemAssignments which should be returned </param>
+    public InstituteRelatedSystemAssignment[] SearchInstituteRelatedSystemAssignments(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "searchInstituteRelatedSystemAssignemnts";
-        var args = new SearchInstituteRelatedSystemAssignemntsRequest {
+        string url = _Url + "searchInstituteRelatedSystemAssignments";
+        var args = new SearchInstituteRelatedSystemAssignmentsRequest {
           filterExpression = filterExpression,
           sortingExpression = sortingExpression,
           page = page,
@@ -804,7 +806,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<SearchInstituteRelatedSystemAssignemntsResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<SearchInstituteRelatedSystemAssignmentsResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -812,17 +814,17 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    /// <summary> Adds a new InstituteRelatedSystemAssignemnt and returns its primary identifier (or null on failure). </summary>
-    /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values </param>
-    public Boolean AddNewInstituteRelatedSystemAssignemnt(InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt) {
+    /// <summary> Adds a new InstituteRelatedSystemAssignment and returns its primary identifier (or null on failure). </summary>
+    /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values </param>
+    public Boolean AddNewInstituteRelatedSystemAssignment(InstituteRelatedSystemAssignment instituteRelatedSystemAssignment) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "addNewInstituteRelatedSystemAssignemnt";
-        var args = new AddNewInstituteRelatedSystemAssignemntRequest {
-          instituteRelatedSystemAssignemnt = instituteRelatedSystemAssignemnt
+        string url = _Url + "addNewInstituteRelatedSystemAssignment";
+        var args = new AddNewInstituteRelatedSystemAssignmentRequest {
+          instituteRelatedSystemAssignment = instituteRelatedSystemAssignment
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<AddNewInstituteRelatedSystemAssignemntResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<AddNewInstituteRelatedSystemAssignmentResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -830,17 +832,17 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the primary identifier fields within the given InstituteRelatedSystemAssignemnt. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be used to address the target record) </param>
-    public Boolean UpdateInstituteRelatedSystemAssignemnt(InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt) {
+    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the primary identifier fields within the given InstituteRelatedSystemAssignment. Returns false on failure or if no target record was found, otherwise true. </summary>
+    /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be used to address the target record) </param>
+    public Boolean UpdateInstituteRelatedSystemAssignment(InstituteRelatedSystemAssignment instituteRelatedSystemAssignment) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "updateInstituteRelatedSystemAssignemnt";
-        var args = new UpdateInstituteRelatedSystemAssignemntRequest {
-          instituteRelatedSystemAssignemnt = instituteRelatedSystemAssignemnt
+        string url = _Url + "updateInstituteRelatedSystemAssignment";
+        var args = new UpdateInstituteRelatedSystemAssignmentRequest {
+          instituteRelatedSystemAssignment = instituteRelatedSystemAssignment
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<UpdateInstituteRelatedSystemAssignemntResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<UpdateInstituteRelatedSystemAssignmentResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -848,19 +850,19 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignemnt addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-    /// <param name="instituteRelatedSystemAssignemnt"> InstituteRelatedSystemAssignemnt containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignemnt will be ignored) </param>
-    public Boolean UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid, InstituteRelatedSystemAssignemnt instituteRelatedSystemAssignemnt) {
+    /// <summary> Updates all values (which are not "FixedAfterCreation") of the given InstituteRelatedSystemAssignment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+    /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+    /// <param name="instituteRelatedSystemAssignment"> InstituteRelatedSystemAssignment containing the new values (the primary identifier fields within the given InstituteRelatedSystemAssignment will be ignored) </param>
+    public Boolean UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid, InstituteRelatedSystemAssignment instituteRelatedSystemAssignment) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "updateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid";
-        var args = new UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest {
+        string url = _Url + "updateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid";
+        var args = new UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest {
           instituteRelatedSystemAssignemntUid = instituteRelatedSystemAssignemntUid,
-          instituteRelatedSystemAssignemnt = instituteRelatedSystemAssignemnt
+          instituteRelatedSystemAssignment = instituteRelatedSystemAssignment
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<UpdateInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<UpdateInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -868,17 +870,17 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
       }
     }
     
-    /// <summary> Deletes a specific InstituteRelatedSystemAssignemnt addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignemnt </param>
-    public Boolean DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid) {
+    /// <summary> Deletes a specific InstituteRelatedSystemAssignment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
+    /// <param name="instituteRelatedSystemAssignemntUid"> Represents the primary identity of a InstituteRelatedSystemAssignment </param>
+    public Boolean DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid(Guid instituteRelatedSystemAssignemntUid) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "deleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUid";
-        var args = new DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidRequest {
+        string url = _Url + "deleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUid";
+        var args = new DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidRequest {
           instituteRelatedSystemAssignemntUid = instituteRelatedSystemAssignemntUid
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<DeleteInstituteRelatedSystemAssignemntByInstituteRelatedSystemAssignemntUidResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<DeleteInstituteRelatedSystemAssignmentByInstituteRelatedSystemAssignemntUidResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }

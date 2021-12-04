@@ -47,9 +47,6 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       services.AddSingleton<ISites, SiteStore>();
       services.AddSingleton<IInvolvedPersons, InvolvedPersonStore>();
       services.AddSingleton<IInvolvementRoles, InvolvementRoleStore>();
-      services.AddSingleton<ISubjects, SubjectStore>();
-      services.AddSingleton<IServiceConnections, ServiceConnectionStore>();
-      services.AddSingleton<ISubjectSiteAssignments, SubjectSiteAssignmentStore>();
 
       services.AddControllers();
 

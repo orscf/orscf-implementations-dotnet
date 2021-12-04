@@ -82,13 +82,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="ORSCF.StudyManagement.Contract">
       <HintPath>..\..\..\(Stage)\Bin\ORSCF.StudyManagement.Contract.dll</HintPath>
-      <Private>false</Private>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 
