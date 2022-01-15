@@ -32,7 +32,7 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
       //select models, bacause we dont want to return types with navigation-properties!
       var query = db.AdditionalSubjectParticipationIdentifiers.AsNoTracking().AccessScopeFiltered().Select(AdditionalSubjectParticipationIdentifierEntity.AdditionalSubjectParticipationIdentifierSelector);
 
-      query = query.Where((e)=> e.ParticipantIdentifier == additionalSubjectParticipationIdentifierIdentity.ParticipantIdentifier && e.IdentifierName == additionalSubjectParticipationIdentifierIdentity.IdentifierName);
+      query = query.Where((e)=> e.ParticipantIdentifier == additionalSubjectParticipationIdentifierIdentity.ParticipantIdentifier && e.IdentifierName == additionalSubjectParticipationIdentifierIdentity.IdentifierName && e.ResearchStudyUid == additionalSubjectParticipationIdentifierIdentity.ResearchStudyUid);
 
       //materialization / load
       result = query.SingleOrDefault();
@@ -88,10 +88,10 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
 
       //apply sorting
       if(String.IsNullOrWhiteSpace(sortingExpression)) {
-        query = query.DynamicallySorted("ParticipantIdentifier, IdentifierName");
+        query = query.DynamicallySorted("ParticipantIdentifier, IdentifierName, ResearchStudyUid");
       }
       else{
-        query = query.DynamicallySorted(sortingExpression + ", ParticipantIdentifier, IdentifierName");
+        query = query.DynamicallySorted(sortingExpression + ", ParticipantIdentifier, IdentifierName, ResearchStudyUid");
       }
 
       //apply pagination
@@ -123,7 +123,7 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
         return false;
       }
 
-      if (db.AdditionalSubjectParticipationIdentifiers.Where((e)=> e.ParticipantIdentifier == newEntity.ParticipantIdentifier && e.IdentifierName == newEntity.IdentifierName).Any()) {
+      if (db.AdditionalSubjectParticipationIdentifiers.Where((e)=> e.ParticipantIdentifier == newEntity.ParticipantIdentifier && e.IdentifierName == newEntity.IdentifierName && e.ResearchStudyUid == newEntity.ResearchStudyUid).Any()) {
         if(_Logger != null){
           _Logger.LogInformation("Adding AdditionalSubjectParticipationIdentifier failed: already existing record with this PK!");
         }
@@ -144,7 +144,7 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given AdditionalSubjectParticipationIdentifier addressed by the primary identifier fields within the given AdditionalSubjectParticipationIdentifier. Returns false on failure or if no target record was found, otherwise true.</summary>
   /// <param name="additionalSubjectParticipationIdentifier"> AdditionalSubjectParticipationIdentifier containing the new values (the primary identifier fields within the given AdditionalSubjectParticipationIdentifier will be used to address the target record) </param>
   public bool UpdateAdditionalSubjectParticipationIdentifier(AdditionalSubjectParticipationIdentifier additionalSubjectParticipationIdentifier){
-    return this.UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity(new AdditionalSubjectParticipationIdentifierIdentity { ParticipantIdentifier=additionalSubjectParticipationIdentifier.ParticipantIdentifier, IdentifierName=additionalSubjectParticipationIdentifier.IdentifierName }, additionalSubjectParticipationIdentifier);
+    return this.UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity(new AdditionalSubjectParticipationIdentifierIdentity { ParticipantIdentifier=additionalSubjectParticipationIdentifier.ParticipantIdentifier, IdentifierName=additionalSubjectParticipationIdentifier.IdentifierName, ResearchStudyUid=additionalSubjectParticipationIdentifier.ResearchStudyUid }, additionalSubjectParticipationIdentifier);
   }
 
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given AdditionalSubjectParticipationIdentifier addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
@@ -158,7 +158,7 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
 
       IQueryable<AdditionalSubjectParticipationIdentifierEntity> query = db.AdditionalSubjectParticipationIdentifiers;
 
-      query = query.Where((e)=> e.ParticipantIdentifier == additionalSubjectParticipationIdentifierIdentity.ParticipantIdentifier && e.IdentifierName == additionalSubjectParticipationIdentifierIdentity.IdentifierName).AccessScopeFiltered();
+      query = query.Where((e)=> e.ParticipantIdentifier == additionalSubjectParticipationIdentifierIdentity.ParticipantIdentifier && e.IdentifierName == additionalSubjectParticipationIdentifierIdentity.IdentifierName && e.ResearchStudyUid == additionalSubjectParticipationIdentifierIdentity.ResearchStudyUid).AccessScopeFiltered();
 
       //materialization / load
       existingEntity = query.SingleOrDefault();
@@ -207,7 +207,7 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
 
       IQueryable<AdditionalSubjectParticipationIdentifierEntity> query = db.AdditionalSubjectParticipationIdentifiers.AccessScopeFiltered();
 
-      query = query.Where((e)=> e.ParticipantIdentifier == additionalSubjectParticipationIdentifierIdentity.ParticipantIdentifier && e.IdentifierName == additionalSubjectParticipationIdentifierIdentity.IdentifierName);
+      query = query.Where((e)=> e.ParticipantIdentifier == additionalSubjectParticipationIdentifierIdentity.ParticipantIdentifier && e.IdentifierName == additionalSubjectParticipationIdentifierIdentity.IdentifierName && e.ResearchStudyUid == additionalSubjectParticipationIdentifierIdentity.ResearchStudyUid);
 
       //materialization / load
       existingEntity = query.SingleOrDefault();
@@ -237,7 +237,7 @@ public partial class AdditionalSubjectParticipationIdentifierStore : IAdditional
       return false;
     }
 
-    if(!db.SubjectParticipations.Where((tgt)=> tgt.ParticipantIdentifier==entity.ParticipantIdentifier ).AccessScopeFiltered().Any()) {
+    if(!db.SubjectParticipations.Where((tgt)=> tgt.ParticipantIdentifier==entity.ParticipantIdentifier && tgt.ResearchStudyUid==entity.ResearchStudyUid ).AccessScopeFiltered().Any()) {
       return false;
     }
     return true;
@@ -254,8 +254,8 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
   }
 
   /// <summary> Loads a specific SubjectParticipation addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
-  /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
-  public SubjectParticipation GetSubjectParticipationByParticipantIdentifier(String participantIdentifier){
+  /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
+  public SubjectParticipation GetSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity){
     var mac = AccessControlContext.Current;
 
     SubjectParticipation result;
@@ -264,7 +264,7 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
       //select models, bacause we dont want to return types with navigation-properties!
       var query = db.SubjectParticipations.AsNoTracking().AccessScopeFiltered().Select(SubjectParticipationEntity.SubjectParticipationSelector);
 
-      query = query.Where((e)=>e.ParticipantIdentifier == participantIdentifier);
+      query = query.Where((e)=> e.ParticipantIdentifier == subjectParticipationIdentity.ParticipantIdentifier && e.ResearchStudyUid == subjectParticipationIdentity.ResearchStudyUid);
 
       //materialization / load
       result = query.SingleOrDefault();
@@ -281,7 +281,7 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
     return this.SearchSubjectParticipations(null, null, page, pageSize); 
   }
 
-  private static String[] _ExactMatchPropNames = new String[] {"StudyWorkflowName", "StudyWorkflowVersion", "ParticipantIdentifier"};
+  private static String[] _ExactMatchPropNames = new String[] {"ParticipantIdentifier"};
   private static String[] _FreetextPropNames = new String[] {};
 
   /// <summary> Loads SubjectParticipations where values matching to the given filterExpression</summary>
@@ -320,10 +320,10 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
 
       //apply sorting
       if(String.IsNullOrWhiteSpace(sortingExpression)) {
-        query = query.DynamicallySorted("ParticipantIdentifier");
+        query = query.DynamicallySorted("ParticipantIdentifier, ResearchStudyUid");
       }
       else{
-        query = query.DynamicallySorted(sortingExpression + ", ParticipantIdentifier");
+        query = query.DynamicallySorted(sortingExpression + ", ParticipantIdentifier, ResearchStudyUid");
       }
 
       //apply pagination
@@ -355,7 +355,7 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
         return false;
       }
 
-      if (db.SubjectParticipations.Where((e)=>e.ParticipantIdentifier == newEntity.ParticipantIdentifier).Any()) {
+      if (db.SubjectParticipations.Where((e)=> e.ParticipantIdentifier == newEntity.ParticipantIdentifier && e.ResearchStudyUid == newEntity.ResearchStudyUid).Any()) {
         if(_Logger != null){
           _Logger.LogInformation("Adding SubjectParticipation failed: already existing record with this PK!");
         }
@@ -376,13 +376,13 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectParticipation addressed by the primary identifier fields within the given SubjectParticipation. Returns false on failure or if no target record was found, otherwise true.</summary>
   /// <param name="subjectParticipation"> SubjectParticipation containing the new values (the primary identifier fields within the given SubjectParticipation will be used to address the target record) </param>
   public bool UpdateSubjectParticipation(SubjectParticipation subjectParticipation){
-    return this.UpdateSubjectParticipationByParticipantIdentifier(subjectParticipation.ParticipantIdentifier, subjectParticipation);
+    return this.UpdateSubjectParticipationBySubjectParticipationIdentity(new SubjectParticipationIdentity { ParticipantIdentifier=subjectParticipation.ParticipantIdentifier, ResearchStudyUid=subjectParticipation.ResearchStudyUid }, subjectParticipation);
   }
 
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectParticipation addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
+  /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
   /// <param name="subjectParticipation"> SubjectParticipation containing the new values (the primary identifier fields within the given SubjectParticipation will be ignored) </param>
-  public bool UpdateSubjectParticipationByParticipantIdentifier(String participantIdentifier, SubjectParticipation subjectParticipation){
+  public bool UpdateSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity, SubjectParticipation subjectParticipation){
     var mac = AccessControlContext.Current;
 
     SubjectParticipationEntity existingEntity;
@@ -390,7 +390,7 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
 
       IQueryable<SubjectParticipationEntity> query = db.SubjectParticipations;
 
-      query = query.Where((e)=>e.ParticipantIdentifier == participantIdentifier).AccessScopeFiltered();
+      query = query.Where((e)=> e.ParticipantIdentifier == subjectParticipationIdentity.ParticipantIdentifier && e.ResearchStudyUid == subjectParticipationIdentity.ResearchStudyUid).AccessScopeFiltered();
 
       //materialization / load
       existingEntity = query.SingleOrDefault();
@@ -430,8 +430,8 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
   }
 
   /// <summary> Deletes a specific SubjectParticipation addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
-  public bool DeleteSubjectParticipationByParticipantIdentifier(String participantIdentifier){
+  /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
+  public bool DeleteSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity){
     var mac = AccessControlContext.Current;
 
     SubjectParticipationEntity existingEntity;
@@ -439,7 +439,7 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
 
       IQueryable<SubjectParticipationEntity> query = db.SubjectParticipations.AccessScopeFiltered();
 
-      query = query.Where((e)=>e.ParticipantIdentifier == participantIdentifier);
+      query = query.Where((e)=> e.ParticipantIdentifier == subjectParticipationIdentity.ParticipantIdentifier && e.ResearchStudyUid == subjectParticipationIdentity.ResearchStudyUid);
 
       //materialization / load
       existingEntity = query.SingleOrDefault();
@@ -472,7 +472,7 @@ public partial class SubjectParticipationStore : ISubjectParticipations {
     if(!db.StudyExecutionScopes.Where((tgt)=> tgt.StudyExecutionIdentifier==entity.CreatedForStudyExecutionIdentifier ).AccessScopeFiltered().Any()) {
       return false;
     }
-    if(!db.StudyScopes.Where((tgt)=> tgt.StudyWorkflowName==entity.StudyWorkflowName && tgt.StudyWorkflowVersion==entity.StudyWorkflowVersion ).AccessScopeFiltered().Any()) {
+    if(!db.StudyScopes.Where((tgt)=> tgt.ResearchStudyUid==entity.ResearchStudyUid ).AccessScopeFiltered().Any()) {
       return false;
     }
     if(!db.SubjectIdentities.Where((tgt)=> tgt.RecordId==entity.SubjectIdentityRecordId ).AccessScopeFiltered().Any()) {
@@ -519,8 +519,8 @@ public partial class StudyExecutionScopeStore : IStudyExecutionScopes {
     return this.SearchStudyExecutionScopes(null, null, page, pageSize); 
   }
 
-  private static String[] _ExactMatchPropNames = new String[] {"StudyWorkflowName", "StudyWorkflowVersion"};
-  private static String[] _FreetextPropNames = new String[] {"ExecutingInstituteIdentifier"};
+  private static String[] _ExactMatchPropNames = new String[] {};
+  private static String[] _FreetextPropNames = new String[] {};
 
   /// <summary> Loads StudyExecutionScopes where values matching to the given filterExpression</summary>
   /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>
@@ -707,7 +707,7 @@ public partial class StudyExecutionScopeStore : IStudyExecutionScopes {
       return false;
     }
 
-    if(!db.StudyScopes.Where((tgt)=> tgt.StudyWorkflowName==entity.StudyWorkflowName && tgt.StudyWorkflowVersion==entity.StudyWorkflowVersion ).AccessScopeFiltered().Any()) {
+    if(!db.StudyScopes.Where((tgt)=> tgt.ResearchStudyUid==entity.ResearchStudyUid ).AccessScopeFiltered().Any()) {
       return false;
     }
     return true;
@@ -724,8 +724,8 @@ public partial class StudyScopeStore : IStudyScopes {
   }
 
   /// <summary> Loads a specific StudyScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
-  /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
-  public StudyScope GetStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity){
+  /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
+  public StudyScope GetStudyScopeByResearchStudyUid(Guid researchStudyUid){
     var mac = AccessControlContext.Current;
 
     StudyScope result;
@@ -734,7 +734,7 @@ public partial class StudyScopeStore : IStudyScopes {
       //select models, bacause we dont want to return types with navigation-properties!
       var query = db.StudyScopes.AsNoTracking().AccessScopeFiltered().Select(StudyScopeEntity.StudyScopeSelector);
 
-      query = query.Where((e)=> e.StudyWorkflowName == studyScopeIdentity.StudyWorkflowName && e.StudyWorkflowVersion == studyScopeIdentity.StudyWorkflowVersion);
+      query = query.Where((e)=>e.ResearchStudyUid == researchStudyUid);
 
       //materialization / load
       result = query.SingleOrDefault();
@@ -751,8 +751,8 @@ public partial class StudyScopeStore : IStudyScopes {
     return this.SearchStudyScopes(null, null, page, pageSize); 
   }
 
-  private static String[] _ExactMatchPropNames = new String[] {"StudyWorkflowName", "StudyWorkflowVersion"};
-  private static String[] _FreetextPropNames = new String[] {"ParticipantIdentifierSemantic"};
+  private static String[] _ExactMatchPropNames = new String[] {};
+  private static String[] _FreetextPropNames = new String[] {"ParticipantIdentifierSemantic", "StudyWorkflowName", "StudyWorkflowVersion"};
 
   /// <summary> Loads StudyScopes where values matching to the given filterExpression</summary>
   /// <param name="filterExpression">a filter expression like '((FieldName1 == "ABC" &amp;&amp; FieldName2 &gt; 12) || FieldName2 != "")' OR just '*' for all records</param>
@@ -790,10 +790,10 @@ public partial class StudyScopeStore : IStudyScopes {
 
       //apply sorting
       if(String.IsNullOrWhiteSpace(sortingExpression)) {
-        query = query.DynamicallySorted("StudyWorkflowName, StudyWorkflowVersion");
+        query = query.DynamicallySorted("ResearchStudyUid");
       }
       else{
-        query = query.DynamicallySorted(sortingExpression + ", StudyWorkflowName, StudyWorkflowVersion");
+        query = query.DynamicallySorted(sortingExpression + ", ResearchStudyUid");
       }
 
       //apply pagination
@@ -825,7 +825,7 @@ public partial class StudyScopeStore : IStudyScopes {
         return false;
       }
 
-      if (db.StudyScopes.Where((e)=> e.StudyWorkflowName == newEntity.StudyWorkflowName && e.StudyWorkflowVersion == newEntity.StudyWorkflowVersion).Any()) {
+      if (db.StudyScopes.Where((e)=>e.ResearchStudyUid == newEntity.ResearchStudyUid).Any()) {
         if(_Logger != null){
           _Logger.LogInformation("Adding StudyScope failed: already existing record with this PK!");
         }
@@ -846,13 +846,13 @@ public partial class StudyScopeStore : IStudyScopes {
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyScope addressed by the primary identifier fields within the given StudyScope. Returns false on failure or if no target record was found, otherwise true.</summary>
   /// <param name="studyScope"> StudyScope containing the new values (the primary identifier fields within the given StudyScope will be used to address the target record) </param>
   public bool UpdateStudyScope(StudyScope studyScope){
-    return this.UpdateStudyScopeByStudyScopeIdentity(new StudyScopeIdentity { StudyWorkflowName=studyScope.StudyWorkflowName, StudyWorkflowVersion=studyScope.StudyWorkflowVersion }, studyScope);
+    return this.UpdateStudyScopeByResearchStudyUid(studyScope.ResearchStudyUid, studyScope);
   }
 
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
+  /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
   /// <param name="studyScope"> StudyScope containing the new values (the primary identifier fields within the given StudyScope will be ignored) </param>
-  public bool UpdateStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity, StudyScope studyScope){
+  public bool UpdateStudyScopeByResearchStudyUid(Guid researchStudyUid, StudyScope studyScope){
     var mac = AccessControlContext.Current;
 
     StudyScopeEntity existingEntity;
@@ -860,7 +860,7 @@ public partial class StudyScopeStore : IStudyScopes {
 
       IQueryable<StudyScopeEntity> query = db.StudyScopes;
 
-      query = query.Where((e)=> e.StudyWorkflowName == studyScopeIdentity.StudyWorkflowName && e.StudyWorkflowVersion == studyScopeIdentity.StudyWorkflowVersion).AccessScopeFiltered();
+      query = query.Where((e)=>e.ResearchStudyUid == researchStudyUid).AccessScopeFiltered();
 
       //materialization / load
       existingEntity = query.SingleOrDefault();
@@ -900,8 +900,8 @@ public partial class StudyScopeStore : IStudyScopes {
   }
 
   /// <summary> Deletes a specific StudyScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
-  public bool DeleteStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity){
+  /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
+  public bool DeleteStudyScopeByResearchStudyUid(Guid researchStudyUid){
     var mac = AccessControlContext.Current;
 
     StudyScopeEntity existingEntity;
@@ -909,7 +909,7 @@ public partial class StudyScopeStore : IStudyScopes {
 
       IQueryable<StudyScopeEntity> query = db.StudyScopes.AccessScopeFiltered();
 
-      query = query.Where((e)=> e.StudyWorkflowName == studyScopeIdentity.StudyWorkflowName && e.StudyWorkflowVersion == studyScopeIdentity.StudyWorkflowVersion);
+      query = query.Where((e)=>e.ResearchStudyUid == researchStudyUid);
 
       //materialization / load
       existingEntity = query.SingleOrDefault();

@@ -18,21 +18,19 @@ public class AdditionalSubjectParticipationIdentifier {
   [Required]
   public String IdentifierValue { get; set; }
 
+  [Required]
+  public Guid ResearchStudyUid { get; set; } = Guid.NewGuid();
+
 }
 
 public class SubjectParticipation {
 
-  /// <summary> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) *this field has a max length of 50 </summary>
+  /// <summary> pseudonym of the patient which can be a randomization or screening number (the exact semantic is defined per study) *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
   public String ParticipantIdentifier { get; set; }
 
-  /// <summary> *this field has a max length of 100 </summary>
-  [MaxLength(100), Required]
-  public String StudyWorkflowName { get; set; }
-
-  /// <summary> *this field has a max length of 20 </summary>
-  [MaxLength(20), Required]
-  public String StudyWorkflowVersion { get; set; }
+  [Required]
+  public Guid ResearchStudyUid { get; set; } = Guid.NewGuid();
 
   [Required]
   public DateTime CreationDateUtc { get; set; }
@@ -53,7 +51,22 @@ public class StudyExecutionScope {
 
   /// <summary> the institute which is executing the study (this should be an invariant technical representation of the company name or a guid) </summary>
   [Required]
-  public String ExecutingInstituteIdentifier { get; set; }
+  public Guid SiteUid { get; set; }
+
+  [Required]
+  public Guid ResearchStudyUid { get; set; }
+
+}
+
+public class StudyScope {
+
+  /// <summary> the official invariant name of the study as given by the sponsor </summary>
+  [FixedAfterCreation, Required]
+  public Guid ResearchStudyUid { get; set; } = Guid.NewGuid();
+
+  /// <summary> for example "Screening-Number" or "Randomization-Number" </summary>
+  [Required]
+  public String ParticipantIdentifierSemantic { get; set; }
 
   /// <summary> *this field has a max length of 100 </summary>
   [MaxLength(100), Required]
@@ -62,22 +75,6 @@ public class StudyExecutionScope {
   /// <summary> *this field has a max length of 20 </summary>
   [MaxLength(20), Required]
   public String StudyWorkflowVersion { get; set; }
-
-}
-
-public class StudyScope {
-
-  /// <summary> the official invariant name of the study as given by the sponsor *this field has a max length of 100 </summary>
-  [FixedAfterCreation, MaxLength(100), Required]
-  public String StudyWorkflowName { get; set; }
-
-  /// <summary> version of the workflow *this field has a max length of 20 </summary>
-  [FixedAfterCreation, MaxLength(20), Required]
-  public String StudyWorkflowVersion { get; set; }
-
-  /// <summary> for example "Screening-Number" or "Randomization-Number" </summary>
-  [Required]
-  public String ParticipantIdentifierSemantic { get; set; }
 
 }
 

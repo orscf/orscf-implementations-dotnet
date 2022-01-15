@@ -32,13 +32,13 @@ namespace MedicalResearch.IdentityManagement.Persistence.EF {
 
       var cfgAdditionalSubjectParticipationIdentifier = modelBuilder.Entity<AdditionalSubjectParticipationIdentifierEntity>();
       cfgAdditionalSubjectParticipationIdentifier.ToTable("ImsAdditionalSubjectParticipationIdentifiers");
-      cfgAdditionalSubjectParticipationIdentifier.HasKey((e) => new {e.ParticipantIdentifier, e.IdentifierName});
+      cfgAdditionalSubjectParticipationIdentifier.HasKey((e) => new {e.ParticipantIdentifier, e.IdentifierName, e.ResearchStudyUid});
 
       // PRINCIPAL: >>> SubjectParticipation
       cfgAdditionalSubjectParticipationIdentifier
         .HasOne((lcl) => lcl.Participation )
         .WithMany((rem) => rem.AdditionalIdentifiers )
-        .HasForeignKey(nameof(AdditionalSubjectParticipationIdentifierEntity.ParticipantIdentifier))
+        .HasForeignKey(nameof(AdditionalSubjectParticipationIdentifierEntity.ParticipantIdentifier), nameof(AdditionalSubjectParticipationIdentifierEntity.ResearchStudyUid))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ namespace MedicalResearch.IdentityManagement.Persistence.EF {
 
       var cfgSubjectParticipation = modelBuilder.Entity<SubjectParticipationEntity>();
       cfgSubjectParticipation.ToTable("ImsSubjectParticipations");
-      cfgSubjectParticipation.HasKey((e) => e.ParticipantIdentifier);
+      cfgSubjectParticipation.HasKey((e) => new {e.ParticipantIdentifier, e.ResearchStudyUid});
 
       // LOOKUP: >>> StudyExecutionScope
       cfgSubjectParticipation
@@ -60,7 +60,7 @@ namespace MedicalResearch.IdentityManagement.Persistence.EF {
       cfgSubjectParticipation
         .HasOne((lcl) => lcl.StudyScope )
         .WithMany((rem) => rem.Participations )
-        .HasForeignKey(nameof(SubjectParticipationEntity.StudyWorkflowName), nameof(SubjectParticipationEntity.StudyWorkflowVersion))
+        .HasForeignKey(nameof(SubjectParticipationEntity.ResearchStudyUid))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> SubjectIdentity
@@ -82,7 +82,7 @@ namespace MedicalResearch.IdentityManagement.Persistence.EF {
       cfgStudyExecutionScope
         .HasOne((lcl) => lcl.StudyScope )
         .WithMany((rem) => rem.ExecutionScopes )
-        .HasForeignKey(nameof(StudyExecutionScopeEntity.StudyWorkflowName), nameof(StudyExecutionScopeEntity.StudyWorkflowVersion))
+        .HasForeignKey(nameof(StudyExecutionScopeEntity.ResearchStudyUid))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ namespace MedicalResearch.IdentityManagement.Persistence.EF {
 
       var cfgStudyScope = modelBuilder.Entity<StudyScopeEntity>();
       cfgStudyScope.ToTable("ImsStudyScopes");
-      cfgStudyScope.HasKey((e) => new {e.StudyWorkflowName, e.StudyWorkflowVersion});
+      cfgStudyScope.HasKey((e) => e.ResearchStudyUid);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // SubjectAddress

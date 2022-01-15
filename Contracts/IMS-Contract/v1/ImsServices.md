@@ -1,113 +1,4 @@
-﻿# IdentityEnrollmentService
-Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
-
-### Methods:
-
-
-
-## .EnrollIdentityAsSubject
-returns the null on failure or the assigned SubjectIdentifier on success
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|researchStudyName|String|**IN**-Param (required)|
-|siteName|String|**IN**-Param (required)|
-|dateOfEnrollment|DateTime|**IN**-Param (required)|
-|details|[IdentityDetails](#MedicalResearch.IdentityManagement.Model.IdentityDetails)|**IN**-Param (required)|
-|preDefinedSubjectId|String|**IN**-Param (optional)|
-**return value:** String
-
-
-
-## .UpdateIdentityInformationBySubjectId
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|researchStudyName|String|**IN**-Param (required)|
-|subjectId|String|**IN**-Param (required)|
-|newDetails|[IdentityDetails](#MedicalResearch.IdentityManagement.Model.IdentityDetails)|**IN**-Param (required)|
-|clearUnsuppliedValues|Boolean? *(nullable)*|**IN**-Param (optional)|
-|newSiteName|String|**IN**-Param (optional)|
-**return value:** Boolean
-
-
-
-## .GetSiteNameBySubjectId
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|researchStudyName|String|**IN**-Param (required)|
-|subjectId|String|**IN**-Param (required)|
-**return value:** String
-
-
-
-## .GetApiVersion
-returns the Version of the API itself, which can be used for
-backward compatibility within inhomogeneous infrastructures
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** String
-
-
-
-## .HasAccess
-returns if the authenticated accessor of the
-API has the permission to use this service
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** Boolean
-# IdentityManagementService
-Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
-
-### Methods:
-
-
-
-## .GetUnblindingTokenInfos
-returns the list of currently exposed unblinding-tokens
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** [UnblindingTokenInfo](#MedicalResearch.IdentityManagement.Model.UnblindingTokenInfo)[] *(array)*
-
-
-
-## .UnlockUnblindingToken
-unlocks an unblinding-token to be usable for retrieval of indentity information
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|token|String|**IN**-Param (required)|
-no return value (void)
-
-
-
-## .GetApiVersion
-returns the Version of the API itself, which can be used for
-backward compatibility within inhomogeneous infrastructures
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** String
-
-
-
-## .HasAccess
-returns if the authenticated accessor of the
-API has the permission to use this service
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|(none)|||
-**return value:** Boolean
-# IdentityUnblindingService
+﻿# IdentityUnblindingService
 Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
 
 ### Methods:
@@ -146,12 +37,16 @@ returns an unblindingToken which is not activated
 |subjectId|String|**IN**-Param (required)|
 |unblindingToken|String|**IN**-Param (required)|
 **return value:** [IdentityDetails](#MedicalResearch.IdentityManagement.Model.IdentityDetails)
+# ImsApiInfoService
+Provides interoperability information for the current implementation
+
+### Methods:
 
 
 
 ## .GetApiVersion
-returns the Version of the API itself, which can be used for
-backward compatibility within inhomogeneous infrastructures
+returns the version of the ORSCF specification which is implemented by this API,
+(this can be used for backward compatibility within inhomogeneous infrastructures)
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
@@ -160,18 +55,95 @@ backward compatibility within inhomogeneous infrastructures
 
 
 
-## .HasAccess
-returns if the authenticated accessor of the
-API has the permission to use this service
+## .GetCapabilities
+returns a list of API-features (there are several 'services' for different use cases, described by ORSCF)
+supported by this implementation. The following values are possible:
+'Pseudonymization', 'IdentityUnblinding',
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
 |(none)|||
+**return value:** String[] *(array)*
+
+
+
+## .GetPermittedAuthScopes
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|authState|Int32|**OUT**-Param (required)|
+**return value:** String[] *(array)*
+
+
+
+## .GetOAuthTokenRequestUrl
+OPTIONAL: If the authentication on the current service is mapped
+using tokens and should provide information about the source at this point,
+the login URL to be called up via browser (OAuth ['CIBA-Flow'](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html)) is returned here.
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|(none)|||
+**return value:** String
+# PseudonymizationService
+Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
+
+### Methods:
+
+
+
+## .GetExtendedFieldDescriptors
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|languagePref|String|**IN**-Param (optional): Preferred language for the 'DisplayLabel' and 'InputDescription' fields of the returned descriptors.|
+**return value:** [ExtendedFieldDescriptor](#MedicalResearch.IdentityManagement.Model.ExtendedFieldDescriptor)[] *(array)*
+
+
+
+## .GetOrCreatePseudonym
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|researchStudyUid|Guid|**IN**-Param (required)|
+|givenName|String|**IN**-Param (required)|
+|familyName|String|**IN**-Param (required)|
+|birthDate|String|**IN**-Param (required)|
+|extendedFields|Dictionary`2|**IN**-Param (required)|
+|siteUid|Guid|**IN**-Param (required)|
+|pseudonym|String|**OUT**-Param (required)|
+|wasCreatedNewly|Boolean|**OUT**-Param (required)|
+**return value:** Boolean
+
+
+
+## .GetExisitingPseudonym
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|researchStudyUid|Guid|**IN**-Param (required)|
+|givenName|String|**IN**-Param (required)|
+|familyName|String|**IN**-Param (required)|
+|birthDate|String|**IN**-Param (required)|
+|extendedFields|Dictionary`2|**IN**-Param (required)|
+|pseudonym|String|**OUT**-Param (required)|
 **return value:** Boolean
 
 
 
 # Models:
+
+
+
+## MedicalResearch.IdentityManagement.Model.ExtendedFieldDescriptor
+#### Fields:
+|Name|Type|Description|
+|----|----|-----------|
+|TechnicalName|String|(required)|
+|IsRequired|Boolean|(required)|
+|DisplayLabel|String|(required)|
+|InputDescription|String|(optional)|
+|RegularExpression|String|(optional)|
 
 
 
@@ -191,16 +163,3 @@ API has the permission to use this service
 |Country|String|(optional): two letter ISO code|
 |DateOfBirth|DateTime? *(nullable)*|(optional)|
 |DateOfDeath|DateTime? *(nullable)*|(optional)|
-
-
-
-## MedicalResearch.IdentityManagement.Model.UnblindingTokenInfo
-#### Fields:
-|Name|Type|Description|
-|----|----|-----------|
-|token|String|(optional)|
-|state|Int32? *(nullable)*|(optional)|
-|researchStudyName|String|(optional)|
-|subjectId|String|(optional)|
-|reason|String|(optional)|
-|requestingPerson|String|(optional)|

@@ -1,6 +1,7 @@
 ﻿using MedicalResearch.IdentityManagement.WebAPI;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -29,6 +30,9 @@ namespace Security {
     public string JwtSignKey { get; set; }
     public string[] JwtAllowedIssuers { get; set; }
 
+    public bool ApplyApiPermissionsFromJwtScope { get; set; }
+    public bool ApplyDataAccessClearancesFromJwtScope { get; set; }
+
   }
 
   public class SubjectProfileConfigurationEntry {
@@ -41,13 +45,10 @@ namespace Security {
 
     public String[] AllowedHosts { get; set; }
 
-    public String[] Permissions { get; set; }
+    public String[] DefaultApiPermissions { get; set; }
 
-    public String[] DenyPermissions { get; set; }
-
-    public string ScopeToStudyIdentifier { get; set; }
-
-    public string ScopeToExecutingInstituteIdentifier { get; set; }
+    public Dictionary<String, String> DefaultDataAccessClearances { get; set; }
 
   }
+
 }

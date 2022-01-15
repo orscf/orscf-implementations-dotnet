@@ -50,6 +50,7 @@ public partial interface IAdditionalSubjectParticipationIdentifiers {
 public class AdditionalSubjectParticipationIdentifierIdentity {
   public String ParticipantIdentifier;
   public String IdentifierName;
+  public Guid ResearchStudyUid;
 }
 
 /// <summary> Provides CRUD access to stored SubjectParticipations (based on schema version '1.5.0') </summary>
@@ -59,8 +60,8 @@ public partial interface ISubjectParticipations {
   //AccessSpecs GetAccessSpecs();
 
   /// <summary> Loads a specific SubjectParticipation addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
-  /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
-  SubjectParticipation GetSubjectParticipationByParticipantIdentifier(String participantIdentifier);
+  /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
+  SubjectParticipation GetSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity);
 
   /// <summary> Loads SubjectParticipations. </summary>
   /// <param name="page">Number of the page, which should be returned </param>
@@ -83,14 +84,21 @@ public partial interface ISubjectParticipations {
   bool UpdateSubjectParticipation(SubjectParticipation subjectParticipation);
 
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectParticipation addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
+  /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
   /// <param name="subjectParticipation"> SubjectParticipation containing the new values (the primary identifier fields within the given SubjectParticipation will be ignored) </param>
-  bool UpdateSubjectParticipationByParticipantIdentifier(String participantIdentifier, SubjectParticipation subjectParticipation);
+  bool UpdateSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity, SubjectParticipation subjectParticipation);
 
   /// <summary> Deletes a specific SubjectParticipation addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
-  bool DeleteSubjectParticipationByParticipantIdentifier(String participantIdentifier);
+  /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
+  bool DeleteSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity);
 
+}
+
+/// <summary> Composite Key, which represents the primary identity of a SubjectParticipation </summary>
+public class SubjectParticipationIdentity {
+  /// <summary> pseudonym of the patient which can be a randomization or screening number (the exact semantic is defined per study) </summary>
+  public String ParticipantIdentifier;
+  public Guid ResearchStudyUid;
 }
 
 /// <summary> Provides CRUD access to stored StudyExecutionScopes (based on schema version '1.5.0') </summary>
@@ -141,8 +149,8 @@ public partial interface IStudyScopes {
   //AccessSpecs GetAccessSpecs();
 
   /// <summary> Loads a specific StudyScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.</summary>
-  /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
-  StudyScope GetStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity);
+  /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
+  StudyScope GetStudyScopeByResearchStudyUid(Guid researchStudyUid);
 
   /// <summary> Loads StudyScopes. </summary>
   /// <param name="page">Number of the page, which should be returned </param>
@@ -165,22 +173,14 @@ public partial interface IStudyScopes {
   bool UpdateStudyScope(StudyScope studyScope);
 
   /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
+  /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
   /// <param name="studyScope"> StudyScope containing the new values (the primary identifier fields within the given StudyScope will be ignored) </param>
-  bool UpdateStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity, StudyScope studyScope);
+  bool UpdateStudyScopeByResearchStudyUid(Guid researchStudyUid, StudyScope studyScope);
 
   /// <summary> Deletes a specific StudyScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.</summary>
-  /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
-  bool DeleteStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity);
+  /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
+  bool DeleteStudyScopeByResearchStudyUid(Guid researchStudyUid);
 
-}
-
-/// <summary> Composite Key, which represents the primary identity of a StudyScope </summary>
-public class StudyScopeIdentity {
-  /// <summary> the official invariant name of the study as given by the sponsor </summary>
-  public String StudyWorkflowName;
-  /// <summary> version of the workflow </summary>
-  public String StudyWorkflowVersion;
 }
 
 /// <summary> Provides CRUD access to stored SubjectAddresses (based on schema version '1.5.0') </summary>

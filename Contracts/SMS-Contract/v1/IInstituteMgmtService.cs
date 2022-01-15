@@ -7,7 +7,7 @@ using H7 = Hl7.Fhir.Model;
 namespace MedicalResearch.StudyManagement {
 
   /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-  public partial interface IInstituteRegistryService {
+  public partial interface IInstituteMgmtService {
 
     Guid GetInstituteUidByTitle(string instituteTitle);
 
@@ -33,19 +33,6 @@ namespace MedicalResearch.StudyManagement {
     /// <param name="newTitle"></param>
     /// <returns></returns>
     bool UpdateInstitueTitle(Guid instituteUid, string newTitle);
-
-    /// <summary>
-    /// returns the Version of the API itself, which can be used for 
-    /// backward compatibility within inhomogeneous infrastructures
-    /// </summary>
-    string GetApiVersion();
-
-    /// <summary>
-    /// returns if the authenticated accessor of the
-    /// API has the permission to use this service
-    /// </summary>
-    /// <returns></returns>
-    bool HasAccess();
 
   }
 

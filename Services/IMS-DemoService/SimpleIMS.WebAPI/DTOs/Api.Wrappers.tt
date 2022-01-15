@@ -19,27 +19,32 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\ORSCF.IdentityManagement.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.IdentityManagement.StoreAccess.I*",
+           inputFile = Host.ResolvePath("..\\..\\..\\..\\(Stage)\\Bin\\ORSCF.IdentityManagement.Contract.dll"),
+           interfaceTypeNamePattern = "MedicalResearch.IdentityManagement.I*Service",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
            },
 
            // Output:
-           template = "Clients",
-           outputLanguage = "C#",
+           template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
+           outputLanguage = "C#",   // <- choose between: C#|VB|TS
            indentDepthPerLevel = 2,
-           outputNamespace = "MedicalResearch.IdentityManagement.StoreAccess",
+           outputNamespace = "MedicalResearch.IdentityManagement.WebAPI",
            customImports = new String[] {
-             "MedicalResearch.IdentityManagement.Model",
            },
 
-         // CLIENTS ///////////////////////////////////////////////////////////////////////////
+         // WRAPPERS //////////////////////////////////////////////////////////////////////////
 
-           connectorClassName = "ImsStoreConnector",
-           authHeaderName = "Authorization",
-           throwClientExecptionsFromFaultProperty = true,
+           generateFaultProperty = true,
+           
+            //appendOwnerNameAsNamespace = true,
+            //removeLeadingCharCountForOwnerName = 1,
+            //removeTrailingCharCountForOwnerName = 0,
+
+           useInterfaceTypeNameToGenerateSubNamespace = true,
+           removeLeadingCharCountForSubNamespace = 1,
+           removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

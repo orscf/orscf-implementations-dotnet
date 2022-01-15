@@ -1,4 +1,6 @@
-﻿using MedicalResearch.IdentityManagement.StoreAccess;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.IdentityManagement.StoreAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Security;
@@ -13,7 +15,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/additionalSubjectParticipationIdentifiers")]
-  public partial class AdditionalSubjectParticipationIdentifiersController : ControllerBase {
+  public class AdditionalSubjectParticipationIdentifiersController : ControllerBase {
     
     private readonly ILogger<AdditionalSubjectParticipationIdentifiersController> _Logger;
     private readonly IAdditionalSubjectParticipationIdentifiers _AdditionalSubjectParticipationIdentifiers;
@@ -25,13 +27,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads a specific AdditionalSubjectParticipationIdentifier addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity")]
+    [EvaluateBearerToken("store-GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity")]
     [HttpPost("getAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity), Description = "Loads a specific AdditionalSubjectParticipationIdentifier addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityResponse GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity([FromBody][SwaggerRequestBody(Required = true)] GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityRequest args) {
       try {
         var response = new GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.GetAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity(
-        args.additionalSubjectParticipationIdentifierIdentity
+          args.additionalSubjectParticipationIdentifierIdentity
         );
         return response;
       }
@@ -43,14 +46,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads AdditionalSubjectParticipationIdentifiers. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetAdditionalSubjectParticipationIdentifiers")]
+    [EvaluateBearerToken("store-GetAdditionalSubjectParticipationIdentifiers")]
     [HttpPost("getAdditionalSubjectParticipationIdentifiers"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetAdditionalSubjectParticipationIdentifiers), Description = "Loads AdditionalSubjectParticipationIdentifiers.")]
     public GetAdditionalSubjectParticipationIdentifiersResponse GetAdditionalSubjectParticipationIdentifiers([FromBody][SwaggerRequestBody(Required = true)] GetAdditionalSubjectParticipationIdentifiersRequest args) {
       try {
         var response = new GetAdditionalSubjectParticipationIdentifiersResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.GetAdditionalSubjectParticipationIdentifiers(
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -62,16 +66,17 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads AdditionalSubjectParticipationIdentifiers where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchAdditionalSubjectParticipationIdentifiers")]
+    [EvaluateBearerToken("store-SearchAdditionalSubjectParticipationIdentifiers")]
     [HttpPost("searchAdditionalSubjectParticipationIdentifiers"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchAdditionalSubjectParticipationIdentifiers), Description = "Loads AdditionalSubjectParticipationIdentifiers where values matching to the given filterExpression")]
     public SearchAdditionalSubjectParticipationIdentifiersResponse SearchAdditionalSubjectParticipationIdentifiers([FromBody][SwaggerRequestBody(Required = true)] SearchAdditionalSubjectParticipationIdentifiersRequest args) {
       try {
         var response = new SearchAdditionalSubjectParticipationIdentifiersResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.SearchAdditionalSubjectParticipationIdentifiers(
-        args.filterExpression,
-        args.sortingExpression,
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          args.filterExpression,
+          args.sortingExpression,
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -83,13 +88,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Adds a new AdditionalSubjectParticipationIdentifier and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewAdditionalSubjectParticipationIdentifier")]
+    [EvaluateBearerToken("store-AddNewAdditionalSubjectParticipationIdentifier")]
     [HttpPost("addNewAdditionalSubjectParticipationIdentifier"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewAdditionalSubjectParticipationIdentifier), Description = "Adds a new AdditionalSubjectParticipationIdentifier and returns its primary identifier (or null on failure).")]
     public AddNewAdditionalSubjectParticipationIdentifierResponse AddNewAdditionalSubjectParticipationIdentifier([FromBody][SwaggerRequestBody(Required = true)] AddNewAdditionalSubjectParticipationIdentifierRequest args) {
       try {
         var response = new AddNewAdditionalSubjectParticipationIdentifierResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.AddNewAdditionalSubjectParticipationIdentifier(
-        args.additionalSubjectParticipationIdentifier
+          args.additionalSubjectParticipationIdentifier
         );
         return response;
       }
@@ -101,13 +107,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given AdditionalSubjectParticipationIdentifier addressed by the primary identifier fields within the given AdditionalSubjectParticipationIdentifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateAdditionalSubjectParticipationIdentifier")]
+    [EvaluateBearerToken("store-UpdateAdditionalSubjectParticipationIdentifier")]
     [HttpPost("updateAdditionalSubjectParticipationIdentifier"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateAdditionalSubjectParticipationIdentifier), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given AdditionalSubjectParticipationIdentifier addressed by the primary identifier fields within the given AdditionalSubjectParticipationIdentifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateAdditionalSubjectParticipationIdentifierResponse UpdateAdditionalSubjectParticipationIdentifier([FromBody][SwaggerRequestBody(Required = true)] UpdateAdditionalSubjectParticipationIdentifierRequest args) {
       try {
         var response = new UpdateAdditionalSubjectParticipationIdentifierResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.UpdateAdditionalSubjectParticipationIdentifier(
-        args.additionalSubjectParticipationIdentifier
+          args.additionalSubjectParticipationIdentifier
         );
         return response;
       }
@@ -119,14 +126,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given AdditionalSubjectParticipationIdentifier addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity")]
+    [EvaluateBearerToken("store-UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity")]
     [HttpPost("updateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given AdditionalSubjectParticipationIdentifier addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityResponse UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity([FromBody][SwaggerRequestBody(Required = true)] UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityRequest args) {
       try {
         var response = new UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.UpdateAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity(
-        args.additionalSubjectParticipationIdentifierIdentity,
-        args.additionalSubjectParticipationIdentifier
+          args.additionalSubjectParticipationIdentifierIdentity,
+          args.additionalSubjectParticipationIdentifier
         );
         return response;
       }
@@ -138,13 +146,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Deletes a specific AdditionalSubjectParticipationIdentifier addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity")]
+    [EvaluateBearerToken("store-DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity")]
     [HttpPost("deleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity), Description = "Deletes a specific AdditionalSubjectParticipationIdentifier addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityResponse DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity([FromBody][SwaggerRequestBody(Required = true)] DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityRequest args) {
       try {
         var response = new DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentityResponse();
         response.@return = _AdditionalSubjectParticipationIdentifiers.DeleteAdditionalSubjectParticipationIdentifierByAdditionalSubjectParticipationIdentifierIdentity(
-        args.additionalSubjectParticipationIdentifierIdentity
+          args.additionalSubjectParticipationIdentifierIdentity
         );
         return response;
       }
@@ -159,7 +168,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/subjectParticipations")]
-  public partial class SubjectParticipationsController : ControllerBase {
+  public class SubjectParticipationsController : ControllerBase {
     
     private readonly ILogger<SubjectParticipationsController> _Logger;
     private readonly ISubjectParticipations _SubjectParticipations;
@@ -171,32 +180,34 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads a specific SubjectParticipation addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetSubjectParticipationByParticipantIdentifier")]
-    [HttpPost("getSubjectParticipationByParticipantIdentifier"), Produces("application/json")]
-    public GetSubjectParticipationByParticipantIdentifierResponse GetSubjectParticipationByParticipantIdentifier([FromBody][SwaggerRequestBody(Required = true)] GetSubjectParticipationByParticipantIdentifierRequest args) {
+    [EvaluateBearerToken("store-GetSubjectParticipationBySubjectParticipationIdentity")]
+    [HttpPost("getSubjectParticipationBySubjectParticipationIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetSubjectParticipationBySubjectParticipationIdentity), Description = "Loads a specific SubjectParticipation addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetSubjectParticipationBySubjectParticipationIdentityResponse GetSubjectParticipationBySubjectParticipationIdentity([FromBody][SwaggerRequestBody(Required = true)] GetSubjectParticipationBySubjectParticipationIdentityRequest args) {
       try {
-        var response = new GetSubjectParticipationByParticipantIdentifierResponse();
-        response.@return = _SubjectParticipations.GetSubjectParticipationByParticipantIdentifier(
-        args.participantIdentifier
+        var response = new GetSubjectParticipationBySubjectParticipationIdentityResponse();
+        response.@return = _SubjectParticipations.GetSubjectParticipationBySubjectParticipationIdentity(
+          args.subjectParticipationIdentity
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new GetSubjectParticipationByParticipantIdentifierResponse { fault = ex.Message };
+        return new GetSubjectParticipationBySubjectParticipationIdentityResponse { fault = ex.Message };
       }
     }
     
     /// <summary> Loads SubjectParticipations. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetSubjectParticipations")]
+    [EvaluateBearerToken("store-GetSubjectParticipations")]
     [HttpPost("getSubjectParticipations"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetSubjectParticipations), Description = "Loads SubjectParticipations.")]
     public GetSubjectParticipationsResponse GetSubjectParticipations([FromBody][SwaggerRequestBody(Required = true)] GetSubjectParticipationsRequest args) {
       try {
         var response = new GetSubjectParticipationsResponse();
         response.@return = _SubjectParticipations.GetSubjectParticipations(
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -208,16 +219,17 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads SubjectParticipations where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchSubjectParticipations")]
+    [EvaluateBearerToken("store-SearchSubjectParticipations")]
     [HttpPost("searchSubjectParticipations"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchSubjectParticipations), Description = "Loads SubjectParticipations where values matching to the given filterExpression")]
     public SearchSubjectParticipationsResponse SearchSubjectParticipations([FromBody][SwaggerRequestBody(Required = true)] SearchSubjectParticipationsRequest args) {
       try {
         var response = new SearchSubjectParticipationsResponse();
         response.@return = _SubjectParticipations.SearchSubjectParticipations(
-        args.filterExpression,
-        args.sortingExpression,
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          args.filterExpression,
+          args.sortingExpression,
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -229,13 +241,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Adds a new SubjectParticipation and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewSubjectParticipation")]
+    [EvaluateBearerToken("store-AddNewSubjectParticipation")]
     [HttpPost("addNewSubjectParticipation"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewSubjectParticipation), Description = "Adds a new SubjectParticipation and returns its primary identifier (or null on failure).")]
     public AddNewSubjectParticipationResponse AddNewSubjectParticipation([FromBody][SwaggerRequestBody(Required = true)] AddNewSubjectParticipationRequest args) {
       try {
         var response = new AddNewSubjectParticipationResponse();
         response.@return = _SubjectParticipations.AddNewSubjectParticipation(
-        args.subjectParticipation
+          args.subjectParticipation
         );
         return response;
       }
@@ -247,13 +260,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectParticipation addressed by the primary identifier fields within the given SubjectParticipation. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateSubjectParticipation")]
+    [EvaluateBearerToken("store-UpdateSubjectParticipation")]
     [HttpPost("updateSubjectParticipation"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateSubjectParticipation), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SubjectParticipation addressed by the primary identifier fields within the given SubjectParticipation. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateSubjectParticipationResponse UpdateSubjectParticipation([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectParticipationRequest args) {
       try {
         var response = new UpdateSubjectParticipationResponse();
         response.@return = _SubjectParticipations.UpdateSubjectParticipation(
-        args.subjectParticipation
+          args.subjectParticipation
         );
         return response;
       }
@@ -265,38 +279,40 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectParticipation addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateSubjectParticipationByParticipantIdentifier")]
-    [HttpPost("updateSubjectParticipationByParticipantIdentifier"), Produces("application/json")]
-    public UpdateSubjectParticipationByParticipantIdentifierResponse UpdateSubjectParticipationByParticipantIdentifier([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectParticipationByParticipantIdentifierRequest args) {
+    [EvaluateBearerToken("store-UpdateSubjectParticipationBySubjectParticipationIdentity")]
+    [HttpPost("updateSubjectParticipationBySubjectParticipationIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateSubjectParticipationBySubjectParticipationIdentity), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SubjectParticipation addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateSubjectParticipationBySubjectParticipationIdentityResponse UpdateSubjectParticipationBySubjectParticipationIdentity([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectParticipationBySubjectParticipationIdentityRequest args) {
       try {
-        var response = new UpdateSubjectParticipationByParticipantIdentifierResponse();
-        response.@return = _SubjectParticipations.UpdateSubjectParticipationByParticipantIdentifier(
-        args.participantIdentifier,
-        args.subjectParticipation
+        var response = new UpdateSubjectParticipationBySubjectParticipationIdentityResponse();
+        response.@return = _SubjectParticipations.UpdateSubjectParticipationBySubjectParticipationIdentity(
+          args.subjectParticipationIdentity,
+          args.subjectParticipation
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new UpdateSubjectParticipationByParticipantIdentifierResponse { fault = ex.Message };
+        return new UpdateSubjectParticipationBySubjectParticipationIdentityResponse { fault = ex.Message };
       }
     }
     
     /// <summary> Deletes a specific SubjectParticipation addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteSubjectParticipationByParticipantIdentifier")]
-    [HttpPost("deleteSubjectParticipationByParticipantIdentifier"), Produces("application/json")]
-    public DeleteSubjectParticipationByParticipantIdentifierResponse DeleteSubjectParticipationByParticipantIdentifier([FromBody][SwaggerRequestBody(Required = true)] DeleteSubjectParticipationByParticipantIdentifierRequest args) {
+    [EvaluateBearerToken("store-DeleteSubjectParticipationBySubjectParticipationIdentity")]
+    [HttpPost("deleteSubjectParticipationBySubjectParticipationIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteSubjectParticipationBySubjectParticipationIdentity), Description = "Deletes a specific SubjectParticipation addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteSubjectParticipationBySubjectParticipationIdentityResponse DeleteSubjectParticipationBySubjectParticipationIdentity([FromBody][SwaggerRequestBody(Required = true)] DeleteSubjectParticipationBySubjectParticipationIdentityRequest args) {
       try {
-        var response = new DeleteSubjectParticipationByParticipantIdentifierResponse();
-        response.@return = _SubjectParticipations.DeleteSubjectParticipationByParticipantIdentifier(
-        args.participantIdentifier
+        var response = new DeleteSubjectParticipationBySubjectParticipationIdentityResponse();
+        response.@return = _SubjectParticipations.DeleteSubjectParticipationBySubjectParticipationIdentity(
+          args.subjectParticipationIdentity
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new DeleteSubjectParticipationByParticipantIdentifierResponse { fault = ex.Message };
+        return new DeleteSubjectParticipationBySubjectParticipationIdentityResponse { fault = ex.Message };
       }
     }
     
@@ -305,7 +321,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/studyExecutionScopes")]
-  public partial class StudyExecutionScopesController : ControllerBase {
+  public class StudyExecutionScopesController : ControllerBase {
     
     private readonly ILogger<StudyExecutionScopesController> _Logger;
     private readonly IStudyExecutionScopes _StudyExecutionScopes;
@@ -317,13 +333,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyExecutionScopeByStudyExecutionIdentifier")]
+    [EvaluateBearerToken("store-GetStudyExecutionScopeByStudyExecutionIdentifier")]
     [HttpPost("getStudyExecutionScopeByStudyExecutionIdentifier"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetStudyExecutionScopeByStudyExecutionIdentifier), Description = "Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetStudyExecutionScopeByStudyExecutionIdentifierResponse GetStudyExecutionScopeByStudyExecutionIdentifier([FromBody][SwaggerRequestBody(Required = true)] GetStudyExecutionScopeByStudyExecutionIdentifierRequest args) {
       try {
         var response = new GetStudyExecutionScopeByStudyExecutionIdentifierResponse();
         response.@return = _StudyExecutionScopes.GetStudyExecutionScopeByStudyExecutionIdentifier(
-        args.studyExecutionIdentifier
+          args.studyExecutionIdentifier
         );
         return response;
       }
@@ -335,14 +352,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads StudyExecutionScopes. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyExecutionScopes")]
+    [EvaluateBearerToken("store-GetStudyExecutionScopes")]
     [HttpPost("getStudyExecutionScopes"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetStudyExecutionScopes), Description = "Loads StudyExecutionScopes.")]
     public GetStudyExecutionScopesResponse GetStudyExecutionScopes([FromBody][SwaggerRequestBody(Required = true)] GetStudyExecutionScopesRequest args) {
       try {
         var response = new GetStudyExecutionScopesResponse();
         response.@return = _StudyExecutionScopes.GetStudyExecutionScopes(
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -354,16 +372,17 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads StudyExecutionScopes where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchStudyExecutionScopes")]
+    [EvaluateBearerToken("store-SearchStudyExecutionScopes")]
     [HttpPost("searchStudyExecutionScopes"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchStudyExecutionScopes), Description = "Loads StudyExecutionScopes where values matching to the given filterExpression")]
     public SearchStudyExecutionScopesResponse SearchStudyExecutionScopes([FromBody][SwaggerRequestBody(Required = true)] SearchStudyExecutionScopesRequest args) {
       try {
         var response = new SearchStudyExecutionScopesResponse();
         response.@return = _StudyExecutionScopes.SearchStudyExecutionScopes(
-        args.filterExpression,
-        args.sortingExpression,
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          args.filterExpression,
+          args.sortingExpression,
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -375,13 +394,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Adds a new StudyExecutionScope and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewStudyExecutionScope")]
+    [EvaluateBearerToken("store-AddNewStudyExecutionScope")]
     [HttpPost("addNewStudyExecutionScope"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewStudyExecutionScope), Description = "Adds a new StudyExecutionScope and returns its primary identifier (or null on failure).")]
     public AddNewStudyExecutionScopeResponse AddNewStudyExecutionScope([FromBody][SwaggerRequestBody(Required = true)] AddNewStudyExecutionScopeRequest args) {
       try {
         var response = new AddNewStudyExecutionScopeResponse();
         response.@return = _StudyExecutionScopes.AddNewStudyExecutionScope(
-        args.studyExecutionScope
+          args.studyExecutionScope
         );
         return response;
       }
@@ -393,13 +413,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyExecutionScope")]
+    [EvaluateBearerToken("store-UpdateStudyExecutionScope")]
     [HttpPost("updateStudyExecutionScope"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateStudyExecutionScope), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyExecutionScopeResponse UpdateStudyExecutionScope([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyExecutionScopeRequest args) {
       try {
         var response = new UpdateStudyExecutionScopeResponse();
         response.@return = _StudyExecutionScopes.UpdateStudyExecutionScope(
-        args.studyExecutionScope
+          args.studyExecutionScope
         );
         return response;
       }
@@ -411,14 +432,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyExecutionScopeByStudyExecutionIdentifier")]
+    [EvaluateBearerToken("store-UpdateStudyExecutionScopeByStudyExecutionIdentifier")]
     [HttpPost("updateStudyExecutionScopeByStudyExecutionIdentifier"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateStudyExecutionScopeByStudyExecutionIdentifier), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyExecutionScopeByStudyExecutionIdentifierResponse UpdateStudyExecutionScopeByStudyExecutionIdentifier([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyExecutionScopeByStudyExecutionIdentifierRequest args) {
       try {
         var response = new UpdateStudyExecutionScopeByStudyExecutionIdentifierResponse();
         response.@return = _StudyExecutionScopes.UpdateStudyExecutionScopeByStudyExecutionIdentifier(
-        args.studyExecutionIdentifier,
-        args.studyExecutionScope
+          args.studyExecutionIdentifier,
+          args.studyExecutionScope
         );
         return response;
       }
@@ -430,13 +452,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteStudyExecutionScopeByStudyExecutionIdentifier")]
+    [EvaluateBearerToken("store-DeleteStudyExecutionScopeByStudyExecutionIdentifier")]
     [HttpPost("deleteStudyExecutionScopeByStudyExecutionIdentifier"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteStudyExecutionScopeByStudyExecutionIdentifier), Description = "Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteStudyExecutionScopeByStudyExecutionIdentifierResponse DeleteStudyExecutionScopeByStudyExecutionIdentifier([FromBody][SwaggerRequestBody(Required = true)] DeleteStudyExecutionScopeByStudyExecutionIdentifierRequest args) {
       try {
         var response = new DeleteStudyExecutionScopeByStudyExecutionIdentifierResponse();
         response.@return = _StudyExecutionScopes.DeleteStudyExecutionScopeByStudyExecutionIdentifier(
-        args.studyExecutionIdentifier
+          args.studyExecutionIdentifier
         );
         return response;
       }
@@ -451,7 +474,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/studyScopes")]
-  public partial class StudyScopesController : ControllerBase {
+  public class StudyScopesController : ControllerBase {
     
     private readonly ILogger<StudyScopesController> _Logger;
     private readonly IStudyScopes _StudyScopes;
@@ -463,32 +486,34 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads a specific StudyScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyScopeByStudyScopeIdentity")]
-    [HttpPost("getStudyScopeByStudyScopeIdentity"), Produces("application/json")]
-    public GetStudyScopeByStudyScopeIdentityResponse GetStudyScopeByStudyScopeIdentity([FromBody][SwaggerRequestBody(Required = true)] GetStudyScopeByStudyScopeIdentityRequest args) {
+    [EvaluateBearerToken("store-GetStudyScopeByResearchStudyUid")]
+    [HttpPost("getStudyScopeByResearchStudyUid"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetStudyScopeByResearchStudyUid), Description = "Loads a specific StudyScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
+    public GetStudyScopeByResearchStudyUidResponse GetStudyScopeByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)] GetStudyScopeByResearchStudyUidRequest args) {
       try {
-        var response = new GetStudyScopeByStudyScopeIdentityResponse();
-        response.@return = _StudyScopes.GetStudyScopeByStudyScopeIdentity(
-        args.studyScopeIdentity
+        var response = new GetStudyScopeByResearchStudyUidResponse();
+        response.@return = _StudyScopes.GetStudyScopeByResearchStudyUid(
+          args.researchStudyUid
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new GetStudyScopeByStudyScopeIdentityResponse { fault = ex.Message };
+        return new GetStudyScopeByResearchStudyUidResponse { fault = ex.Message };
       }
     }
     
     /// <summary> Loads StudyScopes. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyScopes")]
+    [EvaluateBearerToken("store-GetStudyScopes")]
     [HttpPost("getStudyScopes"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetStudyScopes), Description = "Loads StudyScopes.")]
     public GetStudyScopesResponse GetStudyScopes([FromBody][SwaggerRequestBody(Required = true)] GetStudyScopesRequest args) {
       try {
         var response = new GetStudyScopesResponse();
         response.@return = _StudyScopes.GetStudyScopes(
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -500,16 +525,17 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads StudyScopes where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchStudyScopes")]
+    [EvaluateBearerToken("store-SearchStudyScopes")]
     [HttpPost("searchStudyScopes"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchStudyScopes), Description = "Loads StudyScopes where values matching to the given filterExpression")]
     public SearchStudyScopesResponse SearchStudyScopes([FromBody][SwaggerRequestBody(Required = true)] SearchStudyScopesRequest args) {
       try {
         var response = new SearchStudyScopesResponse();
         response.@return = _StudyScopes.SearchStudyScopes(
-        args.filterExpression,
-        args.sortingExpression,
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          args.filterExpression,
+          args.sortingExpression,
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -521,13 +547,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Adds a new StudyScope and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewStudyScope")]
+    [EvaluateBearerToken("store-AddNewStudyScope")]
     [HttpPost("addNewStudyScope"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewStudyScope), Description = "Adds a new StudyScope and returns its primary identifier (or null on failure).")]
     public AddNewStudyScopeResponse AddNewStudyScope([FromBody][SwaggerRequestBody(Required = true)] AddNewStudyScopeRequest args) {
       try {
         var response = new AddNewStudyScopeResponse();
         response.@return = _StudyScopes.AddNewStudyScope(
-        args.studyScope
+          args.studyScope
         );
         return response;
       }
@@ -539,13 +566,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyScope addressed by the primary identifier fields within the given StudyScope. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyScope")]
+    [EvaluateBearerToken("store-UpdateStudyScope")]
     [HttpPost("updateStudyScope"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateStudyScope), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyScope addressed by the primary identifier fields within the given StudyScope. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyScopeResponse UpdateStudyScope([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyScopeRequest args) {
       try {
         var response = new UpdateStudyScopeResponse();
         response.@return = _StudyScopes.UpdateStudyScope(
-        args.studyScope
+          args.studyScope
         );
         return response;
       }
@@ -557,38 +585,40 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyScopeByStudyScopeIdentity")]
-    [HttpPost("updateStudyScopeByStudyScopeIdentity"), Produces("application/json")]
-    public UpdateStudyScopeByStudyScopeIdentityResponse UpdateStudyScopeByStudyScopeIdentity([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyScopeByStudyScopeIdentityRequest args) {
+    [EvaluateBearerToken("store-UpdateStudyScopeByResearchStudyUid")]
+    [HttpPost("updateStudyScopeByResearchStudyUid"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateStudyScopeByResearchStudyUid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public UpdateStudyScopeByResearchStudyUidResponse UpdateStudyScopeByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyScopeByResearchStudyUidRequest args) {
       try {
-        var response = new UpdateStudyScopeByStudyScopeIdentityResponse();
-        response.@return = _StudyScopes.UpdateStudyScopeByStudyScopeIdentity(
-        args.studyScopeIdentity,
-        args.studyScope
+        var response = new UpdateStudyScopeByResearchStudyUidResponse();
+        response.@return = _StudyScopes.UpdateStudyScopeByResearchStudyUid(
+          args.researchStudyUid,
+          args.studyScope
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new UpdateStudyScopeByStudyScopeIdentityResponse { fault = ex.Message };
+        return new UpdateStudyScopeByResearchStudyUidResponse { fault = ex.Message };
       }
     }
     
     /// <summary> Deletes a specific StudyScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteStudyScopeByStudyScopeIdentity")]
-    [HttpPost("deleteStudyScopeByStudyScopeIdentity"), Produces("application/json")]
-    public DeleteStudyScopeByStudyScopeIdentityResponse DeleteStudyScopeByStudyScopeIdentity([FromBody][SwaggerRequestBody(Required = true)] DeleteStudyScopeByStudyScopeIdentityRequest args) {
+    [EvaluateBearerToken("store-DeleteStudyScopeByResearchStudyUid")]
+    [HttpPost("deleteStudyScopeByResearchStudyUid"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteStudyScopeByResearchStudyUid), Description = "Deletes a specific StudyScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
+    public DeleteStudyScopeByResearchStudyUidResponse DeleteStudyScopeByResearchStudyUid([FromBody][SwaggerRequestBody(Required = true)] DeleteStudyScopeByResearchStudyUidRequest args) {
       try {
-        var response = new DeleteStudyScopeByStudyScopeIdentityResponse();
-        response.@return = _StudyScopes.DeleteStudyScopeByStudyScopeIdentity(
-        args.studyScopeIdentity
+        var response = new DeleteStudyScopeByResearchStudyUidResponse();
+        response.@return = _StudyScopes.DeleteStudyScopeByResearchStudyUid(
+          args.researchStudyUid
         );
         return response;
       }
       catch (Exception ex) {
         _Logger.LogCritical(ex, ex.Message);
-        return new DeleteStudyScopeByStudyScopeIdentityResponse { fault = ex.Message };
+        return new DeleteStudyScopeByResearchStudyUidResponse { fault = ex.Message };
       }
     }
     
@@ -597,7 +627,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/subjectAddresses")]
-  public partial class SubjectAddressesController : ControllerBase {
+  public class SubjectAddressesController : ControllerBase {
     
     private readonly ILogger<SubjectAddressesController> _Logger;
     private readonly ISubjectAddresses _SubjectAddresses;
@@ -609,13 +639,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads a specific SubjectAddress addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetSubjectAddressByInternalRecordId")]
+    [EvaluateBearerToken("store-GetSubjectAddressByInternalRecordId")]
     [HttpPost("getSubjectAddressByInternalRecordId"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetSubjectAddressByInternalRecordId), Description = "Loads a specific SubjectAddress addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetSubjectAddressByInternalRecordIdResponse GetSubjectAddressByInternalRecordId([FromBody][SwaggerRequestBody(Required = true)] GetSubjectAddressByInternalRecordIdRequest args) {
       try {
         var response = new GetSubjectAddressByInternalRecordIdResponse();
         response.@return = _SubjectAddresses.GetSubjectAddressByInternalRecordId(
-        args.internalRecordId
+          args.internalRecordId
         );
         return response;
       }
@@ -627,14 +658,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads SubjectAddresses. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetSubjectAddresses")]
+    [EvaluateBearerToken("store-GetSubjectAddresses")]
     [HttpPost("getSubjectAddresses"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetSubjectAddresses), Description = "Loads SubjectAddresses.")]
     public GetSubjectAddressesResponse GetSubjectAddresses([FromBody][SwaggerRequestBody(Required = true)] GetSubjectAddressesRequest args) {
       try {
         var response = new GetSubjectAddressesResponse();
         response.@return = _SubjectAddresses.GetSubjectAddresses(
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -646,16 +678,17 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads SubjectAddresses where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchSubjectAddresses")]
+    [EvaluateBearerToken("store-SearchSubjectAddresses")]
     [HttpPost("searchSubjectAddresses"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchSubjectAddresses), Description = "Loads SubjectAddresses where values matching to the given filterExpression")]
     public SearchSubjectAddressesResponse SearchSubjectAddresses([FromBody][SwaggerRequestBody(Required = true)] SearchSubjectAddressesRequest args) {
       try {
         var response = new SearchSubjectAddressesResponse();
         response.@return = _SubjectAddresses.SearchSubjectAddresses(
-        args.filterExpression,
-        args.sortingExpression,
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          args.filterExpression,
+          args.sortingExpression,
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -667,13 +700,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Adds a new SubjectAddress and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewSubjectAddress")]
+    [EvaluateBearerToken("store-AddNewSubjectAddress")]
     [HttpPost("addNewSubjectAddress"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewSubjectAddress), Description = "Adds a new SubjectAddress and returns its primary identifier (or null on failure).")]
     public AddNewSubjectAddressResponse AddNewSubjectAddress([FromBody][SwaggerRequestBody(Required = true)] AddNewSubjectAddressRequest args) {
       try {
         var response = new AddNewSubjectAddressResponse();
         response.@return = _SubjectAddresses.AddNewSubjectAddress(
-        args.subjectAddress
+          args.subjectAddress
         );
         return response;
       }
@@ -685,13 +719,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectAddress addressed by the primary identifier fields within the given SubjectAddress. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateSubjectAddress")]
+    [EvaluateBearerToken("store-UpdateSubjectAddress")]
     [HttpPost("updateSubjectAddress"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateSubjectAddress), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SubjectAddress addressed by the primary identifier fields within the given SubjectAddress. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateSubjectAddressResponse UpdateSubjectAddress([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectAddressRequest args) {
       try {
         var response = new UpdateSubjectAddressResponse();
         response.@return = _SubjectAddresses.UpdateSubjectAddress(
-        args.subjectAddress
+          args.subjectAddress
         );
         return response;
       }
@@ -703,14 +738,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectAddress addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateSubjectAddressByInternalRecordId")]
+    [EvaluateBearerToken("store-UpdateSubjectAddressByInternalRecordId")]
     [HttpPost("updateSubjectAddressByInternalRecordId"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateSubjectAddressByInternalRecordId), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SubjectAddress addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateSubjectAddressByInternalRecordIdResponse UpdateSubjectAddressByInternalRecordId([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectAddressByInternalRecordIdRequest args) {
       try {
         var response = new UpdateSubjectAddressByInternalRecordIdResponse();
         response.@return = _SubjectAddresses.UpdateSubjectAddressByInternalRecordId(
-        args.internalRecordId,
-        args.subjectAddress
+          args.internalRecordId,
+          args.subjectAddress
         );
         return response;
       }
@@ -722,13 +758,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Deletes a specific SubjectAddress addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteSubjectAddressByInternalRecordId")]
+    [EvaluateBearerToken("store-DeleteSubjectAddressByInternalRecordId")]
     [HttpPost("deleteSubjectAddressByInternalRecordId"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteSubjectAddressByInternalRecordId), Description = "Deletes a specific SubjectAddress addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteSubjectAddressByInternalRecordIdResponse DeleteSubjectAddressByInternalRecordId([FromBody][SwaggerRequestBody(Required = true)] DeleteSubjectAddressByInternalRecordIdRequest args) {
       try {
         var response = new DeleteSubjectAddressByInternalRecordIdResponse();
         response.@return = _SubjectAddresses.DeleteSubjectAddressByInternalRecordId(
-        args.internalRecordId
+          args.internalRecordId
         );
         return response;
       }
@@ -743,7 +780,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/subjectIdentities")]
-  public partial class SubjectIdentitiesController : ControllerBase {
+  public class SubjectIdentitiesController : ControllerBase {
     
     private readonly ILogger<SubjectIdentitiesController> _Logger;
     private readonly ISubjectIdentities _SubjectIdentities;
@@ -755,13 +792,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads a specific SubjectIdentity addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetSubjectIdentityByRecordId")]
+    [EvaluateBearerToken("store-GetSubjectIdentityByRecordId")]
     [HttpPost("getSubjectIdentityByRecordId"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetSubjectIdentityByRecordId), Description = "Loads a specific SubjectIdentity addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetSubjectIdentityByRecordIdResponse GetSubjectIdentityByRecordId([FromBody][SwaggerRequestBody(Required = true)] GetSubjectIdentityByRecordIdRequest args) {
       try {
         var response = new GetSubjectIdentityByRecordIdResponse();
         response.@return = _SubjectIdentities.GetSubjectIdentityByRecordId(
-        args.recordId
+          args.recordId
         );
         return response;
       }
@@ -773,14 +811,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads SubjectIdentities. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetSubjectIdentities")]
+    [EvaluateBearerToken("store-GetSubjectIdentities")]
     [HttpPost("getSubjectIdentities"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(GetSubjectIdentities), Description = "Loads SubjectIdentities.")]
     public GetSubjectIdentitiesResponse GetSubjectIdentities([FromBody][SwaggerRequestBody(Required = true)] GetSubjectIdentitiesRequest args) {
       try {
         var response = new GetSubjectIdentitiesResponse();
         response.@return = _SubjectIdentities.GetSubjectIdentities(
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -792,16 +831,17 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Loads SubjectIdentities where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchSubjectIdentities")]
+    [EvaluateBearerToken("store-SearchSubjectIdentities")]
     [HttpPost("searchSubjectIdentities"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(SearchSubjectIdentities), Description = "Loads SubjectIdentities where values matching to the given filterExpression")]
     public SearchSubjectIdentitiesResponse SearchSubjectIdentities([FromBody][SwaggerRequestBody(Required = true)] SearchSubjectIdentitiesRequest args) {
       try {
         var response = new SearchSubjectIdentitiesResponse();
         response.@return = _SubjectIdentities.SearchSubjectIdentities(
-        args.filterExpression,
-        args.sortingExpression,
-        (args.page.HasValue ? args.page.Value : 1),
-        (args.pageSize.HasValue ? args.pageSize.Value : 20)
+          args.filterExpression,
+          args.sortingExpression,
+          (args.page.HasValue ? args.page.Value : 1),
+          (args.pageSize.HasValue ? args.pageSize.Value : 20)
         );
         return response;
       }
@@ -813,13 +853,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Adds a new SubjectIdentity and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewSubjectIdentity")]
+    [EvaluateBearerToken("store-AddNewSubjectIdentity")]
     [HttpPost("addNewSubjectIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(AddNewSubjectIdentity), Description = "Adds a new SubjectIdentity and returns its primary identifier (or null on failure).")]
     public AddNewSubjectIdentityResponse AddNewSubjectIdentity([FromBody][SwaggerRequestBody(Required = true)] AddNewSubjectIdentityRequest args) {
       try {
         var response = new AddNewSubjectIdentityResponse();
         response.@return = _SubjectIdentities.AddNewSubjectIdentity(
-        args.subjectIdentity
+          args.subjectIdentity
         );
         return response;
       }
@@ -831,13 +872,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectIdentity addressed by the primary identifier fields within the given SubjectIdentity. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateSubjectIdentity")]
+    [EvaluateBearerToken("store-UpdateSubjectIdentity")]
     [HttpPost("updateSubjectIdentity"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateSubjectIdentity), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SubjectIdentity addressed by the primary identifier fields within the given SubjectIdentity. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateSubjectIdentityResponse UpdateSubjectIdentity([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectIdentityRequest args) {
       try {
         var response = new UpdateSubjectIdentityResponse();
         response.@return = _SubjectIdentities.UpdateSubjectIdentity(
-        args.subjectIdentity
+          args.subjectIdentity
         );
         return response;
       }
@@ -849,14 +891,15 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectIdentity addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateSubjectIdentityByRecordId")]
+    [EvaluateBearerToken("store-UpdateSubjectIdentityByRecordId")]
     [HttpPost("updateSubjectIdentityByRecordId"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(UpdateSubjectIdentityByRecordId), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given SubjectIdentity addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateSubjectIdentityByRecordIdResponse UpdateSubjectIdentityByRecordId([FromBody][SwaggerRequestBody(Required = true)] UpdateSubjectIdentityByRecordIdRequest args) {
       try {
         var response = new UpdateSubjectIdentityByRecordIdResponse();
         response.@return = _SubjectIdentities.UpdateSubjectIdentityByRecordId(
-        args.recordId,
-        args.subjectIdentity
+          args.recordId,
+          args.subjectIdentity
         );
         return response;
       }
@@ -868,13 +911,14 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     
     /// <summary> Deletes a specific SubjectIdentity addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteSubjectIdentityByRecordId")]
+    [EvaluateBearerToken("store-DeleteSubjectIdentityByRecordId")]
     [HttpPost("deleteSubjectIdentityByRecordId"), Produces("application/json")]
+    [SwaggerOperation(OperationId = nameof(DeleteSubjectIdentityByRecordId), Description = "Deletes a specific SubjectIdentity addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteSubjectIdentityByRecordIdResponse DeleteSubjectIdentityByRecordId([FromBody][SwaggerRequestBody(Required = true)] DeleteSubjectIdentityByRecordIdRequest args) {
       try {
         var response = new DeleteSubjectIdentityByRecordIdResponse();
         response.@return = _SubjectIdentities.DeleteSubjectIdentityByRecordId(
-        args.recordId
+          args.recordId
         );
         return response;
       }

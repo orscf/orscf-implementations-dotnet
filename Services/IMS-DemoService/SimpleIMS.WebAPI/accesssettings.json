@@ -1,15 +1,32 @@
 {
   "SubjectProfiles": [
     {
+      "SubjectName": "(public)",
+      "SubjectTitle": "(public)",
+      "AllowedHosts": [ "*" ],
+      "DefaultApiPermissions": [ "ImsApiInfo" ]
+    },
+    {
       "SubjectName": "orscf-demo-accessor",
       "SubjectTitle": "ORSCF Demo Accessor",
       "Disabled": false,
       "AllowedHosts": [ "*" ],
-      "Permissions": [ "store-Get-*", "store-Search-*", "store-AddNew-*", "store-Update-*", "store-Delete-*" ],
-      "ScopeToExecutingInstituteIdentifier": "INSTY",
-      "ScopeToStudyIdentifier": "*"
+      "DefaultApiPermissions": [
+        "Pseudonymization",
+        "store-Get-*",
+        "store-Search-*",
+        "store-AddNew-*",
+        "store-Update-*",
+        "store-Delete-*"
+      ],
+      "DefaultDataAccessClearances": {
+        "Site": "74522473-A6F9-D482-4955-73E7A7F2F9A1",
+        "Study": "C509851A-8EAE-77B2-40C0-FFD0032D63CD"
+      }
     }
   ],
   "JwtSignKey": "innovate",
-  "JwtAllowedIssuers": [ "orscf" ]
+  "JwtAllowedIssuers": [ "orscf" ],
+  "ApplyApiPermissionsFromJwtScope": true,
+  "ApplyDataAccessClearancesFromJwtScope": true
 }

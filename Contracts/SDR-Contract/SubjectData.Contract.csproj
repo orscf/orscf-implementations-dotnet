@@ -7,8 +7,8 @@
     <Product>Open Research Study Communication Format</Product>
     <Authors>ORSCF.org</Authors>
     <Copyright>ORSCF.org</Copyright>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <Version>0.1.0</Version>
+    <AssemblyVersion>1.7.0.0</AssemblyVersion>
+    <Version>1.7.0</Version>
     <AssemblyName>ORSCF.SubjectData.Contract</AssemblyName>
     <RootNamespace>MedicalResearch.SubjectData</RootNamespace>
   </PropertyGroup>

@@ -12,13 +12,25 @@ namespace MedicalResearch.IdentityManagement.Persistence.EF {
     static IdentityManagementDbContext() {
 
       EntityAccessControl.RegisterPropertyAsAccessControlClassification(
-        (StudyExecutionScopeEntity e) => e.ExecutingInstituteIdentifier, "Institute"
+        (StudyExecutionScopeEntity e) => e.SiteUid, "Site"
       );
 
       EntityAccessControl.RegisterPropertyAsAccessControlClassification(
-        (StudyExecutionScopeEntity e) => e.StudyWorkflowName, "Study"
+        (StudyExecutionScopeEntity e) => e.ResearchStudyUid, "Study"
       );
 
+    }
+
+  }
+
+  public static class AccessControlContextExtensions {
+
+    public static bool ValidateEntityScope<TEntity>(this AccessControlContext context, TEntity entity) {
+      var filterExpression = EntityAccessControl.BuildExpressionForLocalEntity<TEntity>(context);
+      if (!filterExpression.Compile().Invoke(entity)) {
+        return false;
+      }
+      return true;
     }
 
   }

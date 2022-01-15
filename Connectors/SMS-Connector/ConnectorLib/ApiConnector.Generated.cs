@@ -1,8 +1,9 @@
 ﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
 
-using MedicalResearch.StudyManagement.InstituteRegistry;
+using MedicalResearch.StudyManagement.InstituteMgmt;
 using MedicalResearch.StudyManagement.Model;
 using MedicalResearch.StudyManagement.SiteParticipation;
+using MedicalResearch.StudyManagement.SmsApiInfo;
 using MedicalResearch.StudyManagement.StudyAccess;
 using MedicalResearch.StudyManagement.StudySetup;
 using Newtonsoft.Json;
@@ -19,18 +20,19 @@ namespace MedicalResearch.StudyManagement {
         url = url + "/";
       }
       
-      _InstituteRegistryServiceClient = new InstituteRegistryServiceClient(url + "instituteRegistryService/", apiToken);
+      _InstituteMgmtServiceClient = new InstituteMgmtServiceClient(url + "instituteMgmtService/", apiToken);
       _SiteParticipationServiceClient = new SiteParticipationServiceClient(url + "siteParticipationService/", apiToken);
+      _SmsApiInfoServiceClient = new SmsApiInfoServiceClient(url + "smsApiInfoService/", apiToken);
       _StudyAccessServiceClient = new StudyAccessServiceClient(url + "studyAccessService/", apiToken);
       _StudySetupServiceClient = new StudySetupServiceClient(url + "studySetupService/", apiToken);
       
     }
     
-    private InstituteRegistryServiceClient _InstituteRegistryServiceClient = null;
+    private InstituteMgmtServiceClient _InstituteMgmtServiceClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    public IInstituteRegistryService InstituteRegistryService {
+    public IInstituteMgmtService InstituteMgmtService {
       get {
-        return _InstituteRegistryServiceClient;
+        return _InstituteMgmtServiceClient;
       }
     }
     
@@ -39,6 +41,14 @@ namespace MedicalResearch.StudyManagement {
     public ISiteParticipationService SiteParticipationService {
       get {
         return _SiteParticipationServiceClient;
+      }
+    }
+    
+    private SmsApiInfoServiceClient _SmsApiInfoServiceClient = null;
+    /// <summary> Provides interoperability information for the current implementation </summary>
+    public ISmsApiInfoService SmsApiInfoService {
+      get {
+        return _SmsApiInfoServiceClient;
       }
     }
     
@@ -60,15 +70,15 @@ namespace MedicalResearch.StudyManagement {
     
   }
   
-  namespace InstituteRegistry {
+  namespace InstituteMgmt {
     
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    internal partial class InstituteRegistryServiceClient : IInstituteRegistryService {
+    internal partial class InstituteMgmtServiceClient : IInstituteMgmtService {
       
       private string _Url;
       private string _ApiToken;
       
-      public InstituteRegistryServiceClient(string url, string apiToken) {
+      public InstituteMgmtServiceClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -183,38 +193,6 @@ namespace MedicalResearch.StudyManagement {
         }
       }
       
-      /// <summary> returns the Version of the API itself, which can be used for backward compatibility within inhomogeneous infrastructures </summary>
-      public String GetApiVersion() {
-        using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "getApiVersion";
-          var args = new GetApiVersionRequest {
-          };
-          string rawRequest = JsonConvert.SerializeObject(args);
-          string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<GetApiVersionResponse>(rawResponse);
-          if(result.fault != null){
-            throw new Exception(result.fault);
-          }
-          return result.@return;
-        }
-      }
-      
-      /// <summary> returns if the authenticated accessor of the API has the permission to use this service </summary>
-      public Boolean HasAccess() {
-        using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "hasAccess";
-          var args = new HasAccessRequest {
-          };
-          string rawRequest = JsonConvert.SerializeObject(args);
-          string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<HasAccessResponse>(rawResponse);
-          if(result.fault != null){
-            throw new Exception(result.fault);
-          }
-          return result.@return;
-        }
-      }
-      
     }
     
   }
@@ -239,7 +217,31 @@ namespace MedicalResearch.StudyManagement {
         return wc;
       }
       
-      /// <summary> returns the Version of the API itself, which can be used for backward compatibility within inhomogeneous infrastructures </summary>
+    }
+    
+  }
+  
+  namespace SmsApiInfo {
+    
+    /// <summary> Provides interoperability information for the current implementation </summary>
+    internal partial class SmsApiInfoServiceClient : ISmsApiInfoService {
+      
+      private string _Url;
+      private string _ApiToken;
+      
+      public SmsApiInfoServiceClient(string url, string apiToken) {
+        _Url = url;
+        _ApiToken = apiToken;
+      }
+      
+      private WebClient CreateWebClient() {
+        var wc = new WebClient();
+        wc.Headers.Set("Authorization", _ApiToken);
+        wc.Headers.Set("Content-Type", "application/json");
+        return wc;
+      }
+      
+      /// <summary> returns the version of the ORSCF specification which is implemented by this API, (this can be used for backward compatibility within inhomogeneous infrastructures) </summary>
       public String GetApiVersion() {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getApiVersion";
@@ -255,15 +257,48 @@ namespace MedicalResearch.StudyManagement {
         }
       }
       
-      /// <summary> returns if the authenticated accessor of the API has the permission to use this service </summary>
-      public Boolean HasAccess() {
+      /// <summary> returns a list of API-features (there are several 'services' for different use cases, described by ORSCF) supported by this implementation. The following values are possible: 'InstituteMgmt', 'StudySetup', 'StudyAccess', 'SiteParticipation' </summary>
+      public String[] GetCapabilities() {
         using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "hasAccess";
-          var args = new HasAccessRequest {
+          string url = _Url + "getCapabilities";
+          var args = new GetCapabilitiesRequest {
           };
           string rawRequest = JsonConvert.SerializeObject(args);
           string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<HasAccessResponse>(rawResponse);
+          var result = JsonConvert.DeserializeObject<GetCapabilitiesResponse>(rawResponse);
+          if(result.fault != null){
+            throw new Exception(result.fault);
+          }
+          return result.@return;
+        }
+      }
+      
+      /// <summary> returns a list of available capabilities ("API:StudyAccess") and/or data-scopes ("Study:9B2C3F48-2941-2F8F-4D35-7D117D5C6F72") which are permitted for the CURRENT ACCESSOR and gives information about its 'authState', which can be: 0=auth needed / 1=authenticated / -1=auth expired / -2=auth invalid/disabled </summary>
+      public String[] GetPermittedAuthScopes(out Int32 authState) {
+        using (var webClient = this.CreateWebClient()) {
+          string url = _Url + "getPermittedAuthScopes";
+          var args = new GetPermittedAuthScopesRequest {
+          };
+          string rawRequest = JsonConvert.SerializeObject(args);
+          string rawResponse = webClient.UploadString(url, rawRequest);
+          var result = JsonConvert.DeserializeObject<GetPermittedAuthScopesResponse>(rawResponse);
+          authState = result.authState;
+          if(result.fault != null){
+            throw new Exception(result.fault);
+          }
+          return result.@return;
+        }
+      }
+      
+      /// <summary> OPTIONAL: If the authentication on the current service is mapped using tokens and should provide information about the source at this point, the login URL to be called up via browser (OAuth <see href="https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html">'CIBA-Flow'</see>) is returned here. </summary>
+      public String GetOAuthTokenRequestUrl() {
+        using (var webClient = this.CreateWebClient()) {
+          string url = _Url + "getOAuthTokenRequestUrl";
+          var args = new GetOAuthTokenRequestUrlRequest {
+          };
+          string rawRequest = JsonConvert.SerializeObject(args);
+          string rawResponse = webClient.UploadString(url, rawRequest);
+          var result = JsonConvert.DeserializeObject<GetOAuthTokenRequestUrlResponse>(rawResponse);
           if(result.fault != null){
             throw new Exception(result.fault);
           }
@@ -329,38 +364,6 @@ namespace MedicalResearch.StudyManagement {
         }
       }
       
-      /// <summary> returns the Version of the API itself, which can be used for backward compatibility within inhomogeneous infrastructures </summary>
-      public String GetApiVersion() {
-        using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "getApiVersion";
-          var args = new GetApiVersionRequest {
-          };
-          string rawRequest = JsonConvert.SerializeObject(args);
-          string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<GetApiVersionResponse>(rawResponse);
-          if(result.fault != null){
-            throw new Exception(result.fault);
-          }
-          return result.@return;
-        }
-      }
-      
-      /// <summary> returns if the authenticated accessor of the API has the permission to use this service </summary>
-      public Boolean HasAccess() {
-        using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "hasAccess";
-          var args = new HasAccessRequest {
-          };
-          string rawRequest = JsonConvert.SerializeObject(args);
-          string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<HasAccessResponse>(rawResponse);
-          if(result.fault != null){
-            throw new Exception(result.fault);
-          }
-          return result.@return;
-        }
-      }
-      
     }
     
   }
@@ -395,38 +398,6 @@ namespace MedicalResearch.StudyManagement {
           string rawRequest = JsonConvert.SerializeObject(args);
           string rawResponse = webClient.UploadString(url, rawRequest);
           var result = JsonConvert.DeserializeObject<GetStudyTitleByIdentifierResponse>(rawResponse);
-          if(result.fault != null){
-            throw new Exception(result.fault);
-          }
-          return result.@return;
-        }
-      }
-      
-      /// <summary> returns the Version of the API itself, which can be used for backward compatibility within inhomogeneous infrastructures </summary>
-      public String GetApiVersion() {
-        using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "getApiVersion";
-          var args = new GetApiVersionRequest {
-          };
-          string rawRequest = JsonConvert.SerializeObject(args);
-          string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<GetApiVersionResponse>(rawResponse);
-          if(result.fault != null){
-            throw new Exception(result.fault);
-          }
-          return result.@return;
-        }
-      }
-      
-      /// <summary> returns if the authenticated accessor of the API has the permission to use this service </summary>
-      public Boolean HasAccess() {
-        using (var webClient = this.CreateWebClient()) {
-          string url = _Url + "hasAccess";
-          var args = new HasAccessRequest {
-          };
-          string rawRequest = JsonConvert.SerializeObject(args);
-          string rawResponse = webClient.UploadString(url, rawRequest);
-          var result = JsonConvert.DeserializeObject<HasAccessResponse>(rawResponse);
           if(result.fault != null){
             throw new Exception(result.fault);
           }

@@ -1,4 +1,6 @@
-﻿using MedicalResearch.BillingData.Model;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.BillingData.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net;

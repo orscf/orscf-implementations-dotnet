@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ORSCF.VisitData.Connector</id>
-    <version>1.6.0-localbuild</version>
+    <version>1.7.0-localbuild</version>
     <title>ORSCF - VisitData Connector</title>
     <authors>ORSCF.org</authors>
     <owners>ORSCF.org</owners>
@@ -15,7 +15,7 @@
     <icon>PackageIcon.png</icon>
     <projectUrl>https://www.orscf.org</projectUrl>
     <dependencies>
-      <dependency id="ORSCF.VisitData.Contract" version="[1.6.0,1.9999]" />
+      <dependency id="ORSCF.VisitData.Contract" version="[1.7.0,1.9999]" />
     </dependencies>
   </metadata>
   <files>

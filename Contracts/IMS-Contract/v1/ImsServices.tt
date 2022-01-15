@@ -20,7 +20,7 @@
 
            // Source:
            inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\ORSCF.IdentityManagement.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.IdentityManagement.IOrscf*Service",
+           interfaceTypeNamePattern = "MedicalResearch.IdentityManagement.I*Service",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch.IdentityManagement"
@@ -31,7 +31,7 @@
              
          // DEFAULT //////////////////////////////////////////////////////////////////////////
 
-           countOfPrefixCharsToRemove = 6,
+           countOfPrefixCharsToRemove = 1,
 
            namespaceWildcardsForModelImport = new string[] { 
              "MedicalResearch.IdentityManagement.*"

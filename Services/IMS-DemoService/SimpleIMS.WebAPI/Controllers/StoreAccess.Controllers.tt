@@ -19,7 +19,7 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\bin\\ORSCF.IdentityManagement.Contract.dll"),
+           inputFile = Host.ResolvePath("..\\..\\..\\..\\(Stage)\\Bin\\ORSCF.IdentityManagement.Contract.dll"),
            interfaceTypeNamePattern = "MedicalResearch.IdentityManagement.StoreAccess.I*",
 
            requireXmlDocForNamespaces = new string[] { 
@@ -40,13 +40,16 @@
            generateSwashbuckleAttributesForControllers = true,
            generateGroupName = "StoreAccessV1",
 
-           customAttributesPerControllerMethod = "RequireBaererAuth(\"store-{O}\")",
+           customAttributesPerControllerMethod = "EvaluateBearerToken(\"store-{O}\")",
 
            fillFaultPropertyOnException = true,
            exceptionDisplay = "ex.Message", //change this into an extension-method to do some
            //                                 custom evaluation before exposing too much details
 
            routePrefix = "store/",
+           
+           removeLeadingCharCountForControllerName = 1,
+           removeTrailingCharCountForControllerName = 0,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="3.1.1" />
-    <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
+    <PackageReference Include="kGEN.Generator" Version="1.2.0.540" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
@@ -57,9 +57,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Controllers\Api.Controllers.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Api.Controllers.Generated.cs</LastGenOutput>
+    </None>
     <None Update="Controllers\StoreAccess.Controllers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StoreAccess.Controllers.Generated.cs</LastGenOutput>
+    </None>
+    <None Update="DTOs\Api.Wrappers.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Api.Wrappers.Generated.cs</LastGenOutput>
     </None>
     <None Update="DTOs\StoreAccess.Wrappers.tt">
       <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
@@ -72,10 +80,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controllers\Api.Controllers.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Api.Controllers.tt</DependentUpon>
+    </Compile>
     <Compile Update="Controllers\StoreAccess.Controllers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>StoreAccess.Controllers.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DTOs\Api.Wrappers.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Api.Wrappers.tt</DependentUpon>
     </Compile>
     <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
       <DesignTime>True</DesignTime>

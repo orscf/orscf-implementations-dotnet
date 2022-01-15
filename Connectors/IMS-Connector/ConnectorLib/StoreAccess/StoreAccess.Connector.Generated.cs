@@ -1,4 +1,6 @@
-﻿using MedicalResearch.IdentityManagement.Model;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.IdentityManagement.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -247,16 +249,16 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     }
     
     /// <summary> Loads a specific SubjectParticipation addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
-    /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
-    public SubjectParticipation GetSubjectParticipationByParticipantIdentifier(String participantIdentifier) {
+    /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
+    public SubjectParticipation GetSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "getSubjectParticipationByParticipantIdentifier";
-        var args = new GetSubjectParticipationByParticipantIdentifierRequest {
-          participantIdentifier = participantIdentifier
+        string url = _Url + "getSubjectParticipationBySubjectParticipationIdentity";
+        var args = new GetSubjectParticipationBySubjectParticipationIdentityRequest {
+          subjectParticipationIdentity = subjectParticipationIdentity
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<GetSubjectParticipationByParticipantIdentifierResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<GetSubjectParticipationBySubjectParticipationIdentityResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -345,18 +347,18 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     }
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given SubjectParticipation addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
+    /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
     /// <param name="subjectParticipation"> SubjectParticipation containing the new values (the primary identifier fields within the given SubjectParticipation will be ignored) </param>
-    public Boolean UpdateSubjectParticipationByParticipantIdentifier(String participantIdentifier, SubjectParticipation subjectParticipation) {
+    public Boolean UpdateSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity, SubjectParticipation subjectParticipation) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "updateSubjectParticipationByParticipantIdentifier";
-        var args = new UpdateSubjectParticipationByParticipantIdentifierRequest {
-          participantIdentifier = participantIdentifier,
+        string url = _Url + "updateSubjectParticipationBySubjectParticipationIdentity";
+        var args = new UpdateSubjectParticipationBySubjectParticipationIdentityRequest {
+          subjectParticipationIdentity = subjectParticipationIdentity,
           subjectParticipation = subjectParticipation
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<UpdateSubjectParticipationByParticipantIdentifierResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<UpdateSubjectParticipationBySubjectParticipationIdentityResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -365,16 +367,16 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     }
     
     /// <summary> Deletes a specific SubjectParticipation addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="participantIdentifier"> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) </param>
-    public Boolean DeleteSubjectParticipationByParticipantIdentifier(String participantIdentifier) {
+    /// <param name="subjectParticipationIdentity"> Composite Key, which represents the primary identity of a SubjectParticipation </param>
+    public Boolean DeleteSubjectParticipationBySubjectParticipationIdentity(SubjectParticipationIdentity subjectParticipationIdentity) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "deleteSubjectParticipationByParticipantIdentifier";
-        var args = new DeleteSubjectParticipationByParticipantIdentifierRequest {
-          participantIdentifier = participantIdentifier
+        string url = _Url + "deleteSubjectParticipationBySubjectParticipationIdentity";
+        var args = new DeleteSubjectParticipationBySubjectParticipationIdentityRequest {
+          subjectParticipationIdentity = subjectParticipationIdentity
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<DeleteSubjectParticipationByParticipantIdentifierResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<DeleteSubjectParticipationBySubjectParticipationIdentityResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -559,16 +561,16 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     }
     
     /// <summary> Loads a specific StudyScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
-    /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
-    public StudyScope GetStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity) {
+    /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
+    public StudyScope GetStudyScopeByResearchStudyUid(Guid researchStudyUid) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "getStudyScopeByStudyScopeIdentity";
-        var args = new GetStudyScopeByStudyScopeIdentityRequest {
-          studyScopeIdentity = studyScopeIdentity
+        string url = _Url + "getStudyScopeByResearchStudyUid";
+        var args = new GetStudyScopeByResearchStudyUidRequest {
+          researchStudyUid = researchStudyUid
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<GetStudyScopeByStudyScopeIdentityResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<GetStudyScopeByResearchStudyUidResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -657,18 +659,18 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     }
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
+    /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
     /// <param name="studyScope"> StudyScope containing the new values (the primary identifier fields within the given StudyScope will be ignored) </param>
-    public Boolean UpdateStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity, StudyScope studyScope) {
+    public Boolean UpdateStudyScopeByResearchStudyUid(Guid researchStudyUid, StudyScope studyScope) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "updateStudyScopeByStudyScopeIdentity";
-        var args = new UpdateStudyScopeByStudyScopeIdentityRequest {
-          studyScopeIdentity = studyScopeIdentity,
+        string url = _Url + "updateStudyScopeByResearchStudyUid";
+        var args = new UpdateStudyScopeByResearchStudyUidRequest {
+          researchStudyUid = researchStudyUid,
           studyScope = studyScope
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<UpdateStudyScopeByStudyScopeIdentityResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<UpdateStudyScopeByResearchStudyUidResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }
@@ -677,16 +679,16 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     }
     
     /// <summary> Deletes a specific StudyScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
-    /// <param name="studyScopeIdentity"> Composite Key, which represents the primary identity of a StudyScope </param>
-    public Boolean DeleteStudyScopeByStudyScopeIdentity(StudyScopeIdentity studyScopeIdentity) {
+    /// <param name="researchStudyUid"> the official invariant name of the study as given by the sponsor </param>
+    public Boolean DeleteStudyScopeByResearchStudyUid(Guid researchStudyUid) {
       using (var webClient = this.CreateWebClient()) {
-        string url = _Url + "deleteStudyScopeByStudyScopeIdentity";
-        var args = new DeleteStudyScopeByStudyScopeIdentityRequest {
-          studyScopeIdentity = studyScopeIdentity
+        string url = _Url + "deleteStudyScopeByResearchStudyUid";
+        var args = new DeleteStudyScopeByResearchStudyUidRequest {
+          researchStudyUid = researchStudyUid
         };
         string rawRequest = JsonConvert.SerializeObject(args);
         string rawResponse = webClient.UploadString(url, rawRequest);
-        var result = JsonConvert.DeserializeObject<DeleteStudyScopeByStudyScopeIdentityResponse>(rawResponse);
+        var result = JsonConvert.DeserializeObject<DeleteStudyScopeByResearchStudyUidResponse>(rawResponse);
         if(result.fault != null){
           throw new Exception(result.fault);
         }

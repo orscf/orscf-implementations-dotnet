@@ -19,6 +19,9 @@ public class AdditionalSubjectParticipationIdentifierEntity {
   [Required]
   public String IdentifierValue { get; set; }
 
+  [Required]
+  public Guid ResearchStudyUid { get; set; } = Guid.NewGuid();
+
   [Principal]
   public virtual SubjectParticipationEntity Participation { get; set; }
 
@@ -28,12 +31,14 @@ public class AdditionalSubjectParticipationIdentifierEntity {
     ParticipantIdentifier = src.ParticipantIdentifier,
     IdentifierName = src.IdentifierName,
     IdentifierValue = src.IdentifierValue,
+    ResearchStudyUid = src.ResearchStudyUid,
   });
 
   internal static Expression<Func<AdditionalSubjectParticipationIdentifierEntity, AdditionalSubjectParticipationIdentifier>> AdditionalSubjectParticipationIdentifierSelector = ((AdditionalSubjectParticipationIdentifierEntity src) => new AdditionalSubjectParticipationIdentifier {
     ParticipantIdentifier = src.ParticipantIdentifier,
     IdentifierName = src.IdentifierName,
     IdentifierValue = src.IdentifierValue,
+    ResearchStudyUid = src.ResearchStudyUid,
   });
 
   internal void CopyContentFrom(AdditionalSubjectParticipationIdentifier source, Func<String,bool> onFixedValueChangingCallback = null){
@@ -48,6 +53,7 @@ public class AdditionalSubjectParticipationIdentifierEntity {
       }
     }
     this.IdentifierValue = source.IdentifierValue;
+    this.ResearchStudyUid = source.ResearchStudyUid;
   }
 
   internal void CopyContentTo(AdditionalSubjectParticipationIdentifier target, Func<String,bool> onFixedValueChangingCallback = null){
@@ -62,6 +68,7 @@ public class AdditionalSubjectParticipationIdentifierEntity {
       }
     }
     target.IdentifierValue = this.IdentifierValue;
+    target.ResearchStudyUid = this.ResearchStudyUid;
   }
 
 #endregion
@@ -70,17 +77,12 @@ public class AdditionalSubjectParticipationIdentifierEntity {
 
 public class SubjectParticipationEntity {
 
-  /// <summary> identity of the patient which can be a randomization or screening number (the exact semantic is defined per study) *this field has a max length of 50 </summary>
+  /// <summary> pseudonym of the patient which can be a randomization or screening number (the exact semantic is defined per study) *this field has a max length of 50 </summary>
   [MaxLength(50), Required]
   public String ParticipantIdentifier { get; set; }
 
-  /// <summary> *this field has a max length of 100 </summary>
-  [MaxLength(100), Required]
-  public String StudyWorkflowName { get; set; }
-
-  /// <summary> *this field has a max length of 20 </summary>
-  [MaxLength(20), Required]
-  public String StudyWorkflowVersion { get; set; }
+  [Required]
+  public Guid ResearchStudyUid { get; set; } = Guid.NewGuid();
 
   [Required]
   public DateTime CreationDateUtc { get; set; }
@@ -107,8 +109,7 @@ public class SubjectParticipationEntity {
 
   internal static Expression<Func<SubjectParticipation, SubjectParticipationEntity>> SubjectParticipationEntitySelector = ((SubjectParticipation src) => new SubjectParticipationEntity {
     ParticipantIdentifier = src.ParticipantIdentifier,
-    StudyWorkflowName = src.StudyWorkflowName,
-    StudyWorkflowVersion = src.StudyWorkflowVersion,
+    ResearchStudyUid = src.ResearchStudyUid,
     CreationDateUtc = src.CreationDateUtc,
     CreatedForStudyExecutionIdentifier = src.CreatedForStudyExecutionIdentifier,
     SubjectIdentityRecordId = src.SubjectIdentityRecordId,
@@ -116,8 +117,7 @@ public class SubjectParticipationEntity {
 
   internal static Expression<Func<SubjectParticipationEntity, SubjectParticipation>> SubjectParticipationSelector = ((SubjectParticipationEntity src) => new SubjectParticipation {
     ParticipantIdentifier = src.ParticipantIdentifier,
-    StudyWorkflowName = src.StudyWorkflowName,
-    StudyWorkflowVersion = src.StudyWorkflowVersion,
+    ResearchStudyUid = src.ResearchStudyUid,
     CreationDateUtc = src.CreationDateUtc,
     CreatedForStudyExecutionIdentifier = src.CreatedForStudyExecutionIdentifier,
     SubjectIdentityRecordId = src.SubjectIdentityRecordId,
@@ -125,8 +125,7 @@ public class SubjectParticipationEntity {
 
   internal void CopyContentFrom(SubjectParticipation source, Func<String,bool> onFixedValueChangingCallback = null){
     this.ParticipantIdentifier = source.ParticipantIdentifier;
-    this.StudyWorkflowName = source.StudyWorkflowName;
-    this.StudyWorkflowVersion = source.StudyWorkflowVersion;
+    this.ResearchStudyUid = source.ResearchStudyUid;
     this.CreationDateUtc = source.CreationDateUtc;
     this.CreatedForStudyExecutionIdentifier = source.CreatedForStudyExecutionIdentifier;
     this.SubjectIdentityRecordId = source.SubjectIdentityRecordId;
@@ -134,8 +133,7 @@ public class SubjectParticipationEntity {
 
   internal void CopyContentTo(SubjectParticipation target, Func<String,bool> onFixedValueChangingCallback = null){
     target.ParticipantIdentifier = this.ParticipantIdentifier;
-    target.StudyWorkflowName = this.StudyWorkflowName;
-    target.StudyWorkflowVersion = this.StudyWorkflowVersion;
+    target.ResearchStudyUid = this.ResearchStudyUid;
     target.CreationDateUtc = this.CreationDateUtc;
     target.CreatedForStudyExecutionIdentifier = this.CreatedForStudyExecutionIdentifier;
     target.SubjectIdentityRecordId = this.SubjectIdentityRecordId;
@@ -153,15 +151,10 @@ public class StudyExecutionScopeEntity {
 
   /// <summary> the institute which is executing the study (this should be an invariant technical representation of the company name or a guid) </summary>
   [Required]
-  public String ExecutingInstituteIdentifier { get; set; }
+  public Guid SiteUid { get; set; }
 
-  /// <summary> *this field has a max length of 100 </summary>
-  [MaxLength(100), Required]
-  public String StudyWorkflowName { get; set; }
-
-  /// <summary> *this field has a max length of 20 </summary>
-  [MaxLength(20), Required]
-  public String StudyWorkflowVersion { get; set; }
+  [Required]
+  public Guid ResearchStudyUid { get; set; }
 
   [Principal]
   public virtual StudyScopeEntity StudyScope { get; set; }
@@ -173,30 +166,26 @@ public class StudyExecutionScopeEntity {
 
   internal static Expression<Func<StudyExecutionScope, StudyExecutionScopeEntity>> StudyExecutionScopeEntitySelector = ((StudyExecutionScope src) => new StudyExecutionScopeEntity {
     StudyExecutionIdentifier = src.StudyExecutionIdentifier,
-    ExecutingInstituteIdentifier = src.ExecutingInstituteIdentifier,
-    StudyWorkflowName = src.StudyWorkflowName,
-    StudyWorkflowVersion = src.StudyWorkflowVersion,
+    SiteUid = src.SiteUid,
+    ResearchStudyUid = src.ResearchStudyUid,
   });
 
   internal static Expression<Func<StudyExecutionScopeEntity, StudyExecutionScope>> StudyExecutionScopeSelector = ((StudyExecutionScopeEntity src) => new StudyExecutionScope {
     StudyExecutionIdentifier = src.StudyExecutionIdentifier,
-    ExecutingInstituteIdentifier = src.ExecutingInstituteIdentifier,
-    StudyWorkflowName = src.StudyWorkflowName,
-    StudyWorkflowVersion = src.StudyWorkflowVersion,
+    SiteUid = src.SiteUid,
+    ResearchStudyUid = src.ResearchStudyUid,
   });
 
   internal void CopyContentFrom(StudyExecutionScope source, Func<String,bool> onFixedValueChangingCallback = null){
     this.StudyExecutionIdentifier = source.StudyExecutionIdentifier;
-    this.ExecutingInstituteIdentifier = source.ExecutingInstituteIdentifier;
-    this.StudyWorkflowName = source.StudyWorkflowName;
-    this.StudyWorkflowVersion = source.StudyWorkflowVersion;
+    this.SiteUid = source.SiteUid;
+    this.ResearchStudyUid = source.ResearchStudyUid;
   }
 
   internal void CopyContentTo(StudyExecutionScope target, Func<String,bool> onFixedValueChangingCallback = null){
     target.StudyExecutionIdentifier = this.StudyExecutionIdentifier;
-    target.ExecutingInstituteIdentifier = this.ExecutingInstituteIdentifier;
-    target.StudyWorkflowName = this.StudyWorkflowName;
-    target.StudyWorkflowVersion = this.StudyWorkflowVersion;
+    target.SiteUid = this.SiteUid;
+    target.ResearchStudyUid = this.ResearchStudyUid;
   }
 
 #endregion
@@ -205,17 +194,21 @@ public class StudyExecutionScopeEntity {
 
 public class StudyScopeEntity {
 
-  /// <summary> the official invariant name of the study as given by the sponsor *this field has a max length of 100 </summary>
-  [FixedAfterCreation, MaxLength(100), Required]
-  public String StudyWorkflowName { get; set; }
-
-  /// <summary> version of the workflow *this field has a max length of 20 </summary>
-  [FixedAfterCreation, MaxLength(20), Required]
-  public String StudyWorkflowVersion { get; set; }
+  /// <summary> the official invariant name of the study as given by the sponsor </summary>
+  [FixedAfterCreation, Required]
+  public Guid ResearchStudyUid { get; set; } = Guid.NewGuid();
 
   /// <summary> for example "Screening-Number" or "Randomization-Number" </summary>
   [Required]
   public String ParticipantIdentifierSemantic { get; set; }
+
+  /// <summary> *this field has a max length of 100 </summary>
+  [MaxLength(100), Required]
+  public String StudyWorkflowName { get; set; }
+
+  /// <summary> *this field has a max length of 20 </summary>
+  [MaxLength(20), Required]
+  public String StudyWorkflowVersion { get; set; }
 
   [Dependent]
   public virtual ObservableCollection<StudyExecutionScopeEntity> ExecutionScopes { get; set; } = new ObservableCollection<StudyExecutionScopeEntity>();
@@ -226,43 +219,39 @@ public class StudyScopeEntity {
 #region Mapping
 
   internal static Expression<Func<StudyScope, StudyScopeEntity>> StudyScopeEntitySelector = ((StudyScope src) => new StudyScopeEntity {
+    ResearchStudyUid = src.ResearchStudyUid,
+    ParticipantIdentifierSemantic = src.ParticipantIdentifierSemantic,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
-    ParticipantIdentifierSemantic = src.ParticipantIdentifierSemantic,
   });
 
   internal static Expression<Func<StudyScopeEntity, StudyScope>> StudyScopeSelector = ((StudyScopeEntity src) => new StudyScope {
+    ResearchStudyUid = src.ResearchStudyUid,
+    ParticipantIdentifierSemantic = src.ParticipantIdentifierSemantic,
     StudyWorkflowName = src.StudyWorkflowName,
     StudyWorkflowVersion = src.StudyWorkflowVersion,
-    ParticipantIdentifierSemantic = src.ParticipantIdentifierSemantic,
   });
 
   internal void CopyContentFrom(StudyScope source, Func<String,bool> onFixedValueChangingCallback = null){
-    if(!Equals(source.StudyWorkflowName, this.StudyWorkflowName)){
-      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(StudyWorkflowName))){
-        this.StudyWorkflowName = source.StudyWorkflowName;
-      }
-    }
-    if(!Equals(source.StudyWorkflowVersion, this.StudyWorkflowVersion)){
-      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(StudyWorkflowVersion))){
-        this.StudyWorkflowVersion = source.StudyWorkflowVersion;
+    if(!Equals(source.ResearchStudyUid, this.ResearchStudyUid)){
+      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(ResearchStudyUid))){
+        this.ResearchStudyUid = source.ResearchStudyUid;
       }
     }
     this.ParticipantIdentifierSemantic = source.ParticipantIdentifierSemantic;
+    this.StudyWorkflowName = source.StudyWorkflowName;
+    this.StudyWorkflowVersion = source.StudyWorkflowVersion;
   }
 
   internal void CopyContentTo(StudyScope target, Func<String,bool> onFixedValueChangingCallback = null){
-    if(!Equals(target.StudyWorkflowName, this.StudyWorkflowName)){
-      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(StudyWorkflowName))){
-        target.StudyWorkflowName = this.StudyWorkflowName;
-      }
-    }
-    if(!Equals(target.StudyWorkflowVersion, this.StudyWorkflowVersion)){
-      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(StudyWorkflowVersion))){
-        target.StudyWorkflowVersion = this.StudyWorkflowVersion;
+    if(!Equals(target.ResearchStudyUid, this.ResearchStudyUid)){
+      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(ResearchStudyUid))){
+        target.ResearchStudyUid = this.ResearchStudyUid;
       }
     }
     target.ParticipantIdentifierSemantic = this.ParticipantIdentifierSemantic;
+    target.StudyWorkflowName = this.StudyWorkflowName;
+    target.StudyWorkflowVersion = this.StudyWorkflowVersion;
   }
 
 #endregion

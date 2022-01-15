@@ -1,4 +1,6 @@
-﻿using MedicalResearch.VisitData.Model;
+﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
+
+using MedicalResearch.VisitData.Model;
 using Newtonsoft.Json;
 using System;
 using System.Net;

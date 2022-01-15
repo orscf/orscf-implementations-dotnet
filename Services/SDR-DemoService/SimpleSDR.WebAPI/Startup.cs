@@ -93,7 +93,7 @@ namespace MedicalResearch.SubjectData.WebAPI {
           new OpenApiInfo {
             Title = _ApiTitle + "-StoreAccess",
             Version = _ApiVersion.ToString(3),
-            Description = "stores data for research study subjects",
+            Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/KornSW/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
             Contact = new OpenApiContact {
               Name = "Open Research Study Communication Format",
               Email = "info@orscf.org",
@@ -107,7 +107,7 @@ namespace MedicalResearch.SubjectData.WebAPI {
           new OpenApiInfo {
             Title = _ApiTitle + "-API",
             Version = _ApiVersion.ToString(3),
-            Description = "stores data for research study subjects",
+            Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/KornSW/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
             Contact = new OpenApiContact {
               Name = "Open Research Study Communication Format",
               Email = "info@orscf.org",
