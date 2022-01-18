@@ -90,7 +90,7 @@ namespace MedicalResearch.Workflow.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of ResearchStudyDefinitions which should be returned </param>
-    public ResearchStudyDefinition[] SearchResearchStudyDefinitions(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public ResearchStudyDefinition[] SearchResearchStudyDefinitions(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchResearchStudyDefinitions";
         var args = new SearchResearchStudyDefinitionsRequest {

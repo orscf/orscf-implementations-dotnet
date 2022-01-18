@@ -48,6 +48,9 @@
 
            routePrefix = "store/",
 
+           removeLeadingCharCountForControllerName = 1,
+           removeTrailingCharCountForControllerName = 0,
+
          //////////////////////////////////////////////////////////////////////////////////////
        };
 

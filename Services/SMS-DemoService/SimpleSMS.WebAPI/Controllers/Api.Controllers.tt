@@ -48,13 +48,12 @@
 
            routePrefix = "",
 
-           //appendOwnerNameAsNamespace = true,
-           //removeLeadingCharCountForOwnerName = 1,
-           //removeTrailingCharCountForOwnerName = 0,
+           removeLeadingCharCountForControllerName = 1,
+           removeTrailingCharCountForControllerName = 7,
 
            useInterfaceTypeNameToGenerateSubNamespace = true,
            removeLeadingCharCountForSubNamespace = 1,
-           removeTrailingCharCountForSubNamespace = 0,
+           removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

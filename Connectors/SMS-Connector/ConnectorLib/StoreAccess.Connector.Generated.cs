@@ -171,7 +171,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of Institutes which should be returned </param>
-    public Institute[] SearchInstitutes(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public Institute[] SearchInstitutes(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchInstitutes";
         var args = new SearchInstitutesRequest {
@@ -327,7 +327,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of ResearchStudies which should be returned </param>
-    public ResearchStudy[] SearchResearchStudies(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public ResearchStudy[] SearchResearchStudies(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchResearchStudies";
         var args = new SearchResearchStudiesRequest {
@@ -483,7 +483,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of Sites which should be returned </param>
-    public Site[] SearchSites(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public Site[] SearchSites(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSites";
         var args = new SearchSitesRequest {
@@ -639,7 +639,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SystemEndpoints which should be returned </param>
-    public SystemEndpoint[] SearchSystemEndpoints(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SystemEndpoint[] SearchSystemEndpoints(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSystemEndpoints";
         var args = new SearchSystemEndpointsRequest {
@@ -795,7 +795,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of InstituteRelatedSystemAssignments which should be returned </param>
-    public InstituteRelatedSystemAssignment[] SearchInstituteRelatedSystemAssignments(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public InstituteRelatedSystemAssignment[] SearchInstituteRelatedSystemAssignments(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchInstituteRelatedSystemAssignments";
         var args = new SearchInstituteRelatedSystemAssignmentsRequest {
@@ -951,7 +951,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SystemConnections which should be returned </param>
-    public SystemConnection[] SearchSystemConnections(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SystemConnection[] SearchSystemConnections(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSystemConnections";
         var args = new SearchSystemConnectionsRequest {
@@ -1107,7 +1107,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of InvolvedPersons which should be returned </param>
-    public InvolvedPerson[] SearchInvolvedPersons(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public InvolvedPerson[] SearchInvolvedPersons(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchInvolvedPersons";
         var args = new SearchInvolvedPersonsRequest {
@@ -1263,7 +1263,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of InvolvementRoles which should be returned </param>
-    public InvolvementRole[] SearchInvolvementRoles(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public InvolvementRole[] SearchInvolvementRoles(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchInvolvementRoles";
         var args = new SearchInvolvementRolesRequest {
@@ -1419,7 +1419,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of StudyRelatedSystemAssignments which should be returned </param>
-    public StudyRelatedSystemAssignment[] SearchStudyRelatedSystemAssignments(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public StudyRelatedSystemAssignment[] SearchStudyRelatedSystemAssignments(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchStudyRelatedSystemAssignments";
         var args = new SearchStudyRelatedSystemAssignmentsRequest {
@@ -1575,7 +1575,7 @@ namespace MedicalResearch.StudyManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SiteRelatedSystemAssignments which should be returned </param>
-    public SiteRelatedSystemAssignment[] SearchSiteRelatedSystemAssignments(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SiteRelatedSystemAssignment[] SearchSiteRelatedSystemAssignments(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSiteRelatedSystemAssignments";
         var args = new SearchSiteRelatedSystemAssignmentsRequest {

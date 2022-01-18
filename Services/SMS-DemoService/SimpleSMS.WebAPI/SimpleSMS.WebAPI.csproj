@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="3.1.1" />
-    <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
+    <PackageReference Include="kGEN.Generator" Version="1.2.2.542" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
@@ -80,10 +80,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controllers\Api.Controllers.Custom.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Controllers\Api.Controllers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

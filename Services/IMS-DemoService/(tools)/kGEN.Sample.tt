@@ -2,7 +2,7 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ import namespace="System" #>
-<#@ output extension=".Generated.php"#>
+<#@ output extension=".Generated.ts"#>
 <#@ include file="$(SolutionDir)\(tools)\kGEN.ttinclude" once="true" #><#
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,12 +32,12 @@
            template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
            
            
-           outputLanguage = "VB",   // <- choose between: C#|VB|TS|PHP
+           outputLanguage = "TS",   // <- choose between: C#|VB|TS|PHP
            generateTypeNamesInPhp = true,
 
            indentDepthPerLevel = 2,
            codeGenInfoHeader = "Generated From {InputAssemblyVersion}\nWARNING: dont edit this code",
-           outputNamespace = "MyBusinessNamespace.WebApi",
+           outputNamespace = "",
            customImports = new String[] {
              
            },
@@ -86,9 +86,9 @@
            removeLeadingCharCountForControllerName = 1,
            removeTrailingCharCountForControllerName = 0,
 
-           useInterfaceTypeNameToGenerateSubNamespace = true,
-           removeLeadingCharCountForSubNamespace = 1,
-           removeTrailingCharCountForSubNamespace = 0,
+           //useInterfaceTypeNameToGenerateSubNamespace = true,
+           //removeLeadingCharCountForSubNamespace = 1,
+           //removeTrailingCharCountForSubNamespace = 0,
 
          // CLIENTS ///////////////////////////////////////////////////////////////////////////
 

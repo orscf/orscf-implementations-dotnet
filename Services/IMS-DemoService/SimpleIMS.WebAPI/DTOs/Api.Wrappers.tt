@@ -38,10 +38,6 @@
 
            generateFaultProperty = true,
            
-            //appendOwnerNameAsNamespace = true,
-            //removeLeadingCharCountForOwnerName = 1,
-            //removeTrailingCharCountForOwnerName = 0,
-
            useInterfaceTypeNameToGenerateSubNamespace = true,
            removeLeadingCharCountForSubNamespace = 1,
            removeTrailingCharCountForSubNamespace = 7,

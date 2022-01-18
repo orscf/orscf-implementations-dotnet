@@ -113,6 +113,7 @@ namespace MedicalResearch.SubjectData {
       }
       
       /// <summary> returns a list of available capabilities ("API:SubjectOverview") and/or data-scopes ("Study:9B2C3F48-2941-2F8F-4D35-7D117D5C6F72") which are permitted for the CURRENT ACCESSOR and gives information about its 'authState', which can be: 0=auth needed / 1=authenticated / -1=auth expired / -2=auth invalid/disabled </summary>
+      /// <param name="authState">  </param>
       public String[] GetPermittedAuthScopes(out Int32 authState) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getPermittedAuthScopes";
@@ -194,7 +195,12 @@ namespace MedicalResearch.SubjectData {
       }
       
       /// <summary> returns the null on failure or the assigned SubjectIdentifier on success </summary>
-      public String EnrollIdentityAsSubject(String researchStudyName, String siteName, DateTime dateOfEnrollment, IdentityDetails details, String preDefinedSubjectId = null) {
+      /// <param name="researchStudyName">  </param>
+      /// <param name="siteName">  </param>
+      /// <param name="dateOfEnrollment">  </param>
+      /// <param name="details">  </param>
+      /// <param name="preDefinedSubjectId">  </param>
+      public String EnrollIdentityAsSubject(string researchStudyName, string siteName, DateTime dateOfEnrollment, IdentityDetails details, string preDefinedSubjectId = null) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "enrollIdentityAsSubject";
           var args = new EnrollIdentityAsSubjectRequest {
@@ -215,7 +221,12 @@ namespace MedicalResearch.SubjectData {
       }
       
       /// <summary> UpdateIdentityInformationBySubjectId </summary>
-      public Boolean UpdateIdentityInformationBySubjectId(String researchStudyName, String subjectId, IdentityDetails newDetails, Boolean clearUnsuppliedValues = false, String newSiteName = null) {
+      /// <param name="researchStudyName">  </param>
+      /// <param name="subjectId">  </param>
+      /// <param name="newDetails">  </param>
+      /// <param name="clearUnsuppliedValues">  </param>
+      /// <param name="newSiteName">  </param>
+      public Boolean UpdateIdentityInformationBySubjectId(string researchStudyName, string subjectId, IdentityDetails newDetails, bool clearUnsuppliedValues = false, string newSiteName = null) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "updateIdentityInformationBySubjectId";
           var args = new UpdateIdentityInformationBySubjectIdRequest {
@@ -236,7 +247,9 @@ namespace MedicalResearch.SubjectData {
       }
       
       /// <summary> GetSiteNameBySubjectId </summary>
-      public String GetSiteNameBySubjectId(String researchStudyName, String subjectId) {
+      /// <param name="researchStudyName">  </param>
+      /// <param name="subjectId">  </param>
+      public String GetSiteNameBySubjectId(string researchStudyName, string subjectId) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getSiteNameBySubjectId";
           var args = new GetSiteNameBySubjectIdRequest {

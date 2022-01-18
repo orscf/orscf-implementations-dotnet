@@ -99,7 +99,7 @@ namespace MedicalResearch.SubjectData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of Subjects which should be returned </param>
-    public Subject[] SearchSubjects(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public Subject[] SearchSubjects(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSubjects";
         var args = new SearchSubjectsRequest {
@@ -255,7 +255,7 @@ namespace MedicalResearch.SubjectData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SubjectSiteAssignments which should be returned </param>
-    public SubjectSiteAssignment[] SearchSubjectSiteAssignments(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SubjectSiteAssignment[] SearchSubjectSiteAssignments(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSubjectSiteAssignments";
         var args = new SearchSubjectSiteAssignmentsRequest {

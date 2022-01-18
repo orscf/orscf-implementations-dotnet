@@ -135,7 +135,7 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of AdditionalSubjectParticipationIdentifiers which should be returned </param>
-    public AdditionalSubjectParticipationIdentifier[] SearchAdditionalSubjectParticipationIdentifiers(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public AdditionalSubjectParticipationIdentifier[] SearchAdditionalSubjectParticipationIdentifiers(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchAdditionalSubjectParticipationIdentifiers";
         var args = new SearchAdditionalSubjectParticipationIdentifiersRequest {
@@ -291,7 +291,7 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SubjectParticipations which should be returned </param>
-    public SubjectParticipation[] SearchSubjectParticipations(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SubjectParticipation[] SearchSubjectParticipations(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSubjectParticipations";
         var args = new SearchSubjectParticipationsRequest {
@@ -447,7 +447,7 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of StudyExecutionScopes which should be returned </param>
-    public StudyExecutionScope[] SearchStudyExecutionScopes(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public StudyExecutionScope[] SearchStudyExecutionScopes(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchStudyExecutionScopes";
         var args = new SearchStudyExecutionScopesRequest {
@@ -603,7 +603,7 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of StudyScopes which should be returned </param>
-    public StudyScope[] SearchStudyScopes(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public StudyScope[] SearchStudyScopes(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchStudyScopes";
         var args = new SearchStudyScopesRequest {
@@ -759,7 +759,7 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SubjectAddresses which should be returned </param>
-    public SubjectAddress[] SearchSubjectAddresses(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SubjectAddress[] SearchSubjectAddresses(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSubjectAddresses";
         var args = new SearchSubjectAddressesRequest {
@@ -915,7 +915,7 @@ namespace MedicalResearch.IdentityManagement.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of SubjectIdentities which should be returned </param>
-    public SubjectIdentity[] SearchSubjectIdentities(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public SubjectIdentity[] SearchSubjectIdentities(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchSubjectIdentities";
         var args = new SearchSubjectIdentitiesRequest {

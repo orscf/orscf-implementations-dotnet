@@ -43,7 +43,7 @@
   
   <ItemGroup>
     <PackageReference Include="EntityAnnotations" Version="2.2.0.423" />
-    <PackageReference Include="kGEN.Generator" Version="1.2.0.540" />
+    <PackageReference Include="kGEN.Generator" Version="1.2.2.542" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

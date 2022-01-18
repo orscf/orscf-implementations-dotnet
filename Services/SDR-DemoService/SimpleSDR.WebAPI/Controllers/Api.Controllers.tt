@@ -19,7 +19,7 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           inputFile = Host.ResolvePath("..\\bin\\ORSCF.SubjectData.Contract.dll"),
+           inputFile = Host.ResolvePath("..\\..\\..\\..\\(Stage)\\Bin\\ORSCF.SubjectData.Contract.dll"),
            interfaceTypeNamePattern = "MedicalResearch.SubjectData.I*",
 
            requireXmlDocForNamespaces = new string[] { 
@@ -47,6 +47,13 @@
            //                                 custom evaluation before exposing too much details
 
            routePrefix = "",
+
+           removeLeadingCharCountForControllerName = 1,
+           removeTrailingCharCountForControllerName = 7,
+
+           useInterfaceTypeNameToGenerateSubNamespace = true,
+           removeLeadingCharCountForSubNamespace = 1,
+           removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

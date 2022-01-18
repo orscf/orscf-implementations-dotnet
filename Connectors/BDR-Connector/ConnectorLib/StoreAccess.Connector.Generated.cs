@@ -126,7 +126,7 @@ namespace MedicalResearch.BillingData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of BillableTasks which should be returned </param>
-    public BillableTask[] SearchBillableTasks(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public BillableTask[] SearchBillableTasks(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchBillableTasks";
         var args = new SearchBillableTasksRequest {
@@ -282,7 +282,7 @@ namespace MedicalResearch.BillingData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of BillableVisits which should be returned </param>
-    public BillableVisit[] SearchBillableVisits(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public BillableVisit[] SearchBillableVisits(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchBillableVisits";
         var args = new SearchBillableVisitsRequest {
@@ -438,7 +438,7 @@ namespace MedicalResearch.BillingData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of StudyExecutionScopes which should be returned </param>
-    public StudyExecutionScope[] SearchStudyExecutionScopes(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public StudyExecutionScope[] SearchStudyExecutionScopes(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchStudyExecutionScopes";
         var args = new SearchStudyExecutionScopesRequest {
@@ -594,7 +594,7 @@ namespace MedicalResearch.BillingData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of BillingDemands which should be returned </param>
-    public BillingDemand[] SearchBillingDemands(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public BillingDemand[] SearchBillingDemands(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchBillingDemands";
         var args = new SearchBillingDemandsRequest {
@@ -750,7 +750,7 @@ namespace MedicalResearch.BillingData.StoreAccess {
     /// <param name="sortingExpression"> one or more property names which are used as sort order (before pagination) </param>
     /// <param name="page"> Number of the page, which should be returned </param>
     /// <param name="pageSize"> Max count of Invoices which should be returned </param>
-    public Invoice[] SearchInvoices(String filterExpression, String sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
+    public Invoice[] SearchInvoices(string filterExpression, string sortingExpression = null, Int32 page = 1, Int32 pageSize = 20) {
       using (var webClient = this.CreateWebClient()) {
         string url = _Url + "searchInvoices";
         var args = new SearchInvoicesRequest {

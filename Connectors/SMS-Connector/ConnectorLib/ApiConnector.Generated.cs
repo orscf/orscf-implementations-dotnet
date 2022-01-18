@@ -91,7 +91,8 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> GetInstituteUidByTitle </summary>
-      public Guid GetInstituteUidByTitle(String instituteTitle) {
+      /// <param name="instituteTitle">  </param>
+      public Guid GetInstituteUidByTitle(string instituteTitle) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getInstituteUidByTitle";
           var args = new GetInstituteUidByTitleRequest {
@@ -108,6 +109,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> GetInstituteTitleByUid </summary>
+      /// <param name="instituteUid">  </param>
       public String GetInstituteTitleByUid(Guid instituteUid) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getInstituteTitleByUid";
@@ -125,6 +127,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> ArchiveInstitute </summary>
+      /// <param name="instituteUid">  </param>
       public String ArchiveInstitute(Guid instituteUid) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "archiveInstitute";
@@ -142,6 +145,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> GetInstituteInfos </summary>
+      /// <param name="instituteUid">  </param>
       public String GetInstituteInfos(Guid instituteUid) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getInstituteInfos";
@@ -159,6 +163,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> ensures, that an institute with the given Uid exists and returns true, if it has been newly created </summary>
+      /// <param name="instituteUid">  </param>
       public Boolean CreateInstituteIfMissing(Guid instituteUid) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "createInstituteIfMissing";
@@ -176,7 +181,9 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> updated the title of the the institute or returns false, if there is no record for the given instituteUid </summary>
-      public Boolean UpdateInstitueTitle(Guid instituteUid, String newTitle) {
+      /// <param name="instituteUid">  </param>
+      /// <param name="newTitle">  </param>
+      public Boolean UpdateInstitueTitle(Guid instituteUid, string newTitle) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "updateInstitueTitle";
           var args = new UpdateInstitueTitleRequest {
@@ -274,6 +281,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> returns a list of available capabilities ("API:StudyAccess") and/or data-scopes ("Study:9B2C3F48-2941-2F8F-4D35-7D117D5C6F72") which are permitted for the CURRENT ACCESSOR and gives information about its 'authState', which can be: 0=auth needed / 1=authenticated / -1=auth expired / -2=auth invalid/disabled </summary>
+      /// <param name="authState">  </param>
       public String[] GetPermittedAuthScopes(out Int32 authState) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getPermittedAuthScopes";
@@ -331,6 +339,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> Subscribes the Event when the State of a Study was changed to the given "EventQueue" which is accessable via "EventQueueService" (including http notifications) </summary>
+      /// <param name="eventQueueId">  </param>
       public Boolean SubscribeStudyStateChangedEvents(Guid eventQueueId) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "subscribeStudyStateChangedEvents";
@@ -348,6 +357,7 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> Unsubscribes the Event when the State of a Study was changed for the given "EventQueue" </summary>
+      /// <param name="eventQueueId">  </param>
       public Boolean UnsubscribeStudyStateChangedEvents(Guid eventQueueId) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "unsubscribeStudyStateChangedEvents";
@@ -389,7 +399,8 @@ namespace MedicalResearch.StudyManagement {
       }
       
       /// <summary> returns null, if there is no matching record </summary>
-      public String GetStudyTitleByIdentifier(String studyIdentifier) {
+      /// <param name="studyIdentifier">  </param>
+      public String GetStudyTitleByIdentifier(string studyIdentifier) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getStudyTitleByIdentifier";
           var args = new GetStudyTitleByIdentifierRequest {

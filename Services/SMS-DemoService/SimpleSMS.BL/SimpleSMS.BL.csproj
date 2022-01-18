@@ -27,9 +27,9 @@
   <ItemGroup>
     <PackageReference Include="EntityAnnotations" Version="2.2.0.423" />
     <PackageReference Include="Hl7.Fhir.R4" Version="3.7.0" />
-    <PackageReference Include="kGEN.Generator" Version="1.0.20.459" />
+    <PackageReference Include="kGEN.Generator" Version="1.2.2.542" />
     <PackageReference Include="KornSW.DynamicRepository" Version="0.1.0.406" />
-    <PackageReference Include="KornSW.EntityFrameworkCore.DataAccessFilter" Version="1.0.1.417" />
+    <PackageReference Include="KornSW.EntityFrameworkCore.DataAccessFilter" Version="1.1.1.541" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
       <PrivateAssets>all</PrivateAssets>
