@@ -18,7 +18,7 @@ returns the version of the ORSCF specification which is implemented by this API,
 
 ## .GetCapabilities
 returns a list of API-features (there are several 'services' for different use cases, described by ORSCF)
-supported by this implementation. The following values are Possible:
+supported by this implementation. The following values are possible:
 'VisitOverview', 'VisitScheduling', 'VisitDataConsume', 'VisitDataSubmission'
 #### Parameters:
 |Name|Type|Description|

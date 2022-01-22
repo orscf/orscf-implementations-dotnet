@@ -27,7 +27,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads a specific DataRecording addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetDataRecordingByTaskGuid")]
+    [EvaluateBearerToken("store-GetDataRecordingByTaskGuid")]
     [HttpPost("getDataRecordingByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetDataRecordingByTaskGuid), Description = "Loads a specific DataRecording addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetDataRecordingByTaskGuidResponse GetDataRecordingByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] GetDataRecordingByTaskGuidRequest args) {
@@ -46,7 +46,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads DataRecordings. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetDataRecordings")]
+    [EvaluateBearerToken("store-GetDataRecordings")]
     [HttpPost("getDataRecordings"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetDataRecordings), Description = "Loads DataRecordings.")]
     public GetDataRecordingsResponse GetDataRecordings([FromBody][SwaggerRequestBody(Required = true)] GetDataRecordingsRequest args) {
@@ -66,7 +66,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads DataRecordings where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchDataRecordings")]
+    [EvaluateBearerToken("store-SearchDataRecordings")]
     [HttpPost("searchDataRecordings"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(SearchDataRecordings), Description = "Loads DataRecordings where values matching to the given filterExpression")]
     public SearchDataRecordingsResponse SearchDataRecordings([FromBody][SwaggerRequestBody(Required = true)] SearchDataRecordingsRequest args) {
@@ -88,7 +88,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Adds a new DataRecording and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewDataRecording")]
+    [EvaluateBearerToken("store-AddNewDataRecording")]
     [HttpPost("addNewDataRecording"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(AddNewDataRecording), Description = "Adds a new DataRecording and returns its primary identifier (or null on failure).")]
     public AddNewDataRecordingResponse AddNewDataRecording([FromBody][SwaggerRequestBody(Required = true)] AddNewDataRecordingRequest args) {
@@ -107,7 +107,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the primary identifier fields within the given DataRecording. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateDataRecording")]
+    [EvaluateBearerToken("store-UpdateDataRecording")]
     [HttpPost("updateDataRecording"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateDataRecording), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given DataRecording addressed by the primary identifier fields within the given DataRecording. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateDataRecordingResponse UpdateDataRecording([FromBody][SwaggerRequestBody(Required = true)] UpdateDataRecordingRequest args) {
@@ -126,7 +126,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given DataRecording addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateDataRecordingByTaskGuid")]
+    [EvaluateBearerToken("store-UpdateDataRecordingByTaskGuid")]
     [HttpPost("updateDataRecordingByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateDataRecordingByTaskGuid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given DataRecording addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateDataRecordingByTaskGuidResponse UpdateDataRecordingByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] UpdateDataRecordingByTaskGuidRequest args) {
@@ -146,7 +146,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Deletes a specific DataRecording addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteDataRecordingByTaskGuid")]
+    [EvaluateBearerToken("store-DeleteDataRecordingByTaskGuid")]
     [HttpPost("deleteDataRecordingByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(DeleteDataRecordingByTaskGuid), Description = "Deletes a specific DataRecording addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteDataRecordingByTaskGuidResponse DeleteDataRecordingByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] DeleteDataRecordingByTaskGuidRequest args) {
@@ -180,7 +180,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads a specific Visit addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetVisitByVisitGuid")]
+    [EvaluateBearerToken("store-GetVisitByVisitGuid")]
     [HttpPost("getVisitByVisitGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetVisitByVisitGuid), Description = "Loads a specific Visit addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetVisitByVisitGuidResponse GetVisitByVisitGuid([FromBody][SwaggerRequestBody(Required = true)] GetVisitByVisitGuidRequest args) {
@@ -199,7 +199,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads Visits. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetVisits")]
+    [EvaluateBearerToken("store-GetVisits")]
     [HttpPost("getVisits"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetVisits), Description = "Loads Visits.")]
     public GetVisitsResponse GetVisits([FromBody][SwaggerRequestBody(Required = true)] GetVisitsRequest args) {
@@ -219,7 +219,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads Visits where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchVisits")]
+    [EvaluateBearerToken("store-SearchVisits")]
     [HttpPost("searchVisits"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(SearchVisits), Description = "Loads Visits where values matching to the given filterExpression")]
     public SearchVisitsResponse SearchVisits([FromBody][SwaggerRequestBody(Required = true)] SearchVisitsRequest args) {
@@ -241,7 +241,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Adds a new Visit and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewVisit")]
+    [EvaluateBearerToken("store-AddNewVisit")]
     [HttpPost("addNewVisit"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(AddNewVisit), Description = "Adds a new Visit and returns its primary identifier (or null on failure).")]
     public AddNewVisitResponse AddNewVisit([FromBody][SwaggerRequestBody(Required = true)] AddNewVisitRequest args) {
@@ -260,7 +260,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the primary identifier fields within the given Visit. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateVisit")]
+    [EvaluateBearerToken("store-UpdateVisit")]
     [HttpPost("updateVisit"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateVisit), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Visit addressed by the primary identifier fields within the given Visit. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateVisitResponse UpdateVisit([FromBody][SwaggerRequestBody(Required = true)] UpdateVisitRequest args) {
@@ -279,7 +279,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given Visit addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateVisitByVisitGuid")]
+    [EvaluateBearerToken("store-UpdateVisitByVisitGuid")]
     [HttpPost("updateVisitByVisitGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateVisitByVisitGuid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Visit addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateVisitByVisitGuidResponse UpdateVisitByVisitGuid([FromBody][SwaggerRequestBody(Required = true)] UpdateVisitByVisitGuidRequest args) {
@@ -299,7 +299,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Deletes a specific Visit addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteVisitByVisitGuid")]
+    [EvaluateBearerToken("store-DeleteVisitByVisitGuid")]
     [HttpPost("deleteVisitByVisitGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(DeleteVisitByVisitGuid), Description = "Deletes a specific Visit addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteVisitByVisitGuidResponse DeleteVisitByVisitGuid([FromBody][SwaggerRequestBody(Required = true)] DeleteVisitByVisitGuidRequest args) {
@@ -333,7 +333,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads a specific DrugApplyment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetDrugApplymentByTaskGuid")]
+    [EvaluateBearerToken("store-GetDrugApplymentByTaskGuid")]
     [HttpPost("getDrugApplymentByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetDrugApplymentByTaskGuid), Description = "Loads a specific DrugApplyment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetDrugApplymentByTaskGuidResponse GetDrugApplymentByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] GetDrugApplymentByTaskGuidRequest args) {
@@ -352,7 +352,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads DrugApplyments. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetDrugApplyments")]
+    [EvaluateBearerToken("store-GetDrugApplyments")]
     [HttpPost("getDrugApplyments"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetDrugApplyments), Description = "Loads DrugApplyments.")]
     public GetDrugApplymentsResponse GetDrugApplyments([FromBody][SwaggerRequestBody(Required = true)] GetDrugApplymentsRequest args) {
@@ -372,7 +372,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads DrugApplyments where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchDrugApplyments")]
+    [EvaluateBearerToken("store-SearchDrugApplyments")]
     [HttpPost("searchDrugApplyments"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(SearchDrugApplyments), Description = "Loads DrugApplyments where values matching to the given filterExpression")]
     public SearchDrugApplymentsResponse SearchDrugApplyments([FromBody][SwaggerRequestBody(Required = true)] SearchDrugApplymentsRequest args) {
@@ -394,7 +394,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Adds a new DrugApplyment and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewDrugApplyment")]
+    [EvaluateBearerToken("store-AddNewDrugApplyment")]
     [HttpPost("addNewDrugApplyment"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(AddNewDrugApplyment), Description = "Adds a new DrugApplyment and returns its primary identifier (or null on failure).")]
     public AddNewDrugApplymentResponse AddNewDrugApplyment([FromBody][SwaggerRequestBody(Required = true)] AddNewDrugApplymentRequest args) {
@@ -413,7 +413,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the primary identifier fields within the given DrugApplyment. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateDrugApplyment")]
+    [EvaluateBearerToken("store-UpdateDrugApplyment")]
     [HttpPost("updateDrugApplyment"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateDrugApplyment), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given DrugApplyment addressed by the primary identifier fields within the given DrugApplyment. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateDrugApplymentResponse UpdateDrugApplyment([FromBody][SwaggerRequestBody(Required = true)] UpdateDrugApplymentRequest args) {
@@ -432,7 +432,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given DrugApplyment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateDrugApplymentByTaskGuid")]
+    [EvaluateBearerToken("store-UpdateDrugApplymentByTaskGuid")]
     [HttpPost("updateDrugApplymentByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateDrugApplymentByTaskGuid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given DrugApplyment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateDrugApplymentByTaskGuidResponse UpdateDrugApplymentByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] UpdateDrugApplymentByTaskGuidRequest args) {
@@ -452,7 +452,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Deletes a specific DrugApplyment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteDrugApplymentByTaskGuid")]
+    [EvaluateBearerToken("store-DeleteDrugApplymentByTaskGuid")]
     [HttpPost("deleteDrugApplymentByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(DeleteDrugApplymentByTaskGuid), Description = "Deletes a specific DrugApplyment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteDrugApplymentByTaskGuidResponse DeleteDrugApplymentByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] DeleteDrugApplymentByTaskGuidRequest args) {
@@ -486,7 +486,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads a specific StudyEvent addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyEventByEventGuid")]
+    [EvaluateBearerToken("store-GetStudyEventByEventGuid")]
     [HttpPost("getStudyEventByEventGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetStudyEventByEventGuid), Description = "Loads a specific StudyEvent addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetStudyEventByEventGuidResponse GetStudyEventByEventGuid([FromBody][SwaggerRequestBody(Required = true)] GetStudyEventByEventGuidRequest args) {
@@ -505,7 +505,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads StudyEvents. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyEvents")]
+    [EvaluateBearerToken("store-GetStudyEvents")]
     [HttpPost("getStudyEvents"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetStudyEvents), Description = "Loads StudyEvents.")]
     public GetStudyEventsResponse GetStudyEvents([FromBody][SwaggerRequestBody(Required = true)] GetStudyEventsRequest args) {
@@ -525,7 +525,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads StudyEvents where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchStudyEvents")]
+    [EvaluateBearerToken("store-SearchStudyEvents")]
     [HttpPost("searchStudyEvents"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(SearchStudyEvents), Description = "Loads StudyEvents where values matching to the given filterExpression")]
     public SearchStudyEventsResponse SearchStudyEvents([FromBody][SwaggerRequestBody(Required = true)] SearchStudyEventsRequest args) {
@@ -547,7 +547,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Adds a new StudyEvent and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewStudyEvent")]
+    [EvaluateBearerToken("store-AddNewStudyEvent")]
     [HttpPost("addNewStudyEvent"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(AddNewStudyEvent), Description = "Adds a new StudyEvent and returns its primary identifier (or null on failure).")]
     public AddNewStudyEventResponse AddNewStudyEvent([FromBody][SwaggerRequestBody(Required = true)] AddNewStudyEventRequest args) {
@@ -566,7 +566,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the primary identifier fields within the given StudyEvent. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyEvent")]
+    [EvaluateBearerToken("store-UpdateStudyEvent")]
     [HttpPost("updateStudyEvent"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateStudyEvent), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyEvent addressed by the primary identifier fields within the given StudyEvent. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyEventResponse UpdateStudyEvent([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyEventRequest args) {
@@ -585,7 +585,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyEvent addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyEventByEventGuid")]
+    [EvaluateBearerToken("store-UpdateStudyEventByEventGuid")]
     [HttpPost("updateStudyEventByEventGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateStudyEventByEventGuid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyEvent addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyEventByEventGuidResponse UpdateStudyEventByEventGuid([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyEventByEventGuidRequest args) {
@@ -605,7 +605,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Deletes a specific StudyEvent addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteStudyEventByEventGuid")]
+    [EvaluateBearerToken("store-DeleteStudyEventByEventGuid")]
     [HttpPost("deleteStudyEventByEventGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(DeleteStudyEventByEventGuid), Description = "Deletes a specific StudyEvent addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteStudyEventByEventGuidResponse DeleteStudyEventByEventGuid([FromBody][SwaggerRequestBody(Required = true)] DeleteStudyEventByEventGuidRequest args) {
@@ -639,7 +639,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyExecutionScopeByStudyExecutionIdentifier")]
+    [EvaluateBearerToken("store-GetStudyExecutionScopeByStudyExecutionIdentifier")]
     [HttpPost("getStudyExecutionScopeByStudyExecutionIdentifier"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetStudyExecutionScopeByStudyExecutionIdentifier), Description = "Loads a specific StudyExecutionScope addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetStudyExecutionScopeByStudyExecutionIdentifierResponse GetStudyExecutionScopeByStudyExecutionIdentifier([FromBody][SwaggerRequestBody(Required = true)] GetStudyExecutionScopeByStudyExecutionIdentifierRequest args) {
@@ -658,7 +658,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads StudyExecutionScopes. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetStudyExecutionScopes")]
+    [EvaluateBearerToken("store-GetStudyExecutionScopes")]
     [HttpPost("getStudyExecutionScopes"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetStudyExecutionScopes), Description = "Loads StudyExecutionScopes.")]
     public GetStudyExecutionScopesResponse GetStudyExecutionScopes([FromBody][SwaggerRequestBody(Required = true)] GetStudyExecutionScopesRequest args) {
@@ -678,7 +678,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads StudyExecutionScopes where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchStudyExecutionScopes")]
+    [EvaluateBearerToken("store-SearchStudyExecutionScopes")]
     [HttpPost("searchStudyExecutionScopes"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(SearchStudyExecutionScopes), Description = "Loads StudyExecutionScopes where values matching to the given filterExpression")]
     public SearchStudyExecutionScopesResponse SearchStudyExecutionScopes([FromBody][SwaggerRequestBody(Required = true)] SearchStudyExecutionScopesRequest args) {
@@ -700,7 +700,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Adds a new StudyExecutionScope and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewStudyExecutionScope")]
+    [EvaluateBearerToken("store-AddNewStudyExecutionScope")]
     [HttpPost("addNewStudyExecutionScope"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(AddNewStudyExecutionScope), Description = "Adds a new StudyExecutionScope and returns its primary identifier (or null on failure).")]
     public AddNewStudyExecutionScopeResponse AddNewStudyExecutionScope([FromBody][SwaggerRequestBody(Required = true)] AddNewStudyExecutionScopeRequest args) {
@@ -719,7 +719,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyExecutionScope")]
+    [EvaluateBearerToken("store-UpdateStudyExecutionScope")]
     [HttpPost("updateStudyExecutionScope"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateStudyExecutionScope), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyExecutionScope addressed by the primary identifier fields within the given StudyExecutionScope. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyExecutionScopeResponse UpdateStudyExecutionScope([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyExecutionScopeRequest args) {
@@ -738,7 +738,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateStudyExecutionScopeByStudyExecutionIdentifier")]
+    [EvaluateBearerToken("store-UpdateStudyExecutionScopeByStudyExecutionIdentifier")]
     [HttpPost("updateStudyExecutionScopeByStudyExecutionIdentifier"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateStudyExecutionScopeByStudyExecutionIdentifier), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given StudyExecutionScope addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateStudyExecutionScopeByStudyExecutionIdentifierResponse UpdateStudyExecutionScopeByStudyExecutionIdentifier([FromBody][SwaggerRequestBody(Required = true)] UpdateStudyExecutionScopeByStudyExecutionIdentifierRequest args) {
@@ -758,7 +758,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteStudyExecutionScopeByStudyExecutionIdentifier")]
+    [EvaluateBearerToken("store-DeleteStudyExecutionScopeByStudyExecutionIdentifier")]
     [HttpPost("deleteStudyExecutionScopeByStudyExecutionIdentifier"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(DeleteStudyExecutionScopeByStudyExecutionIdentifier), Description = "Deletes a specific StudyExecutionScope addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteStudyExecutionScopeByStudyExecutionIdentifierResponse DeleteStudyExecutionScopeByStudyExecutionIdentifier([FromBody][SwaggerRequestBody(Required = true)] DeleteStudyExecutionScopeByStudyExecutionIdentifierRequest args) {
@@ -792,7 +792,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads a specific Treatment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetTreatmentByTaskGuid")]
+    [EvaluateBearerToken("store-GetTreatmentByTaskGuid")]
     [HttpPost("getTreatmentByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetTreatmentByTaskGuid), Description = "Loads a specific Treatment addressed by the given primary identifier. Returns null on failure, or if no record exists with the given identity.")]
     public GetTreatmentByTaskGuidResponse GetTreatmentByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] GetTreatmentByTaskGuidRequest args) {
@@ -811,7 +811,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads Treatments. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-GetTreatments")]
+    [EvaluateBearerToken("store-GetTreatments")]
     [HttpPost("getTreatments"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(GetTreatments), Description = "Loads Treatments.")]
     public GetTreatmentsResponse GetTreatments([FromBody][SwaggerRequestBody(Required = true)] GetTreatmentsRequest args) {
@@ -831,7 +831,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Loads Treatments where values matching to the given filterExpression </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-SearchTreatments")]
+    [EvaluateBearerToken("store-SearchTreatments")]
     [HttpPost("searchTreatments"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(SearchTreatments), Description = "Loads Treatments where values matching to the given filterExpression")]
     public SearchTreatmentsResponse SearchTreatments([FromBody][SwaggerRequestBody(Required = true)] SearchTreatmentsRequest args) {
@@ -853,7 +853,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Adds a new Treatment and returns its primary identifier (or null on failure). </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-AddNewTreatment")]
+    [EvaluateBearerToken("store-AddNewTreatment")]
     [HttpPost("addNewTreatment"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(AddNewTreatment), Description = "Adds a new Treatment and returns its primary identifier (or null on failure).")]
     public AddNewTreatmentResponse AddNewTreatment([FromBody][SwaggerRequestBody(Required = true)] AddNewTreatmentRequest args) {
@@ -872,7 +872,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the primary identifier fields within the given Treatment. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateTreatment")]
+    [EvaluateBearerToken("store-UpdateTreatment")]
     [HttpPost("updateTreatment"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateTreatment), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Treatment addressed by the primary identifier fields within the given Treatment. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateTreatmentResponse UpdateTreatment([FromBody][SwaggerRequestBody(Required = true)] UpdateTreatmentRequest args) {
@@ -891,7 +891,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Updates all values (which are not "FixedAfterCreation") of the given Treatment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-UpdateTreatmentByTaskGuid")]
+    [EvaluateBearerToken("store-UpdateTreatmentByTaskGuid")]
     [HttpPost("updateTreatmentByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(UpdateTreatmentByTaskGuid), Description = "Updates all values (which are not \"FixedAfterCreation\") of the given Treatment addressed by the supplementary given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public UpdateTreatmentByTaskGuidResponse UpdateTreatmentByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] UpdateTreatmentByTaskGuidRequest args) {
@@ -911,7 +911,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     
     /// <summary> Deletes a specific Treatment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true. </summary>
     /// <param name="args"> request capsule containing the method arguments </param>
-    [RequireBaererAuth("store-DeleteTreatmentByTaskGuid")]
+    [EvaluateBearerToken("store-DeleteTreatmentByTaskGuid")]
     [HttpPost("deleteTreatmentByTaskGuid"), Produces("application/json")]
     [SwaggerOperation(OperationId = nameof(DeleteTreatmentByTaskGuid), Description = "Deletes a specific Treatment addressed by the given primary identifier. Returns false on failure or if no target record was found, otherwise true.")]
     public DeleteTreatmentByTaskGuidResponse DeleteTreatmentByTaskGuid([FromBody][SwaggerRequestBody(Required = true)] DeleteTreatmentByTaskGuidRequest args) {

@@ -53,7 +53,7 @@ public class DataRecording {
 
 }
 
-public class Visit {
+public partial class Visit {
 
   /// <summary> a global unique id of a concrete study-visit execution which is usually originated at the primary CRF or study management system ('SMS') </summary>
   [FixedAfterCreation, Required]

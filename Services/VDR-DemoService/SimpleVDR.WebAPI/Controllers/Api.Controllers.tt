@@ -20,7 +20,7 @@
 
            // Source:
            inputFile = Host.ResolvePath("..\\..\\..\\..\\(Stage)\\Bin\\ORSCF.VisitData.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.VisitData.StoreAccess.I*",
+           interfaceTypeNamePattern = "MedicalResearch.VisitData.I*Service",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
@@ -32,24 +32,28 @@
            indentDepthPerLevel = 2,
            outputNamespace = "MedicalResearch.VisitData.WebAPI",
            customImports = new String[] {
-             "MedicalResearch.VisitData.StoreAccess"
+             "MedicalResearch.VisitData"
            },
 
          // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
            
            generateSwashbuckleAttributesForControllers = true,
-           generateGroupName = "StoreAccessV1",
+           generateGroupName = "ApiV1",
 
-           customAttributesPerControllerMethod = "EvaluateBearerToken(\"store-{O}\")",
+           customAttributesPerControllerMethod = "EvaluateBearerToken(\"{C}\")",
 
            fillFaultPropertyOnException = true,
            exceptionDisplay = "ex.Message", //change this into an extension-method to do some
            //                                 custom evaluation before exposing too much details
-        
-           routePrefix = "store/",
+
+           routePrefix = "",
 
            removeLeadingCharCountForControllerName = 1,
-           removeTrailingCharCountForControllerName = 0,
+           removeTrailingCharCountForControllerName = 7,
+
+           useInterfaceTypeNameToGenerateSubNamespace = true,
+           removeLeadingCharCountForSubNamespace = 1,
+           removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

@@ -49,6 +49,19 @@ namespace MedicalResearch.VisitData.WebAPI {
       services.AddSingleton<IStudyExecutionScopes, StudyExecutionScopeStore>();
       services.AddSingleton<ITreatments, TreatmentStore>();
 
+      var apiService = new ApiService(
+        _Configuration.GetValue<string>("OAuthTokenRequestUrl")
+      );
+      services.AddSingleton<IVdrApiInfoService>(apiService);
+      services.AddSingleton<IVdrEventSubscriptionService>(apiService);
+
+      services.AddSingleton<IVisitConsumeService>(apiService);
+      services.AddSingleton<IVisitSubmissionService>(apiService);
+      services.AddSingleton<IVisitHL7ExportService>(apiService);
+      services.AddSingleton<IVisitHL7ImportService>(apiService);
+
+      services.AddSingleton<IDataRecordingSubmissionService>(apiService);
+
       services.AddControllers();
 
       services.AddSwaggerGen(c => {
@@ -106,19 +119,19 @@ namespace MedicalResearch.VisitData.WebAPI {
           }
         );
 
-        //c.SwaggerDoc(
-        //  "ApiV1",
-        //  new OpenApiInfo {
-        //    Title = _ApiTitle + "-API",
-        //    Version = _ApiVersion.ToString(3),
-        //    Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/KornSW/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
-        //    Contact = new OpenApiContact {
-        //      Name = "Open Research Study Communication Format",
-        //      Email = "info@orscf.org",
-        //      Url = new Uri("https://orscf.org")
-        //    },
-        //  }
-        //);
+        c.SwaggerDoc(
+          "ApiV1",
+          new OpenApiInfo {
+            Title = _ApiTitle + "-API",
+            Version = _ApiVersion.ToString(3),
+            Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/KornSW/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
+            Contact = new OpenApiContact {
+              Name = "Open Research Study Communication Format",
+              Email = "info@orscf.org",
+              Url = new Uri("https://orscf.org")
+            },
+          }
+        );
 
       });
 
@@ -152,13 +165,13 @@ namespace MedicalResearch.VisitData.WebAPI {
 
           c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
           c.DefaultModelExpandDepth(2);
-          c.DefaultModelsExpandDepth(2);
+          c.DefaultModelsExpandDepth(0);
           //c.ConfigObject.DefaultModelExpandDepth = 2;
 
           c.DocumentTitle = _ApiTitle + " - OpenAPI Definition(s)";
 
           //represents the sorting in SwaggerUI combo-box
-          //c.SwaggerEndpoint("schema/ApiV1.json", _ApiTitle + "-API v" + _ApiVersion.ToString(3));
+          c.SwaggerEndpoint("schema/ApiV1.json", _ApiTitle + "-API v" + _ApiVersion.ToString(3));
           c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess v" + _ApiVersion.ToString(3));
 
           c.RoutePrefix = "docs";

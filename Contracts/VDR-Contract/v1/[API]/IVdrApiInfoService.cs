@@ -4,11 +4,17 @@ namespace MedicalResearch.VisitData {
 
   public static class VdrCapabilities {
 
-    public const string VisitOverview = "VisitOverview";
-    public const string VisitScheduling = "VisitScheduling";
+    public const string VdrEventSubscription = "VdrEventSubscription";
 
-    public const string VisitDataConsume = "VisitDataConsume";
-    public const string VisitDataSubmission = "VisitDataSubmission";
+    public const string VisitConsume = "VisitConsume";
+    public const string VisitSubmission = "VisitSubmission";
+    public const string VisitHL7Export = "VisitHL7Export";
+    public const string VisitHL7Import = "VisitHL7Import";
+
+    //public const string DataRecordingConsume = "DataRecordingConsume";
+    public const string DataRecordingSubmission = "DataRecordingSubmission";
+    //public const string DataRecordingHL7Export = "DataRecordingHL7Export";
+    //public const string DataRecordingHL7Import = "DataRecordingHL7Import";
 
   }
 
@@ -24,10 +30,14 @@ namespace MedicalResearch.VisitData {
     /// <summary>
     /// returns a list of API-features (there are several 'services' for different use cases, described by ORSCF)
     /// supported by this implementation. The following values are possible:
-    /// 'VisitOverview', 'VisitScheduling', 'VisitDataConsume', 'VisitDataSubmission'
+    /// 'VdrEventSubscription', 
+    /// 'VisitConsume', 
+    /// 'VisitSubmission', 
+    /// 'VisitHL7Export', 
+    /// 'VisitHL7Import',
+    /// 'DataRecordingSubmission'
     /// </summary>
     string[] GetCapabilities();
-
 
     /// <summary>
     /// returns a list of available capabilities ("API:VisitDataConsume") and/or

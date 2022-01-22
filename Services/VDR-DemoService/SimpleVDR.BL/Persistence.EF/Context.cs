@@ -19,6 +19,14 @@ namespace MedicalResearch.VisitData.Persistence.EF {
         (StudyExecutionScopeEntity e) => e.StudyWorkflowName, "Study"
       );
 
+      //EntityAccessControl.RegisterPropertyAsAccessControlClassification(
+      //  (StudyExecutionScopeEntity e) => e.SiteUid, "Site"
+      //);
+
+      //EntityAccessControl.RegisterPropertyAsAccessControlClassification(
+      //  (StudyExecutionScopeEntity e) => e.ResearchStudyUid, "Study"
+      //);
+
     }
 
   }
