@@ -17,7 +17,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("vdrApiInfo")]
-    public class VdrApiInfoController : ControllerBase {
+    public partial class VdrApiInfoController : ControllerBase {
       
       private readonly ILogger<VdrApiInfoController> _Logger;
       private readonly IVdrApiInfoService _VdrApiInfo;
@@ -113,7 +113,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("vdrEventSubscription")]
-    public class VdrEventSubscriptionController : ControllerBase {
+    public partial class VdrEventSubscriptionController : ControllerBase {
       
       private readonly ILogger<VdrEventSubscriptionController> _Logger;
       private readonly IVdrEventSubscriptionService _VdrEventSubscription;
@@ -133,7 +133,7 @@ namespace MedicalResearch.VisitData.WebAPI {
           var response = new SubscribeForChangedVisitsResponse();
           response.@return = _VdrEventSubscription.SubscribeForChangedVisits(
             args.subscriberUrl,
-            args.scopeToStudyUid
+            args.filter
           );
           return response;
         }
@@ -241,7 +241,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("dataRecordingSubmission")]
-    public class DataRecordingSubmissionController : ControllerBase {
+    public partial class DataRecordingSubmissionController : ControllerBase {
       
       private readonly ILogger<DataRecordingSubmissionController> _Logger;
       private readonly IDataRecordingSubmissionService _DataRecordingSubmission;
@@ -283,7 +283,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("visitConsume")]
-    public class VisitConsumeController : ControllerBase {
+    public partial class VisitConsumeController : ControllerBase {
       
       private readonly ILogger<VisitConsumeController> _Logger;
       private readonly IVisitConsumeService _VisitConsume;
@@ -376,10 +376,10 @@ namespace MedicalResearch.VisitData.WebAPI {
           _VisitConsume.CheckVisitExisitence(
             args.visitUids,
             out var unavailableVisitUidsBuffer,
-            out var availableUidsBuffer
+            out var availableVisitUidsBuffer
           );
           response.unavailableVisitUids = unavailableVisitUidsBuffer;
-          response.availableUids = availableUidsBuffer;
+          response.availableVisitUids = availableVisitUidsBuffer;
           return response;
         }
         catch (Exception ex) {
@@ -443,7 +443,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("visitHL7Export")]
-    public class VisitHL7ExportController : ControllerBase {
+    public partial class VisitHL7ExportController : ControllerBase {
       
       private readonly ILogger<VisitHL7ExportController> _Logger;
       private readonly IVisitHL7ExportService _VisitHL7Export;
@@ -483,7 +483,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("visitHL7Import")]
-    public class VisitHL7ImportController : ControllerBase {
+    public partial class VisitHL7ImportController : ControllerBase {
       
       private readonly ILogger<VisitHL7ImportController> _Logger;
       private readonly IVisitHL7ImportService _VisitHL7Import;
@@ -525,7 +525,7 @@ namespace MedicalResearch.VisitData.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("visitSubmission")]
-    public class VisitSubmissionController : ControllerBase {
+    public partial class VisitSubmissionController : ControllerBase {
       
       private readonly ILogger<VisitSubmissionController> _Logger;
       private readonly IVisitSubmissionService _VisitSubmission;

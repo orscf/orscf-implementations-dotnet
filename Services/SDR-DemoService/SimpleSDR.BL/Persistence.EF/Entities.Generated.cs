@@ -14,19 +14,19 @@ public class SubjectEntity {
   public Guid SubjectUid { get; set; } = Guid.NewGuid();
 
   [Required]
-  public Guid ActualSiteIdentifier { get; set; }
+  public Guid ActualSiteUid { get; set; }
 
   [FixedAfterCreation, Required]
-  public Guid EnrollingSiteIdentifier { get; set; }
+  public Guid EnrollingSiteUid { get; set; }
 
   /// <summary> *this field is optional </summary>
-  public Nullable<DateTime> EnrollmentDate { get; set; }
+  public Nullable<DateTime> PeriodStart { get; set; }
 
   /// <summary> *this field is optional </summary>
-  public Nullable<DateTime> TerminationDate { get; set; }
+  public Nullable<DateTime> PeriodEnd { get; set; }
 
   /// <summary> *this field is optional (use null as value) </summary>
-  public String TerminatedReason { get; set; }
+  public String StatusNote { get; set; }
 
   /// <summary> *this field is optional (use null as value) </summary>
   public String SubjectIdentifier { get; set; }
@@ -37,70 +37,25 @@ public class SubjectEntity {
   public String Status { get; set; }
 
   [Required]
-  public Guid ResearchStudyUid { get; set; }
+  public Guid StudyUid { get; set; }
+
+  [Required]
+  public Int64 ModificationTimestampUtc { get; set; }
+
+  [Required]
+  public Boolean IsArchived { get; set; }
+
+  [Required]
+  public String AssignedArm { get; set; }
+
+  [Required]
+  public String ActualArm { get; set; }
+
+  [Required]
+  public String SubstudyNames { get; set; }
 
   [Referer]
   public virtual ObservableCollection<SubjectSiteAssignmentEntity> SiteAssignments { get; set; } = new ObservableCollection<SubjectSiteAssignmentEntity>();
-
-#region Mapping
-
-  internal static Expression<Func<Subject, SubjectEntity>> SubjectEntitySelector = ((Subject src) => new SubjectEntity {
-    SubjectUid = src.SubjectUid,
-    ActualSiteIdentifier = src.ActualSiteIdentifier,
-    EnrollingSiteIdentifier = src.EnrollingSiteIdentifier,
-    EnrollmentDate = src.EnrollmentDate,
-    TerminationDate = src.TerminationDate,
-    TerminatedReason = src.TerminatedReason,
-    SubjectIdentifier = src.SubjectIdentifier,
-    Status = src.Status,
-    ResearchStudyUid = src.ResearchStudyUid,
-  });
-
-  internal static Expression<Func<SubjectEntity, Subject>> SubjectSelector = ((SubjectEntity src) => new Subject {
-    SubjectUid = src.SubjectUid,
-    ActualSiteIdentifier = src.ActualSiteIdentifier,
-    EnrollingSiteIdentifier = src.EnrollingSiteIdentifier,
-    EnrollmentDate = src.EnrollmentDate,
-    TerminationDate = src.TerminationDate,
-    TerminatedReason = src.TerminatedReason,
-    SubjectIdentifier = src.SubjectIdentifier,
-    Status = src.Status,
-    ResearchStudyUid = src.ResearchStudyUid,
-  });
-
-  internal void CopyContentFrom(Subject source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.SubjectUid = source.SubjectUid;
-    this.ActualSiteIdentifier = source.ActualSiteIdentifier;
-    if(!Equals(source.EnrollingSiteIdentifier, this.EnrollingSiteIdentifier)){
-      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(EnrollingSiteIdentifier))){
-        this.EnrollingSiteIdentifier = source.EnrollingSiteIdentifier;
-      }
-    }
-    this.EnrollmentDate = source.EnrollmentDate;
-    this.TerminationDate = source.TerminationDate;
-    this.TerminatedReason = source.TerminatedReason;
-    this.SubjectIdentifier = source.SubjectIdentifier;
-    this.Status = source.Status;
-    this.ResearchStudyUid = source.ResearchStudyUid;
-  }
-
-  internal void CopyContentTo(Subject target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.SubjectUid = this.SubjectUid;
-    target.ActualSiteIdentifier = this.ActualSiteIdentifier;
-    if(!Equals(target.EnrollingSiteIdentifier, this.EnrollingSiteIdentifier)){
-      if(onFixedValueChangingCallback == null || onFixedValueChangingCallback.Invoke(nameof(EnrollingSiteIdentifier))){
-        target.EnrollingSiteIdentifier = this.EnrollingSiteIdentifier;
-      }
-    }
-    target.EnrollmentDate = this.EnrollmentDate;
-    target.TerminationDate = this.TerminationDate;
-    target.TerminatedReason = this.TerminatedReason;
-    target.SubjectIdentifier = this.SubjectIdentifier;
-    target.Status = this.Status;
-    target.ResearchStudyUid = this.ResearchStudyUid;
-  }
-
-#endregion
 
 }
 
@@ -122,53 +77,13 @@ public class SubjectSiteAssignmentEntity {
   public Guid SubjectUid { get; set; }
 
   /// <summary> This can be the ID ('surrogate-key') of the Partient record within a site specific patient management system. This MUST NOT be any natural key or plain readable name which exposes the identity of the patient! *this field is optional (use null as value) </summary>
-  public String SiteRelatedPatientIdentifier { get; set; }
+  public String SiteDefinedPatientIdentifier { get; set; }
 
   /// <summary> *this field is optional </summary>
   public Nullable<Guid> ByInvolvedPersonUid { get; set; }
 
   [Lookup]
   public virtual SubjectEntity Subject { get; set; }
-
-#region Mapping
-
-  internal static Expression<Func<SubjectSiteAssignment, SubjectSiteAssignmentEntity>> SubjectSiteAssignmentEntitySelector = ((SubjectSiteAssignment src) => new SubjectSiteAssignmentEntity {
-    SubjectSiteAssignmentUid = src.SubjectSiteAssignmentUid,
-    ValidFrom = src.ValidFrom,
-    SiteUid = src.SiteUid,
-    SubjectUid = src.SubjectUid,
-    SiteRelatedPatientIdentifier = src.SiteRelatedPatientIdentifier,
-    ByInvolvedPersonUid = src.ByInvolvedPersonUid,
-  });
-
-  internal static Expression<Func<SubjectSiteAssignmentEntity, SubjectSiteAssignment>> SubjectSiteAssignmentSelector = ((SubjectSiteAssignmentEntity src) => new SubjectSiteAssignment {
-    SubjectSiteAssignmentUid = src.SubjectSiteAssignmentUid,
-    ValidFrom = src.ValidFrom,
-    SiteUid = src.SiteUid,
-    SubjectUid = src.SubjectUid,
-    SiteRelatedPatientIdentifier = src.SiteRelatedPatientIdentifier,
-    ByInvolvedPersonUid = src.ByInvolvedPersonUid,
-  });
-
-  internal void CopyContentFrom(SubjectSiteAssignment source, Func<String,bool> onFixedValueChangingCallback = null){
-    this.SubjectSiteAssignmentUid = source.SubjectSiteAssignmentUid;
-    this.ValidFrom = source.ValidFrom;
-    this.SiteUid = source.SiteUid;
-    this.SubjectUid = source.SubjectUid;
-    this.SiteRelatedPatientIdentifier = source.SiteRelatedPatientIdentifier;
-    this.ByInvolvedPersonUid = source.ByInvolvedPersonUid;
-  }
-
-  internal void CopyContentTo(SubjectSiteAssignment target, Func<String,bool> onFixedValueChangingCallback = null){
-    target.SubjectSiteAssignmentUid = this.SubjectSiteAssignmentUid;
-    target.ValidFrom = this.ValidFrom;
-    target.SiteUid = this.SiteUid;
-    target.SubjectUid = this.SubjectUid;
-    target.SiteRelatedPatientIdentifier = this.SiteRelatedPatientIdentifier;
-    target.ByInvolvedPersonUid = this.ByInvolvedPersonUid;
-  }
-
-#endregion
 
 }
 

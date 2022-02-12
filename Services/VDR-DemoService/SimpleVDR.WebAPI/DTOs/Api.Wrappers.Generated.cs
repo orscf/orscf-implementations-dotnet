@@ -152,8 +152,8 @@ namespace MedicalResearch.VisitData.WebAPI {
       [Required]
       public string subscriberUrl { get; set; }
       
-      /// <summary> Optional Argument for 'SubscribeForChangedVisits' (VisitFilter): if provided, the subscription will only publish events for records within the given scope (in this case a 'StudyUid') </summary>
-      public VisitFilter scopeToStudyUid { get; set; }
+      /// <summary> Optional Argument for 'SubscribeForChangedVisits' (VisitFilter): if provided, the subscription will only publish events for records matching to the given filter </summary>
+      public VisitFilter filter { get; set; }
       
     }
     
@@ -516,7 +516,7 @@ namespace MedicalResearch.VisitData.WebAPI {
       
       /// <summary> Out-Argument of 'CheckVisitExisitence' (Guid[]) </summary>
       [Required]
-      public Guid[] availableUids { get; set; }
+      public Guid[] availableVisitUids { get; set; }
       
       /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null) </summary>
       public string fault { get; set; } = null;

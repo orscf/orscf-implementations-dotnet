@@ -41,7 +41,7 @@ public class BillableVisit {
 
   /// <summary> unique invariant name of the visit-procedure as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
   [Required]
-  public String VisitProdecureName { get; set; }
+  public String VisitProcedureName { get; set; }
 
   /// <summary> title of the visit execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
   [Required]

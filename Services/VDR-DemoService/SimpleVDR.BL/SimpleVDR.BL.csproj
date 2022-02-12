@@ -53,10 +53,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entities.Generated.cs</LastGenOutput>
     </None>
-    <None Update="Stores.tt">
-      <LastGenOutput>Stores.Generated.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -73,11 +69,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Stores.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Stores.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

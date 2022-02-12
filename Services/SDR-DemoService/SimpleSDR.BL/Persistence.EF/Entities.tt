@@ -35,7 +35,7 @@
        const bool generateEfAttributes                = false;
        const string tablePrefix = "";
        
-       const bool generateMappingMethods              = true;
+       const bool generateMappingMethods              = false;
        const string mappingTargetClassNamePattern     = "{E}";
        const string mappingMethodAccessLevel          = "internal";
 

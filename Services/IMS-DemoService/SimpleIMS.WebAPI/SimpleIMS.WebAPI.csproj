@@ -61,17 +61,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Api.Controllers.Generated.cs</LastGenOutput>
     </None>
-    <None Update="Controllers\StoreAccess.Controllers.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Controllers.Generated.cs</LastGenOutput>
-    </None>
     <None Update="DTOs\Api.Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Api.Wrappers.Generated.cs</LastGenOutput>
-    </None>
-    <None Update="DTOs\StoreAccess.Wrappers.tt">
-      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
 
@@ -85,20 +77,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Api.Controllers.tt</DependentUpon>
     </Compile>
-    <Compile Update="Controllers\StoreAccess.Controllers.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Controllers.tt</DependentUpon>
-    </Compile>
     <Compile Update="DTOs\Api.Wrappers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Api.Wrappers.tt</DependentUpon>
-    </Compile>
-    <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

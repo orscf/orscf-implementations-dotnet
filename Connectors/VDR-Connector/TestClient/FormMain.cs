@@ -203,11 +203,11 @@ namespace TestClient {
 
     #endregion
 
-    private VdrStoreConnector _CurrentConnector = null;
+    private VdrApiConnector _CurrentConnector = null;
 
-    private VdrStoreConnector GetOrCreateCurrentConnector() {
+    private VdrApiConnector GetOrCreateCurrentConnector() {
       if(_CurrentConnector == null) {
-        _CurrentConnector = new VdrStoreConnector(gTxtUrl.Text, gTxtToken.Text);
+        _CurrentConnector = new VdrApiConnector(gTxtUrl.Text, gTxtToken.Text);
       }
       return _CurrentConnector;
     }
@@ -332,27 +332,27 @@ namespace TestClient {
 
       if (modelType == typeof(DataRecording)) {
         var record = JsonConvert.DeserializeObject<DataRecording>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().DataRecordings.AddNewDataRecording(record);
+        //success = this.GetOrCreateCurrentConnector().DataRecordings.AddNewDataRecording(record);
       }
       else if (modelType == typeof(Visit)) {
         var record = JsonConvert.DeserializeObject<Visit>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().Visits.AddNewVisit(record);
+        //success = this.GetOrCreateCurrentConnector().Visits.AddNewVisit(record);
       }
       else if (modelType == typeof(DrugApplyment)) {
         var record = JsonConvert.DeserializeObject<DrugApplyment>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().DrugApplyments.AddNewDrugApplyment(record);
+        //success = this.GetOrCreateCurrentConnector().DrugApplyments.AddNewDrugApplyment(record);
       }
       else if (modelType == typeof(StudyEvent)) {
         var record = JsonConvert.DeserializeObject<StudyEvent>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().StudyEvents.AddNewStudyEvent(record);
+        //success = this.GetOrCreateCurrentConnector().StudyEvents.AddNewStudyEvent(record);
       }
       else if (modelType == typeof(StudyExecutionScope)) {
         var record = JsonConvert.DeserializeObject<StudyExecutionScope>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().StudyExecutionScopes.AddNewStudyExecutionScope(record);
+        //success = this.GetOrCreateCurrentConnector().StudyExecutionScopes.AddNewStudyExecutionScope(record);
       }
       else if (modelType == typeof(Treatment)) {
         var record = JsonConvert.DeserializeObject<Treatment>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().Treatments.AddNewTreatment(record);
+        //success = this.GetOrCreateCurrentConnector().Treatments.AddNewTreatment(record);
       }
 
       if (!success) {
@@ -376,27 +376,27 @@ namespace TestClient {
 
       if (modelType == typeof(DataRecording)) {
         var record = JsonConvert.DeserializeObject<DataRecording>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().DataRecordings.UpdateDataRecording(record);
+        //success = this.GetOrCreateCurrentConnector().DataRecordings.UpdateDataRecording(record);
       }
       else if (modelType == typeof(Visit)) {
         var record = JsonConvert.DeserializeObject<Visit>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().Visits.UpdateVisit(record);
+        //success = this.GetOrCreateCurrentConnector().Visits.UpdateVisit(record);
       }
       else if (modelType == typeof(DrugApplyment)) {
         var record = JsonConvert.DeserializeObject<DrugApplyment>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().DrugApplyments.UpdateDrugApplyment(record);
+        //success = this.GetOrCreateCurrentConnector().DrugApplyments.UpdateDrugApplyment(record);
       }
       else if (modelType == typeof(StudyEvent)) {
         var record = JsonConvert.DeserializeObject<StudyEvent>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().StudyEvents.UpdateStudyEvent(record);
+        //success = this.GetOrCreateCurrentConnector().StudyEvents.UpdateStudyEvent(record);
       }
       else if (modelType == typeof(StudyExecutionScope)) {
         var record = JsonConvert.DeserializeObject<StudyExecutionScope>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().StudyExecutionScopes.UpdateStudyExecutionScope(record);
+        //success = this.GetOrCreateCurrentConnector().StudyExecutionScopes.UpdateStudyExecutionScope(record);
       }
       else if (modelType == typeof(Treatment)) {
         var record = JsonConvert.DeserializeObject<Treatment>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().Treatments.UpdateTreatment(record);
+        //success = this.GetOrCreateCurrentConnector().Treatments.UpdateTreatment(record);
       }
 
       if (!success) {
@@ -420,27 +420,27 @@ namespace TestClient {
 
       if (modelType == typeof(DataRecording)) {
         var record = JsonConvert.DeserializeObject<DataRecording>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().DataRecordings.DeleteDataRecordingByTaskGuid(record.TaskGuid);
+        //success = this.GetOrCreateCurrentConnector().DataRecordings.DeleteDataRecordingByTaskGuid(record.TaskGuid);
       }
       else if (modelType == typeof(Visit)) {
         var record = JsonConvert.DeserializeObject<Visit>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().Visits.DeleteVisitByVisitGuid(record.VisitGuid);
+        //success = this.GetOrCreateCurrentConnector().Visits.DeleteVisitByVisitGuid(record.VisitGuid);
       }
       else if (modelType == typeof(DrugApplyment)) {
         var record = JsonConvert.DeserializeObject<DrugApplyment>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().DrugApplyments.DeleteDrugApplymentByTaskGuid(record.TaskGuid);
+        //success = this.GetOrCreateCurrentConnector().DrugApplyments.DeleteDrugApplymentByTaskGuid(record.TaskGuid);
       }
       else if (modelType == typeof(StudyEvent)) {
         var record = JsonConvert.DeserializeObject<StudyEvent>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().StudyEvents.DeleteStudyEventByEventGuid(record.EventGuid);
+        //success = this.GetOrCreateCurrentConnector().StudyEvents.DeleteStudyEventByEventGuid(record.EventGuid);
       }
       else if (modelType == typeof(StudyExecutionScope)) {
         var record = JsonConvert.DeserializeObject<StudyExecutionScope>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().StudyExecutionScopes.DeleteStudyExecutionScopeByStudyExecutionIdentifier(record.StudyExecutionIdentifier);
+        //success = this.GetOrCreateCurrentConnector().StudyExecutionScopes.DeleteStudyExecutionScopeByStudyExecutionIdentifier(record.StudyExecutionIdentifier);
       }
       else if (modelType == typeof(Treatment)) {
         var record = JsonConvert.DeserializeObject<Treatment>(gTxtJson.Text);
-        success = this.GetOrCreateCurrentConnector().Treatments.DeleteTreatmentByTaskGuid(record.TaskGuid);
+        //success = this.GetOrCreateCurrentConnector().Treatments.DeleteTreatmentByTaskGuid(record.TaskGuid);
       }
 
       if (!success) {
@@ -463,22 +463,22 @@ namespace TestClient {
       Type modelType = (gCboClass.SelectedItem as Type);
 
       if (modelType == typeof(DataRecording)) {
-        gTable.DataSource = this.GetOrCreateCurrentConnector().DataRecordings.SearchDataRecordings(gTxtSearch.Text,gTxtSort.Text,int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
+        //gTable.DataSource = this.GetOrCreateCurrentConnector().DataRecordings.SearchDataRecordings(gTxtSearch.Text,gTxtSort.Text,int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
       }
       else if (modelType == typeof(Visit)) {
-        gTable.DataSource = this.GetOrCreateCurrentConnector().Visits.SearchVisits(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
+        //gTable.DataSource = this.GetOrCreateCurrentConnector().Visits.SearchVisits(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
       }
       else if (modelType == typeof(DrugApplyment)) {
-        gTable.DataSource = this.GetOrCreateCurrentConnector().DrugApplyments.SearchDrugApplyments(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
+        //gTable.DataSource = this.GetOrCreateCurrentConnector().DrugApplyments.SearchDrugApplyments(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
       }
       else if (modelType == typeof(StudyEvent)) {
-        gTable.DataSource = this.GetOrCreateCurrentConnector().StudyEvents.SearchStudyEvents(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
+        //gTable.DataSource = this.GetOrCreateCurrentConnector().StudyEvents.SearchStudyEvents(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
       }
       else if (modelType == typeof(StudyExecutionScope)) {
-        gTable.DataSource = this.GetOrCreateCurrentConnector().StudyExecutionScopes.SearchStudyExecutionScopes(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
+        //gTable.DataSource = this.GetOrCreateCurrentConnector().StudyExecutionScopes.SearchStudyExecutionScopes(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
       }
       else if (modelType == typeof(Treatment)) {
-        gTable.DataSource = this.GetOrCreateCurrentConnector().Treatments.SearchTreatments(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
+        //gTable.DataSource = this.GetOrCreateCurrentConnector().Treatments.SearchTreatments(gTxtSearch.Text, gTxtSort.Text, int.Parse(gTxtPageNumber.Text), int.Parse(gTxtPageSize.Text)).ToList();
       }
 
       if (gTable.DataSource == null) {

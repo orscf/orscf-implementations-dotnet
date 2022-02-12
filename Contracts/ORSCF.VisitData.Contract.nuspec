@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ORSCF.VisitData.Contract</id>
-    <version>1.7.0-localbuild</version>
+    <version>1.8.0-localbuild</version>
     <title>ORSCF - VisitData Contract</title>
     <authors>ORSCF.org</authors>
     <owners>ORSCF.org</owners>

@@ -1,0 +1,54 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ output extension=".cs"#>
+<#@ include file="$(SolutionDir)\(tools)\kGEN.ttinclude" once="true" #><#
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 12.09.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/kGEN                                                        //
+//                                                                                           //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+  var cfg = new {
+
+         // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
+
+           // Source:
+           inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\ORSCF.VisitData.Contract.dll"),
+           interfaceTypeNamePattern = "MedicalResearch.VisitData.I*Service",
+
+           requireXmlDocForNamespaces = new string[] { 
+             "MedicalResearch"
+           },
+
+           // Output:
+           template = "Wrappers",
+           outputLanguage = "C#",
+           indentDepthPerLevel = 2,
+           outputNamespace = "MedicalResearch.VisitData",
+           customImports = new String[] {
+             "MedicalResearch.VisitData.Model",
+           },
+
+         // WRAPPERS //////////////////////////////////////////////////////////////////////////
+
+            generateFaultProperty = true,
+
+            //AppendOwnerNameAsNamespace = true,
+            //removeLeadingCharCountForOwnerName = 1,
+            //removeTrailingCharCountForOwnerName = 7,
+
+            useInterfaceTypeNameToGenerateSubNamespace = true,
+            removeLeadingCharCountForSubNamespace = 1,
+            removeTrailingCharCountForSubNamespace = 7,
+
+         //////////////////////////////////////////////////////////////////////////////////////
+       };
+
+#>
+<#=Generate(cfg)#>

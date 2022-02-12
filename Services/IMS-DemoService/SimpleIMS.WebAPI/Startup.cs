@@ -42,12 +42,12 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
 
       string outDir = AppDomain.CurrentDomain.BaseDirectory;
 
-      services.AddSingleton<IAdditionalSubjectParticipationIdentifiers, AdditionalSubjectParticipationIdentifierStore>();
-      services.AddSingleton<ISubjectParticipations, SubjectParticipationStore>();
-      services.AddSingleton<IStudyExecutionScopes, StudyExecutionScopeStore>();
-      services.AddSingleton<IStudyScopes, StudyScopeStore>();
-      services.AddSingleton<ISubjectAddresses, SubjectAddressStore>();
-      services.AddSingleton<ISubjectIdentities, SubjectIdentityStore>();
+      //services.AddSingleton<IAdditionalSubjectParticipationIdentifiers, AdditionalSubjectParticipationIdentifierStore>();
+      //services.AddSingleton<ISubjectParticipations, SubjectParticipationStore>();
+      //services.AddSingleton<IStudyExecutionScopes, StudyExecutionScopeStore>();
+      //services.AddSingleton<IStudyScopes, StudyScopeStore>();
+      //services.AddSingleton<ISubjectAddresses, SubjectAddressStore>();
+      //services.AddSingleton<ISubjectIdentities, SubjectIdentityStore>();
 
       var apiService = new ApiService(
         _Configuration.GetValue<string>("OAuthTokenRequestUrl")

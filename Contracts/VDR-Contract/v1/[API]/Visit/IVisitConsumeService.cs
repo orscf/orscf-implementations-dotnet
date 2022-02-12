@@ -72,10 +72,11 @@ namespace MedicalResearch.VisitData {
     /// </summary>
     /// <param name="visitUids"></param>
     /// <param name="unavailableVisitUids"></param>
-    /// <param name="availableUids"></param>
-    void CheckVisitExisitence(Guid[] visitUids,
+    /// <param name="availableVisitUids"></param>
+    void CheckVisitExisitence(
+      Guid[] visitUids,
       out Guid[] unavailableVisitUids,
-      out Guid[] availableUids
+      out Guid[] availableVisitUids
     );
 
     /// <summary>
@@ -101,7 +102,7 @@ namespace MedicalResearch.VisitData {
     /// </summary>
     /// <param name="visitUids"></param>
     /// <param name="unavailableVisitUids"></param>
-    /// <param name="visits"></param>
+    /// <param name="result"></param>
     /// <returns></returns>
     void ExportVisits(
       Guid[] visitUids,

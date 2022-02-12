@@ -25,6 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyWorkflowDefinition.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubjectData.Contract", "SDR-Contract\SubjectData.Contract.csproj", "{D4CA66FA-2FA3-45D8-B21B-C92835D50633}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BBDB353-E308-4E48-88E0-EE23B1A3CC1D}"
+	ProjectSection(SolutionItems) = preProject
+		(tools)\kGEN.Readme.txt = (tools)\kGEN.Readme.txt
+		(tools)\kGEN.Sample.tt = (tools)\kGEN.Sample.tt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

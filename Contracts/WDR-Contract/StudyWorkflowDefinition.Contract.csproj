@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>ORSCF.StudyWorkflowDefinition.Contract</AssemblyName>
     <RootNamespace>MedicalResearch.Workflow</RootNamespace>
-    <Version>1.7.0</Version>
+    <Version>1.8.0</Version>
     <Authors>ORSCF.org</Authors>
     <Company>ORSCF.org</Company>
     <Copyright>ORSCF.org</Copyright>

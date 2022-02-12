@@ -24,18 +24,14 @@ namespace MedicalResearch.VisitData {
     ///  the root-url of the subscriber which needs to provide at least the methods 
     /// '/ConfirmAsSubscriber' and '/NoticeChangedVisits'
     /// </param>
-    /// <param name="scopeToStudyUid">
+    /// <param name="filter">
     ///   if provided, the subscription will only publish events for
-    ///   records within the given scope (in this case a 'StudyUid')
-    /// </param>
-    /// <param name="scopeToSiteUid">
-    ///   if provided, the subscription will only publish events for
-    ///   records within the given scope (in this case a 'SiteUid')
+    ///   records matching to the given filter
     /// </param>
     /// <returns></returns>
     Guid SubscribeForChangedVisits(
       string subscriberUrl,
-      VisitFilter scopeToStudyUid = null
+      VisitFilter filter = null
     );
 
     /// <summary>

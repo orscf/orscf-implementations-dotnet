@@ -15,7 +15,7 @@ namespace MedicalResearch.BillingData.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/billableTasks")]
-  public class BillableTasksController : ControllerBase {
+  public partial class BillableTasksController : ControllerBase {
     
     private readonly ILogger<BillableTasksController> _Logger;
     private readonly IBillableTasks _BillableTasks;
@@ -168,7 +168,7 @@ namespace MedicalResearch.BillingData.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/billableVisits")]
-  public class BillableVisitsController : ControllerBase {
+  public partial class BillableVisitsController : ControllerBase {
     
     private readonly ILogger<BillableVisitsController> _Logger;
     private readonly IBillableVisits _BillableVisits;
@@ -321,7 +321,7 @@ namespace MedicalResearch.BillingData.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/studyExecutionScopes")]
-  public class StudyExecutionScopesController : ControllerBase {
+  public partial class StudyExecutionScopesController : ControllerBase {
     
     private readonly ILogger<StudyExecutionScopesController> _Logger;
     private readonly IStudyExecutionScopes _StudyExecutionScopes;
@@ -474,7 +474,7 @@ namespace MedicalResearch.BillingData.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/billingDemands")]
-  public class BillingDemandsController : ControllerBase {
+  public partial class BillingDemandsController : ControllerBase {
     
     private readonly ILogger<BillingDemandsController> _Logger;
     private readonly IBillingDemands _BillingDemands;
@@ -627,7 +627,7 @@ namespace MedicalResearch.BillingData.WebAPI {
   [ApiController]
   [ApiExplorerSettings(GroupName = "StoreAccessV1")]
   [Route("store/invoices")]
-  public class InvoicesController : ControllerBase {
+  public partial class InvoicesController : ControllerBase {
     
     private readonly ILogger<InvoicesController> _Logger;
     private readonly IInvoices _Invoices;

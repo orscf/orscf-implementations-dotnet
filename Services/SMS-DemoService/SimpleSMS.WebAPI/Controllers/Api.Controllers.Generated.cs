@@ -17,7 +17,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("instituteMgmt")]
-    public class InstituteMgmtController : ControllerBase {
+    public partial class InstituteMgmtController : ControllerBase {
       
       private readonly ILogger<InstituteMgmtController> _Logger;
       private readonly IInstituteMgmtService _InstituteMgmt;
@@ -151,7 +151,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("siteParticipation")]
-    public class SiteParticipationController : ControllerBase {
+    public partial class SiteParticipationController : ControllerBase {
       
       private readonly ILogger<SiteParticipationController> _Logger;
       private readonly ISiteParticipationService _SiteParticipation;
@@ -170,7 +170,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("smsApiInfo")]
-    public class SmsApiInfoController : ControllerBase {
+    public partial class SmsApiInfoController : ControllerBase {
       
       private readonly ILogger<SmsApiInfoController> _Logger;
       private readonly ISmsApiInfoService _SmsApiInfo;
@@ -266,7 +266,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("studyAccess")]
-    public class StudyAccessController : ControllerBase {
+    public partial class StudyAccessController : ControllerBase {
       
       private readonly ILogger<StudyAccessController> _Logger;
       private readonly IStudyAccessService _StudyAccess;
@@ -323,7 +323,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("studySetup")]
-    public class StudySetupController : ControllerBase {
+    public partial class StudySetupController : ControllerBase {
       
       private readonly ILogger<StudySetupController> _Logger;
       private readonly IStudySetupService _StudySetup;

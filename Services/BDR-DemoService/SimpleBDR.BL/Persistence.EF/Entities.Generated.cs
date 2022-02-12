@@ -109,7 +109,7 @@ public class BillableVisitEntity {
 
   /// <summary> unique invariant name of the visit-procedure as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
   [Required]
-  public String VisitProdecureName { get; set; }
+  public String VisitProcedureName { get; set; }
 
   /// <summary> title of the visit execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
   [Required]
@@ -148,7 +148,7 @@ public class BillableVisitEntity {
     VisitGuid = src.VisitGuid,
     StudyExecutionIdentifier = src.StudyExecutionIdentifier,
     ParticipantIdentifier = src.ParticipantIdentifier,
-    VisitProdecureName = src.VisitProdecureName,
+    VisitProcedureName = src.VisitProcedureName,
     VisitExecutionTitle = src.VisitExecutionTitle,
     BillingDemandId = src.BillingDemandId,
     InvoiceId = src.InvoiceId,
@@ -161,7 +161,7 @@ public class BillableVisitEntity {
     VisitGuid = src.VisitGuid,
     StudyExecutionIdentifier = src.StudyExecutionIdentifier,
     ParticipantIdentifier = src.ParticipantIdentifier,
-    VisitProdecureName = src.VisitProdecureName,
+    VisitProcedureName = src.VisitProcedureName,
     VisitExecutionTitle = src.VisitExecutionTitle,
     BillingDemandId = src.BillingDemandId,
     InvoiceId = src.InvoiceId,
@@ -174,7 +174,7 @@ public class BillableVisitEntity {
     this.VisitGuid = source.VisitGuid;
     this.StudyExecutionIdentifier = source.StudyExecutionIdentifier;
     this.ParticipantIdentifier = source.ParticipantIdentifier;
-    this.VisitProdecureName = source.VisitProdecureName;
+    this.VisitProcedureName = source.VisitProcedureName;
     this.VisitExecutionTitle = source.VisitExecutionTitle;
     this.BillingDemandId = source.BillingDemandId;
     this.InvoiceId = source.InvoiceId;
@@ -187,7 +187,7 @@ public class BillableVisitEntity {
     target.VisitGuid = this.VisitGuid;
     target.StudyExecutionIdentifier = this.StudyExecutionIdentifier;
     target.ParticipantIdentifier = this.ParticipantIdentifier;
-    target.VisitProdecureName = this.VisitProdecureName;
+    target.VisitProcedureName = this.VisitProcedureName;
     target.VisitExecutionTitle = this.VisitExecutionTitle;
     target.BillingDemandId = this.BillingDemandId;
     target.InvoiceId = this.InvoiceId;

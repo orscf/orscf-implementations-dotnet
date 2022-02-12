@@ -53,7 +53,7 @@ namespace MedicalResearch.VisitData.Persistence.EF {
       cfgVisit
         .HasOne((lcl) => lcl.StudyExecution )
         .WithMany((rem) => rem.Visits )
-        .HasForeignKey(nameof(VisitEntity.StudyExecutionIdentifier))
+        .HasForeignKey(nameof(VisitEntity.StudyUid))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ namespace MedicalResearch.VisitData.Persistence.EF {
 
       var cfgStudyExecutionScope = modelBuilder.Entity<StudyExecutionScopeEntity>();
       cfgStudyExecutionScope.ToTable("VdrStudyExecutionScopes");
-      cfgStudyExecutionScope.HasKey((e) => e.StudyExecutionIdentifier);
+      cfgStudyExecutionScope.HasKey((e) => e.StudyUid);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // Treatment

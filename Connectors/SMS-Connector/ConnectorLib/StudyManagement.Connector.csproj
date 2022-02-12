@@ -60,21 +60,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ApiConnector.tt">
-      <LastGenOutput>ApiConnector.Generated.cs</LastGenOutput>
+    <None Update="Connector.tt">
+      <LastGenOutput>Connector.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="DTOs\Api.Wrappers.tt">
-      <LastGenOutput>Api.Wrappers.Generated.cs</LastGenOutput>
+    <None Update="Dtos.tt">
+      <LastGenOutput>Dtos.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="StoreAccess.Connector.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Connector.Generated.cs</LastGenOutput>
-    </None>
-    <None Update="DTOs\StoreAccess.Wrappers.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -83,25 +75,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ApiConnector.Generated.cs">
+    <Compile Update="Dtos.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ApiConnector.tt</DependentUpon>
+      <DependentUpon>Dtos.tt</DependentUpon>
     </Compile>
-    <Compile Update="DTOs\Api.Wrappers.Generated.cs">
+    <Compile Update="Connector.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Api.Wrappers.tt</DependentUpon>
-    </Compile>
-    <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
-    </Compile>
-    <Compile Update="StoreAccess.Connector.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Connector.tt</DependentUpon>
+      <DependentUpon>Connector.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

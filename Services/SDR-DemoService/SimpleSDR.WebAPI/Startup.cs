@@ -12,10 +12,10 @@ using MedicalResearch.SubjectData.Persistence;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using System.IO;
-using MedicalResearch.SubjectData.StoreAccess;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Writers;
 using MedicalResearch.SubjectData.Model;
+using Security.AccessTokenHandling;
 
 namespace MedicalResearch.SubjectData.WebAPI {
 
@@ -36,14 +36,35 @@ namespace MedicalResearch.SubjectData.WebAPI {
 
       services.AddLogging();
 
-      _ApiVersion = typeof(Subject).Assembly.GetName().Version;
+      _ApiVersion = typeof(ISdrApiInfoService).Assembly.GetName().Version;
 
       //StudyManagementDbContext.Migrate();
 
       string outDir = AppDomain.CurrentDomain.BaseDirectory;
 
-      services.AddSingleton<ISubjects, SubjectStore>();
-      services.AddSingleton<ISubjectSiteAssignments, SubjectSiteAssignmentStore>();
+      //services.AddSingleton<ISubjects, SubjectStore>();
+      //services.AddSingleton<ISubjectSiteAssignments, SubjectSiteAssignmentStore>();
+
+
+      var apiService = new ApiService(
+        _Configuration.GetValue<string>("OAuthTokenRequestUrl"),
+        _Configuration.GetValue<string>("PublicServiceUrl"),
+        _Configuration.GetValue<string>("SubscriptionStorageDirectory")
+      );
+      services.AddSingleton<ISdrApiInfoService>(apiService);
+      services.AddSingleton<ISdrEventSubscriptionService>(apiService);
+
+      services.AddSingleton<ISubjectConsumeService>(apiService);
+      //services.AddSingleton<ISubjectSubmissionService>(apiService);
+
+      //...
+
+
+
+
+
+
+
 
       services.AddControllers();
 
@@ -88,19 +109,19 @@ namespace MedicalResearch.SubjectData.WebAPI {
 
         c.UseInlineDefinitionsForEnums();
 
-        c.SwaggerDoc(
-          "StoreAccessV1",
-          new OpenApiInfo {
-            Title = _ApiTitle + "-StoreAccess",
-            Version = _ApiVersion.ToString(3),
-            Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/KornSW/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
-            Contact = new OpenApiContact {
-              Name = "Open Research Study Communication Format",
-              Email = "info@orscf.org",
-              Url = new Uri("https://orscf.org")
-            }
-          }
-        );
+        //c.SwaggerDoc(
+        //  "StoreAccessV1",
+        //  new OpenApiInfo {
+        //    Title = _ApiTitle + "-StoreAccess",
+        //    Version = _ApiVersion.ToString(3),
+        //    Description = "NOTE: This is not intended be a 'RESTful' api, as it is NOT located on the persistence layer and is therefore NOT focused on doing CRUD operations! This HTTP-based API uses a 'call-based' approach to known BL operations. IN-, OUT- and return-arguments are transmitted using request-/response- wrappers (see [UJMW](https://github.com/KornSW/UnifiedJsonMessageWrapper)), which are very lightweight and are a compromise for broad support and adaptability in REST-inspired technologies as well as soap-inspired technologies!",
+        //    Contact = new OpenApiContact {
+        //      Name = "Open Research Study Communication Format",
+        //      Email = "info@orscf.org",
+        //      Url = new Uri("https://orscf.org")
+        //    }
+        //  }
+        //);
 
         c.SwaggerDoc(
           "ApiV1",
@@ -135,6 +156,17 @@ namespace MedicalResearch.SubjectData.WebAPI {
         app.UseDeveloperExceptionPage();
       }
 
+      string validateTokensVia = _Configuration.GetValue<string>("ValidateTokensVia");
+      if (validateTokensVia.StartsWith("http")) {
+        DefaultAccessTokenValidator.Instance = new ValidationServiceConnector(
+          validateTokensVia,
+          _Configuration.GetValue<string>("ValidationServiceConnectorToken")
+        ).AccessTokenValidator;
+      }
+      else {
+        DefaultAccessTokenValidator.Instance = new RulesetBasedAccessTokenValidator(validateTokensVia);
+      }
+
       if (_Configuration.GetValue<bool>("EnableSwaggerUi")) {
         var baseUrl = _Configuration.GetValue<string>("BaseUrl");
 
@@ -155,7 +187,7 @@ namespace MedicalResearch.SubjectData.WebAPI {
 
           //represents the sorting in SwaggerUI combo-box
           c.SwaggerEndpoint("schema/ApiV1.json", _ApiTitle + "-API v" + _ApiVersion.ToString(3));
-          c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess v" + _ApiVersion.ToString(3));
+          //c.SwaggerEndpoint("schema/StoreAccessV1.json", _ApiTitle + "-StoreAccess v" + _ApiVersion.ToString(3));
       
           c.RoutePrefix = "docs";
 

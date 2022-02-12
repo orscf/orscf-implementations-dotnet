@@ -32,7 +32,8 @@
            indentDepthPerLevel = 2,
            outputNamespace = "MedicalResearch.SubjectData.WebAPI",
            customImports = new String[] {
-             "MedicalResearch.SubjectData"
+             "MedicalResearch.SubjectData",
+             "Security.AccessTokenHandling"
            },
 
          // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@
            generateSwashbuckleAttributesForControllers = true,
            generateGroupName = "ApiV1",
 
-           customAttributesPerControllerMethod = "RequireBaererAuth(\"store-{O}\")",
+           customAttributesPerControllerMethod = "EvaluateBearerToken(\"{C}\")",
 
            fillFaultPropertyOnException = true,
            exceptionDisplay = "ex.Message", //change this into an extension-method to do some

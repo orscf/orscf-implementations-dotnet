@@ -12,6 +12,7 @@
       "Disabled": false,
       "AllowedHosts": [ "*" ],
       "DefaultApiPermissions": [
+        "ImsApiInfo",
         "Pseudonymization",
         "store-Get-*",
         "store-Search-*",

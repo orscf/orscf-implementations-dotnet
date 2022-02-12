@@ -60,13 +60,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="StoreAccess.Connector.tt">
+    <None Update="Connector (StoreAccess).tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Connector.Generated.cs</LastGenOutput>
+      <LastGenOutput>Connector %28StoreAccess%29.cs</LastGenOutput>
     </None>
-    <None Update="DTOs\StoreAccess.Wrappers.tt">
+    <None Update="Dtos (StoreAccess).tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
+      <LastGenOutput>Dtos %28StoreAccess%29.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -75,15 +75,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
+    <Compile Update="Connector (StoreAccess).cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
+      <DependentUpon>Connector %28StoreAccess%29.tt</DependentUpon>
     </Compile>
-    <Compile Update="StoreAccess.Connector.Generated.cs">
+    <Compile Update="Dtos (StoreAccess).cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Connector.tt</DependentUpon>
+      <DependentUpon>Dtos %28StoreAccess%29.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

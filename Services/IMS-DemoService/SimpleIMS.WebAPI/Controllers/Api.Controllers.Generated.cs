@@ -17,7 +17,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("identityUnblinding")]
-    public class IdentityUnblindingController : ControllerBase {
+    public partial class IdentityUnblindingController : ControllerBase {
       
       private readonly ILogger<IdentityUnblindingController> _Logger;
       private readonly IIdentityUnblindingService _IdentityUnblinding;
@@ -98,7 +98,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("imsApiInfo")]
-    public class ImsApiInfoController : ControllerBase {
+    public partial class ImsApiInfoController : ControllerBase {
       
       private readonly ILogger<ImsApiInfoController> _Logger;
       private readonly IImsApiInfoService _ImsApiInfo;
@@ -194,7 +194,7 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
     [Route("pseudonymization")]
-    public class PseudonymizationController : ControllerBase {
+    public partial class PseudonymizationController : ControllerBase {
       
       private readonly ILogger<PseudonymizationController> _Logger;
       private readonly IPseudonymizationService _Pseudonymization;

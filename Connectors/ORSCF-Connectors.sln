@@ -31,12 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDR.TestClient", "WDR-Conne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDR-TestClient", "VDR-Connector\TestClient\VDR-TestClient.csproj", "{62382CF0-23B9-459C-822C-05EE4FB19128}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC0EDA14-6A2E-40B3-9D5B-42BAA9776959}"
-	ProjectSection(SolutionItems) = preProject
-		(tools)\kGEN.Readme.txt = (tools)\kGEN.Readme.txt
-		(tools)\kGEN.Sample.tt = (tools)\kGEN.Sample.tt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubjectData.Connector", "SDR-Connector\ConnectorLib\SubjectData.Connector.csproj", "{2E3D68E7-9EB1-4236-8CBD-BA00AC5E343A}"
 EndProject
 Global

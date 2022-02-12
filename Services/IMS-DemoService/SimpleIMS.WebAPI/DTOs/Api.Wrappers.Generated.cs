@@ -273,9 +273,9 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
       [Required]
       public string birthDate { get; set; }
       
-      /// <summary> Required Argument for 'GetOrCreatePseudonym' (Dictionary(string, string)) </summary>
+      /// <summary> Required Argument for 'GetOrCreatePseudonym' (Dictionary(String,String)) </summary>
       [Required]
-      public Dictionary<string, string> extendedFields { get; set; }
+      public Dictionary<String,String> extendedFields { get; set; }
       
       /// <summary> Required Argument for 'GetOrCreatePseudonym' (Guid): A UUID </summary>
       [Required]
@@ -325,9 +325,9 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
       [Required]
       public string birthDate { get; set; }
       
-      /// <summary> Required Argument for 'GetExisitingPseudonym' (Dictionary(string, string)) </summary>
+      /// <summary> Required Argument for 'GetExisitingPseudonym' (Dictionary(String,String)) </summary>
       [Required]
-      public Dictionary<string, string> extendedFields { get; set; }
+      public Dictionary<String,String> extendedFields { get; set; }
       
     }
     
