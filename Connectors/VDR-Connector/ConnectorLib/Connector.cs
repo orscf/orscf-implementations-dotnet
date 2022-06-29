@@ -23,69 +23,69 @@ namespace MedicalResearch.VisitData {
         url = url + "/";
       }
       
-      _VdrApiInfoServiceClient = new VdrApiInfoServiceClient(url + "vdrApiInfoService/", apiToken);
-      _VdrEventSubscriptionServiceClient = new VdrEventSubscriptionServiceClient(url + "vdrEventSubscriptionService/", apiToken);
-      _DataRecordingSubmissionServiceClient = new DataRecordingSubmissionServiceClient(url + "dataRecordingSubmissionService/", apiToken);
-      _VisitConsumeServiceClient = new VisitConsumeServiceClient(url + "visitConsumeService/", apiToken);
-      _VisitHL7ExportServiceClient = new VisitHL7ExportServiceClient(url + "visitHL7ExportService/", apiToken);
-      _VisitHL7ImportServiceClient = new VisitHL7ImportServiceClient(url + "visitHL7ImportService/", apiToken);
-      _VisitSubmissionServiceClient = new VisitSubmissionServiceClient(url + "visitSubmissionService/", apiToken);
+      _VdrApiInfoClient = new VdrApiInfoClient(url + "vdrApiInfo/", apiToken);
+      _VdrEventSubscriptionClient = new VdrEventSubscriptionClient(url + "vdrEventSubscription/", apiToken);
+      _DataRecordingSubmissionClient = new DataRecordingSubmissionClient(url + "dataRecordingSubmission/", apiToken);
+      _VisitConsumeClient = new VisitConsumeClient(url + "visitConsume/", apiToken);
+      _VisitHL7ExportClient = new VisitHL7ExportClient(url + "visitHL7Export/", apiToken);
+      _VisitHL7ImportClient = new VisitHL7ImportClient(url + "visitHL7Import/", apiToken);
+      _VisitSubmissionClient = new VisitSubmissionClient(url + "visitSubmission/", apiToken);
       
     }
     
-    private VdrApiInfoServiceClient _VdrApiInfoServiceClient = null;
+    private VdrApiInfoClient _VdrApiInfoClient = null;
     /// <summary> Provides interoperability information for the current implementation </summary>
-    public IVdrApiInfoService VdrApiInfoService {
+    public IVdrApiInfoService VdrApiInfo {
       get {
-        return _VdrApiInfoServiceClient;
+        return _VdrApiInfoClient;
       }
     }
     
-    private VdrEventSubscriptionServiceClient _VdrEventSubscriptionServiceClient = null;
+    private VdrEventSubscriptionClient _VdrEventSubscriptionClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    public IVdrEventSubscriptionService VdrEventSubscriptionService {
+    public IVdrEventSubscriptionService VdrEventSubscription {
       get {
-        return _VdrEventSubscriptionServiceClient;
+        return _VdrEventSubscriptionClient;
       }
     }
     
-    private DataRecordingSubmissionServiceClient _DataRecordingSubmissionServiceClient = null;
+    private DataRecordingSubmissionClient _DataRecordingSubmissionClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    public IDataRecordingSubmissionService DataRecordingSubmissionService {
+    public IDataRecordingSubmissionService DataRecordingSubmission {
       get {
-        return _DataRecordingSubmissionServiceClient;
+        return _DataRecordingSubmissionClient;
       }
     }
     
-    private VisitConsumeServiceClient _VisitConsumeServiceClient = null;
+    private VisitConsumeClient _VisitConsumeClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    public IVisitConsumeService VisitConsumeService {
+    public IVisitConsumeService VisitConsume {
       get {
-        return _VisitConsumeServiceClient;
+        return _VisitConsumeClient;
       }
     }
     
-    private VisitHL7ExportServiceClient _VisitHL7ExportServiceClient = null;
+    private VisitHL7ExportClient _VisitHL7ExportClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    public IVisitHL7ExportService VisitHL7ExportService {
+    public IVisitHL7ExportService VisitHL7Export {
       get {
-        return _VisitHL7ExportServiceClient;
+        return _VisitHL7ExportClient;
       }
     }
     
-    private VisitHL7ImportServiceClient _VisitHL7ImportServiceClient = null;
+    private VisitHL7ImportClient _VisitHL7ImportClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    public IVisitHL7ImportService VisitHL7ImportService {
+    public IVisitHL7ImportService VisitHL7Import {
       get {
-        return _VisitHL7ImportServiceClient;
+        return _VisitHL7ImportClient;
       }
     }
     
-    private VisitSubmissionServiceClient _VisitSubmissionServiceClient = null;
+    private VisitSubmissionClient _VisitSubmissionClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    public IVisitSubmissionService VisitSubmissionService {
+    public IVisitSubmissionService VisitSubmission {
       get {
-        return _VisitSubmissionServiceClient;
+        return _VisitSubmissionClient;
       }
     }
     
@@ -94,12 +94,12 @@ namespace MedicalResearch.VisitData {
   namespace VdrApiInfo {
     
     /// <summary> Provides interoperability information for the current implementation </summary>
-    internal partial class VdrApiInfoServiceClient : IVdrApiInfoService {
+    internal partial class VdrApiInfoClient : IVdrApiInfoService {
       
       private string _Url;
       private string _ApiToken;
       
-      public VdrApiInfoServiceClient(string url, string apiToken) {
+      public VdrApiInfoClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -184,12 +184,12 @@ namespace MedicalResearch.VisitData {
   namespace VdrEventSubscription {
     
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    internal partial class VdrEventSubscriptionServiceClient : IVdrEventSubscriptionService {
+    internal partial class VdrEventSubscriptionClient : IVdrEventSubscriptionService {
       
       private string _Url;
       private string _ApiToken;
       
-      public VdrEventSubscriptionServiceClient(string url, string apiToken) {
+      public VdrEventSubscriptionClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -322,12 +322,12 @@ namespace MedicalResearch.VisitData {
   namespace DataRecordingSubmission {
     
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    internal partial class DataRecordingSubmissionServiceClient : IDataRecordingSubmissionService {
+    internal partial class DataRecordingSubmissionClient : IDataRecordingSubmissionService {
       
       private string _Url;
       private string _ApiToken;
       
-      public DataRecordingSubmissionServiceClient(string url, string apiToken) {
+      public DataRecordingSubmissionClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -368,12 +368,12 @@ namespace MedicalResearch.VisitData {
   namespace VisitConsume {
     
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    internal partial class VisitConsumeServiceClient : IVisitConsumeService {
+    internal partial class VisitConsumeClient : IVisitConsumeService {
       
       private string _Url;
       private string _ApiToken;
       
-      public VisitConsumeServiceClient(string url, string apiToken) {
+      public VisitConsumeClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -532,12 +532,12 @@ namespace MedicalResearch.VisitData {
   namespace VisitHL7Export {
     
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    internal partial class VisitHL7ExportServiceClient : IVisitHL7ExportService {
+    internal partial class VisitHL7ExportClient : IVisitHL7ExportService {
       
       private string _Url;
       private string _ApiToken;
       
-      public VisitHL7ExportServiceClient(string url, string apiToken) {
+      public VisitHL7ExportClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -576,12 +576,12 @@ namespace MedicalResearch.VisitData {
   namespace VisitHL7Import {
     
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    internal partial class VisitHL7ImportServiceClient : IVisitHL7ImportService {
+    internal partial class VisitHL7ImportClient : IVisitHL7ImportService {
       
       private string _Url;
       private string _ApiToken;
       
-      public VisitHL7ImportServiceClient(string url, string apiToken) {
+      public VisitHL7ImportClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -622,12 +622,12 @@ namespace MedicalResearch.VisitData {
   namespace VisitSubmission {
     
     /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
-    internal partial class VisitSubmissionServiceClient : IVisitSubmissionService {
+    internal partial class VisitSubmissionClient : IVisitSubmissionService {
       
       private string _Url;
       private string _ApiToken;
       
-      public VisitSubmissionServiceClient(string url, string apiToken) {
+      public VisitSubmissionClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }

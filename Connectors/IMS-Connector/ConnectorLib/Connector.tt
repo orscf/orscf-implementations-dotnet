@@ -42,6 +42,10 @@
            authHeaderName = "Authorization",
            throwClientExecptionsFromFaultProperty = true,
 
+           appendOwnerNameAsNamespace = true,
+           removeLeadingCharCountForOwnerName = 1,
+           removeTrailingCharCountForOwnerName = 7,
+
          //////////////////////////////////////////////////////////////////////////////////////
        };
 

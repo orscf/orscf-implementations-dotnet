@@ -20,7 +20,7 @@
 
            // Source:
            inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\ORSCF.BillingData.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.BillingData.StoreAccess.I*",
+           interfaceTypeNamePattern = "MedicalResearch.BillingData.I*Service",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
@@ -30,7 +30,7 @@
            template = "Wrappers",
            outputLanguage = "C#",
            indentDepthPerLevel = 2,
-           outputNamespace = "MedicalResearch.BillingData.StoreAccess",
+           outputNamespace = "MedicalResearch.BillingData",
            customImports = new String[] {
            },
 

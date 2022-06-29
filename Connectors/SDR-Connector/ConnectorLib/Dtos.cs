@@ -29,7 +29,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetApiVersion' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     
@@ -63,7 +63,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetCapabilities' (String[]) </summary>
-      public string[] @return { get; set; }
+      public string[] @return { get; set; } = null;
       
     }
     
@@ -101,7 +101,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetPermittedAuthScopes' (String[]) </summary>
-      public string[] @return { get; set; }
+      public string[] @return { get; set; } = null;
       
     }
     
@@ -127,7 +127,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetOAuthTokenRequestUrl' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     
@@ -170,7 +170,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'SubscribeForChangedSubjects' (Guid) </summary>
-      public Guid @return { get; set; }
+      public Guid @return { get; set; } = Guid.Empty;
       
     }
     
@@ -304,7 +304,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'TerminateSubscription' (Boolean) </summary>
-      public bool @return { get; set; }
+      public bool @return { get; set; } = false;
       
     }
     
@@ -336,7 +336,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetSubsriptionsBySubscriberUrl' (Guid[]) </summary>
-      public Guid[] @return { get; set; }
+      public Guid[] @return { get; set; } = null;
       
     }
     
@@ -453,7 +453,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetCustomFieldDescriptorsForSubject' (CustomFieldDescriptor[]) </summary>
-      public CustomFieldDescriptor[] @return { get; set; }
+      public CustomFieldDescriptor[] @return { get; set; } = null;
       
     }
     
@@ -592,7 +592,7 @@ namespace MedicalResearch.SubjectData {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'ExportSubjectFhirRessources' (Boolean) </summary>
-      public bool @return { get; set; }
+      public bool @return { get; set; } = false;
       
     }
     

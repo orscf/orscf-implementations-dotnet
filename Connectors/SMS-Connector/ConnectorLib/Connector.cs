@@ -20,51 +20,51 @@ namespace MedicalResearch.StudyManagement {
         url = url + "/";
       }
       
-      _InstituteMgmtServiceClient = new InstituteMgmtServiceClient(url + "instituteMgmtService/", apiToken);
-      _SiteParticipationServiceClient = new SiteParticipationServiceClient(url + "siteParticipationService/", apiToken);
-      _SmsApiInfoServiceClient = new SmsApiInfoServiceClient(url + "smsApiInfoService/", apiToken);
-      _StudyAccessServiceClient = new StudyAccessServiceClient(url + "studyAccessService/", apiToken);
-      _StudySetupServiceClient = new StudySetupServiceClient(url + "studySetupService/", apiToken);
+      _InstituteMgmtClient = new InstituteMgmtClient(url + "instituteMgmt/", apiToken);
+      _SiteParticipationClient = new SiteParticipationClient(url + "siteParticipation/", apiToken);
+      _SmsApiInfoClient = new SmsApiInfoClient(url + "smsApiInfo/", apiToken);
+      _StudyAccessClient = new StudyAccessClient(url + "studyAccess/", apiToken);
+      _StudySetupClient = new StudySetupClient(url + "studySetup/", apiToken);
       
     }
     
-    private InstituteMgmtServiceClient _InstituteMgmtServiceClient = null;
+    private InstituteMgmtClient _InstituteMgmtClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    public IInstituteMgmtService InstituteMgmtService {
+    public IInstituteMgmtService InstituteMgmt {
       get {
-        return _InstituteMgmtServiceClient;
+        return _InstituteMgmtClient;
       }
     }
     
-    private SiteParticipationServiceClient _SiteParticipationServiceClient = null;
+    private SiteParticipationClient _SiteParticipationClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    public ISiteParticipationService SiteParticipationService {
+    public ISiteParticipationService SiteParticipation {
       get {
-        return _SiteParticipationServiceClient;
+        return _SiteParticipationClient;
       }
     }
     
-    private SmsApiInfoServiceClient _SmsApiInfoServiceClient = null;
+    private SmsApiInfoClient _SmsApiInfoClient = null;
     /// <summary> Provides interoperability information for the current implementation </summary>
-    public ISmsApiInfoService SmsApiInfoService {
+    public ISmsApiInfoService SmsApiInfo {
       get {
-        return _SmsApiInfoServiceClient;
+        return _SmsApiInfoClient;
       }
     }
     
-    private StudyAccessServiceClient _StudyAccessServiceClient = null;
+    private StudyAccessClient _StudyAccessClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    public IStudyAccessService StudyAccessService {
+    public IStudyAccessService StudyAccess {
       get {
-        return _StudyAccessServiceClient;
+        return _StudyAccessClient;
       }
     }
     
-    private StudySetupServiceClient _StudySetupServiceClient = null;
+    private StudySetupClient _StudySetupClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    public IStudySetupService StudySetupService {
+    public IStudySetupService StudySetup {
       get {
-        return _StudySetupServiceClient;
+        return _StudySetupClient;
       }
     }
     
@@ -73,12 +73,12 @@ namespace MedicalResearch.StudyManagement {
   namespace InstituteMgmt {
     
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    internal partial class InstituteMgmtServiceClient : IInstituteMgmtService {
+    internal partial class InstituteMgmtClient : IInstituteMgmtService {
       
       private string _Url;
       private string _ApiToken;
       
-      public InstituteMgmtServiceClient(string url, string apiToken) {
+      public InstituteMgmtClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -207,12 +207,12 @@ namespace MedicalResearch.StudyManagement {
   namespace SiteParticipation {
     
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    internal partial class SiteParticipationServiceClient : ISiteParticipationService {
+    internal partial class SiteParticipationClient : ISiteParticipationService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SiteParticipationServiceClient(string url, string apiToken) {
+      public SiteParticipationClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -231,12 +231,12 @@ namespace MedicalResearch.StudyManagement {
   namespace SmsApiInfo {
     
     /// <summary> Provides interoperability information for the current implementation </summary>
-    internal partial class SmsApiInfoServiceClient : ISmsApiInfoService {
+    internal partial class SmsApiInfoClient : ISmsApiInfoService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SmsApiInfoServiceClient(string url, string apiToken) {
+      public SmsApiInfoClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -321,12 +321,12 @@ namespace MedicalResearch.StudyManagement {
   namespace StudyAccess {
     
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    internal partial class StudyAccessServiceClient : IStudyAccessService {
+    internal partial class StudyAccessClient : IStudyAccessService {
       
       private string _Url;
       private string _ApiToken;
       
-      public StudyAccessServiceClient(string url, string apiToken) {
+      public StudyAccessClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -381,12 +381,12 @@ namespace MedicalResearch.StudyManagement {
   namespace StudySetup {
     
     /// <summary> Provides an workflow-level API for interating with a 'StudyManagementSystem' (SMS) </summary>
-    internal partial class StudySetupServiceClient : IStudySetupService {
+    internal partial class StudySetupClient : IStudySetupService {
       
       private string _Url;
       private string _ApiToken;
       
-      public StudySetupServiceClient(string url, string apiToken) {
+      public StudySetupClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }

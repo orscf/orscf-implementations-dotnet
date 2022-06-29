@@ -22,60 +22,60 @@ namespace MedicalResearch.SubjectData {
         url = url + "/";
       }
       
-      _SdrApiInfoServiceClient = new SdrApiInfoServiceClient(url + "sdrApiInfoService/", apiToken);
-      _SdrEventSubscriptionServiceClient = new SdrEventSubscriptionServiceClient(url + "sdrEventSubscriptionService/", apiToken);
-      _SubjectConsumeServiceClient = new SubjectConsumeServiceClient(url + "subjectConsumeService/", apiToken);
-      _SubjectHL7ExportServiceClient = new SubjectHL7ExportServiceClient(url + "subjectHL7ExportService/", apiToken);
-      _SubjectHL7ImportServiceClient = new SubjectHL7ImportServiceClient(url + "subjectHL7ImportService/", apiToken);
-      _SubjectSubmissionServiceClient = new SubjectSubmissionServiceClient(url + "subjectSubmissionService/", apiToken);
+      _SdrApiInfoClient = new SdrApiInfoClient(url + "sdrApiInfo/", apiToken);
+      _SdrEventSubscriptionClient = new SdrEventSubscriptionClient(url + "sdrEventSubscription/", apiToken);
+      _SubjectConsumeClient = new SubjectConsumeClient(url + "subjectConsume/", apiToken);
+      _SubjectHL7ExportClient = new SubjectHL7ExportClient(url + "subjectHL7Export/", apiToken);
+      _SubjectHL7ImportClient = new SubjectHL7ImportClient(url + "subjectHL7Import/", apiToken);
+      _SubjectSubmissionClient = new SubjectSubmissionClient(url + "subjectSubmission/", apiToken);
       
     }
     
-    private SdrApiInfoServiceClient _SdrApiInfoServiceClient = null;
+    private SdrApiInfoClient _SdrApiInfoClient = null;
     /// <summary> Provides interoperability information for the current implementation </summary>
-    public ISdrApiInfoService SdrApiInfoService {
+    public ISdrApiInfoService SdrApiInfo {
       get {
-        return _SdrApiInfoServiceClient;
+        return _SdrApiInfoClient;
       }
     }
     
-    private SdrEventSubscriptionServiceClient _SdrEventSubscriptionServiceClient = null;
+    private SdrEventSubscriptionClient _SdrEventSubscriptionClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    public ISdrEventSubscriptionService SdrEventSubscriptionService {
+    public ISdrEventSubscriptionService SdrEventSubscription {
       get {
-        return _SdrEventSubscriptionServiceClient;
+        return _SdrEventSubscriptionClient;
       }
     }
     
-    private SubjectConsumeServiceClient _SubjectConsumeServiceClient = null;
+    private SubjectConsumeClient _SubjectConsumeClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    public ISubjectConsumeService SubjectConsumeService {
+    public ISubjectConsumeService SubjectConsume {
       get {
-        return _SubjectConsumeServiceClient;
+        return _SubjectConsumeClient;
       }
     }
     
-    private SubjectHL7ExportServiceClient _SubjectHL7ExportServiceClient = null;
+    private SubjectHL7ExportClient _SubjectHL7ExportClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    public ISubjectHL7ExportService SubjectHL7ExportService {
+    public ISubjectHL7ExportService SubjectHL7Export {
       get {
-        return _SubjectHL7ExportServiceClient;
+        return _SubjectHL7ExportClient;
       }
     }
     
-    private SubjectHL7ImportServiceClient _SubjectHL7ImportServiceClient = null;
+    private SubjectHL7ImportClient _SubjectHL7ImportClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    public ISubjectHL7ImportService SubjectHL7ImportService {
+    public ISubjectHL7ImportService SubjectHL7Import {
       get {
-        return _SubjectHL7ImportServiceClient;
+        return _SubjectHL7ImportClient;
       }
     }
     
-    private SubjectSubmissionServiceClient _SubjectSubmissionServiceClient = null;
+    private SubjectSubmissionClient _SubjectSubmissionClient = null;
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    public ISubjectSubmissionService SubjectSubmissionService {
+    public ISubjectSubmissionService SubjectSubmission {
       get {
-        return _SubjectSubmissionServiceClient;
+        return _SubjectSubmissionClient;
       }
     }
     
@@ -84,12 +84,12 @@ namespace MedicalResearch.SubjectData {
   namespace SdrApiInfo {
     
     /// <summary> Provides interoperability information for the current implementation </summary>
-    internal partial class SdrApiInfoServiceClient : ISdrApiInfoService {
+    internal partial class SdrApiInfoClient : ISdrApiInfoService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SdrApiInfoServiceClient(string url, string apiToken) {
+      public SdrApiInfoClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -174,12 +174,12 @@ namespace MedicalResearch.SubjectData {
   namespace SdrEventSubscription {
     
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    internal partial class SdrEventSubscriptionServiceClient : ISdrEventSubscriptionService {
+    internal partial class SdrEventSubscriptionClient : ISdrEventSubscriptionService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SdrEventSubscriptionServiceClient(string url, string apiToken) {
+      public SdrEventSubscriptionClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -312,12 +312,12 @@ namespace MedicalResearch.SubjectData {
   namespace SubjectConsume {
     
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    internal partial class SubjectConsumeServiceClient : ISubjectConsumeService {
+    internal partial class SubjectConsumeClient : ISubjectConsumeService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SubjectConsumeServiceClient(string url, string apiToken) {
+      public SubjectConsumeClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -476,12 +476,12 @@ namespace MedicalResearch.SubjectData {
   namespace SubjectHL7Export {
     
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    internal partial class SubjectHL7ExportServiceClient : ISubjectHL7ExportService {
+    internal partial class SubjectHL7ExportClient : ISubjectHL7ExportService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SubjectHL7ExportServiceClient(string url, string apiToken) {
+      public SubjectHL7ExportClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -520,12 +520,12 @@ namespace MedicalResearch.SubjectData {
   namespace SubjectHL7Import {
     
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    internal partial class SubjectHL7ImportServiceClient : ISubjectHL7ImportService {
+    internal partial class SubjectHL7ImportClient : ISubjectHL7ImportService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SubjectHL7ImportServiceClient(string url, string apiToken) {
+      public SubjectHL7ImportClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }
@@ -566,12 +566,12 @@ namespace MedicalResearch.SubjectData {
   namespace SubjectSubmission {
     
     /// <summary> Provides an workflow-level API for interating with a 'SubjectDataRepository' (VDR) </summary>
-    internal partial class SubjectSubmissionServiceClient : ISubjectSubmissionService {
+    internal partial class SubjectSubmissionClient : ISubjectSubmissionService {
       
       private string _Url;
       private string _ApiToken;
       
-      public SubjectSubmissionServiceClient(string url, string apiToken) {
+      public SubjectSubmissionClient(string url, string apiToken) {
         _Url = url;
         _ApiToken = apiToken;
       }

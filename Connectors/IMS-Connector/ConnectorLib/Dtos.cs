@@ -41,7 +41,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'RequestUnblindingToken' (String) </summary>
-    public string @return { get; set; }
+    public string @return { get; set; } = null;
     
   }
   
@@ -67,7 +67,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetUnblindingTokenState' (Int32) </summary>
-    public Int32 @return { get; set; }
+    public Int32 @return { get; set; } = 0;
     
   }
   
@@ -101,7 +101,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'UnblindSubject' (IdentityDetails) </summary>
-    public IdentityDetails @return { get; set; }
+    public IdentityDetails @return { get; set; } = null;
     
   }
   
@@ -125,7 +125,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetApiVersion' (String) </summary>
-    public string @return { get; set; }
+    public string @return { get; set; } = null;
     
   }
   
@@ -151,7 +151,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetCapabilities' (String[]) </summary>
-    public string[] @return { get; set; }
+    public string[] @return { get; set; } = null;
     
   }
   
@@ -189,7 +189,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetPermittedAuthScopes' (String[]) </summary>
-    public string[] @return { get; set; }
+    public string[] @return { get; set; } = null;
     
   }
   
@@ -215,7 +215,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetOAuthTokenRequestUrl' (String) </summary>
-    public string @return { get; set; }
+    public string @return { get; set; } = null;
     
   }
   
@@ -238,7 +238,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetExtendedFieldDescriptors' (ExtendedFieldDescriptor[]) </summary>
-    public ExtendedFieldDescriptor[] @return { get; set; }
+    public ExtendedFieldDescriptor[] @return { get; set; } = null;
     
   }
   
@@ -290,7 +290,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetOrCreatePseudonym' (Boolean) </summary>
-    public bool @return { get; set; }
+    public bool @return { get; set; } = false;
     
   }
   
@@ -334,7 +334,7 @@ namespace MedicalResearch.IdentityManagement {
     public string fault { get; set; } = null;
     
     /// <summary> Return-Value of 'GetExisitingPseudonym' (Boolean) </summary>
-    public bool @return { get; set; }
+    public bool @return { get; set; } = false;
     
   }
   

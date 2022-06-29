@@ -20,26 +20,31 @@
 
            // Source:
            inputFile = Host.ResolvePath("..\\..\\..\\(Stage)\\Bin\\ORSCF.StudyWorkflowDefinition.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.Workflow.StoreAccess.I*s",
+           interfaceTypeNamePattern = "MedicalResearch.Workflow.I*Service",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
            },
 
            // Output:
-           template = "Clients",
+           template = "Wrappers",
            outputLanguage = "C#",
            indentDepthPerLevel = 2,
-           outputNamespace = "MedicalResearch.Workflow.StoreAccess",
+           outputNamespace = "MedicalResearch.Workflow",
            customImports = new String[] {
-             "MedicalResearch.Workflow.Model",
            },
 
-         // CLIENTS ///////////////////////////////////////////////////////////////////////////
+         // WRAPPERS //////////////////////////////////////////////////////////////////////////
 
-           connectorClassName = "WdrStoreConnector",
-           authHeaderName = "Authorization",
-           throwClientExecptionsFromFaultProperty = true,
+            generateFaultProperty = true,
+
+            //AppendOwnerNameAsNamespace = true,
+            //removeLeadingCharCountForOwnerName = 1,
+            //removeTrailingCharCountForOwnerName = 7,
+
+            useInterfaceTypeNameToGenerateSubNamespace = true,
+            removeLeadingCharCountForSubNamespace = 1,
+            removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };
