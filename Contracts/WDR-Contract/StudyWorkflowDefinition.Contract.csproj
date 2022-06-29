@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>ORSCF.StudyWorkflowDefinition.Contract</AssemblyName>
     <RootNamespace>MedicalResearch.Workflow</RootNamespace>
-    <Version>1.8.0</Version>
+    <Version>1.9.0</Version>
     <Authors>ORSCF.org</Authors>
     <Company>ORSCF.org</Company>
     <Copyright>ORSCF.org</Copyright>
@@ -39,8 +39,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="v1\RepoInterfaces.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RepoInterfaces.Generated.cs</LastGenOutput>
+      <Generator></Generator>
     </None>
     <None Update="v1\WdrServices.md">
       <DesignTime>True</DesignTime>
@@ -62,11 +61,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Update="v1\RepoInterfaces.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>RepoInterfaces.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
