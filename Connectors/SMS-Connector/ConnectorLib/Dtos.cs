@@ -100,8 +100,8 @@ namespace MedicalResearch.StudyManagement {
       /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null) </summary>
       public string fault { get; set; } = null;
       
-      /// <summary> Return-Value of 'GetInstituteInfos' (String) </summary>
-      public string @return { get; set; } = null;
+      /// <summary> Return-Value of 'GetInstituteInfos' (InstituteInfo[]) </summary>
+      public InstituteInfo[] @return { get; set; } = null;
       
     }
     

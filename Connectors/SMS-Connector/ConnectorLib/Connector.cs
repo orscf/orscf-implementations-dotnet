@@ -146,7 +146,7 @@ namespace MedicalResearch.StudyManagement {
       
       /// <summary> GetInstituteInfos </summary>
       /// <param name="instituteUid">  </param>
-      public String GetInstituteInfos(Guid instituteUid) {
+      public InstituteInfo[] GetInstituteInfos(Guid instituteUid) {
         using (var webClient = this.CreateWebClient()) {
           string url = _Url + "getInstituteInfos";
           var requestWrapper = new GetInstituteInfosRequest {

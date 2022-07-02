@@ -2,7 +2,7 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ import namespace="System" #>
-<#@ output extension=".Generated.cs"#>
+<#@ output extension=".Generated.ts"#>
 <#@ include file="$(SolutionDir)\(tools)\kGEN.ttinclude" once="true" #><#
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +20,7 @@
 
            // Source:
            inputFile = Host.ResolvePath(".\\bin\\Demo.dll"),
+
            interfaceTypeNamePattern = "MyBusinessNamespace.I*",
 
            requireXmlDocForNamespaces = new string[] { 
@@ -27,23 +28,32 @@
            },
 
            // Output:
-           template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
-           outputLanguage = "C#",   // <- choose between: C#|VB|TS
+           template = "Clients",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
+           
+
+           outputLanguage = "TS",   // <- choose between: C#|VB|TS|PHP
+           generateTypeNamesInPhp = true,
+
            indentDepthPerLevel = 2,
-           outputNamespace = "MyBusinessNamespace.WebApi",
+           codeGenInfoHeader = "Generated From {InputAssemblyVersion}\nWARNING: dont edit this code",
+           outputNamespace = "",
            customImports = new String[] {
              
            },
 
          // MODELS ////////////////////////////////////////////////////////////////////////////
 
+           //modelTypeNameIncludePatterns = new string[] {
+           //  "MyBusinessNamespace.*"
+           //},
+
            modelTypeNameIncludePatterns = new string[] {
-             "MyBusinessNamespace.*"
+                 "MedicalResearch.SubjectData.*"
            },
 
-           generateDataAnnotationsForLocalModels = true, //SOAP-STYLE ONLY
+           generateDataAnnotationsForLocalModels = false, //SOAP-STYLE ONLY
 
-           generateNavigationAnnotationsForLocalModels = true, //SOAP-STYLE ONLY
+           generateNavigationAnnotationsForLocalModels = false, //SOAP-STYLE ONLY
            //(requires also the "EntityAnnoations" Nuget Package!)
 
 
@@ -51,14 +61,33 @@
 
             generateFaultProperty = true,
 
+            //appendOwnerNameAsNamespace = true,
+            //removeLeadingCharCountForOwnerName = 1,
+            //removeTrailingCharCountForOwnerName = 0,
+
+           //useInterfaceTypeNameToGenerateSubNamespace = true,
+           //removeLeadingCharCountForSubNamespace = 1,
+           //removeTrailingCharCountForSubNamespace = 0,
+
          // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
            
            generateSwashbuckleAttributesForControllers = true,
+           generateGroupName="", //for the api-explorer
+
            customAttributesPerControllerMethod = "RequireBaererAuth(\"{C}/{O}\")",
 
            fillFaultPropertyOnException = true,
            exceptionDisplay = "ex.Message", //change this into an extension-method to do some
-           //                                    custom evaluation before exposing too much details
+           //                                 custom evaluation before exposing too much details
+
+           routePrefix = "",
+
+           removeLeadingCharCountForControllerName = 1,
+           removeTrailingCharCountForControllerName = 0,
+
+           //useInterfaceTypeNameToGenerateSubNamespace = true,
+           //removeLeadingCharCountForSubNamespace = 1,
+           //removeTrailingCharCountForSubNamespace = 0,
 
          // CLIENTS ///////////////////////////////////////////////////////////////////////////
 
@@ -66,9 +95,14 @@
            authHeaderName = "Authorization",
            throwClientExecptionsFromFaultProperty = true,
 
+           appendOwnerNameAsNamespace = false,
+           removeLeadingCharCountForOwnerName = 1,
+           removeTrailingCharCountForOwnerName = 7,
+
          // INTERFACES ////////////////////////////////////////////////////////////////////////
  
-   
+           transformRefAndOutArgsToReturnPropertyBag = true,
+           generateAsyncMethods = true
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

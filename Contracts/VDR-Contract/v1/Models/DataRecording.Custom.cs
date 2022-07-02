@@ -63,6 +63,17 @@ namespace MedicalResearch.VisitData.Model {
     [Required]
     public String DataSchemaUrl { get; set; }
 
+    /// <summary> version of schema, which is addressed by the 'DataSchemaUrl'</summary>
+    [Required]
+    public String DataSchemaVersion { get; set; }
+
+    /// <summary> 'FhirQuestionaire' / 'XML' / 'CSV' / 'Custom'</summary>
+    [Required]
+    public String DataSchemaKind { get; set; }
+
+    /// <summary> Language of free-text information inside of the data content</summary>
+    public String DataLanguage { get; set; }
+
     /// <summary> additional notes regarding this dedcated execution (supplied by the execution person) *this field is optional (use null as value) </summary>
     public String NotesRegardingOutcome { get; set; }
 

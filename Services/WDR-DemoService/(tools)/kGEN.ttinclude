@@ -30,7 +30,7 @@
   String Generate(Object config) {
 
     //this value will be patched during nuget installation!!!
-    string pkgDirectory = "%USERPROFILE%\\.nuget\\packages\\kgen.generator\\1.0.20-localbuild\\tools\\bin"; 
+    string pkgDirectory = "%USERPROFILE%\\.nuget\\packages\\kgen.generator\\1.4.2.593\\tools\\bin"; 
     string jsonParameterFileLocation = Path.GetTempPath();
 
     string generatorExe = Path.Combine(pkgDirectory, "kGEN.exe");
@@ -46,7 +46,7 @@
     
     generatorExe = Path.GetFullPath(generatorExe);
     if(!File.Exists(generatorExe)){
-      throw new Exception("NUGET-PKG: 'UJMW.Tools.CodeGen' IS NOT INSTALLED PROPERLY: '" + generatorExe + "' was not found!");
+      throw new Exception("NUGET-PKG: 'kGEN.Generator' IS NOT INSTALLED PROPERLY: '" + generatorExe + "' was not found!");
     }
 
     string jsonParameterFileName = Path.Combine(jsonParameterFileLocation, "T4-Args-" + Guid.NewGuid().ToString() + ".json");     

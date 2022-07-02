@@ -1,5 +1,6 @@
 ﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
 
+using MedicalResearch.StudyManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +29,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetInstituteUidByTitle' (Guid) </summary>
-      public Guid @return { get; set; }
+      public Guid @return { get; set; } = Guid.Empty;
       
     }
     
@@ -52,7 +53,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetInstituteTitleByUid' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     
@@ -76,7 +77,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'ArchiveInstitute' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     
@@ -99,8 +100,8 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null) </summary>
       public string fault { get; set; } = null;
       
-      /// <summary> Return-Value of 'GetInstituteInfos' (String) </summary>
-      public string @return { get; set; }
+      /// <summary> Return-Value of 'GetInstituteInfos' (InstituteInfo[]) </summary>
+      public InstituteInfo[] @return { get; set; } = null;
       
     }
     
@@ -128,7 +129,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'CreateInstituteIfMissing' (Boolean) </summary>
-      public bool @return { get; set; }
+      public bool @return { get; set; } = false;
       
     }
     
@@ -160,7 +161,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'UpdateInstitueTitle' (Boolean) </summary>
-      public bool @return { get; set; }
+      public bool @return { get; set; } = false;
       
     }
     
@@ -192,7 +193,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetApiVersion' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     
@@ -218,7 +219,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetCapabilities' (String[]) </summary>
-      public string[] @return { get; set; }
+      public string[] @return { get; set; } = null;
       
     }
     
@@ -256,7 +257,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetPermittedAuthScopes' (String[]) </summary>
-      public string[] @return { get; set; }
+      public string[] @return { get; set; } = null;
       
     }
     
@@ -282,7 +283,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetOAuthTokenRequestUrl' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     
@@ -316,7 +317,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'SubscribeStudyStateChangedEvents' (Boolean) </summary>
-      public bool @return { get; set; }
+      public bool @return { get; set; } = false;
       
     }
     
@@ -344,7 +345,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'UnsubscribeStudyStateChangedEvents' (Boolean) </summary>
-      public bool @return { get; set; }
+      public bool @return { get; set; } = false;
       
     }
     
@@ -374,7 +375,7 @@ namespace MedicalResearch.StudyManagement.WebAPI {
       public string fault { get; set; } = null;
       
       /// <summary> Return-Value of 'GetStudyTitleByIdentifier' (String) </summary>
-      public string @return { get; set; }
+      public string @return { get; set; } = null;
       
     }
     

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using H7 = Hl7.Fhir.Model;
+using MedicalResearch.StudyManagement.Model;
 
 namespace MedicalResearch.StudyManagement {
 
@@ -15,7 +16,7 @@ namespace MedicalResearch.StudyManagement {
 
     string ArchiveInstitute(Guid instituteUid);
 
-    string GetInstituteInfos(Guid instituteUid);
+    InstituteInfo[] GetInstituteInfos(Guid instituteUid);
 
     /// <summary>
     /// ensures, that an institute with the given Uid exists

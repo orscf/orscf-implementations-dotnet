@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using MedicalResearch.Workflow;
 using MedicalResearch.Workflow.Persistence;
 using MedicalResearch.Workflow.Model;
-using MedicalResearch.Workflow.StoreAccess;
 
 namespace MedicalResearch.Workflow.Persistence {
 

@@ -25,8 +25,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="jose-jwt" Version="3.1.1" />
-    <PackageReference Include="kGEN.Generator" Version="1.3.0.543" />
+    <PackageReference Include="jose-jwt" Version="3.2.0" />
+    <PackageReference Include="kGEN.Generator" Version="1.4.2.593" />
+    <PackageReference Include="KornSW.TokenValidation" Version="1.0.2.548" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
@@ -78,13 +79,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Controllers\StoreAccess.Controllers.tt">
+    <None Update="Controllers\Api.Controllers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Controllers.Generated.cs</LastGenOutput>
+      <LastGenOutput>Api.Controllers.Generated.cs</LastGenOutput>
     </None>
-    <None Update="DTOs\StoreAccess.Wrappers.tt">
+    <None Update="DTOs\Api.Wrappers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StoreAccess.Wrappers.Generated.cs</LastGenOutput>
+      <LastGenOutput>Api.Wrappers.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -93,15 +94,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controllers\StoreAccess.Controllers.Generated.cs">
+    <Compile Update="Controllers\Api.Controllers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Controllers.tt</DependentUpon>
+      <DependentUpon>Api.Controllers.tt</DependentUpon>
     </Compile>
-    <Compile Update="DTOs\StoreAccess.Wrappers.Generated.cs">
+    <Compile Update="DTOs\Api.Wrappers.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>StoreAccess.Wrappers.tt</DependentUpon>
+      <DependentUpon>Api.Wrappers.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   

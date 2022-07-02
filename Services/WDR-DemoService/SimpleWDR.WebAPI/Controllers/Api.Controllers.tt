@@ -20,23 +20,41 @@
 
            // Source:
            inputFile = Host.ResolvePath("..\\..\\..\\..\\(Stage)\\Bin\\ORSCF.StudyWorkflowDefinition.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.StudyWorkflowDefinition.StoreAccess.I*",
+           interfaceTypeNamePattern = "MedicalResearch.Workflow.I*",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
            },
 
            // Output:
-           template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
-           outputLanguage = "C#",   // <- choose between: C#|VB|TS
+           template = "MvcControllers",
+           outputLanguage = "C#",
            indentDepthPerLevel = 2,
-           outputNamespace = "MedicalResearch.StudyWorkflowDefinition.StoreAccess",
+           outputNamespace = "MedicalResearch.Workflow.WebAPI",
            customImports = new String[] {
+             "MedicalResearch.Workflow",
+             "Security.AccessTokenHandling"
            },
 
-         // WRAPPERS //////////////////////////////////////////////////////////////////////////
+         // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
+           
+           generateSwashbuckleAttributesForControllers = true,
+           generateGroupName = "ApiV1",
 
-           generateFaultProperty = true,
+           customAttributesPerControllerMethod = "EvaluateBearerToken(\"{C}\")",
+
+           fillFaultPropertyOnException = true,
+           exceptionDisplay = "ex.Message", //change this into an extension-method to do some
+           //                                 custom evaluation before exposing too much details
+
+           routePrefix = "",
+
+           removeLeadingCharCountForControllerName = 1,
+           removeTrailingCharCountForControllerName = 7,
+
+           useInterfaceTypeNameToGenerateSubNamespace = false,
+           removeLeadingCharCountForSubNamespace = 1,
+           removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

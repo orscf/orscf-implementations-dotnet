@@ -20,36 +20,27 @@
 
            // Source:
            inputFile = Host.ResolvePath("..\\..\\..\\..\\(Stage)\\Bin\\ORSCF.StudyWorkflowDefinition.Contract.dll"),
-           interfaceTypeNamePattern = "MedicalResearch.StudyWorkflowDefinition.StoreAccess.I*",
+           interfaceTypeNamePattern = "MedicalResearch.Workflow.I*",
 
            requireXmlDocForNamespaces = new string[] { 
              "MedicalResearch"
            },
 
            // Output:
-           template = "MvcControllers",
-           outputLanguage = "C#",
+           template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
+           outputLanguage = "C#",   // <- choose between: C#|VB|TS
            indentDepthPerLevel = 2,
-           outputNamespace = "MedicalResearch.StudyWorkflowDefinition.WebAPI",
+           outputNamespace = "MedicalResearch.Workflow",
            customImports = new String[] {
-             "MedicalResearch.StudyWorkflowDefinition.StoreAccess"
            },
 
-         // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////
+         // WRAPPERS //////////////////////////////////////////////////////////////////////////
+
+           generateFaultProperty = true,
            
-           generateSwashbuckleAttributesForControllers = true,
-           generateGroupName = "StoreAccessV1",
-
-           customAttributesPerControllerMethod = "RequireBaererAuth(\"store-{O}\")",
-
-           fillFaultPropertyOnException = true,
-           exceptionDisplay = "ex.Message", //change this into an extension-method to do some
-           //                                 custom evaluation before exposing too much details
-
-           routePrefix = "store/",
-
-           removeLeadingCharCountForControllerName = 1,
-           removeTrailingCharCountForControllerName = 0,
+           useInterfaceTypeNameToGenerateSubNamespace = false,
+           removeLeadingCharCountForSubNamespace = 1,
+           removeTrailingCharCountForSubNamespace = 7,
 
          //////////////////////////////////////////////////////////////////////////////////////
        };
