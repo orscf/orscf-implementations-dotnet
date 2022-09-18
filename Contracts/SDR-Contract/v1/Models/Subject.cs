@@ -122,17 +122,16 @@ namespace MedicalResearch.SubjectData.Model {
 
   public class SubjectFilter {
 
-    public Guid? StudyUid { get; set; } = null;
+    public UidFieldFilter StudyUid { get; set; } = null;
 
-    public Guid? SiteUid { get; set; } = null;
+    public UidFieldFilter SiteUid { get; set; } = null;
 
     /// <summary> 
     /// identity of the patient which is usually a pseudonym from a corr. 'IdentiyManagementSystem'
     /// (the exact semantic is defined per study)
     /// *this field has a max length of 100
     /// </summary>
-    [MaxLength(100)]
-    public String SubjectIdentifier { get; set; }
+    public StringFieldFilter SubjectIdentifier { get; set; }
 
     #region " Content "
 
@@ -142,24 +141,22 @@ namespace MedicalResearch.SubjectData.Model {
     /// on-study | on-study-intervention | on-study-observation | pending-on-study | 
     /// potential-candidate | screening | withdrawn 
     /// </summary>
-    public String Status { get; set; }
+    public StringFieldFilter Status { get; set; }
 
-    public DateTime? MinPeriodStart { get; set; }
-    public DateTime? MaxPeriodStart { get; set; }
+    public DateFieldFilter PeriodStart { get; set; }
 
-    public DateTime? MinPeriodEnd { get; set; }
-    public DateTime? MaxPeriodEnd { get; set; }
+    public DateFieldFilter PeriodEnd { get; set; }
 
-    public String AssignedArm { get; set; }
+    public StringFieldFilter AssignedArm { get; set; }
 
-    public String ActualArm { get; set; }
+    public StringFieldFilter ActualArm { get; set; }
 
-    public String SubstudyName { get; set; }
+    public StringFieldFilter SubstudyName { get; set; }
 
     /// <summary> This can be the ID ('surrogate-key') of the Partient record within a site specific
     /// patient management system. This MUST NOT be any natural key or plain readable name which 
     /// exposes the identity of the patient! </summary>
-    public String ActualSiteDefinedPatientIdentifier { get; set; }
+    public StringFieldFilter ActualSiteDefinedPatientIdentifier { get; set; }
 
     #endregion
 
@@ -168,7 +165,7 @@ namespace MedicalResearch.SubjectData.Model {
     /// Call 'GetCustomFieldDescriptors' to get information about supported/required fields.
     /// Any passed values for undefined fields will be ignored.
     /// </summary>
-    public Dictionary<string, string> CustomFields { get; set; } = null;
+    public Dictionary<string, StringFieldFilter> CustomFields { get; set; } = null;
 
   }
 

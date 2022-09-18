@@ -6,35 +6,30 @@ namespace MedicalResearch.VisitData.Model {
 
   public class VisitFilter {
 
-    public Guid? StudyUid { get; set; } = null;
+    public UidFieldFilter StudyUid { get; set; } = null;
 
-    public Guid? SiteUid { get; set; } = null;
+    public UidFieldFilter SiteUid { get; set; } = null;
 
     /// <summary> 
     /// identity of the patient which is usually a pseudonym from a corr. 'IdentiyManagementSystem'
     /// (the exact semantic is defined per study)
     /// *this field has a max length of 100
     /// </summary>
-    [MaxLength(100)]
-    public String SubjectIdentifier { get; set; }
+    public StringFieldFilter SubjectIdentifier { get; set; }
 
     #region " Content "
 
-    public String VisitProcedureName { get; set; }
+    public StringFieldFilter VisitProcedureName { get; set; }
 
     /// <summary> unique title of the visit execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
-    [Required]
-    public String VisitExecutionTitle { get; set; }
+    public StringFieldFilter VisitExecutionTitle { get; set; }
 
     /// <summary> 0=Unscheduled / 1=Sheduled / 2=Executed / 3=AbortDuringExecution / 4=Skipped / 5=Removed </summary>
-    public Int32? ExecutionState { get; set; }
+    public NumericFieldFilter ExecutionState { get; set; }
 
-    public DateTime? MinScheduledDateUtc { get; set; }
-    public DateTime? MaxScheduledDateUtc { get; set; }
+    public DateFieldFilter ScheduledDateUtc { get; set; }
 
-    public DateTime? MinExecutionDateUtc { get; set; }
-    public DateTime? MaxExecutionDateUtc { get; set; }
-
+    public DateFieldFilter ExecutionDateUtc { get; set; }
 
     #endregion
 
@@ -43,7 +38,7 @@ namespace MedicalResearch.VisitData.Model {
     /// Call 'GetCustomFieldDescriptors' to get information about supported/required fields.
     /// Any passed values for undefined fields will be ignored.
     /// </summary>
-    public Dictionary<string, string> CustomFields { get; set; } = null;
+    public Dictionary<string, StringFieldFilter> CustomFields { get; set; } = null;
 
   }
 

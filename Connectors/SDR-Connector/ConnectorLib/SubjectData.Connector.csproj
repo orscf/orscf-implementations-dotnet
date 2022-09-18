@@ -16,7 +16,9 @@
     <Company>ORSCF.org</Company>
     <Authors>ORSCF.org</Authors>
     <PackageTags>Research Study Clinical Trial ORSCF</PackageTags>
-    <Version>1.8.0</Version>
+    <Version>1.9.0</Version>
+    <AssemblyVersion>1.9.0.0</AssemblyVersion>
+    <FileVersion>1.9.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
