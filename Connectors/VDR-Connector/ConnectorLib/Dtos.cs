@@ -344,6 +344,162 @@ namespace MedicalResearch.VisitData {
     
   }
   
+  namespace DataEnrollment {
+    
+    /// <summary>
+    /// Contains arguments for calling 'EnrollDataForVisitExplicit'.
+    /// Method: Enrolls recorded data to be stored as 'DataRecording'-Record related to a explicitly addressed Visit inside of this repository.
+    /// This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned
+    /// which can be used to query the state of this process via 'GetValidationState'.
+    /// </summary>
+    public class EnrollDataForVisitExplicitRequest {
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (Guid): the ORSCF-Visit-UID to address the parent visit for which the given data should be submitted </summary>
+      [Required]
+      public Guid targetvisitUid { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (string): title of the task execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
+      [Required]
+      public string taskExecutionTitle { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (DateTime): the time, when the data was recorded </summary>
+      [Required]
+      public DateTime executionDateTimeUtc { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (string): 'FhirQuestionaire' / 'XML' / 'CSV' / 'Custom' </summary>
+      [Required]
+      public string dataSchemaKind { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (string): the schema-url of the data which were stored inside of the 'RecordedData' field </summary>
+      [Required]
+      public string dataSchemaUrl { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (string): version of schema, which is addressed by the 'DataSchemaUrl' </summary>
+      [Required]
+      public string dataSchemaVersion { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (string): Language of free-text information inside of the data content </summary>
+      [Required]
+      public string dataLanguage { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitExplicit' (string): RAW data, in the schema as defined at the 'DataSchemaUrl' </summary>
+      [Required]
+      public string recordedData { get; set; }
+      
+    }
+    
+    /// <summary>
+    /// Contains results from calling 'EnrollDataForVisitExplicit'.
+    /// Method: Enrolls recorded data to be stored as 'DataRecording'-Record related to a explicitly addressed Visit inside of this repository.
+    /// This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned
+    /// which can be used to query the state of this process via 'GetValidationState'.
+    /// </summary>
+    public class EnrollDataForVisitExplicitResponse {
+      
+      /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null) </summary>
+      public string fault { get; set; } = null;
+      
+      /// <summary> Return-Value of 'EnrollDataForVisitExplicit' (Guid) </summary>
+      public Guid @return { get; set; } = Guid.Empty;
+      
+    }
+    
+    /// <summary>
+    /// Contains arguments for calling 'EnrollDataForVisitImplicit'.
+    /// Method: Enrolls recorded data to be stored as 'DataRecording'-Record related to a visit inside of this repository
+    /// (which is implicitely resolved using the given 'visitExecutionTitle' and 'subjectIdentifier') .
+    /// This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned
+    /// which can be used to query the state of this process via 'GetValidationState'.
+    /// </summary>
+    public class EnrollDataForVisitImplicitRequest {
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (Guid): the ORSCF-Study-UID which is used to lookup for the target visit for which the given data should be submitted </summary>
+      [Required]
+      public Guid studyUid { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): the study related identity of the patient (usually a pseudonym) which is used to lookup for the target visit for which the given data should be submitted </summary>
+      [Required]
+      public string subjectIdentifier { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): unique title of the visit execution as defined in the 'StudyWorkflowDefinition' which is used to lookup for the target visit for which the given data should be submitted </summary>
+      [Required]
+      public string visitExecutionTitle { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): title of the task execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </summary>
+      [Required]
+      public string taskExecutionTitle { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (DateTime): the time, when the data was recorded </summary>
+      [Required]
+      public DateTime executionDateTimeUtc { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): 'FhirQuestionaire' / 'XML' / 'CSV' / 'Custom' </summary>
+      [Required]
+      public string dataSchemaKind { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): the schema-url of the data which were stored inside of the 'RecordedData' field </summary>
+      [Required]
+      public string dataSchemaUrl { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): version of schema, which is addressed by the 'DataSchemaUrl' </summary>
+      [Required]
+      public string dataSchemaVersion { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): Language of free-text information inside of the data content </summary>
+      [Required]
+      public string dataLanguage { get; set; }
+      
+      /// <summary> Required Argument for 'EnrollDataForVisitImplicit' (string): RAW data, in the schema as defined at the 'DataSchemaUrl' </summary>
+      [Required]
+      public string recordedData { get; set; }
+      
+    }
+    
+    /// <summary>
+    /// Contains results from calling 'EnrollDataForVisitImplicit'.
+    /// Method: Enrolls recorded data to be stored as 'DataRecording'-Record related to a visit inside of this repository
+    /// (which is implicitely resolved using the given 'visitExecutionTitle' and 'subjectIdentifier') .
+    /// This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned
+    /// which can be used to query the state of this process via 'GetValidationState'.
+    /// </summary>
+    public class EnrollDataForVisitImplicitResponse {
+      
+      /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null) </summary>
+      public string fault { get; set; } = null;
+      
+      /// <summary> Return-Value of 'EnrollDataForVisitImplicit' (Guid) </summary>
+      public Guid @return { get; set; } = Guid.Empty;
+      
+    }
+    
+    /// <summary>
+    /// Contains arguments for calling 'GetValidationState'.
+    /// Method: Providing the current validation state for a given data enrollment process
+    /// </summary>
+    public class GetValidationStateRequest {
+      
+      /// <summary> Required Argument for 'GetValidationState' (Guid) </summary>
+      [Required]
+      public Guid dataEnrollmentUid { get; set; }
+      
+    }
+    
+    /// <summary>
+    /// Contains results from calling 'GetValidationState'.
+    /// Method: Providing the current validation state for a given data enrollment process
+    /// </summary>
+    public class GetValidationStateResponse {
+      
+      /// <summary> This field contains error text equivalent to an Exception message! (note that only 'fault' XOR 'return' can have a value != null) </summary>
+      public string fault { get; set; } = null;
+      
+      /// <summary> Return-Value of 'GetValidationState' (DataEnrollmentValidationState): Declares, which portion of the corresponding 'value' should be compared. DEFAULT (if this is undefined or null) is 'Date'(3). </summary>
+      public DataEnrollmentValidationState? @return { get; set; }
+      
+    }
+    
+  }
+  
   namespace DataRecordingSubmission {
     
     /// <summary>

@@ -19,19 +19,18 @@
          // BASE-SETTINGS /////////////////////////////////////////////////////////////////////
 
            // Source:
-           //inputFile = Host.ResolvePath(".\\bin\\Demo.dll"),
-           inputFile = Host.ResolvePath("..\\..\\..\\ORSCF\\orscf-implementations-dotnet\\(Stage)\\Bin\\ORSCF.StudyManagement.Contract.dll"),
-           //interfaceTypeNamePattern = "MyBusinessNamespace.I*",
-           interfaceTypeNamePattern = "MedicalResearch.StudyManagement.StoreAccess.I*",
+           inputFile = Host.ResolvePath(".\\bin\\Demo.dll"),
+
+           interfaceTypeNamePattern = "MyBusinessNamespace.I*",
 
            requireXmlDocForNamespaces = new string[] { 
              "MyBusinessNamespace"
            },
 
            // Output:
-           template = "Wrappers",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
+           template = "Clients",     // <- choose between: Models|Wrappers|MvcControllers|Clients|Interfaces
            
-           
+
            outputLanguage = "TS",   // <- choose between: C#|VB|TS|PHP
            generateTypeNamesInPhp = true,
 
@@ -44,17 +43,13 @@
 
          // MODELS ////////////////////////////////////////////////////////////////////////////
 
-           //modelTypeNameIncludePatterns = new string[] {
-           //  "MyBusinessNamespace.*"
-           //},
-
            modelTypeNameIncludePatterns = new string[] {
-             "MedicalResearch.StudyManagement.*"
+             "MyBusinessNamespace.*"
            },
 
-           generateDataAnnotationsForLocalModels = true, //SOAP-STYLE ONLY
+           generateDataAnnotationsForLocalModels = false, //SOAP-STYLE ONLY
 
-           generateNavigationAnnotationsForLocalModels = true, //SOAP-STYLE ONLY
+           generateNavigationAnnotationsForLocalModels = false, //SOAP-STYLE ONLY
            //(requires also the "EntityAnnoations" Nuget Package!)
 
 
@@ -96,13 +91,14 @@
            authHeaderName = "Authorization",
            throwClientExecptionsFromFaultProperty = true,
 
-           appendOwnerNameAsNamespace = true,
+           appendOwnerNameAsNamespace = false,
            removeLeadingCharCountForOwnerName = 1,
-           removeTrailingCharCountForOwnerName = 0,
+           removeTrailingCharCountForOwnerName = 7,
 
          // INTERFACES ////////////////////////////////////////////////////////////////////////
  
-   
+           transformRefAndOutArgsToReturnPropertyBag = true,
+           generateAsyncMethods = true
 
          //////////////////////////////////////////////////////////////////////////////////////
        };

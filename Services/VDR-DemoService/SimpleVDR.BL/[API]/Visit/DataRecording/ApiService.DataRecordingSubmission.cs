@@ -6,7 +6,13 @@ using System.Linq;
 namespace MedicalResearch.VisitData {
 
   public partial class ApiService : IDataRecordingSubmissionService {
-    public void ImportDataRecordings(DataRecordingStructure[] dataRecordings, out Guid[] createdDataRecordingUids, out Guid[] updatedDataRecordingUids) {
+
+    public void ImportDataRecordings(
+      DataRecordingStructure[] dataRecordings,
+      out Guid[] createdDataRecordingUids,
+      out Guid[] updatedDataRecordingUids
+    ) {
+
       throw new NotImplementedException();
     }
 

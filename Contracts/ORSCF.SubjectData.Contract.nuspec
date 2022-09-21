@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ORSCF.SubjectData.Contract</id>
-    <version>1.9.0-localbuild</version>
+    <version>1.9.1-localbuild</version>
     <title>ORSCF - SubjectData Contract</title>
     <authors>ORSCF.org</authors>
     <owners>ORSCF.org</owners>

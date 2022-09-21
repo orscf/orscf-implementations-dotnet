@@ -4,6 +4,7 @@ using MedicalResearch.VisitData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Security;
+using Security.AccessTokenHandling;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -229,6 +230,98 @@ namespace MedicalResearch.VisitData.WebAPI {
         catch (Exception ex) {
           _Logger.LogCritical(ex, ex.Message);
           return new GetSubsriptionsBySubscriberUrlResponse { fault = ex.Message };
+        }
+      }
+      
+    }
+    
+  }
+  
+  namespace DataEnrollment {
+    
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiV1")]
+    [Route("dataEnrollment")]
+    public partial class DataEnrollmentController : ControllerBase {
+      
+      private readonly ILogger<DataEnrollmentController> _Logger;
+      private readonly IDataEnrollmentService _DataEnrollment;
+      
+      public DataEnrollmentController(ILogger<DataEnrollmentController> logger, IDataEnrollmentService dataEnrollment) {
+        _Logger = logger;
+        _DataEnrollment = dataEnrollment;
+      }
+      
+      /// <summary> Enrolls recorded data to be stored as 'DataRecording'-Record related to a explicitly addressed Visit inside of this repository. This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned which can be used to query the state of this process via 'GetValidationState'. </summary>
+      /// <param name="args"> request capsule containing the method arguments </param>
+      [EvaluateBearerToken("DataEnrollment")]
+      [HttpPost("enrollDataForVisitExplicit"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(EnrollDataForVisitExplicit), Description = "Enrolls recorded data to be stored as 'DataRecording'-Record related to a explicitly addressed Visit inside of this repository. This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned which can be used to query the state of this process via 'GetValidationState'.")]
+      public EnrollDataForVisitExplicitResponse EnrollDataForVisitExplicit([FromBody][SwaggerRequestBody(Required = true)] EnrollDataForVisitExplicitRequest args) {
+        try {
+          var response = new EnrollDataForVisitExplicitResponse();
+          response.@return = _DataEnrollment.EnrollDataForVisitExplicit(
+            args.targetvisitUid,
+            args.taskExecutionTitle,
+            args.executionDateTimeUtc,
+            args.dataSchemaKind,
+            args.dataSchemaUrl,
+            args.dataSchemaVersion,
+            args.dataLanguage,
+            args.recordedData
+          );
+          return response;
+        }
+        catch (Exception ex) {
+          _Logger.LogCritical(ex, ex.Message);
+          return new EnrollDataForVisitExplicitResponse { fault = ex.Message };
+        }
+      }
+      
+      /// <summary> Enrolls recorded data to be stored as 'DataRecording'-Record related to a visit inside of this repository (which is implicitely resolved using the given 'visitExecutionTitle' and 'subjectIdentifier') . This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned which can be used to query the state of this process via 'GetValidationState'. </summary>
+      /// <param name="args"> request capsule containing the method arguments </param>
+      [EvaluateBearerToken("DataEnrollment")]
+      [HttpPost("enrollDataForVisitImplicit"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(EnrollDataForVisitImplicit), Description = "Enrolls recorded data to be stored as 'DataRecording'-Record related to a visit inside of this repository (which is implicitely resolved using the given 'visitExecutionTitle' and 'subjectIdentifier') . This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned which can be used to query the state of this process via 'GetValidationState'.")]
+      public EnrollDataForVisitImplicitResponse EnrollDataForVisitImplicit([FromBody][SwaggerRequestBody(Required = true)] EnrollDataForVisitImplicitRequest args) {
+        try {
+          var response = new EnrollDataForVisitImplicitResponse();
+          response.@return = _DataEnrollment.EnrollDataForVisitImplicit(
+            args.studyUid,
+            args.subjectIdentifier,
+            args.visitExecutionTitle,
+            args.taskExecutionTitle,
+            args.executionDateTimeUtc,
+            args.dataSchemaKind,
+            args.dataSchemaUrl,
+            args.dataSchemaVersion,
+            args.dataLanguage,
+            args.recordedData
+          );
+          return response;
+        }
+        catch (Exception ex) {
+          _Logger.LogCritical(ex, ex.Message);
+          return new EnrollDataForVisitImplicitResponse { fault = ex.Message };
+        }
+      }
+      
+      /// <summary> Providing the current validation state for a given data enrollment process </summary>
+      /// <param name="args"> request capsule containing the method arguments </param>
+      [EvaluateBearerToken("DataEnrollment")]
+      [HttpPost("getValidationState"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(GetValidationState), Description = "Providing the current validation state for a given data enrollment process")]
+      public GetValidationStateResponse GetValidationState([FromBody][SwaggerRequestBody(Required = true)] GetValidationStateRequest args) {
+        try {
+          var response = new GetValidationStateResponse();
+          response.@return = _DataEnrollment.GetValidationState(
+            args.dataEnrollmentUid
+          );
+          return response;
+        }
+        catch (Exception ex) {
+          _Logger.LogCritical(ex, ex.Message);
+          return new GetValidationStateResponse { fault = ex.Message };
         }
       }
       

@@ -89,7 +89,7 @@ namespace MedicalResearch.VisitData.Model {
 
   }
 
-  public class NumericFieldFilter {
+  public class IntegerFieldFilter {
 
     /// <summary>
     /// Specifies one or more values to match.
@@ -98,7 +98,7 @@ namespace MedicalResearch.VisitData.Model {
     /// only makes sense when including NULL instead (if supported).
     /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
     /// </summary>
-    public NumericValueCriteria[] IncludedValues { get; set; }
+    public IntegerValueCriteria[] IncludedValues { get; set; }
 
     /// <summary>
     /// Specifies one or more values to be removed from the result set which was evaulated using the 'included values'.
@@ -106,7 +106,7 @@ namespace MedicalResearch.VisitData.Model {
     /// An empty array which just has no elements will also be ignored.
     /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
     /// </summary>
-    public NumericValueCriteria[] ExcludedValues { get; set; }
+    public IntegerValueCriteria[] ExcludedValues { get; set; }
 
     /// <summary>
     /// Negates the outcome of the whole filter.
@@ -115,7 +115,7 @@ namespace MedicalResearch.VisitData.Model {
     public bool Negate { get; set; } = false;
   }
 
-  public class NullableNumericFieldFilter : NumericFieldFilter {
+  public class NullableIntegerFieldFilter : IntegerFieldFilter {
 
     /// <summary>
     /// Can be set to true, if NULL should also treaded as match.
@@ -127,7 +127,61 @@ namespace MedicalResearch.VisitData.Model {
 
   }
 
-  public class NumericValueCriteria {
+  public class IntegerValueCriteria {
+
+    /// <summary>
+    /// The value to match.
+    /// </summary>
+    [Required]
+    public int Value { get; set; } = 0;
+
+    /// <summary>
+    /// Declares, how the corresponding 'value' should be compared.
+    /// DEFAULT (if this is undefined or null) is 'Equal'(1).
+    /// </summary>
+    public RangeMatchingBehaviour MatchingBehaviour { get; set; } = 0M;
+
+  }
+
+  public class DecimalFieldFilter {
+
+    /// <summary>
+    /// Specifies one or more values to match.
+    /// DEFAULT (if this is undefined or null) will include everything (but NULL) to enable filtering based on 'excluded values'.
+    /// An empty array which just has no elements will be treaded as valid input and results in no value matching, so this
+    /// only makes sense when including NULL instead (if supported).
+    /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
+    /// </summary>
+    public DecimalValueCriteria[] IncludedValues { get; set; }
+
+    /// <summary>
+    /// Specifies one or more values to be removed from the result set which was evaulated using the 'included values'.
+    /// DEFAULT (if this is undefined or null) will just leave the filtering based on 'included values'.
+    /// An empty array which just has no elements will also be ignored.
+    /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
+    /// </summary>
+    public DecimalValueCriteria[] ExcludedValues { get; set; }
+
+    /// <summary>
+    /// Negates the outcome of the whole filter.
+    /// DEFAULT (if this is undefined or null) is 'false'.
+    /// </summary>
+    public bool Negate { get; set; } = false;
+  }
+
+  public class NullableDecimalFieldFilter : DecimalFieldFilter {
+
+    /// <summary>
+    /// Can be set to true, if NULL should also treaded as match.
+    /// DEFAULT (if this is undefined or null) is 'false'.
+    /// NOTE: for filtering just NULL-values, set this to true and specify an empty array for the included values.
+    /// Filtering just non-NULL-values can be achieved when also setting the 'negate' flag to true.
+    /// </summary>
+    public bool IncludeNull { get; set; } = false;
+
+  }
+
+  public class DecimalValueCriteria {
 
     /// <summary>
     /// The value to match.
@@ -143,6 +197,7 @@ namespace MedicalResearch.VisitData.Model {
 
   }
 
+
   public class UidFieldFilter {
 
     /// <summary>
@@ -152,7 +207,7 @@ namespace MedicalResearch.VisitData.Model {
     /// only makes sense when including NULL instead (if supported).
     /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
     /// </summary>
-    public StringValueCriteria[] IncludedValues { get; set; }
+    public UidValueCriteria[] IncludedValues { get; set; }
 
     /// <summary>
     /// Specifies one or more values to be removed from the result set which was evaulated using the 'included values'.
@@ -160,7 +215,7 @@ namespace MedicalResearch.VisitData.Model {
     /// An empty array which just has no elements will also be ignored.
     /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
     /// </summary>
-    public StringValueCriteria[] ExcludedValues { get; set; }
+    public UidValueCriteria[] ExcludedValues { get; set; }
 
     /// <summary>
     /// Negates the outcome of the whole filter.
@@ -187,7 +242,7 @@ namespace MedicalResearch.VisitData.Model {
     /// The value to match.
     /// </summary>
     [Required]
-    public string Value { get; set; } = null;
+    public Guid Value { get; set; } = Guid.Empty;
 
   }
 
@@ -235,7 +290,7 @@ namespace MedicalResearch.VisitData.Model {
     /// The value to match.
     /// </summary>
     [Required]
-    public decimal Value { get; set; } = 0M;
+    public DateTime Value { get; set; }
 
     /// <summary>
     /// Declares, how the corresponding 'value' should be compared.
@@ -243,11 +298,59 @@ namespace MedicalResearch.VisitData.Model {
     /// </summary>
     public RangeMatchingBehaviour MatchingBehaviour { get; set; } = RangeMatchingBehaviour.Equal;
 
+    ///// <summary>
+    ///// Declares, which portion of the corresponding 'value' should be compared.
+    ///// DEFAULT (if this is undefined or null) is 'Date'(3).
+    ///// </summary>
+    //public DateMatchingPrecision MatchingPrecision { get; set; } = DateMatchingPrecision.Date;
+
+  }
+
+  public class BooleanFieldFilter {
+
     /// <summary>
-    /// Declares, which portion of the corresponding 'value' should be compared.
-    /// DEFAULT (if this is undefined or null) is 'Date'(3).
+    /// Specifies one or more values to match.
+    /// DEFAULT (if this is undefined or null) will include everything (but NULL) to enable filtering based on 'excluded values'.
+    /// An empty array which just has no elements will be treaded as valid input and results in no value matching, so this
+    /// only makes sense when including NULL instead (if supported).
+    /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
     /// </summary>
-    public DateMatchingPrecision MatchingPrecision { get; set; } = DateMatchingPrecision.Date;
+    public BooleanValueCriteria[] IncludedValues { get; set; }
+
+    /// <summary>
+    /// Specifies one or more values to be removed from the result set which was evaulated using the 'included values'.
+    /// DEFAULT (if this is undefined or null) will just leave the filtering based on 'included values'.
+    /// An empty array which just has no elements will also be ignored.
+    /// An array containing multiple elements, will require at least ONE of the criteria to match (OR-linked)!
+    /// </summary>
+    public BooleanValueCriteria[] ExcludedValues { get; set; }
+
+    /// <summary>
+    /// Negates the outcome of the whole filter.
+    /// DEFAULT (if this is undefined or null) is 'false'.
+    /// </summary>
+    public bool Negate { get; set; } = false;
+  }
+
+  public class NullableBooleanFieldFilter : BooleanFieldFilter {
+
+    /// <summary>
+    /// Can be set to true, if NULL should also treaded as match.
+    /// DEFAULT (if this is undefined or null) is 'false'.
+    /// NOTE: for filtering just NULL-values, set this to true and specify an empty array for the included values.
+    /// Filtering just non-NULL-values can be achieved when also setting the 'negate' flag to true.
+    /// </summary>
+    public bool IncludeNull { get; set; } = false;
+
+  }
+
+  public class BooleanValueCriteria {
+
+    /// <summary>
+    /// The value to match.
+    /// </summary>
+    [Required]
+    public bool Value { get; set; } = false;
 
   }
 
@@ -272,52 +375,51 @@ namespace MedicalResearch.VisitData.Model {
   /// Declares, which portion of the corresponding 'value' should be compared.
   /// DEFAULT (if this is undefined or null) is 'Date'(3).
   /// </summary>
-  public enum DateMatchingPrecision {
-    /// <summary> Matching only the YEAR portion of the given value. </summary>
-    Year = 1,
-    /// <summary> Matching the YEAR and MONTH portion of the given value. </summary>
-    YearAndMonth = 2,
-    /// <summary> Matching the DATE (year+month+day) portion of the given value. (DEFAULT)</summary>
-    Date = 3,
-    /// <summary> Matching the complete DATE and TIME of the given value. </summary>
-    DateAndTime = 4
-  }
+  //public enum DateMatchingPrecision {
+  //  / <summary> Matching only the YEAR portion of the given value. </summary>
+  //  Year = 1,
+  //  / <summary> Matching the YEAR and MONTH portion of the given value. </summary>
+  //  YearAndMonth = 2,
+  //  / <summary> Matching the DATE (year+month+day) portion of the given value. (DEFAULT)</summary>
+  //  Date = 3,
+  //  / <summary> Matching the complete DATE and TIME of the given value. </summary>
+  //  DateAndTime = 4
+  //}
 
   #endregion
 
   public enum DataEnrollmentValidationState {
 
-    /// <summary> the validation is outstanding </summary>
-    NotValidated = 0,
-
-    Invalid_UnassignableTarget,
-    Invalid_UnassignableTimeframe,
-    Invalid_AssignmentCollision,
-
-    /// <summary> schema is unknown </summary>
-    Invalid_UnsupportedSchema,
-
-    /// <summary> schema is known, but outdated and there is no compatibility any more </summary>
-    Invalid_OutdatedSchema,
-
-
-    /// <summary> the content has syntactical issues or has a missmatch to the addresses schema </summary>
-    Invalid_BadContentFormat,
-
-    /// <summary> the content/data is not plausible for the business logic </summary>
-    Invalid_BadData,
-
     /// <summary> rejected manually </summary>
     Invalid_Rejected = -1,
 
-    /// <summary> manulles queittieren von warnungen nötig </summary>
-    OnHold_DubiousContentData,
-
-    /// <summary> waiting for manual approval </summary>
-    OnHold_ManualApproval,
+    /// <summary> the validation is outstanding </summary>
+    NotValidated = 0,
 
     /// <summary> validation successfull </summary>
-    Validated = 1
+    Validated = 1,
+
+    /// <summary> manulles queittieren von warnungen nötig </summary>
+    OnHold_DubiousContentData = 2,
+
+    /// <summary> waiting for manual approval </summary>
+    OnHold_ManualApproval = 3,
+
+    Invalid_UnassignableTarget = 11,
+    Invalid_UnassignableTimeframe = 12,
+    Invalid_AssignmentCollision = 13,
+
+    /// <summary> schema is unknown </summary>
+    Invalid_UnsupportedSchema = 21,
+
+    /// <summary> schema is known, but outdated and there is no compatibility any more </summary>
+    Invalid_OutdatedSchema = 22,
+
+    /// <summary> the content has syntactical issues or has a missmatch to the addresses schema </summary>
+    Invalid_BadContentFormat = 23,
+
+    /// <summary> the content/data is not plausible for the business logic </summary>
+    Invalid_BadData = 24
 
   }
 

@@ -32,7 +32,8 @@
            indentDepthPerLevel = 2,
            outputNamespace = "MedicalResearch.VisitData.WebAPI",
            customImports = new String[] {
-             "MedicalResearch.VisitData"
+             "MedicalResearch.VisitData",
+             "Security.AccessTokenHandling"
            },
 
          // MVC-CONTROLLERS ///////////////////////////////////////////////////////////////////

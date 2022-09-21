@@ -4,12 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>MedicalResearch.VisitData</RootNamespace>
     <AssemblyName>ORSCF.VisitData.Contract</AssemblyName>
-    <Version>1.9.0</Version>
+    <Version>1.9.1</Version>
     <Authors>ORSCF.org</Authors>
     <Company>ORSCF.org</Company>
     <Copyright>ORSCF.org</Copyright>
     <Product>Open Research Study Communication Format</Product>
-    <AssemblyVersion>1.9.0.0</AssemblyVersion>
+    <AssemblyVersion>1.9.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

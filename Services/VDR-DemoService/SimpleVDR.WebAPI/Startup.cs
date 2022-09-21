@@ -16,6 +16,7 @@ using MedicalResearch.VisitData.StoreAccess;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Writers;
 using MedicalResearch.VisitData.Model;
+using Security.AccessTokenHandling;
 
 namespace MedicalResearch.VisitData.WebAPI {
 
@@ -59,7 +60,7 @@ namespace MedicalResearch.VisitData.WebAPI {
       services.AddSingleton<IVisitSubmissionService>(apiService);
       services.AddSingleton<IVisitHL7ExportService>(apiService);
       services.AddSingleton<IVisitHL7ImportService>(apiService);
-
+      services.AddSingleton<IDataEnrollmentService>(apiService);
       services.AddSingleton<IDataRecordingSubmissionService>(apiService);
 
       services.AddControllers();
@@ -150,6 +151,17 @@ namespace MedicalResearch.VisitData.WebAPI {
 
       if (!_Configuration.GetValue<bool>("ProdMode")) {
         app.UseDeveloperExceptionPage();
+      }
+
+      string validateTokensVia = _Configuration.GetValue<string>("ValidateTokensVia");
+      if (validateTokensVia.StartsWith("http")) {
+        DefaultAccessTokenValidator.Instance = new ValidationServiceConnector(
+          validateTokensVia,
+          _Configuration.GetValue<string>("ValidationServiceConnectorToken")
+        ).AccessTokenValidator;
+      }
+      else {
+        DefaultAccessTokenValidator.Instance = new RulesetBasedAccessTokenValidator(validateTokensVia);
       }
 
       if (_Configuration.GetValue<bool>("EnableSwaggerUi")) {

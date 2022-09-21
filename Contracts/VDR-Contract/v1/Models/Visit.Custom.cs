@@ -25,7 +25,7 @@ namespace MedicalResearch.VisitData.Model {
     public StringFieldFilter VisitExecutionTitle { get; set; }
 
     /// <summary> 0=Unscheduled / 1=Sheduled / 2=Executed / 3=AbortDuringExecution / 4=Skipped / 5=Removed </summary>
-    public NumericFieldFilter ExecutionState { get; set; }
+    public IntegerFieldFilter ExecutionState { get; set; }
 
     public DateFieldFilter ScheduledDateUtc { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿/* WARNING: THIS IS GENERATED CODE - PLEASE DONT EDIT DIRECTLY - YOUR CHANGES WILL BE LOST! */
 
+using MedicalResearch.VisitData.DataEnrollment;
 using MedicalResearch.VisitData.DataRecordingSubmission;
 using MedicalResearch.VisitData.Model;
 using MedicalResearch.VisitData.VdrApiInfo;
@@ -25,6 +26,7 @@ namespace MedicalResearch.VisitData {
       
       _VdrApiInfoClient = new VdrApiInfoClient(url + "vdrApiInfo/", apiToken);
       _VdrEventSubscriptionClient = new VdrEventSubscriptionClient(url + "vdrEventSubscription/", apiToken);
+      _DataEnrollmentClient = new DataEnrollmentClient(url + "dataEnrollment/", apiToken);
       _DataRecordingSubmissionClient = new DataRecordingSubmissionClient(url + "dataRecordingSubmission/", apiToken);
       _VisitConsumeClient = new VisitConsumeClient(url + "visitConsume/", apiToken);
       _VisitHL7ExportClient = new VisitHL7ExportClient(url + "visitHL7Export/", apiToken);
@@ -46,6 +48,14 @@ namespace MedicalResearch.VisitData {
     public IVdrEventSubscriptionService VdrEventSubscription {
       get {
         return _VdrEventSubscriptionClient;
+      }
+    }
+    
+    private DataEnrollmentClient _DataEnrollmentClient = null;
+    /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
+    public IDataEnrollmentService DataEnrollment {
+      get {
+        return _DataEnrollmentClient;
       }
     }
     
@@ -312,6 +322,116 @@ namespace MedicalResearch.VisitData {
             throw new Exception(responseWrapper.fault);
           }
           return responseWrapper.@return;
+        }
+      }
+      
+    }
+    
+  }
+  
+  namespace DataEnrollment {
+    
+    /// <summary> Provides an workflow-level API for interating with a 'VisitDataRepository' (VDR) </summary>
+    internal partial class DataEnrollmentClient : IDataEnrollmentService {
+      
+      private string _Url;
+      private string _ApiToken;
+      
+      public DataEnrollmentClient(string url, string apiToken) {
+        _Url = url;
+        _ApiToken = apiToken;
+      }
+      
+      private WebClient CreateWebClient() {
+        var wc = new WebClient();
+        wc.Headers.Set("Authorization", _ApiToken);
+        wc.Headers.Set("Content-Type", "application/json");
+        return wc;
+      }
+      
+      /// <summary> Enrolls recorded data to be stored as 'DataRecording'-Record related to a explicitly addressed Visit inside of this repository. This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned which can be used to query the state of this process via 'GetValidationState'. </summary>
+      /// <param name="targetvisitUid"> the ORSCF-Visit-UID to address the parent visit for which the given data should be submitted </param>
+      /// <param name="taskExecutionTitle"> title of the task execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </param>
+      /// <param name="executionDateTimeUtc"> the time, when the data was recorded </param>
+      /// <param name="dataSchemaKind"> 'FhirQuestionaire' / 'XML' / 'CSV' / 'Custom' </param>
+      /// <param name="dataSchemaUrl"> the schema-url of the data which were stored inside of the 'RecordedData' field </param>
+      /// <param name="dataSchemaVersion"> version of schema, which is addressed by the 'DataSchemaUrl' </param>
+      /// <param name="dataLanguage"> Language of free-text information inside of the data content </param>
+      /// <param name="recordedData"> RAW data, in the schema as defined at the 'DataSchemaUrl' </param>
+      public Guid EnrollDataForVisitExplicit(Guid targetvisitUid, string taskExecutionTitle, DateTime executionDateTimeUtc, string dataSchemaKind, string dataSchemaUrl, string dataSchemaVersion, string dataLanguage, string recordedData) {
+        using (var webClient = this.CreateWebClient()) {
+          string url = _Url + "enrollDataForVisitExplicit";
+          var requestWrapper = new EnrollDataForVisitExplicitRequest {
+            targetvisitUid = targetvisitUid,
+            taskExecutionTitle = taskExecutionTitle,
+            executionDateTimeUtc = executionDateTimeUtc,
+            dataSchemaKind = dataSchemaKind,
+            dataSchemaUrl = dataSchemaUrl,
+            dataSchemaVersion = dataSchemaVersion,
+            dataLanguage = dataLanguage,
+            recordedData = recordedData
+          };
+          string rawRequest = JsonConvert.SerializeObject(requestWrapper);
+          string rawResponse = webClient.UploadString(url, rawRequest);
+          var responseWrapper = JsonConvert.DeserializeObject<EnrollDataForVisitExplicitResponse>(rawResponse);
+          if(responseWrapper.fault != null){
+            throw new Exception(responseWrapper.fault);
+          }
+          return responseWrapper.@return;
+        }
+      }
+      
+      /// <summary> Enrolls recorded data to be stored as 'DataRecording'-Record related to a visit inside of this repository (which is implicitely resolved using the given 'visitExecutionTitle' and 'subjectIdentifier') . This goes ahead with an validation process for each enrollment, therefore a dataEnrollmentUid will be returned which can be used to query the state of this process via 'GetValidationState'. </summary>
+      /// <param name="studyUid"> the ORSCF-Study-UID which is used to lookup for the target visit for which the given data should be submitted </param>
+      /// <param name="subjectIdentifier"> the study related identity of the patient (usually a pseudonym) which is used to lookup for the target visit for which the given data should be submitted </param>
+      /// <param name="visitExecutionTitle"> unique title of the visit execution as defined in the 'StudyWorkflowDefinition' which is used to lookup for the target visit for which the given data should be submitted </param>
+      /// <param name="taskExecutionTitle"> title of the task execution as defined in the 'StudyWorkflowDefinition' (originated from the sponsor) </param>
+      /// <param name="executionDateTimeUtc"> the time, when the data was recorded </param>
+      /// <param name="dataSchemaKind"> 'FhirQuestionaire' / 'XML' / 'CSV' / 'Custom' </param>
+      /// <param name="dataSchemaUrl"> the schema-url of the data which were stored inside of the 'RecordedData' field </param>
+      /// <param name="dataSchemaVersion"> version of schema, which is addressed by the 'DataSchemaUrl' </param>
+      /// <param name="dataLanguage"> Language of free-text information inside of the data content </param>
+      /// <param name="recordedData"> RAW data, in the schema as defined at the 'DataSchemaUrl' </param>
+      public Guid EnrollDataForVisitImplicit(Guid studyUid, string subjectIdentifier, string visitExecutionTitle, string taskExecutionTitle, DateTime executionDateTimeUtc, string dataSchemaKind, string dataSchemaUrl, string dataSchemaVersion, string dataLanguage, string recordedData) {
+        using (var webClient = this.CreateWebClient()) {
+          string url = _Url + "enrollDataForVisitImplicit";
+          var requestWrapper = new EnrollDataForVisitImplicitRequest {
+            studyUid = studyUid,
+            subjectIdentifier = subjectIdentifier,
+            visitExecutionTitle = visitExecutionTitle,
+            taskExecutionTitle = taskExecutionTitle,
+            executionDateTimeUtc = executionDateTimeUtc,
+            dataSchemaKind = dataSchemaKind,
+            dataSchemaUrl = dataSchemaUrl,
+            dataSchemaVersion = dataSchemaVersion,
+            dataLanguage = dataLanguage,
+            recordedData = recordedData
+          };
+          string rawRequest = JsonConvert.SerializeObject(requestWrapper);
+          string rawResponse = webClient.UploadString(url, rawRequest);
+          var responseWrapper = JsonConvert.DeserializeObject<EnrollDataForVisitImplicitResponse>(rawResponse);
+          if(responseWrapper.fault != null){
+            throw new Exception(responseWrapper.fault);
+          }
+          return responseWrapper.@return;
+        }
+      }
+      
+      /// <summary> Providing the current validation state for a given data enrollment process </summary>
+      /// <param name="dataEnrollmentUid">  </param>
+      public DataEnrollmentValidationState GetValidationState(Guid dataEnrollmentUid) {
+        using (var webClient = this.CreateWebClient()) {
+          string url = _Url + "getValidationState";
+          var requestWrapper = new GetValidationStateRequest {
+            dataEnrollmentUid = dataEnrollmentUid
+          };
+          string rawRequest = JsonConvert.SerializeObject(requestWrapper);
+          string rawResponse = webClient.UploadString(url, rawRequest);
+          var responseWrapper = JsonConvert.DeserializeObject<GetValidationStateResponse>(rawResponse);
+          if(responseWrapper.fault != null){
+            throw new Exception(responseWrapper.fault);
+          }
+          return responseWrapper.@return.Value;
         }
       }
       

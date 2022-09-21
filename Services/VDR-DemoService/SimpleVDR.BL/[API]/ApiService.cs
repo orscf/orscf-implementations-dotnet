@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Security;
+using System;
 using System.Data.AccessControl;
 using System.Linq;
 
@@ -19,9 +20,7 @@ namespace MedicalResearch.VisitData {
 
     public string[] GetCapabilities() {
       return new string[] {
-        VdrCapabilities.VisitConsume,
-        VdrCapabilities.VisitSubmission,
-        VdrCapabilities.DataRecordingSubmission
+        VdrCapabilities.DataEnrollment
       };
     }
 
