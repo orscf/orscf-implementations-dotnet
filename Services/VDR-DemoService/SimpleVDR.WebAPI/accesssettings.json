@@ -1,39 +1,31 @@
 {
   "SubjectProfiles": [
     {
-      "SubjectName": "(public)",
-      "SubjectTitle": "(public)",
+      "SubjectName": "(anonymous)",
+      "SubjectTitle": "(anonymous)",
       "AllowedHosts": [ "*" ],
       "DefaultApiPermissions": [ "VdrApiInfo" ]
     },
     {
-      "SubjectName": "orscf-demo-accessor",
-      "SubjectTitle": "ORSCF Demo Accessor",
-      "Disabled": false,
+      "SubjectName": "(generic)",
+      "SubjectTitle": "(generic)",
       "AllowedHosts": [ "*" ],
-      "DefaultApiPermissions": [
-        "VdrApiInfo",
-        "VdrEventSubscription",
-        "VisitAppointmentConsume",
-        "VisitAppointmentSubmission",
-        "CapturedDataConsume",
-        "CapturedDataSubmission",
-        "CapturedDataHL7Consume",
-        "CapturedDataHL7Submission",
-        "store-Get-*",
-        "store-Search-*",
-        "store-AddNew-*",
-        "store-Update-*",
-        "store-Delete-*"
-      ],
-      "DefaultDataAccessClearances": {
-        "Site": "74522473-A6F9-D482-4955-73E7A7F2F9A1",
-        "Study": "C509851A-8EAE-77B2-40C0-FFD0032D63CD"
-      }
+      "DefaultApiPermissions": [ "VdrApiInfo" ]
+    },
+    {
+      "SubjectName": "(public)",
+      "SubjectTitle": "(public) OLD!!!",
+      "AllowedHosts": [ "*" ],
+      "DefaultApiPermissions": [ "VdrApiInfo" ]
     }
   ],
-  "JwtSignKey": "innovate",
-  "JwtAllowedIssuers": [ "orscf" ],
+  "IssuerProfiles": [
+    {
+      "IssuerName": "orscf",
+      "JwtSignKey": "innovate",
+      "Disabled": false
+    }
+  ],
   "ApplyApiPermissionsFromJwtScope": true,
   "ApplyDataAccessClearancesFromJwtScope": true
 }
