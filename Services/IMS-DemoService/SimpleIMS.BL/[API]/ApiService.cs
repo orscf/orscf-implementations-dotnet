@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicalResearch.IdentityManagement.Model;
+using System;
 using System.Data.AccessControl;
 using System.Linq;
 
@@ -19,7 +20,10 @@ namespace MedicalResearch.IdentityManagement {
 
     public string[] GetCapabilities() {
       return new string[] {
-        ImsCapabilities.Pseudonymization
+        ImsCapabilities.ImsApiInfo,
+        ImsCapabilities.Pseudonymization,
+        ImsCapabilities.AgeEvaluation,
+        ImsCapabilities.Unblinding
       };
     }
 
@@ -34,6 +38,10 @@ namespace MedicalResearch.IdentityManagement {
       authState = mac.AuthStateCode;
 
       return scopes;
+    }
+
+    ExtendedFieldDescriptor[] IImsApiInfoService.GetExtendedFieldDescriptors(string languagePref) {
+      return new ExtendedFieldDescriptor[] { };
     }
 
   }

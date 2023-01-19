@@ -8,34 +8,48 @@ using MedicalResearch.IdentityManagement.Model;
 namespace MedicalResearch.IdentityManagement.Model {
 
   public class IdentityDetails {
-    public string FirstName { get; set; } = null;
-    public string LastName { get; set; } = null;
-    public string Email { get; set; } = null;
-    public string Phone { get; set; } = null;
-    public string Street { get; set; } = null;
-    public string HouseNumber { get; set; } = null;
-    public string PostCode { get; set; } = null;
-    public string City { get; set; } = null;
-    public string State { get; set; } = null;
 
-    /// <summary> two letter ISO code </summary>
-    public string Country { get; set; } = null;
-    public DateTime? DateOfBirth { get; set; } = null;
-    public DateTime? DateOfDeath { get; set; } = null;
+    /// <summary> 
+    /// the firstname a person (named as in the HL7 standard) 
+    /// </summary>
+    [Required]
+    public string GivenName { get; set; } = null;
+
+    /// <summary>
+    /// the lastname a person (named as in the HL7 standard)
+    /// </summary>
+    [Required]
+    public string FamilyName { get; set; } = null;
+
+    /// <summary>
+    /// date in format 'yyyy-MM-dd' (must NOT be a partial date for this usecase!)
+    /// </summary>
+    [Required]
+    public string BirthDate { get; set; } = null;
+
+    /// <summary>
+    /// additional values for each 'extendedField' that is mandatory within (and specific to) the current IMS-System.
+    /// To retrieve the declarations for such fields call 'GetExtendedFieldDescriptors'
+    /// </summary>
+    public Dictionary<String, String> ExtendedFields { get; set; } = null;
+
   }
 
-  public class UnblindingTokenInfo {
+  public class ExtendedFieldDescriptor {
 
-    public string token { get; set; } = null;
+    [Required]
+    public string TechnicalName { get; set; }
 
-    /// 0: not activated yet, 1=activated (can be used for 'UnblindSubject'), 2=expired/already used
-    public int state { get; set; } = 0;
+    [Required]
+    public bool IsRequired { get; set; }
 
-    public string researchStudyName { get; set; } = null;
-    public string subjectId { get; set; } = null;
-    public string reason { get; set; } = null;
-    public string requestingPerson { get; set; } = null;
+    [Required]
+    public string DisplayLabel { get; set; }
+
+    public string InputDescription { get; set; }
+
+    public string RegularExpression { get; set; }
+
   }
-
 
 }

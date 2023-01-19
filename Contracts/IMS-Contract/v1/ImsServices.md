@@ -1,42 +1,49 @@
-﻿# IdentityUnblindingService
-Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
+﻿# UnblindingClearanceAwaiterService
+Following the "PASSIVE-APPROVAL" Workflow, this endpoint is directly implemented on the IMS!
+"PASSIVE-APPROVAL" is based on the idea, that clearances have to be (pre-)delivered by a foreign master system ('push' principle)
 
 ### Methods:
 
 
 
-## .RequestUnblindingToken
-returns an unblindingToken which is not activated
-#### Parameters:
-|Name|Type|Description|
-|----|----|-----------|
-|researchStudyName|String|**IN**-Param (required)|
-|subjectId|String|**IN**-Param (required)|
-|reason|String|**IN**-Param (required)|
-|requestingPerson|String|**IN**-Param (required)|
-**return value:** String
-
-
-
-## .GetUnblindingTokenState
-0: not activated yet, 1=activated (can be used for 'UnblindSubject'), 2=expired/already used
+## .GrantClearanceForUnblinding
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
 |unblindingToken|String|**IN**-Param (required)|
+|pseudonymsToUnblind|String[] *(array)*|**IN**-Param (required)|
+|grantedUnitl|DateTime|**IN**-Param (required)|
+no return value (void)
+# UnblindingClearanceGrantingService
+Following the "ACTIVE-APPROVAL" Workflow, this endpoint is usually implemented on a FOREIGN system, that should be queried by an IMS!
+"ACTIVE-APPROVAL" is based on the idea, that clearances have to be requested on demand from a foreign master system  ('pull' principle)
+
+### Methods:
+
+
+
+## .HasClearanceForUnblinding
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|unblindingToken|String|**IN**-Param (required)|
+|pseudonymsToUnblind|String[] *(array)*|**IN**-Param (required)|
+|accessRelatedDetails|Dictionary`2|**IN**-Param (required)|
 **return value:** Int32
+# AgeEvaluationService
+
+### Methods:
 
 
 
-## .UnblindSubject
-(only works with an activated unblindingOtp )
+## .EvaluateAge
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
-|researchStudyName|String|**IN**-Param (required)|
-|subjectId|String|**IN**-Param (required)|
-|unblindingToken|String|**IN**-Param (required)|
-**return value:** [IdentityDetails](#MedicalResearch.IdentityManagement.Model.IdentityDetails)
+|momentOfValuation|DateTime|**IN**-Param (required)|
+|pseudonymesToEvaluate|String[] *(array)*|**IN**-Param (required)|
+|ages|Int32[] *(array)*|**OUT**-Param (required)|
+no return value (void)
 # ImsApiInfoService
 Provides interoperability information for the current implementation
 
@@ -58,7 +65,12 @@ returns the version of the ORSCF specification which is implemented by this API,
 ## .GetCapabilities
 returns a list of API-features (there are several 'services' for different use cases, described by ORSCF)
 supported by this implementation. The following values are possible:
-'Pseudonymization', 'IdentityUnblinding',
+'ImsApiInfo',
+'Pseudonymization',
+'AgeEvaluation',
+'Unblinding',
+'UnblindingClearanceAwaiter'  (backend workflow for "PASSIVE-APPROVAL"),
+'UnblindingClearanceGranting' (backend workflow for "ACTIVE-APPROVAL")
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
@@ -85,10 +97,6 @@ the login URL to be called up via browser (OAuth ['CIBA-Flow'](https://openid.ne
 |----|----|-----------|
 |(none)|||
 **return value:** String
-# PseudonymizationService
-Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
-
-### Methods:
 
 
 
@@ -96,8 +104,12 @@ Provides an workflow-level API for interating with a 'IdentityManagementSystem' 
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
-|languagePref|String|**IN**-Param (optional): Preferred language for the 'DisplayLabel' and 'InputDescription' fields of the returned descriptors.|
+|languagePref|String|**IN**-Param (optional): Preferred language for the 'DisplayLabel' and 'InputDescription' fields of the returned descriptors. ONLY RELEVANT FOR THE UI!|
 **return value:** [ExtendedFieldDescriptor](#MedicalResearch.IdentityManagement.Model.ExtendedFieldDescriptor)[] *(array)*
+# PseudonymizationService
+Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
+
+### Methods:
 
 
 
@@ -105,12 +117,10 @@ Provides an workflow-level API for interating with a 'IdentityManagementSystem' 
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
-|researchStudyUid|Guid|**IN**-Param (required)|
 |givenName|String|**IN**-Param (required)|
 |familyName|String|**IN**-Param (required)|
 |birthDate|String|**IN**-Param (required)|
 |extendedFields|Dictionary`2|**IN**-Param (required)|
-|siteUid|Guid|**IN**-Param (required)|
 |pseudonym|String|**OUT**-Param (required)|
 |wasCreatedNewly|Boolean|**OUT**-Param (required)|
 **return value:** Boolean
@@ -121,13 +131,44 @@ Provides an workflow-level API for interating with a 'IdentityManagementSystem' 
 #### Parameters:
 |Name|Type|Description|
 |----|----|-----------|
-|researchStudyUid|Guid|**IN**-Param (required)|
 |givenName|String|**IN**-Param (required)|
 |familyName|String|**IN**-Param (required)|
 |birthDate|String|**IN**-Param (required)|
 |extendedFields|Dictionary`2|**IN**-Param (required)|
 |pseudonym|String|**OUT**-Param (required)|
 **return value:** Boolean
+# UnblindingService
+Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS)
+
+### Methods:
+
+
+
+## .RequestUnblindingToken
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|pseudonymsToUnblind|String[] *(array)*|**IN**-Param (required)|
+|requestReason|String|**IN**-Param (required)|
+|requestBy|String|**IN**-Param (required)|
+|unblindingToken|String|**OUT**-Param (required)|
+**return value:** Int32
+
+
+
+## .TryUnblind
+Returns:
+1: on SUCCESS (unblindedIdentities should contain data) /
+0: if no realtime response is possible (delayed approval is outstanding)
+-1: if a new unblindingToken is required (because the current has expired or has been repressed) /
+-2: if the access is denied for addressed scope of data
+#### Parameters:
+|Name|Type|Description|
+|----|----|-----------|
+|unblindingToken|String|**IN**-Param (required)|
+|pseudonymsToUnblind|String[] *(array)*|**IN**-Param (required)|
+|unblindedIdentities|[IdentityDetails](#MedicalResearch.IdentityManagement.Model.IdentityDetails)[] *(array)*|**IN**-Param (required)|
+**return value:** Int32
 
 
 
@@ -151,15 +192,7 @@ Provides an workflow-level API for interating with a 'IdentityManagementSystem' 
 #### Fields:
 |Name|Type|Description|
 |----|----|-----------|
-|FirstName|String|(optional)|
-|LastName|String|(optional)|
-|Email|String|(optional)|
-|Phone|String|(optional)|
-|Street|String|(optional)|
-|HouseNumber|String|(optional)|
-|PostCode|String|(optional)|
-|City|String|(optional)|
-|State|String|(optional)|
-|Country|String|(optional): two letter ISO code|
-|DateOfBirth|DateTime? *(nullable)*|(optional)|
-|DateOfDeath|DateTime? *(nullable)*|(optional)|
+|GivenName|String|(required): the firstname a person (named as in the HL7 standard)|
+|FamilyName|String|(required): the lastname a person (named as in the HL7 standard)|
+|BirthDate|String|(required): date in format 'yyyy-MM-dd' (must NOT be a partial date for this usecase!)|
+|ExtendedFields|Dictionary`2|(optional): additional values for each 'extendedField' that is mandatory within (and specific to) the current IMS-System. To retrieve the declarations for such fields call 'GetExtendedFieldDescriptors'|

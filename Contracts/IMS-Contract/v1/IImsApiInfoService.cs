@@ -1,11 +1,16 @@
-﻿using System;
+﻿using MedicalResearch.IdentityManagement.Model;
+using System;
 
 namespace MedicalResearch.IdentityManagement {
 
   public static class ImsCapabilities {
 
-    public const string IdentityUnblinding = "IdentityUnblinding";
+    public const string ImsApiInfo = "ImsApiInfo";
     public const string Pseudonymization = "Pseudonymization";
+    public const string AgeEvaluation = "AgeEvaluation";
+    public const string Unblinding = "Unblinding";
+    public const string UnblindingClearanceAwaiter = "UnblindingClearanceAwaiter";
+    public const string UnblindingClearanceGranting = "UnblindingClearanceGranting";
 
   }
 
@@ -21,7 +26,12 @@ namespace MedicalResearch.IdentityManagement {
     /// <summary>
     /// returns a list of API-features (there are several 'services' for different use cases, described by ORSCF)
     /// supported by this implementation. The following values are possible: 
-    /// 'Pseudonymization', 'IdentityUnblinding',
+    /// 'ImsApiInfo',
+    /// 'Pseudonymization',
+    /// 'AgeEvaluation',
+    /// 'Unblinding',
+    /// 'UnblindingClearanceAwaiter'  (backend workflow for "PASSIVE-APPROVAL"),
+    /// 'UnblindingClearanceGranting' (backend workflow for "ACTIVE-APPROVAL")
     /// </summary>
     string[] GetCapabilities();
 
@@ -42,6 +52,17 @@ namespace MedicalResearch.IdentityManagement {
     /// the login URL to be called up via browser (OAuth <see href="https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html">'CIBA-Flow'</see>) is returned here.
     /// </summary>
     string GetOAuthTokenRequestUrl();
+
+    /// <summary> 
+    /// </summary>
+    /// <param name="languagePref">
+    ///   Preferred language for the 'DisplayLabel' and 'InputDescription' fields of the returned descriptors.
+    ///   ONLY RELEVANT FOR THE UI!
+    /// </param>
+    /// <returns></returns>
+    ExtendedFieldDescriptor[] GetExtendedFieldDescriptors(
+      string languagePref = "EN"
+    );
 
   }
 

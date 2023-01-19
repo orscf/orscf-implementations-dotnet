@@ -13,13 +13,9 @@ namespace MedicalResearch.IdentityManagement {
 
   partial class ApiService : IPseudonymizationService {
 
-    ExtendedFieldDescriptor[] IPseudonymizationService.GetExtendedFieldDescriptors(string languagePref) {
-      return new ExtendedFieldDescriptor[] {};
-    }
+    public bool GetOrCreatePseudonym(string givenName, string familyName, string birthDate, Dictionary<string, string> extendedFields, out string pseudonym, out bool wasCreatedNewly) {
 
-    public bool GetOrCreatePseudonym(Guid researchStudyUid, string givenName, string familyName, string birthDate, Dictionary<string, string> extendedFields, Guid siteUid, out string pseudonym, out bool wasCreatedNewly) {
-
-      if(this.GetExisitingPseudonym(researchStudyUid, givenName, familyName, birthDate,extendedFields , out pseudonym)) {
+      if (this.GetExisitingPseudonym( givenName, familyName, birthDate, extendedFields, out pseudonym)) {
         wasCreatedNewly = false;
         return true;
       }
@@ -30,13 +26,13 @@ namespace MedicalResearch.IdentityManagement {
 
         StudyScopeEntity study = (
           from s in db.StudyScopes
-          where s.ResearchStudyUid == researchStudyUid
+          where s.ResearchStudyUid == Guid.Empty 
           select s
         ).SingleOrDefault();
 
-        if(study == null) {
+        if (study == null) {
           study = new StudyScopeEntity {
-            ResearchStudyUid = researchStudyUid,
+            ResearchStudyUid = Guid.Empty,
             StudyWorkflowName = "",
             StudyWorkflowVersion = "",
             ParticipantIdentifierSemantic = "generated Pseudonym"
@@ -51,14 +47,14 @@ namespace MedicalResearch.IdentityManagement {
 
         StudyExecutionScopeEntity execution = (
           from s in db.StudyExecutionScopes
-          where s.ResearchStudyUid == researchStudyUid && s.SiteUid == siteUid
+          where s.ResearchStudyUid == Guid.Empty && s.SiteUid == Guid.Empty
           select s
         ).SingleOrDefault();
-        
+
         if (execution == null) {
           execution = new StudyExecutionScopeEntity {
-            ResearchStudyUid = researchStudyUid,
-            SiteUid = siteUid
+            ResearchStudyUid = Guid.Empty,
+            SiteUid = Guid.Empty
           };
           if (!AccessControlContext.Current.ValidateEntityScope(execution)) {
             wasCreatedNewly = false;
@@ -70,7 +66,7 @@ namespace MedicalResearch.IdentityManagement {
 
         SubjectIdentityEntity subjectIdentity = (
           from p in db.SubjectIdentities
-          where 
+          where
             p.FirstName.ToLower() == givenName.ToLower() &&
             p.LastName.ToLower() == familyName.ToLower() &&
             p.DateOfBirth == parsedBirthDate
@@ -88,7 +84,6 @@ namespace MedicalResearch.IdentityManagement {
 
         generatedPseudonym = Guid.NewGuid().ToString().ToLower().Replace("-", "");
         var subjectParticipation = new SubjectParticipationEntity {
-          ResearchStudyUid = researchStudyUid,
           ParticipantIdentifier = generatedPseudonym,
           CreationDateUtc = DateTime.UtcNow,
           CreatedForStudyExecutionIdentifier = execution.StudyExecutionIdentifier,
@@ -109,10 +104,9 @@ namespace MedicalResearch.IdentityManagement {
         }
 
       };
-
     }
 
-    public bool GetExisitingPseudonym(Guid researchStudyUid, string givenName, string familyName, string birthDate, Dictionary<string, string> extendedFields, out string pseudonym) {
+    public bool GetExisitingPseudonym(string givenName, string familyName, string birthDate, Dictionary<string, string> extendedFields, out string pseudonym) {
 
       var parsedBirthDate = DateTime.Parse(birthDate);
 
@@ -122,7 +116,6 @@ namespace MedicalResearch.IdentityManagement {
           from
             p in db.SubjectParticipations.AsNoTracking().AccessScopeFiltered()
           where
-            p.ResearchStudyUid == researchStudyUid &&
             p.Identity.FirstName.ToLower() == givenName.ToLower() &&
             p.Identity.LastName.ToLower() == familyName.ToLower() &&
             p.Identity.DateOfBirth == parsedBirthDate
@@ -142,7 +135,6 @@ namespace MedicalResearch.IdentityManagement {
       };
 
     }
-
   }
 
 }

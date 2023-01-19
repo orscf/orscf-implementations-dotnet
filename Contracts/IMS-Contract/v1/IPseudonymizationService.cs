@@ -7,75 +7,38 @@ using MedicalResearch.IdentityManagement.Model;
 
 namespace MedicalResearch.IdentityManagement {
 
-  namespace Model {
-
-    public class ExtendedFieldDescriptor {
-
-      [Required]
-      public string TechnicalName { get; set; }
-
-      [Required]
-      public bool IsRequired { get; set; }
-
-      [Required]
-      public string DisplayLabel { get; set; }
-
-      public string InputDescription { get; set; }
-
-      public string RegularExpression { get; set; }
-
-    }
-
-  }
-
     /// <summary> Provides an workflow-level API for interating with a 'IdentityManagementSystem' (IMS) </summary>
     public partial interface IPseudonymizationService {
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="languagePref">Preferred language for the 'DisplayLabel' and 'InputDescription' fields of the returned descriptors.</param>
-    /// <returns></returns>
-    ExtendedFieldDescriptor[] GetExtendedFieldDescriptors(
-      string languagePref = "EN"
-    );
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="researchStudyUid">A UUID</param>
-    /// <param name="givenName">the Firstname a the paticipant (named as in the HL7 standard)</param>
+    /// <param name="givenName">the Firstname a person (named as in the HL7 standard)</param>
     /// <param name="familyName"></param>
     /// <param name="birthDate">date in format 'yyyy-MM-dd' (must NOT be a partial date for this usecase!)</param>
-    /// <param name="extendedFields"></param>
-    /// <param name="siteUid">A UUID</param>
+    /// <param name="extendedFields"> additional values for each 'extendedField' that is mandatory within (and specific to) the current IMS-System. To retrieve the declarations for such fields call 'GetExtendedFieldDescriptors'</param>
     /// <param name="pseudonym"></param>
     /// <param name="wasCreatedNewly"></param>
     /// <returns></returns>
     bool GetOrCreatePseudonym(
-      Guid researchStudyUid,
       string givenName,
       string familyName,
       string birthDate,
       Dictionary<String,String> extendedFields,
-      Guid siteUid,
       out string pseudonym,
       out bool wasCreatedNewly
     );
 
-
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="researchStudyUid">A UUID</param>
     /// <param name="givenName"></param>
     /// <param name="familyName"></param>
     /// <param name="birthDate">date in format 'yyyy-MM-dd' (must NOT be a partial date for this usecase!)</param>
-    /// <param name="extendedFields"></param>
+    /// <param name="extendedFields"> additional values for each 'extendedField' that is mandatory within (and specific to) the current IMS-System. To retrieve the declarations for such fields call 'GetExtendedFieldDescriptors' </param>
     /// <param name="pseudonym"></param>
     /// <returns></returns>
     bool GetExisitingPseudonym(
-      Guid researchStudyUid,
       string givenName,
       string familyName,
       string birthDate,

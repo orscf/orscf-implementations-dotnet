@@ -53,7 +53,12 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         _Configuration.GetValue<string>("OAuthTokenRequestUrl")
       );
       services.AddSingleton<IImsApiInfoService>(apiService);
+      services.AddSingleton<IAgeEvaluationService>(apiService);
       services.AddSingleton<IPseudonymizationService>(apiService);
+      services.AddSingleton<IUnblindingService>(apiService);
+      services.AddSingleton<IUnblindingClearanceAwaiterService>(apiService);
+      services.AddSingleton<IUnblindingClearanceGrantingService>(apiService);
+
       //...
 
       services.AddControllers();

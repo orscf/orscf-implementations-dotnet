@@ -12,80 +12,120 @@ using System.Net;
 
 namespace MedicalResearch.IdentityManagement.WebAPI {
   
-  namespace IdentityUnblinding {
+  namespace UnblindingClearanceAwaiter {
     
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiV1")]
-    [Route("identityUnblinding")]
-    public partial class IdentityUnblindingController : ControllerBase {
+    [Route("unblindingClearanceAwaiter")]
+    public partial class UnblindingClearanceAwaiterController : ControllerBase {
       
-      private readonly ILogger<IdentityUnblindingController> _Logger;
-      private readonly IIdentityUnblindingService _IdentityUnblinding;
+      private readonly ILogger<UnblindingClearanceAwaiterController> _Logger;
+      private readonly IUnblindingClearanceAwaiterService _UnblindingClearanceAwaiter;
       
-      public IdentityUnblindingController(ILogger<IdentityUnblindingController> logger, IIdentityUnblindingService identityUnblinding) {
+      public UnblindingClearanceAwaiterController(ILogger<UnblindingClearanceAwaiterController> logger, IUnblindingClearanceAwaiterService unblindingClearanceAwaiter) {
         _Logger = logger;
-        _IdentityUnblinding = identityUnblinding;
+        _UnblindingClearanceAwaiter = unblindingClearanceAwaiter;
       }
       
-      /// <summary> returns an unblindingToken which is not activated </summary>
+      /// <summary> GrantClearanceForUnblinding </summary>
       /// <param name="args"> request capsule containing the method arguments </param>
-      [EvaluateBearerToken("IdentityUnblinding")]
-      [HttpPost("requestUnblindingToken"), Produces("application/json")]
-      [SwaggerOperation(OperationId = nameof(RequestUnblindingToken), Description = "returns an unblindingToken which is not activated")]
-      public RequestUnblindingTokenResponse RequestUnblindingToken([FromBody][SwaggerRequestBody(Required = true)] RequestUnblindingTokenRequest args) {
+      [EvaluateBearerToken("UnblindingClearanceAwaiter")]
+      [HttpPost("grantClearanceForUnblinding"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(GrantClearanceForUnblinding), Description = "GrantClearanceForUnblinding")]
+      public GrantClearanceForUnblindingResponse GrantClearanceForUnblinding([FromBody][SwaggerRequestBody(Required = true)] GrantClearanceForUnblindingRequest args) {
         try {
-          var response = new RequestUnblindingTokenResponse();
-          response.@return = _IdentityUnblinding.RequestUnblindingToken(
-            args.researchStudyName,
-            args.subjectId,
-            args.reason,
-            args.requestingPerson
+          var response = new GrantClearanceForUnblindingResponse();
+          _UnblindingClearanceAwaiter.GrantClearanceForUnblinding(
+            args.unblindingToken,
+            args.pseudonymsToUnblind,
+            args.grantedUnitl
           );
           return response;
         }
         catch (Exception ex) {
           _Logger.LogCritical(ex, ex.Message);
-          return new RequestUnblindingTokenResponse { fault = ex.Message };
+          return new GrantClearanceForUnblindingResponse { fault = ex.Message };
         }
       }
       
-      /// <summary> 0: not activated yet, 1=activated (can be used for 'UnblindSubject'), 2=expired/already used </summary>
+    }
+    
+  }
+  
+  namespace UnblindingClearanceGranting {
+    
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiV1")]
+    [Route("unblindingClearanceGranting")]
+    public partial class UnblindingClearanceGrantingController : ControllerBase {
+      
+      private readonly ILogger<UnblindingClearanceGrantingController> _Logger;
+      private readonly IUnblindingClearanceGrantingService _UnblindingClearanceGranting;
+      
+      public UnblindingClearanceGrantingController(ILogger<UnblindingClearanceGrantingController> logger, IUnblindingClearanceGrantingService unblindingClearanceGranting) {
+        _Logger = logger;
+        _UnblindingClearanceGranting = unblindingClearanceGranting;
+      }
+      
+      /// <summary> Returns: 1: if clearance granted / 0: if no realtime response is possible (delayed approval) -1: if a new unblindingToken is required (because the current has expired or has been repressed) / -2: if the access is denied for addressed scope of data </summary>
       /// <param name="args"> request capsule containing the method arguments </param>
-      [EvaluateBearerToken("IdentityUnblinding")]
-      [HttpPost("getUnblindingTokenState"), Produces("application/json")]
-      [SwaggerOperation(OperationId = nameof(GetUnblindingTokenState), Description = "0: not activated yet, 1=activated (can be used for 'UnblindSubject'), 2=expired/already used")]
-      public GetUnblindingTokenStateResponse GetUnblindingTokenState([FromBody][SwaggerRequestBody(Required = true)] GetUnblindingTokenStateRequest args) {
+      [EvaluateBearerToken("UnblindingClearanceGranting")]
+      [HttpPost("hasClearanceForUnblinding"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(HasClearanceForUnblinding), Description = "Returns: 1: if clearance granted / 0: if no realtime response is possible (delayed approval) -1: if a new unblindingToken is required (because the current has expired or has been repressed) / -2: if the access is denied for addressed scope of data")]
+      public HasClearanceForUnblindingResponse HasClearanceForUnblinding([FromBody][SwaggerRequestBody(Required = true)] HasClearanceForUnblindingRequest args) {
         try {
-          var response = new GetUnblindingTokenStateResponse();
-          response.@return = _IdentityUnblinding.GetUnblindingTokenState(
-            args.unblindingToken
+          var response = new HasClearanceForUnblindingResponse();
+          response.@return = _UnblindingClearanceGranting.HasClearanceForUnblinding(
+            args.unblindingToken,
+            args.pseudonymsToUnblind,
+            args.accessRelatedDetails
           );
           return response;
         }
         catch (Exception ex) {
           _Logger.LogCritical(ex, ex.Message);
-          return new GetUnblindingTokenStateResponse { fault = ex.Message };
+          return new HasClearanceForUnblindingResponse { fault = ex.Message };
         }
       }
       
-      /// <summary> (only works with an activated unblindingOtp ) </summary>
+    }
+    
+  }
+  
+  namespace AgeEvaluation {
+    
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiV1")]
+    [Route("ageEvaluation")]
+    public partial class AgeEvaluationController : ControllerBase {
+      
+      private readonly ILogger<AgeEvaluationController> _Logger;
+      private readonly IAgeEvaluationService _AgeEvaluation;
+      
+      public AgeEvaluationController(ILogger<AgeEvaluationController> logger, IAgeEvaluationService ageEvaluation) {
+        _Logger = logger;
+        _AgeEvaluation = ageEvaluation;
+      }
+      
+      /// <summary> Calculates the age (only the integer Year) of several persons for a given date. This is supporting the very common usecase to evaluate inclusion criteria for research studies where the date of birth is not present alongside of the medical data. It allows for minimalist access disclosing the date of birth information (as happening when unblinding). </summary>
       /// <param name="args"> request capsule containing the method arguments </param>
-      [EvaluateBearerToken("IdentityUnblinding")]
-      [HttpPost("unblindSubject"), Produces("application/json")]
-      [SwaggerOperation(OperationId = nameof(UnblindSubject), Description = "(only works with an activated unblindingOtp )")]
-      public UnblindSubjectResponse UnblindSubject([FromBody][SwaggerRequestBody(Required = true)] UnblindSubjectRequest args) {
+      [EvaluateBearerToken("AgeEvaluation")]
+      [HttpPost("evaluateAge"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(EvaluateAge), Description = "Calculates the age (only the integer Year) of several persons for a given date. This is supporting the very common usecase to evaluate inclusion criteria for research studies where the date of birth is not present alongside of the medical data. It allows for minimalist access disclosing the date of birth information (as happening when unblinding).")]
+      public EvaluateAgeResponse EvaluateAge([FromBody][SwaggerRequestBody(Required = true)] EvaluateAgeRequest args) {
         try {
-          var response = new UnblindSubjectResponse();
-          response.@return = _IdentityUnblinding.UnblindSubject(
-            args.researchStudyName,
-            args.subjectId,
-            args.unblindingToken
+          var response = new EvaluateAgeResponse();
+          _AgeEvaluation.EvaluateAge(
+            args.momentOfValuation,
+            args.pseudonymesToEvaluate,
+            out var agesBuffer
           );
+          response.ages = agesBuffer;
           return response;
         }
         catch (Exception ex) {
           _Logger.LogCritical(ex, ex.Message);
-          return new UnblindSubjectResponse { fault = ex.Message };
+          return new EvaluateAgeResponse { fault = ex.Message };
         }
       }
       
@@ -127,11 +167,11 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         }
       }
       
-      /// <summary> returns a list of API-features (there are several 'services' for different use cases, described by ORSCF) supported by this implementation. The following values are possible: 'Pseudonymization', 'IdentityUnblinding', </summary>
+      /// <summary> returns a list of API-features (there are several 'services' for different use cases, described by ORSCF) supported by this implementation. The following values are possible: 'ImsApiInfo', 'Pseudonymization', 'AgeEvaluation', 'Unblinding', 'UnblindingClearanceAwaiter'  (backend workflow for "PASSIVE-APPROVAL"), 'UnblindingClearanceGranting' (backend workflow for "ACTIVE-APPROVAL") </summary>
       /// <param name="args"> request capsule containing the method arguments </param>
       [EvaluateBearerToken("ImsApiInfo")]
       [HttpPost("getCapabilities"), Produces("application/json")]
-      [SwaggerOperation(OperationId = nameof(GetCapabilities), Description = "returns a list of API-features (there are several 'services' for different use cases, described by ORSCF) supported by this implementation. The following values are possible: 'Pseudonymization', 'IdentityUnblinding',")]
+      [SwaggerOperation(OperationId = nameof(GetCapabilities), Description = "returns a list of API-features (there are several 'services' for different use cases, described by ORSCF) supported by this implementation. The following values are possible: 'ImsApiInfo', 'Pseudonymization', 'AgeEvaluation', 'Unblinding', 'UnblindingClearanceAwaiter'  (backend workflow for \"PASSIVE-APPROVAL\"), 'UnblindingClearanceGranting' (backend workflow for \"ACTIVE-APPROVAL\")")]
       public GetCapabilitiesResponse GetCapabilities([FromBody][SwaggerRequestBody(Required = true)] GetCapabilitiesRequest args) {
         try {
           var response = new GetCapabilitiesResponse();
@@ -185,6 +225,25 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         }
       }
       
+      /// <summary> GetExtendedFieldDescriptors </summary>
+      /// <param name="args"> request capsule containing the method arguments </param>
+      [EvaluateBearerToken("ImsApiInfo")]
+      [HttpPost("getExtendedFieldDescriptors"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(GetExtendedFieldDescriptors), Description = "GetExtendedFieldDescriptors")]
+      public GetExtendedFieldDescriptorsResponse GetExtendedFieldDescriptors([FromBody][SwaggerRequestBody(Required = true)] GetExtendedFieldDescriptorsRequest args) {
+        try {
+          var response = new GetExtendedFieldDescriptorsResponse();
+          response.@return = _ImsApiInfo.GetExtendedFieldDescriptors(
+            args.languagePref
+          );
+          return response;
+        }
+        catch (Exception ex) {
+          _Logger.LogCritical(ex, ex.Message);
+          return new GetExtendedFieldDescriptorsResponse { fault = ex.Message };
+        }
+      }
+      
     }
     
   }
@@ -204,25 +263,6 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         _Pseudonymization = pseudonymization;
       }
       
-      /// <summary> GetExtendedFieldDescriptors </summary>
-      /// <param name="args"> request capsule containing the method arguments </param>
-      [EvaluateBearerToken("Pseudonymization")]
-      [HttpPost("getExtendedFieldDescriptors"), Produces("application/json")]
-      [SwaggerOperation(OperationId = nameof(GetExtendedFieldDescriptors), Description = "GetExtendedFieldDescriptors")]
-      public GetExtendedFieldDescriptorsResponse GetExtendedFieldDescriptors([FromBody][SwaggerRequestBody(Required = true)] GetExtendedFieldDescriptorsRequest args) {
-        try {
-          var response = new GetExtendedFieldDescriptorsResponse();
-          response.@return = _Pseudonymization.GetExtendedFieldDescriptors(
-            args.languagePref
-          );
-          return response;
-        }
-        catch (Exception ex) {
-          _Logger.LogCritical(ex, ex.Message);
-          return new GetExtendedFieldDescriptorsResponse { fault = ex.Message };
-        }
-      }
-      
       /// <summary> GetOrCreatePseudonym </summary>
       /// <param name="args"> request capsule containing the method arguments </param>
       [EvaluateBearerToken("Pseudonymization")]
@@ -232,12 +272,10 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         try {
           var response = new GetOrCreatePseudonymResponse();
           response.@return = _Pseudonymization.GetOrCreatePseudonym(
-            args.researchStudyUid,
             args.givenName,
             args.familyName,
             args.birthDate,
             args.extendedFields,
-            args.siteUid,
             out var pseudonymBuffer,
             out var wasCreatedNewlyBuffer
           );
@@ -260,7 +298,6 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         try {
           var response = new GetExisitingPseudonymResponse();
           response.@return = _Pseudonymization.GetExisitingPseudonym(
-            args.researchStudyUid,
             args.givenName,
             args.familyName,
             args.birthDate,
@@ -273,6 +310,69 @@ namespace MedicalResearch.IdentityManagement.WebAPI {
         catch (Exception ex) {
           _Logger.LogCritical(ex, ex.Message);
           return new GetExisitingPseudonymResponse { fault = ex.Message };
+        }
+      }
+      
+    }
+    
+  }
+  
+  namespace Unblinding {
+    
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiV1")]
+    [Route("unblinding")]
+    public partial class UnblindingController : ControllerBase {
+      
+      private readonly ILogger<UnblindingController> _Logger;
+      private readonly IUnblindingService _Unblinding;
+      
+      public UnblindingController(ILogger<UnblindingController> logger, IUnblindingService unblinding) {
+        _Logger = logger;
+        _Unblinding = unblinding;
+      }
+      
+      /// <summary> Returns: 1: if clearance granted (token can be DIRECTLY used to call 'TryUnblind') / 0: if no realtime response is possible (delayed approval is outstanding) -1: if a new unblindingToken is required (because the current has expired or has been repressed) / -2: if the access is denied for addressed scope of data </summary>
+      /// <param name="args"> request capsule containing the method arguments </param>
+      [EvaluateBearerToken("Unblinding")]
+      [HttpPost("requestUnblindingToken"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(RequestUnblindingToken), Description = "Returns: 1: if clearance granted (token can be DIRECTLY used to call 'TryUnblind') / 0: if no realtime response is possible (delayed approval is outstanding) -1: if a new unblindingToken is required (because the current has expired or has been repressed) / -2: if the access is denied for addressed scope of data")]
+      public RequestUnblindingTokenResponse RequestUnblindingToken([FromBody][SwaggerRequestBody(Required = true)] RequestUnblindingTokenRequest args) {
+        try {
+          var response = new RequestUnblindingTokenResponse();
+          response.@return = _Unblinding.RequestUnblindingToken(
+            args.pseudonymsToUnblind,
+            args.requestReason,
+            args.requestBy,
+            out var unblindingTokenBuffer
+          );
+          response.unblindingToken = unblindingTokenBuffer;
+          return response;
+        }
+        catch (Exception ex) {
+          _Logger.LogCritical(ex, ex.Message);
+          return new RequestUnblindingTokenResponse { fault = ex.Message };
+        }
+      }
+      
+      /// <summary> Returns: 1: on SUCCESS (unblindedIdentities should contain data) / 0: if no realtime response is possible (delayed approval is outstanding) -1: if a new unblindingToken is required (because the current has expired or has been repressed) / -2: if the access is denied for addressed scope of data </summary>
+      /// <param name="args"> request capsule containing the method arguments </param>
+      [EvaluateBearerToken("Unblinding")]
+      [HttpPost("tryUnblind"), Produces("application/json")]
+      [SwaggerOperation(OperationId = nameof(TryUnblind), Description = "Returns: 1: on SUCCESS (unblindedIdentities should contain data) / 0: if no realtime response is possible (delayed approval is outstanding) -1: if a new unblindingToken is required (because the current has expired or has been repressed) / -2: if the access is denied for addressed scope of data")]
+      public TryUnblindResponse TryUnblind([FromBody][SwaggerRequestBody(Required = true)] TryUnblindRequest args) {
+        try {
+          var response = new TryUnblindResponse();
+          response.@return = _Unblinding.TryUnblind(
+            args.unblindingToken,
+            args.pseudonymsToUnblind,
+            args.unblindedIdentities
+          );
+          return response;
+        }
+        catch (Exception ex) {
+          _Logger.LogCritical(ex, ex.Message);
+          return new TryUnblindResponse { fault = ex.Message };
         }
       }
       
